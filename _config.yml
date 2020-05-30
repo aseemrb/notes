@@ -17,7 +17,7 @@
 # Command to execute whenever including a new note, to build the search index:
 # bundle exec just-the-docs rake search:init
 
-title: Curated Notes
+title: Notes
 description: My notes for various subjects
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://notes.aseemrb.me" # the base hostname & protocol for your site, e.g. http://example.com
