@@ -1,0 +1,15 @@
+I"W<p>Let a matrix $Q$ have orthonormal columns. The most important property of such a matrix is that</p>
+
+\[Q^TQ = I\]
+
+<p>But what about $QQ^T$? A little thought reveals that $QQ^T = I$ only if $Q$ is a square matrix, but not in general. In this square case, $Q$ is called orthogonal (or orthonormal). It’s confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.</p>
+
+<p>A simple example is the $2$-dimensional rotation matrix:</p>
+
+\[Q = \begin{pmatrix}
+    \cos\theta &amp; -\sin\theta \\
+    \sin\theta &amp; \cos\theta
+    \end{pmatrix}\]
+
+<p><span class="bg-purple-200">Hello</span></p>
+:ET

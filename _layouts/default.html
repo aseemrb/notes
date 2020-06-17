@@ -3,9 +3,46 @@ layout: table_wrappers
 ---
 
 <!DOCTYPE html>
-
 <html lang="{{ site.lang | default: "en-US" }}">
 {% include head.html %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  function stripcdata(x) {
+    if (x.startsWith('% <![CDATA[') && x.endsWith('%]]>'))
+      return x.substring(11,x.length-4);
+    return x;
+  }
+  document.querySelectorAll("script[type='math/tex']").forEach(function(el){
+    el.outerHTML = "\\(" + stripcdata(el.textContent) + "\\)";
+  });
+  document.querySelectorAll("script[type='math/tex; mode=display']").forEach(function(el){
+    el.outerHTML = "\\[" + stripcdata(el.textContent) + "\\]";
+  });
+}, false);
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  options: {
+    renderActions: {
+      findScript: [9, function (doc) {
+        for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+          const display = !!node.type.match(/; *mode=display/);
+          const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+          const text = document.createTextNode('');
+          node.parentNode.replaceChild(text, node);
+          math.start = {node: text, delim: '', n: 0};
+          math.end = {node: text, delim: '', n: 0};
+          doc.math.push(math);
+        }
+        doc.findMath();
+      }, '']
+    }
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="link" viewBox="0 0 16 16">

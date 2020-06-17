@@ -1,0 +1,41 @@
+I"{<p>Let a matrix $Q$ have orthonormal columns. The most important property of such a matrix is that</p>
+
+\[Q^TQ = I\]
+
+<p>But what about $QQ^T$? A little thought reveals that $QQ^T = I$ only if $Q$ is a square matrix, but not in general. In this square case, $Q$ is called orthogonal (or orthonormal). It’s confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.</p>
+
+<p>##Orthogonality
+| <span class="fs-4 text-green-200">Claim</span> |
+|:—————|
+| For any vector $x$, $\lVert Qx\rVert = \lVert x\rVert$. In other words, $Q$ as a transformation does not change the length of any vector. |</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"><span class="fs-4 text-green-200">Proof</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">See that $\lVert Qx\rVert = (Qx)^T(Qx) = x^TQ^TQx = x^Tx = \lVert x\rVert$, since $Q^TQ = I$.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A simple example of a $2\times 2$ orthogonal matrix is the rotation matrix
+\(Q = \begin{pmatrix}
+    \cos\theta &amp; -\sin\theta \\
+    \sin\theta &amp; \cos\theta
+    \end{pmatrix}\),
+or the reflection matrix
+\(Q = \begin{pmatrix}
+    \cos\theta &amp; \sin\theta \\
+    \sin\theta &amp; -\cos\theta
+    \end{pmatrix}\)</p>
+
+<p>The rotation matrix simple rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.</p>
+
+<p>Side note: these reflections are called <span class="text-green-200">Householder reflections</span>.</p>
+
+<h2 id="householder-reflections">Householder reflections</h2>
+:ET

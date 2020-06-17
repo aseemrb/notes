@@ -12,6 +12,10 @@
 .page-content {
   line-height: $content-line-height;
 
+  p {
+    text-align: justify;
+  }
+
   a {
     overflow: hidden;
     text-overflow: ellipsis;

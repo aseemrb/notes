@@ -1,0 +1,14 @@
+I"4<p>There are five very popular factorizations for matrices. In the literature, the word <code class="highlighter-rouge">decomposition</code> is often used instead of <code class="highlighter-rouge">factorization</code>.</p>
+
+<h3 id="lu-decomposition">LU Decomposition</h3>
+<p>This is the lower-upper (LU) decomposition, and the factorization can be viewed as the matrix form of <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian elimination</a>. This is the usual decomposition used in algorithms to</p>
+<ul>
+  <li>solve a square system of linear equations,</li>
+  <li>compute the inverse of a matrix, and</li>
+  <li>compute the determinant of a matrix.</li>
+</ul>
+
+<p>We factor $A = LU$, where $L$ and $U$ are lower and upper triangular matrices.</p>
+
+<h3 id="qr-decomposition">QR decomposition</h3>
+:ET

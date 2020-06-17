@@ -8,8 +8,7 @@ permalink: /
 
 ## What is this?
 
-A collection of my notes on various subjects. Although the primary reason to build this collection is to keep things organized for myself, yet I hope it may help someone else too.
-{: .text-justify}
+A collection of my notes on various subjects. Although the primary reason to create it is to keep things organized for myself and to be able to quickly search for something, yet I hope it may help others too.
 
 ---
 

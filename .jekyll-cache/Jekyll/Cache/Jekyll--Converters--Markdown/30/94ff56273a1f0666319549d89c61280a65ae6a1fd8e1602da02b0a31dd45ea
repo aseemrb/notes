@@ -1,0 +1,12 @@
+I"�<table>
+  <tbody>
+    <tr>
+      <td>If a matrix $Q$ has orthonormal columns, then we say it’s orthogonal (or orthonormal). It’s confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $</td>
+      <td> </td>
+      <td>v_i</td>
+      <td> </td>
+      <td>= 1$.</td>
+    </tr>
+  </tbody>
+</table>
+:ET
