@@ -47,7 +47,7 @@ aux_links:
     - "https://linkedin.com/in/aseemrb"
 
 # Footer content appears at the bottom of every page's main content
-footer_content: "Copyright &copy; 2020 Aseem Baranwal."
+footer_content: ""
 
 # Color scheme currently only supports "dark" or nil (default)
 color_scheme: nil
