@@ -1,8 +1,0 @@
-I"w<p>If a matrix $Q$ has orthonormal columns, then we say it’s orthogonal (or orthonormal). It’s confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.</p>
-
-<p>The most important property of an orthogonal matrix $Q$ is that</p>
-
-\[Q^TQ = I\]
-
-<p>But what about $QQ^T$? A little thought reveals that $QQ^T = I$ only if $Q$ is a square matrix, but not in general.</p>
-:ET
