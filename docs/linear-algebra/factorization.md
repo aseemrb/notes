@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Matrix Factorizations
+title: Matrix Factorization
 parent: Linear Algebra
 nav_order: 1
 ---

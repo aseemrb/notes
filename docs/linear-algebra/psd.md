@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Positive Definite Matrices
+title: Positive Definitene Matrices
 parent: Linear Algebra
 nav_order: 4
 ---

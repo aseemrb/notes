@@ -12,7 +12,9 @@ A collection of my notes on various subjects. Although the primary reason to cre
 
 ---
 
-## How to use this website
+## How can I use this?
 
 1. Browse through the subjects on the left panel for all notes, or
 2. Search for something specific using the search bar on top.
+
+Feel free to copy, distribute or modify these notes for yourself as required.
