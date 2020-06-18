@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Matrix Factorization
-parent: Linear Algebra
+parent: Fundamentals
+grand_parent: Linear Algebra
 nav_order: 1
 ---
 

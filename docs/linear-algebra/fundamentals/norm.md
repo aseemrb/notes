@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Vector and Matrix Norms
-parent: Linear Algebra
+parent: Fundamentals
+grand_parent: Linear Algebra
 nav_order: 6
 ---

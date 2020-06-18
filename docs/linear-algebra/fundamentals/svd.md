@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Singular Value Decomposition
-parent: Linear Algebra
+parent: Fundamentals
+grand_parent: Linear Algebra
 nav_order: 5
 ---
