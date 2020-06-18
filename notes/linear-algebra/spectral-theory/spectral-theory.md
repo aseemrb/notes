@@ -4,5 +4,5 @@ title: Spectral Theory
 nav_order: 2
 parent: Linear Algebra
 has_children: true
-permalink: /docs/linear-algebra/spectral-theory
+permalink: /linear-algebra/spectral-theory
 ---

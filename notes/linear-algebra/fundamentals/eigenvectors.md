@@ -4,6 +4,7 @@ title: Eigenvalues and Eigenvectors
 parent: Fundamentals
 grand_parent: Linear Algebra
 nav_order: 3
+permalink: /linear-algebra/fundamentals/eigenvectors
 ---
 
 ## Definition

@@ -4,6 +4,7 @@ title: Matrix Factorization
 parent: Fundamentals
 grand_parent: Linear Algebra
 nav_order: 1
+permalink: /linear-algebra/fundamentals/factorization
 ---
 
 

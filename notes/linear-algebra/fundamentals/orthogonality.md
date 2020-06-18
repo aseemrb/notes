@@ -4,6 +4,7 @@ title: Orthogonal Matrices
 parent: Fundamentals
 grand_parent: Linear Algebra
 nav_order: 2
+permalink: /linear-algebra/fundamentals/orthogonality
 ---
 
 Let a matrix $Q$ have orthonormal columns. The most important property of such a matrix is that
