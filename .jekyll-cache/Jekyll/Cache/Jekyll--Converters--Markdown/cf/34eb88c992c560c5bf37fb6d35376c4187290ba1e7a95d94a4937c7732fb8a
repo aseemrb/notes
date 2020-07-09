@@ -1,9 +1,9 @@
-I"Ç<p>There are four very popular factorizations for matrices. In the literature, the word <span class="text-green-200">decomposition</span> is often used instead of <span class="text-green-200">factorization</span>. Note that we denote special types of matrices with special characters. This convention is as follows:</p>
+I"‚<p>There are four very popular factorizations for matrices. In the literature, the word <span class="text-green-200">decomposition</span> is often used instead of <span class="text-green-200">factorization</span>. Note that we denote special types of matrices with special characters. This convention is as follows:</p>
 
 <ul>
   <li>$S$ denotes a symmetric matrix.</li>
   <li>$Q$ denotes an orthogonal or orthonormal matrix.</li>
-  <li>$\Lambda$ denotes the diagonal matrix with <a href="../eigenvalues-eigenvectors">eigenvalues</a> of the matrix being factored.</li>
+  <li>$\Lambda$ denotes the diagonal matrix with <a href="../eigenvectors">eigenvalues</a> of the matrix being factored.</li>
   <li>$R$ denotes a matrix that is closely related to the rank of the matrix being factored.</li>
 </ul>
 
@@ -14,7 +14,7 @@
 
 <p>where $L$ and $U$ are lower and upper triangular matrices.</p>
 
-<p>If $A$ is symmetric and <a href="../positive-definite-matrices/">positive definite</a>, then we can find $U=L^T$ and have</p>
+<p>If $A$ is symmetric and <a href="../psd">positive definite</a>, then we can find $U=L^T$ and have</p>
 
 \[A=LL^T\]
 
@@ -26,7 +26,7 @@
 </ul>
 
 <h2 id="qr-decomposition">QR decomposition</h2>
-<p>Here we factor an $m\times n$ matrix $A$ into an $m\times m$ <a href="../orthogonal-matrices/">orthogonal matrix</a> $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram-Schmidt process</a>. If $A$ is square then $Q$ is unique. We write</p>
+<p>Here we factor an $m\times n$ matrix $A$ into an $m\times m$ <a href="../orthogonality">orthogonal matrix</a> $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram-Schmidt process</a>. If $A$ is square then $Q$ is unique. We write</p>
 
 \[A = QR\]
 
@@ -62,7 +62,7 @@
 <p>From this expression, it is easy to see that $Sq_i = \lambda_iq_i$, and thus $(\lambda_i, q_i)$ are the eigenvalue - eigenvector pairs, since the vectors $q_i$ are orthonormal.</p>
 
 <h2 id="singular-value-decomposition">Singular value decomposition</h2>
-<p>We talk more about SVD <a href="../singular-value-decomposition/">here</a>, but in essence we can factorize any matrix as</p>
+<p>We talk more about SVD <a href="../svd">here</a>, but in essence we can factorize any matrix as</p>
 
 \[A = U\Sigma V^T\]
 
