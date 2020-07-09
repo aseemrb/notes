@@ -12,7 +12,7 @@ There are four very popular factorizations for matrices. In the literature, the 
 
 - $S$ denotes a symmetric matrix.
 - $Q$ denotes an orthogonal or orthonormal matrix.
-- $\Lambda$ denotes the diagonal matrix with [eigenvalues](../eigenvectors) of the matrix being factored.
+- $\Lambda$ denotes the diagonal matrix with [eigenvalues](./eigenvectors) of the matrix being factored.
 - $R$ denotes a matrix that is closely related to the rank of the matrix being factored.
 
 ## LU decomposition
@@ -22,7 +22,7 @@ $$A = LU$$
 
 where $L$ and $U$ are lower and upper triangular matrices.
 
-If $A$ is symmetric and [positive definite](../psd), then we can find $U=L^T$ and have
+If $A$ is symmetric and [positive definite](./psd), then we can find $U=L^T$ and have
 
 $$A=LL^T$$
 
@@ -32,7 +32,7 @@ This decomposition is used in algorithms to
 - compute the determinant of a matrix.
 
 ## QR decomposition
-Here we factor an $m\times n$ matrix $A$ into an $m\times m$ [orthogonal matrix](../orthogonality) $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the [Gram-Schmidt process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process). If $A$ is square then $Q$ is unique. We write
+Here we factor an $m\times n$ matrix $A$ into an $m\times m$ [orthogonal matrix](./orthogonality) $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the [Gram-Schmidt process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process). If $A$ is square then $Q$ is unique. We write
 
 $$A = QR$$
 
@@ -62,14 +62,14 @@ Now consider $S = (Q\Lambda)Q^T$, and view it as
 
 $$S = \sum ({\rm column\ } i {\rm\ of\ } Q\Lambda) \times ({\rm row\ } i {\rm\ of\ } Q^T)$$
 
-which is a sum of a bunch of rank-$1$ matrices. The $i^{\rm th}$ column of $Q\Lambda$ is $\lambda_iq_i$ and the $i^{\rm th}$ row of $Q^T$ is $q_i^T$. Hence, we can rewrite the above sum as
+which is a sum of a bunch of rank-$1$ matrices. The $i^{\rm th}$ column of $Q\Lambda$ is $\lambda_iq_i$ and the $i^{\rm th}$ row of $Q^T$ is $q_i^T.$ Hence, we can rewrite the above sum as
 
 $$S = \sum \lambda_iq_iq_i^T$$
 
 From this expression, it is easy to see that $Sq_i = \lambda_iq_i$, and thus $(\lambda_i, q_i)$ are the eigenvalue - eigenvector pairs, since the vectors $q_i$ are orthonormal.
 
 ## Singular value decomposition
-We talk more about SVD [here](../svd), but in essence we can factorize any matrix as
+We have a separate [dedicated section about SVD](./svd), but in essence we can factorize any matrix as
 
 $$A = U\Sigma V^T$$
 
