@@ -39,12 +39,12 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "Weblog":
+  "About":
     - "https://aseemrb.me"
-  "Scholar":
-    - "https://scholar.google.com/citations?user=DPt626YAAAAJ"
-  "LinkedIn":
-    - "https://linkedin.com/in/aseemrb"
+  "Twitter":
+    - "https://twitter.com/aseemrb"
+  "Github":
+    - "https://github.com/aseemrb"
 
 # Footer content appears at the bottom of every page's main content
 footer_content: ""
