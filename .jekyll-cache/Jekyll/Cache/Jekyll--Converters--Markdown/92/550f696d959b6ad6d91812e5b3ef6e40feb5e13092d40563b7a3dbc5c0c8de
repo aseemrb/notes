@@ -1,6 +1,6 @@
-I"A<p>Let a matrix $Q$ have orthonormal columns. The most important property of such a matrix is that</p>
+I"E<p>Let a matrix $Q$ have orthonormal columns. The most important property of such a matrix is that</p>
 
-\[Q^TQ = I\]
+\[Q^TQ = I.\]
 
 <p>But what about $QQ^T$? A little thought reveals that $QQ^T = I$ only if $Q$ is a square matrix, but not in general. In this square case, $Q$ is called orthogonal (or orthonormal). It’s confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.</p>
 
@@ -41,7 +41,7 @@ or the reflection matrix
 \(Q = \begin{pmatrix}
     \cos\theta &amp; \sin\theta \\
     \sin\theta &amp; -\cos\theta
-    \end{pmatrix}\)</p>
+    \end{pmatrix}.\)</p>
 
 <p>The rotation matrix simple rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.</p>
 
@@ -50,7 +50,7 @@ or the reflection matrix
 <h2 id="householder-reflections">Householder reflections</h2>
 <p>Start with a unit vector $u$, so $u^Tu = 1$. The Householder reflections are defined to be a family of symmetric orthogonal matrices as follows:</p>
 
-\[H = I - 2uu^T\]
+\[H = I - 2uu^T.\]
 
 <p>It is easy to see that $H$ is orthogonal by checking that $H^TH = I$.</p>
 
@@ -61,7 +61,7 @@ or the reflection matrix
     \begin{pmatrix}
     1 &amp; 1 \\
     1 &amp; -1
-    \end{pmatrix}\]
+    \end{pmatrix}.\]
 
 <p>Then define \(H_{2^{n+1}} = \begin{pmatrix}
     H_{2^n} &amp; H_{2^n} \\

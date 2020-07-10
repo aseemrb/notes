@@ -15,7 +15,7 @@ Naturally, eigenvalues are defined <span class="text-green-200">only for square 
 ## Properties
 The key property of eigenvectors can be seen by looking at $A^k$ for some positive integer $k$. Let's say $x$ is an eigenvector of $A$ with eigenvalue $\lambda$. Then we have
 
-$$A^kx = A^{k-1}(\lambda x) = \lambda (A^{k-1}x) = \dots = \lambda^kx$$
+$$A^kx = A^{k-1}(\lambda x) = \lambda (A^{k-1}x) = \dots = \lambda^kx.$$
 
 Thus, if $x$ is an eigenvector of $A$ with eigenvalue $\lambda$ then $x$ is also an eigenvector of $A^k$ with eigenvalue $\lambda^k$. This also tells us another key fact about matrices:
 
@@ -30,7 +30,7 @@ More rigorously, if 0 is eigenvalue, it means that there exists a non-zero vecto
 
 The $n$ independent eigenvectors of $A$ form a basis for $\mathbb{R}^n$, so any vector $v$ can be expressed as a linear combination of the eigenvectors $x_i$:
 
-$$V = \sum_{i=1}^{n} c_ix_i$$
+$$V = \sum_{i=1}^{n} c_ix_i.$$
 
 ## Similarity
 
@@ -52,7 +52,7 @@ $B = M^{-1}AM$ for some invertible matrix $M$.
     &= MBy \\
     &= MM^{-1}AMy \\
     &= A(My)
-    \end{align*}$$
+    \end{align*}.$$
 
     Hence, $\lambda$ is also an eigenvalue of $A$ with eigenvector $My$.
     </td>
@@ -87,13 +87,13 @@ $$\Lambda = \begin{pmatrix}
     \end{pmatrix},
 $$
 
-we see that $S$ and $\Lambda$ are [similar matrices](#similarity). This means that there must be an $M$ such that $S = M^{-1}\Lambda M$. It is not hard to see that $M$ is the eigenvector matrix (columns of $M$ are eigenvectors of $S$), and we have the [spectral decomposition](../factorization/#spectral-decomposition) $S = Q\Lambda Q^T$.
+we see that $S$ and $\Lambda$ are [similar matrices](#similarity). This means that there must be an $M$ such that $S = M^{-1}\Lambda M$. It is not hard to see that $M$ is the eigenvector matrix (columns of $M$ are eigenvectors of $S$), and we have the [spectral decomposition](../factorization/#spectral-decomposition) $S = Q\Lambda Q^{\rm T}$.
 
 
 ## General matrices
 
 For a general square matrix $A$ (may not be symmetric), we can factorize it as
 
-$$A = X\Lambda X^{-1}$$
+$$A = X\Lambda X^{-1}.$$
 
-where $X$ is the eigenvector matrix and $\Lambda$ it the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of powers of $A$ are the same as that of $A$, with powered eigenvalues. It is only when $A$ is symmetric that we can use $X^{-1} = X^T$, since the eigenvectors are orthogonal in that case.
+where $X$ is the eigenvector matrix and $\Lambda$ it the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of powers of $A$ are the same as that of $A$, with powered eigenvalues. It is only when $A$ is symmetric that we can use $X^{-1} = X^{\rm T}$, since the eigenvectors are orthogonal in that case.
