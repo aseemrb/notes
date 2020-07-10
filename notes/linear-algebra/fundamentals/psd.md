@@ -36,7 +36,7 @@ The corresponding energy is $f(a,b)=x^{\rm T}Sx=3a^2 + 6b^2 + 8ab$. Below is the
 
 On a side note, this can be seen like a loss function that one may try to minimize using something simple like [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent).
 
-If two matrices $A$ and $B$ are PD, then so are the matrices $A+B$ and $A^{-1}$. This can be easily seen by the positive energy property and the fact that the $\lambda_i(A^{-1})=1/\lambda_i(A)$.
+If two matrices $A$ and $B$ are PD, then so are the matrices $A+B$ and $A^{-1}$. This can be easily seen by the positive energy property and the fact that if $\lambda$ is an eigenvalue of $A$ then $1/\lambda$ is an eigenvalue of $A^{-1}$.
 
 ## Positive Semi-definite matrices
 Semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above [properties](#properties) with a minor change: replace $>0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $A$.
