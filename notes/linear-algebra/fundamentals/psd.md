@@ -20,7 +20,7 @@ $$x^{\rm T}Sx > 0.$$
 - $S$ can be factored as $S = A^{\rm T}A$, where $A$ has independent columns.
 
 ## Energy in a vector $x$
-For a matrix $S$, the energy is a vector $x$ is defined by $x^{\rm T}Sx$. For example, consider
+For a matrix $S$, the energy in a vector $x$ is defined to be $x^{\rm T}Sx$. For example, consider
 
 $$\begin{align*}
 x=\begin{pmatrix}a\\b\end{pmatrix}, & & S=\begin{pmatrix}
