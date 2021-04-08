@@ -1,7 +1,7 @@
 I"'<h2 id="definition">Definition</h2>
 <p>For a matrix $A$, if there exists a vector $v$ such that $Av = \lambda v$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $v$ is called an eigenvector of $A$.</p>
 
-<p>Naturally, eigenvalues are defined <span class="text-green-200">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair of $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.</p>
+<p>Naturally, eigenvalues are defined <span class="text-green-100">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair of $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.</p>
 
 <h2 id="properties">Properties</h2>
 <p>The key property of eigenvectors can be seen by looking at $A^k$ for some positive integer $k$. Let’s say $x$ is an eigenvector of $A$ with eigenvalue $\lambda$. Then we have</p>
@@ -13,7 +13,7 @@
 <table>
   <thead>
     <tr>
-      <th style="text-align: left"><span class="fs-4 text-green-200">Claim</span></th>
+      <th style="text-align: left"><span class="fs-4 text-green-100">Claim</span></th>
     </tr>
   </thead>
   <tbody>
@@ -26,7 +26,7 @@
 <table>
   <thead>
     <tr>
-      <th style="text-align: left"><span class="fs-4 text-green-200">Proof</span></th>
+      <th style="text-align: left"><span class="fs-4 text-green-100">Proof</span></th>
     </tr>
   </thead>
   <tbody>
@@ -45,13 +45,13 @@
 
 <h2 id="similarity">Similarity</h2>
 
-<p>A matrix $B$ is said to be <span class="text-green-200">similar to $A$</span> if
+<p>A matrix $B$ is said to be <span class="text-green-100">similar to $A$</span> if
 $B = M^{-1}AM$ for some invertible matrix $M$.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left"><span class="fs-4 text-green-200">Claim</span></th>
+      <th style="text-align: left"><span class="fs-4 text-green-100">Claim</span></th>
     </tr>
   </thead>
   <tbody>
@@ -62,7 +62,7 @@ $B = M^{-1}AM$ for some invertible matrix $M$.</p>
 </table>
 
 <table>
-<thead><tr><th style="text-align: left"><span class="fs-4 text-green-200">Proof</span></th></tr></thead>
+<thead><tr><th style="text-align: left"><span class="fs-4 text-green-100">Proof</span></th></tr></thead>
 <tbody>
   <tr>
     <td>
@@ -80,9 +80,9 @@ $B = M^{-1}AM$ for some invertible matrix $M$.</p>
 </tbody>
 </table>
 
-<p>This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i&gt;0$. This sequence can be chosen carefully so as to <span class="text-green-200">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.</p>
+<p>This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i&gt;0$. This sequence can be chosen carefully so as to <span class="text-green-100">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.</p>
 
-<p>For a matrix $A$, the <span class="text-green-200">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.</p>
+<p>For a matrix $A$, the <span class="text-green-100">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.</p>
 
 <p>Some obvious but important facts are as follows:</p>
 

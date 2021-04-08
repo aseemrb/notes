@@ -43,7 +43,7 @@ The QR decomposition makes it easy to solve a system of equations $Ax = b$ witho
 ## Spectral decomposition
 Also called eigendecomposition, this is a factorization of a square matrix into eigenvalues and eigenvectors, $A=VDV^{-1}$, where $D$ is a diagonal matrix with the eigenvalues of $A$ and the columns of $V$ are the corresponding eigenvectors.
 
-Although this factorization is possible for any square matrix with linearly independent eigenvectors, it is usually used for symmetric matrices $S$. Since the <span class="text-green-200">eigenvectors can be made orthonormal for a symmetric matrix</span>, the factorization is written as:
+Although this factorization is possible for any square matrix with linearly independent eigenvectors, it is usually used for symmetric matrices $S$. Since the *eigenvectors can be made orthonormal for a symmetric matrix*{:.text-green-100}, the factorization is written as:
 
 $$S=Q\Lambda Q^{\rm T}.$$
 
@@ -73,4 +73,4 @@ We have a separate [dedicated section about SVD](./svd), but in essence we can f
 
 $$A = U\Sigma V^{\rm T},$$
 
-where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a non-negative diagonal matrix. The values on the diagonal of $\Sigma$ are called <span class="text-green-200">singular values</span>. Like the spectral decomposition above, the idea of an SVD is to find basis directions along which matrix multiplication is equivalent to scalar multiplication, but this is in general for any matrix instead of a square matrix.
+where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a non-negative diagonal matrix. The values on the diagonal of $\Sigma$ are called *singular values*{:.text-green-100}. Like the spectral decomposition above, the idea of an SVD is to find basis directions along which matrix multiplication is equivalent to scalar multiplication, but this is in general for any matrix instead of a square matrix.

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Generating $\sigma$-Fields
+title: Generating \(\sigma\)-Fields
 parent: Probability Spaces
 grand_parent: Probability Theory
 nav_order: 2

@@ -1,4 +1,4 @@
-I"Ù<p>There are four very popular factorizations for matrices. In the literature, the word <span class="text-green-200">decomposition</span> is often used instead of <span class="text-green-200">factorization</span>. Note that we denote special types of matrices with special characters. This convention is as follows:</p>
+I"Ñ<p>There are four very popular factorizations for matrices. In the literature, the word <span class="text-green-200">decomposition</span> is often used instead of <span class="text-green-200">factorization</span>. Note that we denote special types of matrices with special characters. This convention is as follows:</p>
 
 <ul>
   <li>$S$ denotes a symmetric matrix.</li>
@@ -37,7 +37,7 @@
 <h2 id="spectral-decomposition">Spectral decomposition</h2>
 <p>Also called eigendecomposition, this is a factorization of a square matrix into eigenvalues and eigenvectors, $A=VDV^{-1}$, where $D$ is a diagonal matrix with the eigenvalues of $A$ and the columns of $V$ are the corresponding eigenvectors.</p>
 
-<p>Although this factorization is possible for any square matrix with linearly independent eigenvectors, it is usually used for symmetric matrices $S$. Since the <span class="text-green-200">eigenvectors can be made orthonormal for a symmetric matrix</span>, the factorization is written as:</p>
+<p>Although this factorization is possible for any square matrix with linearly independent eigenvectors, it is usually used for symmetric matrices $S$. Since the <em class="text-green-100">eigenvectors can be made orthonormal for a symmetric matrix</em>, the factorization is written as:</p>
 
 \[S=Q\Lambda Q^{\rm T}.\]
 
@@ -66,5 +66,5 @@
 
 \[A = U\Sigma V^{\rm T},\]
 
-<p>where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a non-negative diagonal matrix. The values on the diagonal of $\Sigma$ are called <span class="text-green-200">singular values</span>. Like the spectral decomposition above, the idea of an SVD is to find basis directions along which matrix multiplication is equivalent to scalar multiplication, but this is in general for any matrix instead of a square matrix.</p>
+<p>where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a non-negative diagonal matrix. The values on the diagonal of $\Sigma$ are called <em class="text-green-100">singular values</em>. Like the spectral decomposition above, the idea of an SVD is to find basis directions along which matrix multiplication is equivalent to scalar multiplication, but this is in general for any matrix instead of a square matrix.</p>
 :ET

@@ -10,7 +10,7 @@ permalink: /linear-algebra/fundamentals/eigenvectors
 ## Definition
 For a matrix $A$, if there exists a vector $v$ such that $Av = \lambda v$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $v$ is called an eigenvector of $A$.
 
-Naturally, eigenvalues are defined <span class="text-green-200">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair of $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
+Naturally, eigenvalues are defined <span class="text-green-100">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair of $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
 
 ## Properties
 The key property of eigenvectors can be seen by looking at $A^k$ for some positive integer $k$. Let's say $x$ is an eigenvector of $A$ with eigenvalue $\lambda$. Then we have
@@ -19,11 +19,11 @@ $$A^kx = A^{k-1}(\lambda x) = \lambda (A^{k-1}x) = \dots = \lambda^kx.$$
 
 Thus, if $x$ is an eigenvector of $A$ with eigenvalue $\lambda$ then $x$ is also an eigenvector of $A^k$ with eigenvalue $\lambda^k$. This also tells us another key fact about matrices:
 
-| <span class="fs-4 text-green-200">Claim</span> |
+| <span class="fs-4 text-green-100">Claim</span> |
 |:---------------|
 | If 0 is an eigenvalue of $A$, then $A^{-1}$ does not exist. In other words, A is not invertible. |
 
-| <span class="fs-4 text-green-200">Proof</span> |
+| <span class="fs-4 text-green-100">Proof</span> |
 |:---------------|
 | An intuitive way to see this is to consider the eigenvector $x$ associated with eigenvalue $\lambda$. We have that $A^{-1}x = (1/\lambda) x$. So if $\lambda = 0$ then $A^{-1}$ is not defined.
 More rigorously, if 0 is eigenvalue, it means that there exists a non-zero vector $x$ such that $Ax = 0$. Hence, the null space of $A$ is non-trivial (contains something other than the zero vector), and so $A$ is a dimension reducing transformation. This also means that $\det A = 0$. For more, check out the [rank-nullity theorem](https://en.wikipedia.org/wiki/Rank%E2%80%93nullity_theorem). |
@@ -34,15 +34,15 @@ $$V = \sum_{i=1}^{n} c_ix_i.$$
 
 ## Similarity
 
-A matrix $B$ is said to be <span class="text-green-200">similar to $A$</span> if
+A matrix $B$ is said to be <span class="text-green-100">similar to $A$</span> if
 $B = M^{-1}AM$ for some invertible matrix $M$.
 
-| <span class="fs-4 text-green-200">Claim</span> |
+| <span class="fs-4 text-green-100">Claim</span> |
 |:---------------|
 | If $B$ is similar to $A$, then they have the same eigenvalues. |
 
 <table>
-<thead><tr><th style="text-align: left"><span class="fs-4 text-green-200">Proof</span></th></tr></thead>
+<thead><tr><th style="text-align: left"><span class="fs-4 text-green-100">Proof</span></th></tr></thead>
 <tbody>
   <tr>
     <td>
@@ -60,9 +60,9 @@ $B = M^{-1}AM$ for some invertible matrix $M$.
 </tbody>
 </table>
 
-This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i>0$. This sequence can be chosen carefully so as to <span class="text-green-200">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.
+This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i>0$. This sequence can be chosen carefully so as to <span class="text-green-100">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.
 
-For a matrix $A$, the <span class="text-green-200">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.
+For a matrix $A$, the <span class="text-green-100">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.
 
 Some obvious but important facts are as follows:
 

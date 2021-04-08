@@ -1,6 +1,6 @@
 ---
 layout: default
-title: $\sigma$-Field and Properties
+title: \(\sigma\)-Field and Properties
 parent: Events and Random Variables
 grand_parent: Probability Theory
 nav_order: 6

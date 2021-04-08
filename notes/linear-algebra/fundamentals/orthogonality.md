@@ -16,11 +16,11 @@ But what about $QQ^{\rm T}$? A little thought reveals that $QQ^{\rm T} = I$ only
 
 ## Orthogonality
 
-| <span class="fs-4 text-green-200">Claim</span> |
+| <span class="fs-4 text-green-100">Claim</span> |
 |:---------------|
 | For any vector $x$, $\lVert Qx\rVert = \lVert x\rVert$. In other words, $Q$ as a transformation does not change the length of any vector. |
 
-| <span class="fs-4 text-green-200">Proof</span> |
+| <span class="fs-4 text-green-100">Proof</span> |
 |:---------------|
 | See that $\lVert Qx\rVert = (Qx)^{\rm T}(Qx) = x^{\rm T}Q^{\rm T}Qx = x^{\rm T}x = \lVert x\rVert$, since $Q^{\rm T}Q = I$.|
 
@@ -39,7 +39,7 @@ $$
 
 The rotation matrix simple rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.
 
-Side note: these reflections are called <span class="text-green-200">Householder reflections</span>.
+Side note: these reflections are called <span class="text-green-100">Householder reflections</span>.
 
 ## Householder reflections
 Start with a unit vector $u$, so $u^{\rm T}u = 1$. The Householder reflections are defined to be a family of symmetric orthogonal matrices as follows:
