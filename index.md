@@ -8,13 +8,11 @@ permalink: /
 
 ## What is this?
 
-A collection of my notes on various subjects. Although the primary reason to create it is to keep things organized for myself and to be able to quickly search for something, yet I hope it may help others too.
+A collection of my notes on various subjects. Although the primary reason to create this is to keep things organized for myself and to be able to quickly search for something as a reference, yet I hope it may help others too.
 
 ---
 
 ## How can I use this?
 
-1. Browse through the subjects on the left panel for all notes, or
-2. Search for something specific using the search bar on top.
-
-Feel free to copy, distribute or modify these notes for yourself as required.
+1. If you're interested in browsing a topic in general, navigate to it on the left panel.
+2. If you're looking for something specific, search for it using the search bar on top.
