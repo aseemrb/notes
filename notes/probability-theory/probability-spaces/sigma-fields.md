@@ -30,7 +30,7 @@ The intuitive way to think about a $\sigma$-field is to view it as a collection 
 3. For any fixed subset $A\subset\Omega$, the set given by $\mc{F} = \\{\emptyset,A,A^c,\Omega\\}$.
 4. The set $\mc{F} = \\{A: A$ is countable or $A^c$ is countable $\\}$.
 
-The four examples above can be verified to be a $\sigma$-field by simply verifying the three properties described above. For example 4, the third property is non-trivial, and can be verified using the following argument: If all $A_i$ are countable, then $B=\cup_i A_i$ is countable and so $B\in\mc{F}$; whereas, if there exists some $j$ such that $A_j$ is uncountable, it means that $A_j^c$ is countable by definition of the set. Now see that since $A_j\subseteq \cup_i A_i$, we have $(\cup_i A_i)^c\subseteq A_j^c$. Hence, $(\cup_i A_i)^c$ is countable, implying that $\cup_i A_i\in \mc{F}$ by definition.
+The four examples above can be verified to be a $\sigma$-field by simply verifying the three properties described above. For example 4, the third property is non-trivial, and can be verified using the following argument: Consider a countable sequence of events $\\{A_i\\}_{i=1}^{\infty}\in\mc{F}$. If all $A_i$ are countable, then $B=\cup_i A_i$ is countable and so $B\in\mc{F}$; whereas, if there exists some $j$ such that $A_j$ is uncountable, it means that $A_j^c$ is countable by definition of $\mc{F}$. Now see that since $A_j\subseteq B=\cup_i A_i$, we have $B^c\subseteq A_j^c$. Hence, $B^c$ is countable, implying that $B\in \mc{F}$ by definition.
 
 ## Counterexample
 It is natural at this point to ask for an example of a set which is not a $\sigma$-field. Let's construct one!
