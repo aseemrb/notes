@@ -22,7 +22,13 @@ layout: table_wrappers
   }, false);
   window.MathJax = {
     tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      macros: {
+        RR: "\\mathbb{R}",
+        prob: "\\mathbb{P}",
+        bold: ["{\\bf #1}", 1],
+        mc: ["\\mathcal{#1}", 1]
+      }
     },
     options: {
       renderActions: {

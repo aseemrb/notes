@@ -10,7 +10,10 @@ permalink: /linear-algebra/fundamentals/eigenvectors
 ## Definition
 For a matrix $A$, if there exists a vector $v$ such that $Av = \lambda v$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $v$ is called an eigenvector of $A$.
 
-Naturally, eigenvalues are defined <span class="text-green-100">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair of $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
+Naturally, eigenvalues are defined <span class="text-green-100">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
+
+## What are eigenvectors?
+One intuitive way to understand eigenvectors is to look at any matrix $A$ as a transformation being applied to a vector $v$. A transformation can rotate and/or scale a vector. There's a [very nice video](https://www.youtube.com/watch?v=PFDu9oVAE-g) about this by [Grant Sanderson](https://www.3blue1brown.com/about) where he explains this idea with beautiful visuals. In essence, eigenvectors of a matrix (transformation) are those vectors that are not rotated, but only scaled without changing the direction. The magnitude of that scale is what we call the eigenvalue.
 
 ## Properties
 The key property of eigenvectors can be seen by looking at $A^k$ for some positive integer $k$. Let's say $x$ is an eigenvector of $A$ with eigenvalue $\lambda$. Then we have
@@ -96,4 +99,4 @@ For a general square matrix $A$ (may not be symmetric), we can factorize it as
 
 $$A = X\Lambda X^{-1}.$$
 
-where $X$ is the eigenvector matrix and $\Lambda$ it the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of powers of $A$ are the same as that of $A$, with powered eigenvalues. It is only when $A$ is symmetric that we can use $X^{-1} = X^{\rm T}$, since the eigenvectors are orthogonal in that case.
+where $X$ is the eigenvector matrix and $\Lambda$ it the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of exponents of $A$ are the same as that of $A$, with corresponding exponentiated eigenvalues. It is only when $A$ is symmetric that we can use $X^{-1} = X^{\rm T}$, since the eigenvectors are orthogonal in that case.
