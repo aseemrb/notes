@@ -37,7 +37,7 @@ It is natural at this point to ask for an example of a set which is not a $\sigm
 
 Let $\Omega = (0, 1]$, and define
 
-$$\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\} = \cup_{i=1}^k(a_i, b_i].$$
+$$\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\}.$$
 
 At first glance, one might believe that $\mc{B}_0$ is a $\sigma$-field, but it's not. It's actually a <span class="text-blue-100">field</span> (more on that later), but not a $\sigma$-field.
 

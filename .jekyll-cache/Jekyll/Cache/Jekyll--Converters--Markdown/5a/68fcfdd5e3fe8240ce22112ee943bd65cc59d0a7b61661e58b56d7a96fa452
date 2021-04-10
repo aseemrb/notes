@@ -1,4 +1,4 @@
-I"<table>
+I"�<table>
   <thead>
     <tr>
       <th style="text-align: left"><span class="fs-4 text-green-100">Probability space</span></th>
@@ -41,7 +41,7 @@ $A_1, A_2, \ldots \in \mc{F} \implies \cup_{i=1}^{\infty}A_i\in \mc{F}$.</li>
 
 <p>Let $\Omega = (0, 1]$, and define</p>
 
-\[\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\} = \cup_{i=1}^k(a_i, b_i].\]
+\[\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\}.\]
 
 <p>At first glance, one might believe that $\mc{B}_0$ is a $\sigma$-field, but it’s not. It’s actually a <span class="text-blue-100">field</span> (more on that later), but not a $\sigma$-field.</p>
 
