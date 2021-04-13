@@ -39,7 +39,7 @@ $$
 
 The rotation matrix simple rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.
 
-Side note: these reflections are called <span class="text-green-100">Householder reflections</span>.
+Side note: these reflections are called <span class="text-red-100">Householder reflections</span>.
 
 ## Householder reflections
 Start with a unit vector $u$, so $u^{\rm T}u = 1$. The Householder reflections are defined to be a family of symmetric orthogonal matrices as follows:
