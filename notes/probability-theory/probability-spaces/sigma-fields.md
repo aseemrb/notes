@@ -17,7 +17,7 @@ This is the set of all possible outcomes of a random experiment. For example, co
 ## Defining a $\sigma$-field
 A set of subsets of $\Omega$, denoted by $\mc{F}$, is called a <span class="text-purple-000">$\sigma$-field on $\Omega$</span> if
 - <span class="text-purple-000">$\mc{F}$ contains the sample space.</span>
-$\Omega \in \mc{F}$, meaning that the whole sample space must be in $\mc{F}$,
+$\Omega \in \mc{F}$.
 - <span class="text-purple-000">$\mc{F}$ is closed under complements.</span>
 $A\in\mc{F} \implies A^c\in \mc{F}$.
 - <span class="text-purple-000">$\mc{F}$ is closed under countable unions.</span>
