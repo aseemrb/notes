@@ -182,11 +182,20 @@ layout: table_wrappers
           <hr>
           <h2 class="text-delta">Table of contents</h2>
           <ul>
-            {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
-            {% for child in children_list %}
-              <li>
-                <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
+            {% for child in pages_list %}
+            {% if child.parent == page.title %}
+            <li>
+              <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
+              {%- assign grand_children_list = pages_list | where: "parent", child.title | where: "grand_parent", page.title -%}
+              <ul>
+                {% for grand_child in grand_children_list %}
+                <li>
+                  <a href="{{ grand_child.url | absolute_url }}">{{ grand_child.title }}</a>{% if grand_child.summary %} - {{ grand_child.summary }}{% endif %}
+                </li>
+                {% endfor %}
+              </ul>
               </li>
+              {% endif %}
             {% endfor %}
           </ul>
         {% endif %}

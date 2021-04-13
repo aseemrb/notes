@@ -15,16 +15,16 @@ permalink: /probability-theory/probability-spaces/sigma-fields
 This is the set of all possible outcomes of a random experiment. For example, consider the experiment where one rolls a $6$-sided die. Then the sample space will be $\Omega = \\{1, 2, 3, 4, 5, 6\\}$.
 
 ## Defining a $\sigma$-field
-Formally, a set of subsets of $\Omega$, denoted by $\mc{F}$, is called a <span class="text-red-100">$\sigma$-field on $\mc{F}$</span> if
-- <span class="text-red-100">$\mc{F}$ contains the sample space.</span>
+Formally, a set of subsets of $\Omega$, denoted by $\mc{F}$, is called a <span class="text-purple-000">$\sigma$-field on $\mc{F}$</span> if
+- <span class="text-purple-000">$\mc{F}$ contains the sample space.</span>
 $\Omega \in \mc{F}$, meaning that the whole sample space must be in $\mc{F}$,
-- <span class="text-red-100">$\mc{F}$ is closed under complements.</span>
+- <span class="text-purple-000">$\mc{F}$ is closed under complements.</span>
 $A\in\mc{F} \implies A^c\in \mc{F}$.
-- <span class="text-red-100">$\mc{F}$ is closed under countable unions.</span>
+- <span class="text-purple-000">$\mc{F}$ is closed under countable unions.</span>
 $A_1, A_2, \ldots \in \mc{F} \implies \cup_{i=1}^{\infty}A_i\in \mc{F}$.
 
 ## Examples
-The intuitive way to think about a $\sigma$-field is to view it as a collection (set) of events. <span class="text-red-100">Every member of $\mc{F}$ is an event</span>. A few examples to strengthen this intuition:
+The intuitive way to think about a $\sigma$-field is to view it as a collection (set) of events. <span class="text-purple-000">Every member of $\mc{F}$ is an event</span>. A few examples to strengthen this intuition:
 1. The trivial $\sigma$-field given by $\mc{F} = \\{\emptyset, \Omega\\}$, where $\emptyset$ denotes the empty set.
 2. Power set of $\Omega$ given by $\mc{F} = \\{2^{\Omega}\\}$, which denotes the collection of all subsets of $\Omega$.
 3. For any fixed subset $A\subset\Omega$, the set given by $\mc{F} = \\{\emptyset,A,A^c,\Omega\\}$.
@@ -39,7 +39,7 @@ Let $\Omega = (0, 1]$, and define
 
 $$\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\}.$$
 
-At first glance, one might believe that $\mc{B}_0$ is a $\sigma$-field, but it's not. It's actually a <span class="text-red-100">field</span> (more on that later), but not a $\sigma$-field.
+At first glance, one might believe that $\mc{B}_0$ is a $\sigma$-field, but it's not. It's actually a <span class="text-purple-000">field</span> (more on that later), but not a $\sigma$-field.
 
 | <span class="fs-4 text-green-100">Exercise</span> |
 |:---------------|

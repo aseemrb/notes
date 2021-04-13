@@ -10,7 +10,7 @@ permalink: /linear-algebra/fundamentals/eigenvectors
 ## Definition
 For a matrix $A$, if there exists a vector $v$ such that $Av = \lambda v$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $v$ is called an eigenvector of $A$.
 
-Naturally, eigenvalues are defined <span class="text-red-100">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
+Naturally, eigenvalues are defined <span class="text-purple-000">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $Av \neq \lambda v$ for any pair $(\lambda, v)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $Ax_i = \lambda_ix_i$.
 
 ## What are eigenvectors?
 One intuitive way to understand eigenvectors is to look at any matrix $A$ as a transformation being applied to a vector $v$. A transformation can rotate and/or scale a vector. There's a [very nice video](https://www.youtube.com/watch?v=PFDu9oVAE-g) about this by [Grant Sanderson](https://www.3blue1brown.com/about) where he explains this idea with beautiful visuals. In essence, eigenvectors of a matrix (transformation) are those vectors that are not rotated, but only scaled without changing the direction. The magnitude of that scale is what we call the eigenvalue.
@@ -37,7 +37,7 @@ $$V = \sum_{i=1}^{n} c_ix_i.$$
 
 ## Similarity
 
-A matrix $B$ is said to be <span class="text-red-100">similar to $A$</span> if
+A matrix $B$ is said to be <span class="text-purple-000">similar to $A$</span> if
 $B = M^{-1}AM$ for some invertible matrix $M$.
 
 | <span class="fs-4 text-green-100">Claim</span> |
@@ -63,9 +63,9 @@ $B = M^{-1}AM$ for some invertible matrix $M$.
 </tbody>
 </table>
 
-This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i>0$. This sequence can be chosen carefully so as to <span class="text-red-100">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.
+This simple result is very useful in computation. For example, a software like MATLAB will use a sequence of matrices $M_1, M_2, \ldots, M_k$ and reduce $A$ to $B_k$ where $B_0 = A$ and $B_i = M_i^{-1}B_{i-1}M_i$ for $i>0$. This sequence can be chosen carefully so as to <span class="text-purple-000">make $B_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.
 
-For a matrix $A$, the <span class="text-red-100">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.
+For a matrix $A$, the <span class="text-purple-000">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.
 
 Some obvious but important facts are as follows:
 

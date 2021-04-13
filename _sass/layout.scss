@@ -101,6 +101,7 @@
   display: flex;
   min-height: $header-height;
   align-items: center;
+  background: linear-gradient(30deg, rgba(245,246,250,1) 0%, rgba(245,246,250,1) 40%, rgba(40,105,230,0.1) 100%);
 
   @include mq(md) {
     height: $header-height;
