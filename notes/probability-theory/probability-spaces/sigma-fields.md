@@ -15,7 +15,7 @@ permalink: /probability-theory/probability-spaces/sigma-fields
 This is the set of all possible outcomes of a random experiment. For example, consider the experiment where one rolls a $6$-sided die. Then the sample space will be $\Omega = \\{1, 2, 3, 4, 5, 6\\}$.
 
 ## Defining a $\sigma$-field
-Formally, a set of subsets of $\Omega$, denoted by $\mc{F}$, is called a <span class="text-purple-000">$\sigma$-field on $\mc{F}$</span> if
+A set of subsets of $\Omega$, denoted by $\mc{F}$, is called a <span class="text-purple-000">$\sigma$-field on $\Omega$</span> if
 - <span class="text-purple-000">$\mc{F}$ contains the sample space.</span>
 $\Omega \in \mc{F}$, meaning that the whole sample space must be in $\mc{F}$,
 - <span class="text-purple-000">$\mc{F}$ is closed under complements.</span>
