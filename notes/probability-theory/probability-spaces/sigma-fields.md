@@ -24,7 +24,7 @@ $A\in\mc{F} \implies A^c\in \mc{F}$.
 $A_1, A_2, \ldots \in \mc{F} \implies \cup_{i=1}^{\infty}A_i\in \mc{F}$.
 
 ## Examples
-The intuitive way to think about a $\sigma$-field is to view it as a collection (set) of events. <span class="text-purple-000">Every member of $\mc{F}$ is an event</span>. A few examples to strengthen this intuition:
+The intuitive way to think about a $\sigma$-field is to view it as a collection (set) of events. <span class="text-purple-000">Every member of $\mc{F}$ is an event</span>. A few examples:
 1. The trivial $\sigma$-field given by $\mc{F} = \\{\emptyset, \Omega\\}$, where $\emptyset$ denotes the empty set.
 2. Power set of $\Omega$ given by $\mc{F} = \\{2^{\Omega}\\}$, which denotes the collection of all subsets of $\Omega$.
 3. For any fixed subset $A\subset\Omega$, the set given by $\mc{F} = \\{\emptyset,A,A^c,\Omega\\}$.
