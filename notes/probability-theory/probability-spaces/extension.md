@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Extension Exists
+title: Extension of Measure
 parent: Probability Spaces
 grand_parent: Probability Theory
 nav_order: 4
-permalink: /probability-theory/probability-spaces/extension-exists
+permalink: /probability-theory/probability-spaces/extension
 ---
