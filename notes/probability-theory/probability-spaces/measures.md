@@ -12,7 +12,7 @@ Recall that a probability space is a triplet $(\Omega, \mc{F}, \prob)$. We alrea
 | <span class="fs-4 text-green-100">Probability measure</span> |
 |:---------------|
 | A set function $\prob$ on a $\sigma$-field $\mc{F}$ is a probability measure if |
-| 1. $0\le \prob(A)\le 1$ for all $A\in\mc{F}$.<br>2. $\prob(\emptyset)=0$ and $\prob(\Omega)=1$.<br>3. For a sequence of events $\\{A_i\\}_{i\ge 1}$ that are disjoint sets in $\mc{F}$, $\prob(\cup_i A_i) = \sum_i \prob(A_i)$. |
+| 1. $0\le \prob(A)\le 1$ for all $A\in\mc{F}$,<br>2. $\prob(\emptyset)=0$ and $\prob(\Omega)=1$, and<br>3. For a sequence of events $\\{A_i\\}_{i\ge 1}$ that are disjoint sets in $\mc{F}$, $\prob(\cup_i A_i) = \sum_i \prob(A_i)$. |
 
 ## Discrete probability space
 As an example, let $\Omega$ be a set that is at most countable and $\mc{F}$ be a $\sigma$-field on it. Let $p$ be a function on $\Omega$ such that $p(\omega)\ge 0$ for all $\omega\in\Omega$ and $\sum_{\omega\in\Omega}p(\omega)=1$. Then we can define a probability measure $\prob(A)=\sum{\omega\in A}p(\omega)$ for all $A\in \mc{F}$.
