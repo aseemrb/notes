@@ -7,7 +7,7 @@ permalink: /
 ---
 
 ## What is this?
-A collection of my notes on various subjects. Although the primary reason to create this is for me to be able to quickly search for something as a reference, yet I hope it may help others too.
+A collection of my notes on various subjects. The primary reason to create this is that I usually find it easier to understand stuff better when I write things down. Another reason is that I indexed this collection of notes and made it searchable, so looking for a reference to a result / theorem / concept that I've studied before should ideally become faster.
 
 ---
 
@@ -17,5 +17,6 @@ A collection of my notes on various subjects. Although the primary reason to cre
 
 ---
 
-## Errata
-If you find any typos or incorrect statments, please report them to [notes@aseemrb.me](mailto:notes@aseemrb.me).
+## Contact
+1. I'd be really grateful if you find any errors and report them to [notes@aseemrb.me](mailto:notes@aseemrb.me).
+2. Also feel free to send me an email if you need solutions to any of the exercises.
