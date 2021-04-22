@@ -41,6 +41,6 @@ $$\mc{B}_0 = \{\text{finite unions of disjoint subintervals of }\Omega\}.$$
 
 At first glance, one might believe that $\mc{B}_0$ is a $\sigma$-field, but it's not. It's actually a <span class="text-purple-000">field</span> (more on that later), but not a $\sigma$-field.
 
-| <span class="fs-4 text-green-100">Exercise</span> |
+| <span class="fs-4 text-green-100">Exercise 1</span> |
 |:---------------|
 | Show that $\mc{B}_0$ is not a $\sigma$-field by identifying which property (among the three listed in the definition) breaks.|

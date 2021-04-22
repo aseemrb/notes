@@ -18,7 +18,7 @@ For a sample space $\Omega$, let $\mc{A}$ be a set of subsets of $\Omega$. Suppo
 2. For $\mc{A}=\\{A\\}$ for some $A\subset\Omega$, $\sigma(\mc{A})=\\{\emptyset, A, A^c, \Omega\\}$.
 3. For $\mc{A}=\\{\\{\omega\\}: \omega\in\Omega\\}$, $\sigma(\mc{A})=\\{A: A$ is countable or $A^c$ is countable $\\}$.
 
-| <span class="fs-4 text-green-100">Exercise</span> |
+| <span class="fs-4 text-green-100">Exercise 2</span> |
 |:---------------|
 | 1. Show that for any collection $\mc{A}$ of subsets of $\Omega$, $\sigma(\mc{A})$ is indeed a $\sigma$-field. |
 | 2. Verify example 3 above. |
@@ -34,7 +34,7 @@ It is well known that <span class="text-purple-000">$\mc{B}$ can also be generat
 
 The notation above may feel a little weird, but essentially it says that $\mc{Q}$ is the set of all intervals of $\Omega$ that are open on the left and closed on the right (similarly for the other three sets).
 
-| <span class="fs-4 text-green-100">Exercise</span> |
+| <span class="fs-4 text-green-100">Exercise 3</span> |
 |:---------------|
 | Prove that $\sigma(\mc{Q}) = \sigma(\mc{R}) = \sigma(\mc{S}) = \sigma(\mc{T}) = \mc{B}$. |
 | *<span class="text-purple-000">Hint:</span> The countably infinite union of a carefully chosen sequence of left-open intervals (elements of $\mc{Q}$) can generate an open interval (an element of $\mc{R}$). Similarly, the countably infinite intersection of a chosen sequence of open intervals (elements of $\mc{R}$) can generate a closed interval (an element of $\mc{S}$), and so on.* |

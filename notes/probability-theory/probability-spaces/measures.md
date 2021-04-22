@@ -29,7 +29,7 @@ In simpler words, a probability measure assigns a number to all events, and in t
 
     $$\prob(\cup_i A_i)\le \sum_i\prob(A_i).$$
 
-| <span class="fs-4 text-green-100">Exercise</span> |
+| <span class="fs-4 text-green-100">Exercise 4</span> |
 |:---------------|
 | Prove the continuity property of probability measures described above. |
 | *<span class="text-purple-000">Hint:</span> Use countable additivity (property 3) by constructing a sequence of disjoint sets from $\\{A_n\\}$.* |
