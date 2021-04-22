@@ -1,4 +1,4 @@
-I"	<h2 id="properties">Properties</h2>
+I"ˆ	<h2 id="properties">Properties</h2>
 <p>A symmetric matrix $S$ is positive definite (PD), if it has the following equivalent properties. Positive definiteness is a notion of thinking about symmetric matrices as positive or negative in the same sense as one would think about a real number.</p>
 
 <ul>
@@ -32,6 +32,6 @@ x=\begin{pmatrix}a\\b\end{pmatrix}, &amp; &amp; S=\begin{pmatrix}
 
 <p>If two matrices $A$ and $B$ are PD, then so are the matrices $A+B$ and $A^{-1}$. This can be easily seen by the positive energy property and the fact that if $\lambda$ is an eigenvalue of $A$ then $1/\lambda$ is an eigenvalue of $A^{-1}$.</p>
 
-<h2 id="positive-semi-definite-matrices">Positive Semi-definite matrices</h2>
-<p>Semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above <a href="#properties">properties</a> with a minor change: replace $&gt;0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $A$.</p>
+<h2 id="positive-semi-definite-matrices">Positive semi-definite matrices</h2>
+<p>Positive semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above <a href="#properties">properties</a> with a minor change: replace $&gt;0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $A$.</p>
 :ET

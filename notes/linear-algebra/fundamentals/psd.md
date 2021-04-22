@@ -38,5 +38,5 @@ On a side note, this can be seen like a loss function that one may try to minimi
 
 If two matrices $A$ and $B$ are PD, then so are the matrices $A+B$ and $A^{-1}$. This can be easily seen by the positive energy property and the fact that if $\lambda$ is an eigenvalue of $A$ then $1/\lambda$ is an eigenvalue of $A^{-1}$.
 
-## Positive Semi-definite matrices
-Semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above [properties](#properties) with a minor change: replace $>0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $A$.
+## Positive semi-definite matrices
+Positive semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above [properties](#properties) with a minor change: replace $>0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $A$.

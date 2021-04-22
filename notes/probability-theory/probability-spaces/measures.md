@@ -11,7 +11,7 @@ Recall that a probability space is a triplet $(\Omega, \mc{F}, \prob)$. We alrea
 
 | <span class="fs-4 text-green-100">Probability measure</span> |
 |:---------------|
-| A set function $\prob$ on a $\sigma$-field $\mc{F}$ is a probability measure if |
+| A set function $\prob$ on a $\sigma$-field $\mc{F}$ is a probability measure if it follows these <span class="text-purple-000">probability axioms</span>. |
 | 1. $0\le \prob(A)\le 1$ for all $A\in\mc{F}$,<br>2. $\prob(\emptyset)=0$ and $\prob(\Omega)=1$, and<br>3. For a sequence of events $\\{A_i\\}_{i\ge 1}$ that are disjoint sets in $\mc{F}$, $\prob(\cup_i A_i) = \sum_i \prob(A_i)$. |
 
 ## Discrete probability space
