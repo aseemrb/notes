@@ -11,7 +11,7 @@ Let a matrix $Q$ have orthonormal columns. The most important property of such a
 
 $$Q^{\rm T}Q = I.$$
 
-But what about $QQ^{\rm T}$? A little thought reveals that $QQ^{\rm T} = I$ only if $Q$ is a square matrix, but not in general. In this square case, $Q$ is called orthogonal (or orthonormal). It's confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.
+But what about $QQ^{\rm T}$? A little thought reveals that $QQ^{\rm T} = I$ only if $Q$ is a square matrix, but not in general. In the square case, $Q$ is called orthogonal (or orthonormal). It's confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $v_i$ can be made orthonormal by scaling them to have $\lVert v_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.
 
 
 ## Orthogonality
@@ -37,9 +37,8 @@ $$Q = \begin{pmatrix}
     \end{pmatrix}.
 $$
 
-The rotation matrix simple rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.
-
-Side note: these reflections are called <span class="text-purple-000">Householder reflections</span>.
+The rotation matrix simply rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.
+These reflections are called [Householder reflections](https://en.wikipedia.org/wiki/Householder_transformation).
 
 ## Householder reflections
 Start with a unit vector $u$, so $u^{\rm T}u = 1$. The Householder reflections are defined to be a family of symmetric orthogonal matrices as follows:
