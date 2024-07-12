@@ -13,5 +13,4 @@ A collection of my notes on various subjects. The primary reason to create this 
 
 ## Contact
 1. I'd be really grateful if you find any errors and report them to [notes@aseemrb.me](mailto:notes@aseemrb.me).
-2. If you have suggestions for topics that should be included here, I'd be happy to take them; although, I write here only when I'm bored and can't sleep, so no promises.
-3. Also feel free to send me an email if you need solutions to any of the exercises.
+2. If you have suggestions for topics that you want included here (in the vicinity of mathematics and CS in general), I'd be happy to take them if time permits.
