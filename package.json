@@ -1,23 +1,23 @@
 {
-  "name": "just-the-docs",
-  "version": "0.3.3",
-  "description": "A modern Jekyll theme for documentation",
-  "repository": "pmarsceill/just-the-docs",
-  "license": "MIT",
-  "bugs": "https://github.com/pmarsceill/just-the-docs/issues",
-  "devDependencies": {
-    "stylelint": "^13.7.2",
-    "@primer/css": "^15.2.0",
-    "prettier": "^2.1.2",
-    "stylelint-config-prettier": "^8.0.2",
-    "stylelint-config-primer": "^9.2.1",
-    "stylelint-prettier": "^1.1.2",
-    "stylelint-selector-no-utility": "^4.0.0"
-  },
+  "name": "deeply-doppler",
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "test": "stylelint '**/*.scss'",
-    "format": "prettier --write '**/*.{scss,js,json}'",
-    "stylelint-check": "stylelint-config-prettier-check"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/starlight": "^0.37.1",
+    "astro": "^5.6.1",
+    "astro-auto-import": "^0.5.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "sharp": "^0.34.2",
+    "starlight-theme-rapide": "^0.5.2",
+    "typescript": "^5.9.3"
+  }
 }

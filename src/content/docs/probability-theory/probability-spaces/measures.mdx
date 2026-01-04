@@ -1,0 +1,56 @@
+---
+title: Probability Measures
+sidebar:
+  order: 3
+---
+
+Recall that a probability space is a triplet $(\Omega, \cF, \Pr)$. We already talked about the sample space $\Omega$ and the $\sigma$-field $\cF$ in great detail. Here we talk about the probability measure $\Pr$.
+
+<Aside title="Probability measure" icon="open-book">
+A set function $\Pr$ on a $\sigma$-field $\cF$ is a probability measure if it follows these <span class="text-accent">probability axioms</span>:
+1. $0\le \Pr(A)\le 1$ for all $A\in\cF$,
+2. $\Pr(\emptyset)=0$ and $\Pr(\Omega)=1$, and
+3. For a sequence of events $\{A_i\}_{i\ge 1}$ that are disjoint sets in $\cF$,
+$$
+\Pr(\cup_i A_i) = \sum_i \Pr(A_i).
+$$
+</Aside>
+
+## Discrete probability space
+As an example, let $\Omega$ be a set that is at most countable and $\cF$ be a $\sigma$-field on it. Let $p$ be a function on $\Omega$ such that $p(\omega)\ge 0$ for all $\omega\in\Omega$ and $\sum_{\omega\in\Omega}p(\omega)=1$. Then we can define a probability measure $\Pr(A)=\sum{\omega\in A}p(\omega)$ for all $A\in \cF$.
+
+In this case, $(\Omega, \cF, \Pr)$ is called a <span class="text-accent">discrete probability space</span> since $\Omega$ is at most countable. Note here that the function $p$ itself is not the measure, it is not a set function. The measure function is $\Pr$, which gives us a way to <span class="text-accent">measure the content in a measurable set</span>. What do we mean by a measurable set? It simply means an event; recall that any set in the $\sigma$-field is an event.
+
+In simpler words, a probability measure assigns a number to all events, and in that sense, lets us measure those events.
+
+## Additional properties
+These can be verified by using the probability axioms above.
+<Aside title="More properties of probability measures" icon="open-book">
+<Tabs>
+<TabItem label="Continuity">
+When we say $A_n\uparrow A$, it means that $\{A_n\}$ is a non-decreasing and converging sequence of events; i.e., for each $i\ge 1$, $A_i\subseteq A_{i+1}$ with $\lim_{n\to\infty}A_n=A$. Similarly, $A_n\downarrow A$ denotes a non-increasing sequence of events converging to $A$.
+
+For a sequence of events $\{A_n\}$,
+$$
+A_n \uparrow A \text{ or } A_n\downarrow A \implies \lim_{n\to\infty}\Pr(A_n)=\Pr(A).
+$$
+</TabItem>
+<TabItem label="Boole's identity">
+Also called the <span class="text-accent">union bound</span>. For a set of events $A_1,A_2,\ldots\in\cF$,
+$$
+\Pr(\cup_i A_i)\le \sum_i\Pr(A_i).
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside title="Exercise 4" type="caution" icon="pencil">
+<Tabs>
+<TabItem label="Problem">
+Prove the continuity property of probability measures described above. 
+</TabItem>
+<TabItem label="Hint">
+Use countable additivity (axiom 3) by constructing a sequence of disjoint sets from $\{A_n\}$.
+</TabItem>
+</Tabs>
+</Aside>

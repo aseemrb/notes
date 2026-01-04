@@ -1,0 +1,41 @@
+---
+title: Extension of Measure
+sidebar:
+  order: 4
+---
+
+## Why do we need to extend a measure?
+Now that we know what a $\sigma$-field is, note that typically, it is fairly complicated to describe the elements of a $\sigma$-field. This implies that it's hard to describe a probability measure on $\sigma$-fields.
+So what to do? The idea is to first define sort of a <span class="text-accent">proxy probability measure</span> on a smaller set that is easier to describe and is simple to talk about. Then, one can extend that proxy to an actual probability measure on the $\sigma$-field associated with that set.
+
+Note that I say <span class="text-accent">proxy</span> here because it is defined on an arbitrary set that is not a $\sigma$-field. By definition, probability measures can only be defined on $\sigma$-fields. So how do we find such a proxy function that is defined on a simpler set, but behaves like a probability measure on the associated $\sigma$-fields? It's time to introduce fields!
+
+<Aside title="Field" icon="open-book">
+A class $\cF_0$ of subsets of a sample space $\Omega$ is called a field if
+1. $\Omega\in\cF_0$,
+2. $A\in\cF_0 \implies A^c\in\cF_0$, and
+3. $A,B\in\cF_0\implies A\cup B\in\cF_0$. 
+</Aside>
+
+Note that a field is almost like a $\sigma$-field. The difference is in the third property. For a field, we only need it to be closed under finite unions, while a $\sigma$-field is required to be closed under countable unions (which could be infinite). Relaxing this property from requiring closure under countable unions to closure only under finite unions simplifies the description of a field dramatically, compared to describing a $\sigma$-field. So now we define the <span class="text-accent">proxy measure</span> on a field $\cF_0$, and show that it can be extended to a probability measure on $\sigma(\cF_0)$ (see [definition](../gen-sigma-fields)). This will allow us to talk about probabilities of events that live in a space that is easier to describe (a field) rather than in a space that is hard to describe (a $\sigma$-field).
+
+## Extension exists
+The following theorem says that there exists such an extension that we're looking for, and is unique! Note that the function $\Pr$ in the theorem statement below is not a probability measure since it's not defined on a $\sigma$-field. However, it shows that it can be extended to a unique probability measure $Q$ defined on $\sigma(\cF_0)$.
+
+<Aside title="Theorem 1: Extension of measure" icon="open-book">
+<Tabs>
+<TabItem label="Statement">
+Let $\cF_0$ be a field on a sample space $\Omega$ and $\Pr$ be a set of functions defined on $\cF_0$ such that it satisfies the [probability axioms](../measures) on $\cF_0$, i.e.,
+1. $0\le \Pr(A)\le 1$ for all $A\in\cF_0$,
+2. $\Pr(\emptyset)=0$ and $\Pr(\Omega)=1$, and
+3. For a sequence of events $\{A_i\}_{i\ge 1}$ that are disjoint sets in $\cF_0$,
+$$
+\cup_i A_i\in \cF_0 \implies \Pr(\cup_i A_i) = \sum_i \Pr(A_i);
+$$
+then there exists a unique probability measure $Q$ on $\cF=\sigma(\cF_0)$ such that $Q(A)=P(A)$ for all $A\in\cF_0$.
+</TabItem>
+<TabItem label="Proof">
+We begin by defining a quantity called the <span class="text-accent">outer measure</span>.
+</TabItem>
+</Tabs>
+</Aside>

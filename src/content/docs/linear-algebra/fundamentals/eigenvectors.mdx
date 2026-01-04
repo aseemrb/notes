@@ -1,0 +1,113 @@
+---
+title: Eigenvalues and Eigenvectors
+sidebar:
+  order: 3
+---
+
+## Definition
+For a matrix $\Av$, if there exists a vector $\vv$ such that $\Av \vv = \lambda \vv$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $\vv$ is called an eigenvector of $\Av$.
+
+Naturally, eigenvalues are defined <span class="text-accent">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $\Av \vv \neq \lambda \vv$ for any pair $(\lambda, \vv)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $\Av\vv_i = \lambda_i\vv_i$.
+
+## What are eigenvectors?
+One intuitive way to understand eigenvectors is to look at any matrix $\Av$ as a transformation being applied to a vector $\vv$. A transformation can rotate and/or scale a vector. There's a [very nice video](https://www.youtube.com/watch?v=PFDu9oVAE-g) about this by [Grant Sanderson](https://www.3blue1brown.com/about) where he explains this idea with beautiful visuals. In essence, eigenvectors of a matrix (transformation) are those vectors that are not rotated, but only scaled without changing the direction. The magnitude of that scale is what we call the eigenvalue.
+
+## Properties
+The key property of eigenvectors can be seen by looking at $\Av^k$ for some positive integer $k$. Let's say $\vv$ is an eigenvector of $\Av$ with eigenvalue $\lambda$. Then we have
+
+$$
+\Av^k\vv = \Av^{k-1}(\lambda \vv) = \lambda (\Av^{k-1}\vv) = \dots = \lambda^k\vv.
+$$
+
+Thus, if $\vv$ is an eigenvector of $\Av$ with eigenvalue $\lambda$ then $\vv$ is also an eigenvector of $\Av^k$ with eigenvalue $\lambda^k$. This also tells us another key fact about matrices:
+
+<Aside title="Invertibility" icon="seti:smarty">
+<Tabs>
+  <TabItem label="Claim">
+    If 0 is an eigenvalue of $\Av$, then $\Av^{-1}$ does not exist. In other words, $\Av$ is not invertible.
+  </TabItem>
+  <TabItem label="Proof">
+    An intuitive way to see this is to consider the eigenvector $\vv$ associated with eigenvalue $\lambda$. We have that $\Av^{-1}\vv = (1/\lambda) \vv$. So if $\lambda = 0$ then $\Av^{-1}$ is not defined.
+    
+    More rigorously, if 0 is an eigenvalue of $\Av$, it means that there exists a non-zero vector $\vv$ such that $\Av\vv = 0$. Hence, the null space of $\Av$ is non-trivial (contains something other than the zero vector), and so $\Av$ is a dimension reducing transformation. This also means that $\det \Av = 0$. For more, check out the [rank-nullity theorem](https://en.wikipedia.org/wiki/Rank%E2%80%93nullity_theorem).
+  </TabItem>
+</Tabs>
+</Aside>
+
+The $n$ independent eigenvectors of $\Av$ form a basis for $\mathbb{R}^n$, so any vector $\xv$ can be expressed as a linear combination of the eigenvectors $\vv_i$:
+$$
+\xv = \sum_{i=1}^{n} c_i\vv_i.
+$$
+
+## Similarity
+
+A matrix $\Bv$ is said to be <span class="text-accent">similar to $\Av$</span> if
+$\Bv = \Mv^{-1}\Av \Mv$ for some invertible matrix $\Mv$.
+
+<Aside title="Similarity" icon="seti:smarty">
+<Tabs>
+  <TabItem label="Claim">
+    If $\Bv$ is similar to $\Av$, then they have the same eigenvalues.
+  </TabItem>
+  <TabItem label="Proof">
+    Let $\yv$ be an eigenvector of $\Bv$ with eigenvalue $\lambda$. Then we have $\Bv\yv=\lambda \yv$. 
+    
+    Taking $\Bv=\Mv^{-1}\Av \Mv$ we see that
+    $$
+    \begin{align*}
+    \lambda(\Mv\yv) &= \Mv\lambda \yv \\
+    &= \Mv\Bv \yv \\
+    &= \Mv\Mv^{-1}\Av \Mv\yv \\
+    &= \Av(\Mv\yv).
+    \end{align*}.
+    $$
+
+    Hence, $\lambda$ is also an eigenvalue of $\Av$ with eigenvector $\Mv\yv$.
+  </TabItem>
+</Tabs>
+</Aside>
+
+This simple result is very useful in computation. For example, a software like `MATLAB` will use a sequence of matrices $\Mv_1, \Mv_2, \ldots, \Mv_k$ and reduce $\Av$ to $\Bv_k$ where $\Bv_0 = \Av$ and $\Bv_i = \Mv_i^{-1}\Bv_{i-1}\Mv_i$ for $i>0$. This sequence can be chosen carefully so as to <span class="text-accent">make $\Bv_k$ a diagonal matrix</span>, hence, the eigenvalues show up on the diagonal. This helps us calculate the eigenvalues of a matrix much faster.
+
+For a matrix $\Av$, the <span class="text-accent">eigenspace</span> associated with a set of eigenvalues is defined to be the subspace spanned by the eigenvectors associated with those eigenvalues.
+
+Some obvious but important facts are as follows:
+
+- The sum of the eigenvalues of $\Av$ is ${\rm Trace}(\Av)$, which is the sum of the elements on the diagonal.
+- The product of the eigenvalues of $\Av$ is $\det \Av$.
+- In general, eigenvalues of $\Av + \Bv$ or $\Av\Bv$ cannot be inferred directly from eigenvalues of $\Av$ and $\Bv$.
+
+The first two facts can be proved easily using the characteristic polynomial
+$$
+P(\lambda) = \det(\Av - \lambda \Iv) = 0.
+$$
+
+We know that the sum of the roots of such a polynomial is determined by the coefficient of $\lambda^{n-1}$, $n$ being the degree of the polynomial. Also, the constant term in the polynomial determines the product of the roots.
+
+## Symmetric matrices
+If $\Sv$ is a symmetric matrix, then
+- Eigenvalues of $\Sv$ are real if $\Sv$ is real.
+- Eigenvectors of $\Sv$ are orthogonal.
+- We may have a full set of eigenvectors even if some eigenvalues are repeated. For example, consider the identity matrix. It has only one eigenvalue, $\lambda=1$, but every vector is an eigenvector.
+
+Let $\Sv$ be an $n\times n$ symmetric matrix with eigenvalues $\lambda_1, \ldots, \lambda_n$. If we consider the matrix
+
+$$
+\Lambdav = \begin{pmatrix}
+    \lambda_1 & \dots & 0 \\
+    \vdots & \ddots & \vdots \\
+    0 & \dots & \lambda_n
+    \end{pmatrix},
+$$
+
+we see that $\Sv$ and $\Lambdav$ are [similar matrices](#similarity). This means that there must be an $\Mv$ such that $\Sv = \Mv^{-1}\Lambda \Mv$. It is not hard to see that $\Mv$ is the eigenvector matrix (columns of $\Mv$ are eigenvectors of $\Sv$), and we have the [spectral decomposition](../factorization/#spectral-decomposition) $\Sv = \Mv\Lambda \Mv^{-1} = \Qv\Lambda \Qv^{\rm T}$.
+
+
+## General matrices
+
+For a general square matrix $\Av$ (may not be symmetric), we can factorize it as
+$$
+\Av = \Xv\Lambdav \Xv^{-1},
+$$
+
+where $\Xv$ is the eigenvector matrix and $\Lambdav$ is the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of exponents of $\Av$ are the same as that of $\Av$, with corresponding exponentiated eigenvalues. It is only when $\Av$ is symmetric that we can use $\Xv^{-1} = \Xv^{\rm T}$, since the eigenvectors are orthogonal in that case.

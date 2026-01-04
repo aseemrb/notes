@@ -1,0 +1,41 @@
+---
+title: Positive Definite Matrices
+sidebar:
+  order: 4
+---
+
+## Properties
+A symmetric matrix $\Sv$ is positive definite (PD), if it has the following equivalent properties. Positive definiteness is a notion of thinking about symmetric matrices as positive or negative in the same sense as one would think about a real number.
+
+- All eigenvalues of $\Sv$ are positive, i.e., $\lambda_i(\Sv) > 0$.
+- For any vector $\xv \neq 0$, the energy contained in $\xv$ for $\Sv$ is positive, i.e.,
+$$
+\xv^{\rm T}\Sv\xv > 0.
+$$
+
+- All leading determinants of $\Sv$ are $>0$. Leading determinants are determinants of all square sub-matrices of $\Sv$ with the top-left corner fixed.
+- All [pivots](https://en.wikipedia.org/wiki/Pivot_element) in the [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination) are $>0$.
+- $\Sv$ can be factored as $\Sv = \Av^{\rm T}\Av$, where $\Av$ has independent columns.
+
+## Energy in a vector $\xv$
+For a matrix $\Sv$, the energy in a vector $\xv$ is defined to be $\xv^{\rm T}\Sv\xv$. For example, consider
+
+$$
+\begin{align*}
+\xv=\begin{pmatrix}a\\b\end{pmatrix}, & & \Sv=\begin{pmatrix}
+    3 & 4\\
+    4 & 6
+    \end{pmatrix}
+    \end{align*}.
+$$
+
+The corresponding energy is $f(a,b)=\xv^{\rm T}\Sv\xv=3a^2 + 6b^2 + 8ab$. Below is the plot for $f(a,b)$ showing that energy $>0$ for all $a$ and $b$. Thus, the matrix $\Sv$ in this example is positive definite.
+
+![Energy in a vector for S.](/assets/images/linear-algebra/energy.png "Energy in a vector for S.")
+
+On a side note, this can be seen like a loss function that one may try to minimize using something simple like [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent).
+
+If two matrices $\Av$ and $\Bv$ are PD, then so are the matrices $\Av+\Bv$ and $\Av^{-1}$. This can be easily seen by the positive energy property and the fact that if $\lambda$ is an eigenvalue of $\Av$ then $1/\lambda$ is an eigenvalue of $\Av^{-1}$.
+
+## Positive semi-definite matrices
+Positive semi-definiteness (PSD) is analogous to being non-negative. A matrix is PSD if it satisfies the above [properties](#properties) with a minor change: replace $>0$ with $\ge 0$ in the first four properties, and in the last property, we may have dependent columns in the factor $\Av$.

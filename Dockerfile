@@ -1,13 +1,12 @@
-FROM ruby:2.6
+FROM node:lts AS runtime
+WORKDIR /app
 
-ENV LC_ALL C.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
+COPY . .
 
-WORKDIR /usr/src/app
+RUN npm install
+RUN npm run build
 
-COPY Gemfile just-the-docs.gemspec ./
-RUN gem install bundler && bundle install
-
-EXPOSE 4000
-
+ENV HOST=0.0.0.0
+ENV PORT=4321
+EXPOSE 4321
+CMD ["npm", "run", "preview", "--", "--host"]

@@ -1,0 +1,83 @@
+---
+title: Matrix Factorization
+sidebar:
+  order: 1
+---
+
+
+There are four very popular factorizations for matrices. In the literature, the word <span class="text-accent">decomposition</span> is often used instead of <span class="text-accent">factorization</span>. Note that we denote special types of matrices with special characters. This convention is as follows:
+
+- $\Sv$ denotes a symmetric matrix.
+- $\Qv$ denotes an orthogonal or orthonormal matrix.
+- $\Lambdav$ denotes the diagonal matrix with [eigenvalues](./eigenvectors) of the matrix being factored.
+- $\Rv$ denotes a matrix that is closely related to the rank of the matrix being factored.
+
+## LU decomposition
+This is the lower-upper (LU) decomposition applicable to square matrices $A$, and the factorization can be viewed as the matrix form of [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination). We write
+
+$$
+\Av = \Lv\Uv,
+$$
+
+where $\Lv$ and $\Uv$ are lower and upper triangular matrices.
+
+If $\Av$ is symmetric and [positive definite](../psd), then we can find $\Uv=\Lv^{\rm T}$ and have
+
+$$
+\Av=\Lv\Lv^{\rm T}.
+$$
+
+This decomposition is used in algorithms to
+- solve a square system of linear equations,
+- compute the inverse of a matrix, and
+- compute the determinant of a matrix.
+
+## QR decomposition
+Here we factor an $m\times n$ matrix $A$ into an $m\times m$ [orthogonal matrix](./orthogonality) $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the [Gram-Schmidt process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process). If $A$ is square then $Q$ is unique. We write
+
+$$
+\Av = \Qv\Rv,
+$$
+
+where $\Qv$ is orthogonal and $\Rv$ is upper-triangular.
+
+The QR decomposition makes it easy to solve a system of equations $\Av\xv = \bv$ without inverting the matrix $\Av$. Since $\Qv$ is orthogonal, we have $\Qv^{\rm T} \Qv = \Iv$, so $\Av\xv=\bv$ is equivalent to $\Rv\xv = \Qv^{\rm T} \bv$, which is easier to solve since $\Rv$ is triangular.
+
+## Spectral decomposition
+Also called eigendecomposition, this is a factorization of a square matrix into eigenvalues and eigenvectors, $\Av=\Vv\Dv\Vv^{-1}$, where $\Dv$ is a diagonal matrix with the eigenvalues of $\Av$ and the columns of $\Vv$ are the corresponding eigenvectors.
+
+Although this factorization is possible for any square matrix with linearly independent eigenvectors, it is usually used for symmetric matrices $\Sv$. Since the <em class="text-accent">eigenvectors can be made orthonormal for a symmetric matrix</em>, the factorization is written as:
+$$
+\Sv=\Qv\Lambdav \Qv^{\rm T},
+$$
+where $\Qv$ is an orthogonal matrix and $\Lambdav$ is a diagonal matrix with the eigenvalues of $\Sv$ on the diagonal.
+
+So, $\Qv = [\qv_1\ \qv_2\ \cdots\ \qv_n]$ with $\qv_i$ being the column normalized eigenvectors of $\Sv$, and
+
+$$
+\Lambdav = \begin{pmatrix}
+    \lambda_1 & \dots & 0 \\
+    \vdots & \ddots & \vdots \\
+    0 & \dots & \lambda_n
+    \end{pmatrix},
+$$
+with $\lambda_i$ being the eigenvalues of $\Sv$.
+
+Now consider $\Sv = (\Qv\Lambdav)\Qv^{\rm T}$, and view it as
+$$
+\Sv = \sum_i ({\rm column\ } i {\rm\ of\ } \Qv\Lambdav) \times ({\rm row\ } i {\rm\ of\ } \Qv^{\rm T}),
+$$
+
+which is a sum of a bunch of rank-$1$ matrices. The $i^{\rm th}$ column of $\Qv\Lambdav$ is $\lambda_i\qv_i$ and the $i^{\rm th}$ row of $\Qv^{\rm T}$ is $\qv_i^{\rm T}.$ Hence, we can rewrite the above sum as
+$$
+\Sv = \sum_i \lambda_i\qv_i\qv_i^{\rm T}.
+$$
+
+From this expression, it is easy to see that $\Sv \qv_i = \lambda_i\qv_i$, and thus $(\lambda_i, \qv_i)$ are the eigenvalue - eigenvector pairs, since the vectors $\qv_i$ are orthonormal.
+
+## Singular value decomposition
+We have a separate [dedicated section about SVD](../svd), but in essence we can factorize any matrix as
+$$
+\Av = \Uv\Sigmav \Vv^{\rm T},
+$$
+where $\Uv$ and $\Vv$ are orthogonal matrices and $\Sigmav$ is a non-negative diagonal matrix. The values on the diagonal of $\Sigmav$ are called <em class="text-accent">singular values</em>. Like the spectral decomposition above, the idea of an SVD is to find basis directions along which matrix multiplication is equivalent to scalar multiplication, but this is in general for any matrix instead of a square matrix.

@@ -1,0 +1,76 @@
+---
+title: Orthogonal Matrices
+sidebar:
+  order: 2
+---
+
+Let a matrix $\Qv$ have orthonormal columns. The most important property of such a matrix is that
+$$
+\Qv^{\rm T}\Qv = \Iv.
+$$
+
+But what about $\Qv\Qv^{\rm T}$? A little thought reveals that $\Qv\Qv^{\rm T} = \Iv$ only if $\Qv$ is a square matrix, but not in general. In the square case, $\Qv$ is called orthogonal (or orthonormal). It's confusing to say orthogonal when we actually mean orthonormal, but most results rely on the fact that a bunch of orthogonal vectors $\vv_i$ can be made orthonormal by scaling them to have $\lVert \vv_i\rVert = 1$. Hence, in a lot of places we see the word orthogonal being used when the authors actually mean orthonormal.
+
+
+## Orthogonality
+
+<Aside title="Orthogonal Transformations" icon="seti:smarty">
+<Tabs>
+  <TabItem label="Claim">
+    For any vector $\xv$, $\lVert \Qv\xv\rVert = \lVert \xv\rVert$, i.e., $\Qv$ does not change the length of $\xv$.
+  </TabItem>
+  <TabItem label="Proof">
+    See that $\lVert \Qv\xv\rVert = (\Qv\xv)^{\rm T}(\Qv\xv) = \xv^{\rm T}\Qv^{\rm T}\Qv\xv = \xv^{\rm T}\xv = \lVert \xv\rVert$, since $\Qv^{\rm T}\Qv = \Iv$.
+  </TabItem>
+</Tabs>
+</Aside>
+
+A simple example of a $2\times 2$ orthogonal matrix is the rotation matrix
+$$
+\Qv = \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+    \end{pmatrix},
+$$
+or the reflection matrix
+$$
+\Qv = \begin{pmatrix}
+    \cos\theta & \sin\theta \\
+    \sin\theta & -\cos\theta
+    \end{pmatrix}.
+$$
+
+The rotation matrix simply rotates a vector by $\theta$ in the anti-clockwise direction, while the reflection matrix reflects a vector about a mirror placed on a line of slope $\tan(\theta/2)$ passing through the origin.
+These reflections are called [Householder reflections](https://en.wikipedia.org/wiki/Householder_transformation).
+
+## Householder reflections
+Start with a unit vector $\uv$, so $\uv^{\rm T}\uv = 1$. The Householder reflections are defined to be a family of symmetric orthogonal matrices as follows:
+
+$$
+\Hv = \Iv - 2\uv\uv^{\rm T}.
+$$
+
+It is easy to see that $\Hv$ is orthogonal by checking that $\Hv^{\rm T}\Hv = \Iv$.
+
+## Hadamard matrices
+Define the $2$-dimensional Hadamard matrix by
+
+$$
+\Hv_2 =
+    \begin{pmatrix}
+    1 & 1 \\
+    1 & -1
+    \end{pmatrix}.
+$$
+
+Then define $\Hv_{2^{n+1}} = \begin{pmatrix}
+    \Hv_{2^n} & \Hv_{2^n} \\
+    \Hv_{2^n} & -\Hv_{2^n}
+    \end{pmatrix}$ for all $n > 1$.
+
+This gives a construction of these matrices for any power of 2. But in general, it is [conjectured](https://en.wikipedia.org/wiki/Hadamard_matrix#Hadamard_conjecture) that Hadamard matrices for any multiple of 4 exist. These matrices are known to be orthogonal.
+
+
+## Utility
+Orthogonal matrices are good because they don't change the magnitude of vectors, so a transformation by an orthogonal matrix will not overflow and keep things nice. Therefore, these matrices are important in computational linear algebra problems. We also know that the eigenvectors of a symmetric matrix are a natural source of orthogonal matrices, and hence a lot of things revolve around eigenvectors.
+
