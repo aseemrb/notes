@@ -4,10 +4,10 @@ sidebar:
   order: 3
 ---
 
-Recall that a probability space is a triplet $(\Omega, \cF, \Pr)$. We already talked about the sample space $\Omega$ and the $\sigma$-field $\cF$ in great detail. Here we talk about the probability measure $\Pr$.
+Recall that a probability space is a triplet $(\Omega, \cF, \Pr)$. We already talked about the sample space $\Omega$ and the $\sigma$-Field $\cF$ in great detail. Here we talk about the probability measure $\Pr$.
 
 <Aside title="Probability measure" icon="open-book">
-A set function $\Pr$ on a $\sigma$-field $\cF$ is a probability measure if it follows these <span class="text-accent">probability axioms</span>:
+A set function $\Pr$ on a $\sigma$-Field $\cF$ is a probability measure if it follows these <span class="text-accent">probability axioms</span>:
 1. $0\le \Pr(A)\le 1$ for all $A\in\cF$,
 2. $\Pr(\emptyset)=0$ and $\Pr(\Omega)=1$, and
 3. For a sequence of events $\{A_i\}_{i\ge 1}$ that are disjoint sets in $\cF$,
@@ -17,9 +17,9 @@ $$
 </Aside>
 
 ## Discrete probability space
-As an example, let $\Omega$ be a set that is at most countable and $\cF$ be a $\sigma$-field on it. Let $p$ be a function on $\Omega$ such that $p(\omega)\ge 0$ for all $\omega\in\Omega$ and $\sum_{\omega\in\Omega}p(\omega)=1$. Then we can define a probability measure $\Pr(A)=\sum{\omega\in A}p(\omega)$ for all $A\in \cF$.
+As an example, let $\Omega$ be a set that is at most countable and $\cF$ be a $\sigma$-Field on it. Let $p$ be a function on $\Omega$ such that $p(\omega)\ge 0$ for all $\omega\in\Omega$ and $\sum_{\omega\in\Omega}p(\omega)=1$. Then we can define a probability measure $\Pr(A)=\sum{\omega\in A}p(\omega)$ for all $A\in \cF$.
 
-In this case, $(\Omega, \cF, \Pr)$ is called a <span class="text-accent">discrete probability space</span> since $\Omega$ is at most countable. Note here that the function $p$ itself is not the measure, it is not a set function. The measure function is $\Pr$, which gives us a way to <span class="text-accent">measure the content in a measurable set</span>. What do we mean by a measurable set? It simply means an event; recall that any set in the $\sigma$-field is an event.
+In this case, $(\Omega, \cF, \Pr)$ is called a <span class="text-accent">discrete probability space</span> since $\Omega$ is at most countable. Note here that the function $p$ itself is not the measure, it is not a set function. The measure function is $\Pr$, which gives us a way to <span class="text-accent">measure the content in a measurable set</span>. What do we mean by a measurable set? It simply means an event; recall that any set in the $\sigma$-Field is an event.
 
 In simpler words, a probability measure assigns a number to all events, and in that sense, lets us measure those events.
 
