@@ -32,18 +32,20 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Linear Algebra',
+					collapsed: true,
 					items: [
 						{ slug: 'linear-algebra', label: 'Introduction' },
-						{ label: 'Fundamentals', autogenerate: { directory: 'linear-algebra/fundamentals' } },
-						{ label: 'Spectral Theory', autogenerate: { directory: 'linear-algebra/spectral-theory' } },
+						{ label: 'Fundamentals', collapsed: true, autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } },
+						{ label: 'Spectral Theory', collapsed: true, autogenerate: { directory: 'linear-algebra/spectral-theory', collapsed: true } },
 					],
 				},
 				{
 					label: 'Probability Theory',
+					collapsed: true,
 					items: [
-						{ slug: 'probability-theory/introduction', label: 'Introduction' },
-						{ label: 'Probability Spaces', autogenerate: { directory: 'probability-theory/probability-spaces' } },
-						{ label: 'Events', autogenerate: { directory: 'probability-theory/events' } },
+						{ slug: 'probability-theory', label: 'Introduction' },
+						{ label: 'Probability Spaces', collapsed: true, autogenerate: { directory: 'probability-theory/probability-spaces', collapsed: true } },
+						{ label: 'Events', collapsed: true, autogenerate: { directory: 'probability-theory/events', collapsed: true } },
 					],
 				},
 			],
@@ -56,6 +58,5 @@ export default defineConfig({
 				},
 			],
 		}),
-
 	],
 });
