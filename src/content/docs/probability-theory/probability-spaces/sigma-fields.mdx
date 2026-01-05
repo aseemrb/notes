@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-<Aside title="Probability space" icon="open-book">
+<Aside type="tip" title="Definition: Probability space" icon="open-book">
 A probability space is a triplet $(\Omega, \cF, \Pr)$, where $\Omega$ is called the **sample space**, $\cF$ is called a **$\sigma$-Field** and $\Pr$ is called the **probability measure**.
 </Aside>
 
@@ -14,7 +14,7 @@ This is the set of all possible outcomes of a random experiment. For example, co
 
 ## Defining a σ-Field
 
-<Aside title="σ-Field" icon="open-book">
+<Aside type="tip" title="Definition: σ-Field" icon="open-book">
 A set of subsets of $\Omega$, denoted by $\cF$, is called a <span class="text-accent">$\sigma$-Field on $\Omega$</span> if it satisfies the following properties:
 - <span class="text-accent">$\cF$ contains the sample space.</span>
 $\Omega \in \cF$.
@@ -27,7 +27,7 @@ $A_1, A_2, \ldots \in \cF \implies \cup_{i=1}^{\infty}A_i\in \cF$.
 ## Examples
 The intuitive way to think about a $\sigma$-Field is to view it as a collection (set) of events. <span class="text-accent">Every member of $\cF$ is an event</span>. A few examples:
 
-<Aside title="Examples of σ-fields" icon="open-book">
+<Aside type="tip" title="Examples: σ-fields" icon="open-book">
 <Tabs>
 <TabItem label="Example 1">
 The trivial $\sigma$-Field given by $\cF = \{\emptyset, \Omega\}$, where $\emptyset$ denotes the empty set.
@@ -59,6 +59,6 @@ $$
 
 At first glance, one might believe that $\cB_0$ is a $\sigma$-Field, but it is not. It is actually a <span class="text-accent">field</span> (more on that later), but not a $\sigma$-Field.
 
-<Aside title="Exercise 1" type="caution" icon="pencil">
+<Aside type="caution" title="Exercise 1" icon="pencil">
 Show that $\cB_0$ is not a $\sigma$-Field by identifying which property (among the three listed in the definition) breaks.
 </Aside>

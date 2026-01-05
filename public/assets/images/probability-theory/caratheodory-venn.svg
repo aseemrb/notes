@@ -1,0 +1,82 @@
+<svg width="600" height="300" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    :root {
+      --stroke-color: #333;
+      --divider-color: #bdbdbd;
+      --text-color: #e53935;
+      --hatch-teal: #008080;
+      --hatch-purple: #800080;
+      --ellipse-border: #fbc02d;
+      --bg-halo: rgba(255, 255, 255, 0.8);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --stroke-color: #eee;
+        --divider-color: #555;
+        --text-color: #ffa252;
+        --hatch-teal: #4db6ac;
+        --hatch-purple: #ba68c8;
+        --ellipse-border: #ffd54f;
+        --bg-halo: rgba(30, 30, 30, 0.8);
+      }
+    }
+    .bounding-box { stroke: var(--stroke-color); fill: none; stroke-width: 2; }
+    .divider { stroke: var(--divider-color); stroke-width: 6; stroke-linecap: round; fill: none; }
+    .label-group { fill: var(--text-color); font-family: Inter, system-ui, sans-serif; font-weight: 600; }
+    .arrow-path { stroke: var(--text-color); stroke-width: 1.5; fill: none; }
+    .ellipse-border { stroke: var(--ellipse-border); stroke-width: 3; fill: none; }
+    .hatch-teal-line { stroke: var(--hatch-teal); stroke-width: 1.5; }
+    .hatch-purple-line { stroke: var(--hatch-purple); stroke-width: 1.5; }
+    .arrowhead { fill: var(--text-color); }
+    .halo { stroke: var(--bg-halo); stroke-width: 4px; stroke-linejoin: round; paint-order: stroke; }
+  </style>
+
+  <defs>
+    <pattern id="hatch-teal" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" class="hatch-teal-line" />
+    </pattern>
+    <pattern id="hatch-purple" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" class="hatch-purple-line" />
+    </pattern>
+    
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="arrowhead" />
+    </marker>
+  </defs>
+
+  <!-- Universal Set / Bounding Box -->
+  <rect x="50" y="40" width="500" height="300" class="bounding-box" />
+
+  <!-- Partition Curve (A and Ac) -->
+  <path d="M 230 40 Q 300 190 230 340" class="divider" />
+
+  <!-- Region Clip Paths -->
+  <clipPath id="region-A">
+    <path d="M 50 40 H 230 Q 300 190 230 340 H 50 Z" />
+  </clipPath>
+  <clipPath id="region-Ac">
+    <path d="M 550 40 H 230 Q 300 190 230 340 H 550 Z" />
+  </clipPath>
+
+  <!-- Shaded Intersections of E -->
+  <ellipse cx="300" cy="190" rx="180" ry="85" clip-path="url(#region-A)" fill="url(#hatch-teal)" />
+  <ellipse cx="300" cy="190" rx="180" ry="85" clip-path="url(#region-Ac)" fill="url(#hatch-purple)" />
+
+  <!-- Ellipse E Border -->
+  <ellipse cx="300" cy="190" rx="180" ry="85" class="ellipse-border" />
+
+  <!-- Labels -->
+  <g class="label-group">
+    <!-- A and Ac (moved inside box, top corners) -->
+    <text x="75" y="75" font-size="24" font-style="italic">A</text>
+    <text x="525" y="75" font-size="24" text-anchor="end">A<tspan baseline-shift="super" font-size="14">c</tspan></text>
+
+    <!-- Intersections (moved inside ellipse) -->
+    <text x="200" y="200" font-size="24" text-anchor="middle" class="halo">E ∩ A</text>
+    <text x="400" y="200" font-size="24" text-anchor="middle" class="halo">E ∩ A<tspan baseline-shift="super" font-size="12">c</tspan></text>
+
+    <!-- arbitrary E (moved slightly to clear intersection label) -->
+    <text x="450" y="300" font-size="24" text-anchor="end">E</text>
+    <path d="M 430 290 L 400 270" class="arrow-path" marker-end="url(#arrow-red)" />
+  </g>
+</svg>

@@ -3,3 +3,65 @@ title: Singular Value Decomposition
 sidebar:
   order: 5
 ---
+
+The Singular Value Decomposition (SVD) is one of the most powerful and widely used tools in linear algebra. Unlike [eigenvalue decomposition](../eigenvectors), which is only defined for square matrices, the SVD exists for **any** $m \times n$ matrix $\Av$.
+
+<Aside type="tip" title="Definition: SVD" icon="open-book">
+For any real $m \times n$ matrix $\Av$ with rank $r$, there exists a factorization of the form:
+$$
+\Av = \Uv \Sigmav \Vv^{\rm T},
+$$
+where:
+- $\Uv$ is an $m \times m$ [orthogonal matrix](../orthogonality) whose columns are called **left singular vectors**.
+- $\Vv$ is an $n \times n$ [orthogonal matrix](../orthogonality) whose columns are called **right singular vectors**.
+- $\Sigmav$ is an $m \times n$ diagonal matrix with non-negative real entries $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_{\min(m,n)} \ge 0$ on the diagonal, called **singular values**.
+</Aside>
+
+## Construction
+
+The SVD is closely related to the eigenvalues and eigenvectors of the symmetric matrices $\Av\Av^{\rm T}$ and $\Av^{\rm T}\Av$.
+
+- The columns of $\Uv$ are the orthonormal eigenvectors of $\Av\Av^{\rm T}$.
+- The columns of $\Vv$ are the orthonormal eigenvectors of $\Av^{\rm T}\Av$.
+- The non-zero singular values $\sigma_i$ are the square roots of the non-zero eigenvalues of both $\Av\Av^{\rm T}$ and $\Av^{\rm T}\Av$.
+
+$$
+\sigma_i = \sqrt{\lambda_i(\Av^{\rm T}\Av)} = \sqrt{\lambda_i(\Av\Av^{\rm T})}
+$$
+
+## Geometric Interpretation
+
+The SVD can be thought of as decomposing any linear transformation into three simple steps:
+1. **Rotation** in the domain ($\Vv^{\rm T}$): Rotate the input vector to align with the principal axes.
+2. **Scaling** ($\Sigmav$): Stretch or compress the vector along these axes by the singular values.
+3. **Rotation** in the codomain ($\Uv$): Rotate the resulting vector to the final orientation.
+
+This tells us that every matrix maps a unit sphere to a (possibly degenerate) hyper-ellipse. The singular values $\sigma_i$ are the lengths of the semi-axes of this ellipse.
+
+## Low-rank Approximation
+
+One of the most important applications of SVD is the <span class="text-accent">Eckart-Young-Mirsky Theorem</span>. It states that the best rank-$k$ approximation of a matrix $\Av$ (in terms of Frobenius or Spectral norm) is obtained by keeping only the top $k$ singular values and their corresponding vectors.
+
+If $\Av = \sum_{i=1}^r \sigma_i \uv_i \vv_i^{\rm T}$, then the best rank-$k$ approximation $\Av_k$ ($k < r$) is:
+
+$$
+\Av_k = \sum_{i=1}^k \sigma_i \uv_i \vv_i^{\rm T}
+$$
+
+This is the foundation for techniques like **Principal Component Analysis (PCA)** and **Image Compression**.
+
+## Reduced SVD
+
+In many cases, specifically when $m \gg n$ or the matrix is not full rank, we use the **Reduced SVD** (or thin SVD). If $\Av$ is $m \times n$ with $m > n$, the reduced SVD only keeps the first $n$ columns of $\Uv$ and the $n \times n$ upper square of $\Sigmav$:
+$$
+\Av = \Uv_n \Sigmav_n \Vv^{\rm T}
+$$
+
+This is more computationally efficient while preserving all the information needed to reconstruct $\Av$.
+
+## Properties and Applications
+
+- **Rank**: The number of non-zero singular values is equal to the rank of the matrix.
+- **Invertibility**: A square matrix is invertible if and only if all its singular values are non-zero.
+- **Condition Number**: The ratio $\sigma_{\max} / \sigma_{\min}$ is the condition number of the matrix, which measures how sensitive a system of linear equations is to errors.
+- **Pseudo-inverse**: The Moore-Penrose pseudo-inverse $\Av^\dagger$ is easily computed as $\Vv \Sigmav^\dagger \Uv^{\rm T}$, where $\Sigmav^\dagger$ is obtained by inverting the non-zero singular values.

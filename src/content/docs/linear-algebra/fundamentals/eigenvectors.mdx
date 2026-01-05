@@ -4,12 +4,13 @@ sidebar:
   order: 3
 ---
 
-## Definition
+<Aside type="tip" title="Definition: Eigenvalues and Eigenvectors" icon="open-book">
 For a matrix $\Av$, if there exists a vector $\vv$ such that $\Av \vv = \lambda \vv$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $\vv$ is called an eigenvector of $\Av$.
+</Aside>
 
 Naturally, eigenvalues are defined <span class="text-accent">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $\Av \vv \neq \lambda \vv$ for any pair $(\lambda, \vv)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $\Av\vv_i = \lambda_i\vv_i$.
 
-## What are eigenvectors?
+## Geometric interpretation
 One intuitive way to understand eigenvectors is to look at any matrix $\Av$ as a transformation being applied to a vector $\vv$. A transformation can rotate and/or scale a vector. There's a [very nice video](https://www.youtube.com/watch?v=PFDu9oVAE-g) about this by [Grant Sanderson](https://www.3blue1brown.com/about) where he explains this idea with beautiful visuals. In essence, eigenvectors of a matrix (transformation) are those vectors that are not rotated, but only scaled without changing the direction. The magnitude of that scale is what we call the eigenvalue.
 
 ## Properties
@@ -21,9 +22,9 @@ $$
 
 Thus, if $\vv$ is an eigenvector of $\Av$ with eigenvalue $\lambda$ then $\vv$ is also an eigenvector of $\Av^k$ with eigenvalue $\lambda^k$. This also tells us another key fact about matrices:
 
-<Aside title="Invertibility" icon="seti:smarty">
+<Aside title="Claim: Invertibility" icon="seti:smarty">
 <Tabs>
-  <TabItem label="Claim">
+  <TabItem label="Statement">
     If 0 is an eigenvalue of $\Av$, then $\Av^{-1}$ does not exist. In other words, $\Av$ is not invertible.
   </TabItem>
   <TabItem label="Proof">
@@ -44,9 +45,9 @@ $$
 A matrix $\Bv$ is said to be <span class="text-accent">similar to $\Av$</span> if
 $\Bv = \Mv^{-1}\Av \Mv$ for some invertible matrix $\Mv$.
 
-<Aside title="Similarity" icon="seti:smarty">
+<Aside title="Claim: Similarity" icon="seti:smarty">
 <Tabs>
-  <TabItem label="Claim">
+  <TabItem label="Statement">
     If $\Bv$ is similar to $\Av$, then they have the same eigenvalues.
   </TabItem>
   <TabItem label="Proof">

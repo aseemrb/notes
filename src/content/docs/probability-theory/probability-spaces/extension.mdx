@@ -10,7 +10,7 @@ So what to do? The idea is to first define sort of a <span class="text-accent">p
 
 Note that I say <span class="text-accent">proxy</span> here because it is defined on an arbitrary set that is not a $\sigma$-Field. By definition, probability measures can only be defined on $\sigma$-Fields. So how do we find such a proxy function that is defined on a simpler set, but behaves like a probability measure on the associated $\sigma$-Fields? It's time to introduce fields!
 
-<Aside title="Field" icon="open-book">
+<Aside type="tip" title="Definition: Field" icon="open-book">
 A class $\cF_0$ of subsets of a sample space $\Omega$ is called a field if
 1. $\Omega\in\cF_0$,
 2. $A\in\cF_0 \implies A^c\in\cF_0$, and
@@ -19,23 +19,116 @@ A class $\cF_0$ of subsets of a sample space $\Omega$ is called a field if
 
 Note that a field is almost like a $\sigma$-Field. The difference is in the third property. For a field, we only need it to be closed under finite unions, while a $\sigma$-Field is required to be closed under countable unions (which could be infinite). Relaxing this property from requiring closure under countable unions to closure only under finite unions simplifies the description of a field dramatically, compared to describing a $\sigma$-Field. So now we define the <span class="text-accent">proxy measure</span> on a field $\cF_0$, and show that it can be extended to a probability measure on $\sigma(\cF_0)$ (see [definition](../gen-sigma-fields)). This will allow us to talk about probabilities of events that live in a space that is easier to describe (a field) rather than in a space that is hard to describe (a $\sigma$-Field).
 
-## Extension exists
-The following theorem says that there exists such an extension that we're looking for, and is unique! Note that the function $\Pr$ in the theorem statement below is not a probability measure since it's not defined on a $\sigma$-Field. However, it shows that it can be extended to a unique probability measure $Q$ defined on $\sigma(\cF_0)$.
+## Existence of Extension
+The following theorem says that there exists such an extension that we're looking for, and is unique! Note that the function $\Pr$ in the theorem statement below is not a probability measure since it's not defined on a $\sigma$-Field. However, it shows that it can be extended to a unique probability measure $\Qv$ defined on $\sigma(\cF_0)$.
 
-<Aside title="Theorem 1: Extension of measure" icon="open-book">
+<Aside title="Theorem: Extension of Measure" icon="seti:smarty">
 <Tabs>
 <TabItem label="Statement">
-Let $\cF_0$ be a field on a sample space $\Omega$ and $\Pr$ be a set of functions defined on $\cF_0$ such that it satisfies the [probability axioms](../measures) on $\cF_0$, i.e.,
+Let $\cF_0$ be a field on a sample space $\Omega$ and $\Pr$ be a **set function** defined on $\cF_0$ such that it satisfies the [probability axioms](../measures) on $\cF_0$, i.e.,
 1. $0\le \Pr(A)\le 1$ for all $A\in\cF_0$,
 2. $\Pr(\emptyset)=0$ and $\Pr(\Omega)=1$, and
 3. For a sequence of events $\{A_i\}_{i\ge 1}$ that are disjoint sets in $\cF_0$,
 $$
 \cup_i A_i\in \cF_0 \implies \Pr(\cup_i A_i) = \sum_i \Pr(A_i);
 $$
-then there exists a unique probability measure $Q$ on $\cF=\sigma(\cF_0)$ such that $Q(A)=P(A)$ for all $A\in\cF_0$.
+then there exists a probability measure $\Qv$ on $\cF=\sigma(\cF_0)$ such that $\Qv(A)=\Pr(A)$ for all $A\in\cF_0$.
 </TabItem>
 <TabItem label="Proof">
-We begin by defining a quantity called the <span class="text-accent">outer measure</span>.
+<Steps>
+1. We begin by defining a quantity called the **outer measure**:
+
+    $\Pr^*$ on all subsets of $\Omega$. For any $A \subseteq \Omega$, let
+    $$
+    \Pr^*(A) := \inf \left\{ \sum_{n=1}^\infty \Pr(A_n) : A_n \in \cF_0, A \subseteq \bigcup_{n=1}^\infty A_n \right\}.
+    $$
+    That is to say, $\{A_n\}_{n\ge 1}$ is a sequence of sets in $\cF_0$ that cover $A$.
+
+2. Next, define a set $A \subseteq \Omega$ to be $\Pr^*$-measurable if for every set $E \subseteq \Omega$,
+    $$
+    \Pr^*(E) = \Pr^*(E \cap A) + \Pr^*(E \cap A^c).
+    $$
+    This is called the **Carathéodory's criterion** and is a common tool in real analysis to check whether a set is Lebesgue measurable. Below is a venn diagram that shows the Carathéodory's criterion. The rectangle represents the universal set, with the left part (partitioned with the grey curve) representing the set $A$. The yellow ellipse represents the set $E$, and the shaded regions represent the intersections $E \cap A$ and $E \cap A^c$.
+    ![Carathéodory's criterion Venn diagram](/assets/images/probability-theory/caratheodory-venn.svg)
+    
+    We try to cover (and thus estimate) the sets $E \cap A$ and $E \cap A^c$ by a sequence of sets. If these add up to parts that cover $E$, then $A$ is $\Pr^*$-measurable. Think about this while looking at the definition of the outer measure $\Pr^*$. The crucial observation is that if $\Pr^*(E \cap A) + \Pr^*(E \cap A^c) = \Pr^*(E)$, then we can estimate $A$ really well even if we cannot estimate $E$.
+
+3. Now let $\cM$ be the collection of all $\Pr^*$-measurable sets. It is a standard result in measure theory that $\cM$ is a $\sigma$-field and that $\Pr^*$ restricted to $\cM$ is a countably additive measure. Thus, $\Pr^*$ is a probability measure on the $\sigma$-field $\cM$. What we need now is a relationship between $\sigma(\cF_0)$ and $\cM$. More precisely, we need to show that $\cF_0 \subseteq \cM$. Since $\cM$ is a $\sigma$-field and contains $\cF_0$, it must also contain the $\sigma$-field generated by $\cF_0$, i.e., $\sigma(\cF_0) \subseteq \cM$. Thus, $\Qv = \Pr^*|_{\sigma(\cF_0)}$ will be our required probability measure.
+
+4. Relationship between $\cF_0$ and $\cM$.
+    <Aside title="Proposition" icon="seti:smarty">
+    <Tabs>
+    <TabItem label="Statement">
+    $\cF_0 \subseteq \cM$. Therefore, $\sigma(\cF_0) \subseteq \cM$.
+    </TabItem>
+    <TabItem label="Proof">
+    Let $A \in \cF_0$. We want to show that for any $E \subseteq \Omega$,
+    $$
+    \Pr^*(E \cap A) + \Pr^*(E \cap A^c) = \Pr^*(E).
+    $$
+    Fix $\epsilon > 0$. By the definition of the infimum in $\Pr^*(E)$, there exists a sequence $\{A_n\}_{n \ge 1} \subseteq \cF_0$ such that $E \subseteq \bigcup_n A_n$ and
+    $$
+    \sum_n \Pr(A_n) \le \Pr^*(E) + \epsilon.
+    $$
+    Such a cover always exists because $\Pr^*$ is the infimum.
+    Also define two sequences $\{B_n\}_{n \ge 1}$ and $\{C_n\}_{n \ge 1}$ as
+    $$
+    B_n = A_n \cap A \quad \text{and} \quad C_n = A_n \cap A^c.
+    $$
+
+    Note that $B_n \in \cF_0$ and $C_n \in \cF_0$ for each $n$ since $\cF_0$ is a field.
+    Furthermore,
+    $$
+    E \cap A \subseteq \bigcup_n B_n \quad \text{and} \quad E \cap A^c \subseteq \bigcup_n C_n.
+    $$
+    By the definition of $\Pr^*$:
+    $$
+    \Pr^*(E \cap A) \le \sum_n \Pr(B_n) \quad \text{and} \quad \Pr^*(E \cap A^c) \le \sum_n \Pr(C_n).
+    $$
+    Summing these yields:
+    $$
+    \begin{aligned}
+    \Pr^*(E \cap A) + \Pr^*(E \cap A^c) &\le \sum_n \left( \Pr(B_n) + \Pr(C_n) \right) \\
+    &= \sum_n \Pr(B_n \cup C_n)\\
+    &= \sum_n \Pr(A_n) \\
+    &\le \Pr^*(E) + \epsilon,
+    \end{aligned}
+    $$
+    where we used the finite additivity of $\Pr$ on the field $\cF_0$ (since $A_n = B_n \cup C_n$ is a disjoint union in $\cF_0$). Since $\epsilon$ was arbitrary, we have
+    $$
+    \Pr^*(E \cap A) + \Pr^*(E \cap A^c) \le \Pr^*(E).
+    $$
+    On the other hand, we trivially have
+    $$
+    \Pr^*(E \cap A) + \Pr^*(E \cap A^c) \ge \Pr^*(E).
+    $$
+    Combining these two inequalities, we get
+    $$
+    \Pr^*(E \cap A) + \Pr^*(E \cap A^c) = \Pr^*(E).
+    $$
+    This shows that $A \in \cM$. Thus, $\cF_0 \subseteq \cM$.
+    </TabItem>
+    </Tabs>
+    </Aside>
+    Thus, $\Qv = \Pr^*|_{\sigma(\cF_0)}$ is the required extension of $\Pr$ to $\sigma(\cF_0)$.
+</Steps>
+
+</TabItem>
+</Tabs>
+</Aside>
+
+## Uniqueness of Extension
+The uniqueness follows from the fact that $\cF_0$ is a $\pi$-system (closed under finite intersections) and $\Pr$ is a probability measure on $\cF_0$. By the uniqueness theorem for measures, the extension to $\sigma(\cF_0)$ is unique. More rigorous proof below.
+
+<Aside title="Theorem: Uniqueness of Extension" icon="seti:smarty">
+<Tabs>
+<TabItem label="Statement">
+The probability measure $\Qv$ [shown to exist above](#existence-of-extension) is unique.
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1. 
+</Steps>
 </TabItem>
 </Tabs>
 </Aside>
