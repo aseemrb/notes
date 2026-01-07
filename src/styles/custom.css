@@ -4,9 +4,11 @@
 
 .text-accent {
   font-weight: bold;
+  color: var(--sl-color-accent-high);
 }
 
 .main-pane a:not(.starlight-aside a) {
+  font-weight: bold;
   text-decoration: underline dashed 1px;
-  color: var(--sl-color-accent);
+  color: var(--sl-color-blue-high);
 }
