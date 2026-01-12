@@ -1,0 +1,168 @@
+---
+title: "Extension: Uniqueness"
+sidebar:
+  order: 6
+---
+
+The uniqueness follows from the fact that $\cF_0$ is a $\pi$-system (closed under finite intersections) and $\Pr$ is a probability measure on $\cF_0$. By the uniqueness theorem for measures, the extension to $\sigma(\cF_0)$ is unique. More rigorous proof below.
+
+<Aside type="tip" title="Definition: π-system" icon="open-book">
+A collection of sets $\cP$ of $\Omega$ is called a **π-system** if it is closed under finite intersections, i.e., for any $A, B \in \cP$, $A \cap B \in \cP$.
+</Aside>
+
+<Aside type="tip" title="Definition: λ-system" icon="open-book">
+A collection of sets $\cL$ of $\Omega$ is called a **λ-system** if it satisfies the following **three properties**:
+1. $\Omega \in \cL$
+2. $A \in \cL \implies A^c \in \cL$
+3. For **disjoint sets** $A_1, A_2, \ldots$,
+    $$
+    A_1, A_2, \ldots \in \cL \implies \bigcup_{i=1}^{\infty} A_i \in \cL
+    $$
+</Aside>
+
+Let us note two important facts about $\pi$ and $\lambda$-systems:
+<Aside type="caution" title="Fact (a): π-system + λ-system = σ-field" icon="open-book">
+<Tabs>
+<TabItem label="Statement">
+A collection of sets that that is both a $\pi$-system and a $\lambda$-system is a [$\sigma$-field](../sigma-fields).
+</TabItem>
+<TabItem label="Proof">
+Note that a $\lambda$-system is slightly weaker (less restrictive) than a $\sigma$-field, which requires closure under countable unions for any sets rather than just disjoint sets.
+
+Essentially, the condition of a $\pi$-system to be closed under finite intersections compensates for the weaker condition of a $\lambda$-system to be closed under countable **disjoint** unions.
+
+Let $\cL$ be both a $\lambda$-system and a $\pi$-system. Note that the first two properties of a $\lambda$-system are the same as that of a $\sigma$-field. So we just need to show that if $\cL$ is also a $\pi$-system, then it is closed under countable unions of sets that are not necessarily disjoint.
+
+Let $A_1, A_2, \ldots \in \cL$ be arbitrary sets. Define:
+$$
+B_i := A_i \bigcap_{j=1}^{i-1} A_j^c.
+$$
+See that $B_i$ are disjoint sets. Also see that since $\cL$ is a $\pi$-system, $B_i \in \cL$ for all $i$. Therefore, $\bigcup_{i=1}^\infty A_i = \bigcup_{i=1}^\infty B_i \in \cL$, satisfying the third property of a $\sigma$-field.
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="caution" title="Fact (b): Complement in a λ-system" icon="open-book">
+<Tabs>
+<TabItem label="Statement">
+If a $\lambda$-system $\cL$ contains both $A$ and $A\cap B$, then it also contains $A\cap B^c$.
+</TabItem>
+<TabItem label="Proof">
+$$
+\begin{align*}
+A\in \cL &\implies A^c \in \cL & \text{ (first property of a }\lambda\text{-system)}\\
+A\cap B \in \cL &\implies A^c \cup (A\cap B) \in \cL & \text{ (third property of a }\lambda\text{-system)}\\
+&\implies (A^c \cup (A\cap B))^c \in \cL & \text{ (first property of a }\lambda\text{-system)}\\
+\end{align*}
+$$
+Now see that
+$$
+(A^c \cup (A\cap B))^c = A\cap (A \cap B)^c = A \cap (A^c \cup B^c) = A\cap B^c.
+$$
+Hence, $A\cap B^c \in \cL$.
+</TabItem>
+</Tabs>
+</Aside>
+
+Let us now look at a theorem that relates $\pi$-systems and $\lambda$-systems.
+<Aside title="π-λ Theorem" icon="seti:smarty">
+<Tabs>
+<TabItem label="Statement">
+If $\cP$ is a $\pi$-system and $\cL$ is a $\lambda$-system such that $\cP \subseteq \cL$, then $\sigma(\cP) \subseteq \cL$.
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1. Let $L(\cP)$ be the smallest $\lambda$-system containing $\cP$ (in other words, the intersection of all $\lambda$-systems containing $\cP$). It is easy to check that $L(\cP)$ is also a $\lambda$-system.
+Hence, let $L(\cP)$ be the smallest $\lambda$-system containing $\cP$.
+2. Now define
+    $$
+    \cG_A := \{B \in \cL : A \cap B \in L(\cP)\},
+    $$
+    for any $A \in \cP$. We claim that $\cG_A$ is a $\lambda$-system. To see this, let's verify the three conditions of a $\lambda$-system:
+    1. $\Omega \in \cG_A$ since $A \cap \Omega = A \in L(\cP)$.
+    2. If $B \in \cG_A$, then both $A\in L(\cP)$ (assumption) and $A \cap B \in L(\cP)$ (defintion of $\cG_A$). This means $A \cap B^c \in L(\cP)$ (by Fact (b) above).
+    
+        By definition of $\cG_A$, we thus have $B^c \in \cG_A$.
+    3. If $B_1, B_2, \ldots \in \cG_A$ (all disjoint sets),
+
+    then $A\cap B_1, A\cap B_2, \ldots$ are disjoint sets in $L(\cP)$ (by definition of $\cG_A$). Since $L(\cP)$ is a $\lambda$-system, we have
+    $\bigcup_{i=1}^\infty (A\cap B_i) \in L(\cP)$.
+
+    $\implies A \bigcap \left(\bigcup_{i=1}^\infty B_i\right) \in L(\cP)$ (disjoint union property)
+
+    $\implies \bigcup_{i=1}^\infty B_i \in \cG_A$ (by definition of $\cG_A$).
+    
+    Therefore, $\cG_A$ is a $\lambda$-system.
+
+3. Now, if $A\in \cP$, then for any $B\in \cP$, $A\cap B\in \cP\subseteq L(\cP)$. Thus, $B\in \cG_A$ for all $B\in \cP$, implying that $\cP\subseteq \cG_A$.
+
+    This means that $L(\cP)\subseteq \cG_A$, since $\cG_A$ is a $\lambda$-system that contains $\cP$ and $L(\cP)$ is the smallest $\lambda$-system containing $\cP$.
+
+4. Now assume that $A\in \cP$ and $B\in L(\cP)$. Then $B\in \cG_A$ because $L(\cP)\subseteq \cG_A$. By definition of $\cG_A$, we have $A\cap B\in L(\cP)$. This also means $A\in \cG_B$. This holds for any $A\in \cP$. We thus have
+    $$
+    B\in L(\cP) \implies \cP \subseteq \cG_B \implies L(\cP) \subseteq \cG_B.
+    $$
+
+    Therefore, for any $A,B\in L(\cP)$, we have from $L(\cP)\subseteq \cG_B$ that $A\in \cG_B$
+    $$
+    \begin{align*}
+    &\implies A\cap B\in L(\cP)\\
+    &\implies L(\cP) \text{ is a } \pi\text{-system}\\
+    &\implies L(\cP) \text{ is both a } \pi\text{-system and a } \lambda\text{-system}\\
+    &\implies L(\cP) \text{ is a } \sigma\text{-field (by Fact (a))}.
+    \end{align*}
+    $$
+    Hence, $\cP \subseteq \sigma(\cP) \subseteq L(\cP) \subseteq \cL$. In words,
+    - $\cP$ is a subset of $\sigma(\cP)$, the smallest $\sigma$-field containing $\cP$.
+    - $\sigma(\cP)$ is a subset of $L(\cP)$, the smallest $\lambda$-system containing $\cP$ (the intersection of all $\lambda$-systems containing $\cP$).
+    - $L(\cP)$ is a subset of $\cL$ which is some arbitrary $\lambda$-system containing $\cP$.
+</Steps>
+This completes the proof.
+</TabItem>
+</Tabs>
+</Aside>
+
+Let us now look at a useful corollary of the $\pi$-$\lambda$ theorem.
+<Aside type="caution" title="Corollary: Uniqueness of ProbabilityMeasure" icon="seti:smarty">
+<Tabs>
+<TabItem label="Statement">
+Let $P_1$ and $P_2$ be two probability measures that agree on the $\pi$-system $\cP$, i.e., $P_1(A) = P_2(A)$ for all $A\in \cP$. Then they also agree on $\sigma(\cP)$, i.e., $P_1(A) = P_2(A)$ for all $A\in \sigma(\cP)$.
+</TabItem>
+<TabItem label="Proof">
+The key idea is to define the set on which $P_1$ and $P_2$ agree and show that it is a $\lambda$-system. Then given that it is also a $\pi$-system, we can use the $\pi$-$\lambda$ theorem to show that it is a $\sigma$-field.
+Define $\cL := \{A \in \sigma(\cP) : P_1(A) = P_2(A)\}$. Check that $\cL$ is a $\lambda$-system.
+<Steps>
+1. $P_1(\Omega) = P_2(\Omega) = 1$.
+2. We have that
+    $$
+    \begin{align*}
+    A\in \cL &\implies P_1(A) = P_2(A)\\
+    &\implies P_1(A^c) = 1 - P_1(A) = 1 - P_2(A) = P_2(A^c)\\
+    &\implies A^c \in \cL.
+    \end{align*}
+    $$
+3. By countable additivity of $P_1$ and $P_2$, we have for $A_1, A_2, \ldots \in \cL$ disjoint sets that
+    $$
+    \begin{align*}
+    &\implies P_1(\bigcup_i A_i) = \sum_i P_1(A_i) = \sum_i P_2(A_i) = P_2(\bigcup_i A_i).\\
+    &\implies \bigcup_i A_i \in \cL.
+    \end{align*}
+    $$
+</Steps>
+Therefore, $\cL$ is a $\lambda$-system containing $\cP$ (because $\cP$ is the original set where $P_1$ and $P_2$ agree so $\cP \subseteq \cL$). Then by the $\pi$-$\lambda$ theorem, $\sigma(\cP) \subseteq \cL$. But $\cL \subseteq \sigma(\cP)$ by definition. Hence, $\cL = \sigma(\cP)$, implying that $P_1(A) = P_2(A)$ for all $A\in \sigma(\cP)$.
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside title="Theorem: Uniqueness of Extension" icon="seti:smarty">
+<Tabs>
+<TabItem label="Statement">
+The probability measure $\Qv$ [shown to exist earlier](../existence) is unique.
+</TabItem>
+<TabItem label="Proof">
+The uniqueness of the extension of a probability measure from a field to a $\sigma$-field follows immediately from the corollary above, combined with the fact that a field is a $\pi$-system.
+
+To see why, note that if the field $\cF$ is a $\pi$-system, then if two measures $\Qv_1, \Qv_2$ agree on $\cF$, then they also agree on $\sigma(\cF)$ by the corollary above. So there can only be a single extension $\Qv$ from $\cF$ to $\sigma(\cF)$.
+</TabItem>
+</Tabs>
+</Aside>
