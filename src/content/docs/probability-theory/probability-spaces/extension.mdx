@@ -4,12 +4,13 @@ sidebar:
   order: 4
 ---
 
-## Why do we need to extend a measure?
-Now that we know what a $\sigma$-Field is, note that typically, it is fairly complicated to describe the elements of a $\sigma$-Field. This implies that it's hard to describe a probability measure on $\sigma$-Fields.
-So what to do? The idea is to first define sort of a <span class="text-accent">proxy probability measure</span> on a smaller set that is easier to describe and is simple to talk about. Then, one can extend that proxy to an actual probability measure on the $\sigma$-Field associated with that set.
+## Why extend a measure?
+Now that we know what a $\sigma$-field is, note that typically, it is fairly complicated to describe the elements of a $\sigma$-field. This implies that it's hard to describe a probability measure on $\sigma$-fields.
+So what to do? The idea is to first define sort of a <span class="text-accent">proxy probability measure</span> on a smaller set that is easier to describe and is simple to talk about. Then, one can extend that proxy to an actual probability measure on the $\sigma$-field associated with that set.
 
-Note that I say <span class="text-accent">proxy</span> here because it is defined on an arbitrary set that is not a $\sigma$-Field. By definition, probability measures can only be defined on $\sigma$-Fields. So how do we find such a proxy function that is defined on a simpler set, but behaves like a probability measure on the associated $\sigma$-Fields? It's time to introduce Fields!
+Note that I say <span class="text-accent">proxy</span> here because it is defined on an arbitrary set that is not a $\sigma$-field. By definition, probability measures can only be defined on $\sigma$-fields. So how do we find such a proxy function that is defined on a simpler set, but behaves like a probability measure on the associated $\sigma$-fields? It's time to introduce Fields!
 
+## Defining a Field
 <Aside type="tip" title="Definition: Field" icon="open-book">
 A class $\cF_0$ of subsets of a sample space $\Omega$ is called a Field if
 1. $\Omega\in\cF_0$,
@@ -17,6 +18,6 @@ A class $\cF_0$ of subsets of a sample space $\Omega$ is called a Field if
 3. $A,B\in\cF_0\implies A\cup B\in\cF_0$. 
 </Aside>
 
-Note that a Field is almost like a $\sigma$-Field. The difference is in the third property. For a Field, we only need it to be closed under finite unions, while a $\sigma$-Field is required to be closed under countable unions (which could be infinite). Relaxing this property from requiring closure under countable unions to closure only under finite unions simplifies the description of a Field dramatically, compared to describing a $\sigma$-Field.
+Note that a Field is almost like a $\sigma$-field. The difference is in the third property. For a Field, we only need it to be closed under finite unions, while a $\sigma$-field is required to be closed under countable unions (which could be infinite). Relaxing this property from requiring closure under countable unions to closure only under finite unions simplifies the description of a Field dramatically, compared to describing a $\sigma$-field.
 
-So now we define the <span class="text-accent">proxy measure</span> on a Field $\cF_0$, and show that it can be extended to a probability measure on $\sigma(\cF_0)$ (see [definition](../gen-sigma-fields)). This will allow us to talk about probabilities of events that live in a space that is easier to describe (a Field) rather than in a space that is hard to describe (a $\sigma$-Field).
+So now we define the <span class="text-accent">proxy measure</span> on a Field $\cF_0$, and show that it can be extended to a [probability measure](../measures) on [$\sigma(\cF_0)$](../gen-sigma-fields). This will allow us to talk about probabilities of events that live in a space that is easier to describe (a Field) rather than a space that is hard to describe (a $\sigma$-field).

@@ -32,7 +32,7 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Linear Algebra',
-					collapsed: true,
+					collapsed: false,
 					items: [
 						{ slug: 'linear-algebra', label: 'Introduction' },
 						{ label: 'Fundamentals', collapsed: true, autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } },
@@ -41,7 +41,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Probability Theory',
-					collapsed: true,
+					collapsed: false,
 					items: [
 						{ slug: 'probability-theory', label: 'Introduction' },
 						{ label: 'Probability Spaces', collapsed: true, autogenerate: { directory: 'probability-theory/probability-spaces', collapsed: true } },
