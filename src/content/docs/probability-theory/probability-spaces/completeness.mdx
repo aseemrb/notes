@@ -3,3 +3,80 @@ title: Completeness
 sidebar:
   order: 8
 ---
+
+Consider a set which is even <span class="text-accent">smaller</span> (subset) than a null set. A null set is a set $S$ such that $\Pr(S) = 0$.
+
+This subset of the null set also intuitively has $\Pr(\cdot) = 0$. However, this small intuitive idea cannot be derived from the definition of a probability measure.
+
+**Why?** Because there is <span class="text-accent">no guarantee</span> that if $A \in \cF$ and $B \subseteq A$, then $B \in \cF$ for a $\sigma$-field $\cF$.
+
+If $B \in \cF$ (i.e. if we knew it was measurable), then by monotonicity the idea above is true. But we don't know if the subset is even measurable (in $\cF$).
+
+<Aside type="tip" title="Definition: Complete Probability Space" icon="open-book">
+A probability space $(\Omega, \cF, \Pr)$ is **complete** if
+$$
+A \subseteq B \text{ and } \Pr(B) = 0 \implies A \in \cF
+$$
+(and consequently $\Pr(A) = 0$).
+</Aside>
+
+## Consequences of Completeness
+
+If $(\Omega, \cF, \Pr)$ is complete, then for a set $A'$, if there exists $A \in \cF$ such that $A \Delta A' \subseteq B$ for some $B$ with $\Pr(B) = 0$, then $A' \in \cF$ and $\Pr(A') = \Pr(A)$.
+
+> **Note:** $A \Delta A'$ is the symmetric difference, defined as $A \Delta A' = (A \cup A') - (A \cap A')$.
+
+Since $A \Delta A' \subseteq B$ and $\Pr(B) = 0$, the subsets $A \cap A'^c$ and $A^c \cap A'$ are subsets of a null set in a complete space, so they are null sets.
+This implies $\Pr(A) = \Pr(A') = \Pr(A \cap A')$.
+
+## Existence of Complete Extension
+
+A probability space always has a complete extension.
+
+<Aside type="note" title="Theorem" icon="seti:smarty">
+<Tabs>
+<TabItem label="Statement">
+Let $(\Omega, \cF, \Pr)$ be a probability space. Then there exists a complete probability space $(\Omega, \cF', \Pr')$ such that $\cF \subseteq \cF'$ and $\Pr(A) = \Pr'(A)$ for all $A \in \cF$.
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Recall**: The outer measure $\Pr^*$ defined in the [extension result](../existence) is a probability measure on the $\sigma$-field $\mathcal{M}$ where $\mathcal{M}$ is the class of all $\Pr^*$-measurable sets.
+    $$
+    A \in \mathcal{M} \iff \Pr^*(E) = \Pr^*(A \cap E) + \Pr^*(A^c \cap E) \quad \forall E \subseteq \Omega
+    $$
+
+    We are going to show that $(\Omega, \mathcal{M}, \Pr^*)$ is a <span class="text-accent">complete probability space</span> and it will be the required extension.
+
+2.  Let $\Pr^*(B) = 0$ and $A \subseteq B$. Our goal is to show $\Pr^*(A) = 0$, to show that we need to just show $A \in \mathcal{M}$.
+
+    For any $E \subseteq \Omega$, consider:
+    $$
+    \Pr^*(A \cap E) + \Pr^*(A^c \cap E)
+    $$
+
+    Note that:
+    -   $A \cap E \subseteq A \subseteq B \implies \Pr^*(A \cap E) \le \Pr^*(B) = 0$. So $\Pr^*(A \cap E) = 0$.
+    -   $A^c \cap E \subseteq E \implies \Pr^*(A^c \cap E) \le \Pr^*(E)$.
+
+    Therefore, by monotonicity of $\Pr^*$:
+    $$
+    \Pr^*(A \cap E) + \Pr^*(A^c \cap E) \le 0 + \Pr^*(E) = \Pr^*(E)
+    $$
+
+3.  The other side of the inequality is trivial, as:
+    $$
+    \Pr^*(E) \le \Pr^*(A \cap E) + \Pr^*(A^c \cap E)
+    $$
+    by the definition of outer measure (subadditivity).
+
+    Thus, we have equality:
+    $$
+    \Pr^*(A \cap E) + \Pr^*(A^c \cap E) = \Pr^*(E)
+    $$
+    This implies that $A$ is $\Pr^*$-measurable, so $A \in \mathcal{M}$.
+
+    Also, $\Pr^*(A) = 0$ follows from the monotonicity of $\Pr^*$ (since $A \subseteq B$ and $\Pr^*(B)=0$).
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
