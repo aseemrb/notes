@@ -121,7 +121,23 @@ $$
 $$
 </Aside>
 
-<Aside type="danger" title="Warning: Pairwise independence does *not* imply mutual independence!">
+<Aside type="danger" title="Warning">
+Pairwise independence does *not* imply mutual independence!
+
+**Counter-Example**: Consider tossing two fair coins. Let:
+*   $A = \{\text{First coin is Heads}\}$
+*   $B = \{\text{Second coin is Heads}\}$
+*   $C = \{\text{Coins match (both H or both T)}\}$
+
+Then $\Pr(A) = \Pr(B) = \Pr(C) = 1/2$. The events are pairwise independent:
+*   $\Pr(A \cap B) = 1/4 = \Pr(A)\Pr(B)$
+*   $\Pr(A \cap C) = 1/4 = \Pr(A)\Pr(C)$
+*   $\Pr(B \cap C) = 1/4 = \Pr(B)\Pr(C)$
+
+However, they are **not** mutually independent because knowing $A$ and $B$ determines $C$ completely:
+$$
+\Pr(A \cap B \cap C) = \Pr(\{HH\}) = 1/4 \neq \Pr(A)\Pr(B)\Pr(C) = 1/8
+$$
 </Aside>
 
 ### Independence of $\sigma$-fields
