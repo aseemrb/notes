@@ -1,0 +1,145 @@
+---
+title: Types of Distributions
+sidebar:
+  order: 4
+---
+
+For a probability space $(\Omega, \mathcal{F}, \mathbb{P})$ and measure space $(\mathbb{R}, \mathcal{B})$, let $X$ be a random variable mapping a preimage $X^{-1}(A)$ to $A \in \mathcal{B}$. Recall that $\mu(A) = \mathbb{P}(X^{-1}(A))$.
+
+## Equal in Distribution
+
+If $X$ and $Y$ induce the same distribution on $(\mathbb{R}, \mathcal{B})$, i.e., $F_X = F_Y$, then we say they have the **same distribution** or they are **equal in distribution**, denoted by:
+
+$$
+X \overset{ \text{d} }{=} Y
+$$
+
+<Aside type="danger" title="Important">
+In general, $X(\omega) \neq Y(\omega)$ even when $X \overset{ \text{d} }{=} Y$.
+
+**Example**: Consider $\Omega = \{H, T\}$ with $\mathbb{P}(H)=\mathbb{P}(T)=0.5$.
+Let $X(H)=1, X(T)=0$ and $Y(H)=0, Y(T)=1$.
+Then $X \overset{ \text{d} }{=} Y$ (both are Bernoulli(0.5)), but $X \neq Y$ everywhere.
+</Aside>
+
+## Absolutely Continuous Distributions
+
+<Aside type="tip" icon="open-book" title="Definition: Probability Density Function">
+If there exists a function $f$ such that for all $x \in \mathbb{R}$,
+
+$$
+\mathbb{P}(X \le x) = F(x) = \int_{-\infty}^x f(y) \, dy
+$$
+
+then $f$ is called the <span class="text-accent">probability density function (PDF)</span>.
+</Aside>
+
+If a distribution has a density function, it is called **absolutely continuous**.
+Note that this is different from just "continuous", which is defined below.
+
+**Properties:**
+For any $a < b$:
+
+$$
+\begin{aligned}
+\mathbb{P}(X \in (a, b]) &= F(b) - F(a) \\
+&= \int_{-\infty}^b f(y) \, dy - \int_{-\infty}^a f(y) \, dy \\
+&= \int_a^b f(y) \, dy
+\end{aligned}
+$$
+
+Also, $\mathbb{P}(X=x) \le \mathbb{P}(X \in (x-\epsilon, x+\epsilon]) = \int_{x-\epsilon}^{x+\epsilon} f(y) \, dy$.
+Taking the limit as $\epsilon \to 0$, we get:
+$$
+\implies \text{for a r.v. with a density function, } \mathbb{P}(X=x) = 0
+$$
+
+This also implies $\mathbb{P}(a < X < b) = \mathbb{P}(a \le X \le b) = \int_a^b f(y) \, dy$.
+
+## Continuous Distributions
+
+<Aside type="tip" icon="open-book" title="Definition: Continuous Distribution">
+If a distribution has:
+$$
+\mathbb{P}(X=x) = F(x) - F(x-) = 0 \quad \text{for all } x
+$$
+i.e., its distribution function $F$ is continuous, then the distribution is called <span class="text-accent">continuous</span>.
+</Aside>
+
+**Relationship:**
+*   Absolutely continuous $\implies$ continuous.
+*   But, continuous $\;\not\!\!\!\implies$ absolutely continuous. (There exist continuous distributions which do not have a density function).
+
+    **Example**: The **Cantor Distribution** is continuous ($F$ is continuous) but "singular" with respect to Lebesgue measure (derivative is 0 almost everywhere), so it has no PDF.
+
+### Singular Distributions
+
+A distribution is called <span class="text-accent">singular</span> if there exists a set $A \in \mathcal{B}$ such that $\lambda(A) = 0$ (Lebesgue measure is 0), but $\mathbb{P}(X \in A) = 1$, while $X$ is still continuous.
+
+Look at the **Cantor set** or some fractals for examples.
+
+### Decomposition
+
+This is why a general distribution cannot be assumed to be a mixture of just a part with density and a part with probability mass on discrete points. There can also be "singular" parts.
+
+A general distribution can be decomposed as:
+
+$$
+\text{General Distr} = \underbrace{\text{Abs. Continuous Part}}_{\text{with density } f} + \underbrace{\text{Discrete Part}}_{\text{with point masses}} + \underbrace{\text{Singular Part}}_{\text{continuous but no density}}
+$$
+
+## Examples
+
+<Aside type="tip" icon="open-book" title="Examples">
+1.  <span class="text-accent">Uniform distribution on $[0, 1]$</span>: $\text{Unif}[0, 1]$ or $U[0, 1]$.
+    
+    $$
+    f(x) = 1 \quad \text{for } x \in [0, 1]
+    $$
+    
+    $$
+    F(x) = \begin{cases} 
+    0 & x < 0 \\
+    x & x \in [0, 1) \\
+    1 & x \ge 1
+    \end{cases}
+    $$
+
+    <img src="/assets/images/probability-theory/distributions/uniform-pdf.svg" alt="Uniform Distribution PDF" style="width: 100%; max-width: 400px; margin: 1rem auto; display: block;" />
+
+2.  <span class="text-accent">Exponential distribution</span>:
+    
+    $$
+    f(x) = \begin{cases} 
+    \lambda e^{-\lambda x} & x \ge 0 \\
+    0 & \text{otherwise}
+    \end{cases}
+    $$
+
+    Computation of CDF for $x \ge 0$:
+    $$
+    F(x) = \int_{-\infty}^x f(y) \, dy = \int_0^x \lambda e^{-\lambda y} \, dy = -e^{-\lambda y} \Big|_0^x = 1 - e^{-\lambda x}
+    $$
+    (and $F(x)=0$ for $x<0$).
+
+    <img src="/assets/images/probability-theory/distributions/exponential-pdf.svg" alt="Exponential Distribution PDF" style="width: 100%; max-width: 400px; margin: 1rem auto; display: block;" />
+
+3.  <span class="text-accent">Standard Normal</span>: $x \in \mathbb{R}$
+    
+    $$
+    f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}
+    $$
+
+    The distribution function $F(x)$ does not have a closed form expression in this case.
+
+    <img src="/assets/images/probability-theory/distributions/normal-pdf.svg" alt="Standard Normal Distribution PDF" style="width: 100%; max-width: 400px; margin: 1rem auto; display: block;" />
+
+4.  <span class="text-accent">Point mass at 0</span>. $\mathbb{P}(X=0) = 1$.
+    
+    $$
+    F(x) = \begin{cases} 
+    0 & x < 0 \\
+    1 & x \ge 0
+    \end{cases}
+    $$
+</Aside>

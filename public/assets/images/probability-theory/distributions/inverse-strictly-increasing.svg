@@ -1,0 +1,84 @@
+<svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Continuous Distribution Inversion</title>
+  <desc id="desc">Visualization of the inverse transform method for a continuous distribution function.</desc>
+
+  <style>
+    :root {
+      --bg: transparent;
+      --text: #374151; /* gray-700 */
+      --axis: #9ca3af; /* gray-400 */
+      --grid: #e5e7eb; /* gray-200 */
+      --curve: #3b82f6; /* blue-500 */
+      --measure: #ef4444; /* red-500 */
+      --highlight: #f59e0b; /* amber-500 */
+      --tick-opacity: 1;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db; /* gray-300 */
+        --axis: #6b7280; /* gray-500 */
+        --grid: #374151; /* gray-700 */
+        --curve: #60a5fa; /* blue-400 */
+        --measure: #f87171; /* red-400 */
+        --highlight: #fbbf24; /* amber-400 */
+        --tick-opacity: 0.8;
+      }
+    }
+    text { fill: var(--text); font-family: system-ui, sans-serif; font-size: 14px; }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4; }
+    .curve { stroke: var(--curve); stroke-width: 4; fill: none; stroke-linecap: round; }
+    .mapping { stroke: var(--highlight); stroke-width: 2; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+    .label { font-weight: 600; }
+    .sub-label { font-size: 12px; fill: var(--highlight); }
+  </style>
+  
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--highlight)" />
+    </marker>
+  </defs>
+
+  <!-- Axes (Origin at 50, 300) -->
+  <!-- Y-axis (0 to 1) -->
+  <line x1="50" y1="300" x2="50" y2="50" class="axis" />
+  <line x1="45" y1="300" x2="500" y2="300" class="axis" />
+
+  <!-- Y-axis Tick 1.0 -->
+  <line x1="45" y1="50" x2="55" y2="50" class="axis" />
+  <text x="30" y="55" text-anchor="end">1</text>
+  <text x="30" y="305" text-anchor="end">0</text>
+  
+  <!-- Labels -->
+  <text x="50" y="30" text-anchor="middle" class="label">ω (Probability)</text>
+  <text x="480" y="305" text-anchor="end" class="label">x (Value)</text>
+
+  <!-- Curve F(x) = S-curve -->
+  <path d="M 50 300 C 150 300, 200 280, 250 175 S 350 50, 480 50" class="curve" />
+  <text x="400" y="80" fill="var(--curve)" font-weight="bold">F(x)</text>
+
+  <!-- Animation / Logic -->
+  <!-- Pick an omega = 0.6 -->
+  <!-- Y = 0.6 corresponds to 300 - 0.6*250 = 150 -->
+  <!-- Curve passes through roughly (250, 175) which is 0.5. Let's aim higher. -->
+  <circle cx="50" cy="140" r="4" fill="var(--highlight)" />
+  <text x="35" y="145" text-anchor="end" class="sub-label">ω₀</text>
+
+  <!-- Horizontal line to curve -->
+  <line x1="50" y1="140" x2="280" y2="140" class="mapping" />
+  
+  <!-- Dot on curve -->
+  <circle cx="280" cy="140" r="4" fill="var(--curve)" />
+
+  <!-- Vertical line down -->
+  <line x1="280" y1="140" x2="280" y2="300" class="mapping" />
+  
+  <!-- Result X -->
+  <circle cx="280" cy="300" r="4" fill="var(--highlight)" />
+  <text x="280" y="325" text-anchor="middle" class="sub-label">X(ω₀)</text>
+
+  <!-- Annotation -->
+  <text x="120" y="120" class="sub-label">1. Sample ω₀ ~ U(0,1)</text>
+  <text x="290" y="240" class="sub-label">2. Find x s.t. F(x) = ω₀</text>
+
+</svg>

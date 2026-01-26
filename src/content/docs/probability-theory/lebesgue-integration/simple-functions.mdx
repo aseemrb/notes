@@ -1,0 +1,110 @@
+---
+title: Simple Functions
+sidebar:
+  order: 1
+---
+
+**Setting:** Measure space $(\Omega, \mathcal{F}, \mu)$. Note that $\mu$ is <span class="text-accent">not necessarily</span> a probability measure.
+
+We assume $\mu$ is **$\sigma$-finite**, meaning that:
+$\exists A_1, A_2, \ldots \in \mathcal{F}$ such that $\mu(A_n) < \infty \ \forall n$ and $\bigcup_{n=1}^\infty A_n = \Omega$.
+
+**Goal:** Define the Lebesgue integral for general functions, building from simple functions.
+
+<Aside icon="seti:smarty" title="Definition: Simple Function">
+A function $\varphi$ is called a **simple function** if:
+
+$$
+\varphi(\omega) = \sum_{i=1}^n a_i \mathbb{1}_{A_i}
+$$
+
+where $a_i \in \mathbb{R}$, $A_i \in \mathcal{F}$, and $\mu(A_i) < \infty$ for all $i$.
+Here $\mathbb{1}_{A_i}$ is the **indicator function** of the set $A_i$.
+</Aside>
+
+Simple functions are the Lebesgue counterpart of **step functions** used for Riemann integrals.
+
+<div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem;">
+  <div>
+    <img src="/assets/images/probability-theory/lebesgue-integration/riemann-vs-lebesgue.svg" alt="Riemann vs Lebesgue Domains" />
+    <p style="font-size: 0.8rem; text-align: center; color: var(--sl-color-gray-3); margin-top: 0.5rem;">
+      In the Lebesgue setting, we don't need the domain to be the real line or partitioned into intervals. Any measurable subset $A_i$ can serve as the base for a constant value.
+    </p>
+  </div>
+</div>
+
+In this simple case, the integration is just the **volume** (height $\times$ size of set) of the region under the function, i.e.,
+$$
+\int \varphi \, d\mu = a_1 \mu(A_1) + a_2 \mu(A_2)
+$$
+
+<div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 0.5rem;">
+  <div>
+    <img src="/assets/images/probability-theory/lebesgue-integration/simple-function-volume.svg" alt="Volume Interpretation" />
+  </div>
+</div>
+
+<Aside icon="seti:smarty" title="Definition: Lebesgue Integral of a Simple Function">
+For a simple function $\varphi = \sum_{i=1}^n a_i \mathbb{1}_{A_i}$, the integral is defined as:
+
+$$
+\int \varphi \, d\mu = \sum_{i=1}^n a_i \mu(A_i)
+$$
+
+(Note: Usually we assume $A_i$ are disjoint and partition $\Omega$, i.e., $\bigcup_i A_i = \Omega$).
+</Aside>
+
+## Properties
+
+<Aside icon="seti:smarty" title="Lemma: Properties of Simple Integral">
+<Tabs>
+<TabItem label="Statement">
+Let $\varphi, \psi$ be two simple functions. Then:
+<Steps>
+1.  $\varphi \ge 0$ **a.e.** $\implies \int \varphi \, d\mu \ge 0$.
+    > **Note:** "a.e." (almost everywhere) means the property holds except on a set of measure zero: $\mu( \{ \omega : \varphi(\omega) < 0 \} ) = 0$. In probability settings, this corresponds to **a.s.** (almost surely).
+2.  $\int a\varphi \, d\mu = a \int \varphi \, d\mu$ for any $a \in \mathbb{R}$.
+3.  $\int (\varphi + \psi) \, d\mu = \int \varphi \, d\mu + \int \psi \, d\mu$.
+4.  $\varphi \le \psi$ **a.e.** $\implies \int \varphi \, d\mu \le \int \psi \, d\mu$.
+5.  $\varphi = \psi$ **a.e.** $\implies \int \varphi \, d\mu = \int \psi \, d\mu$.
+6.  $|\int \varphi \, d\mu| \le \int |\varphi| \, d\mu$.
+</Steps>
+</TabItem>
+
+<TabItem label="Proof">
+<Steps>
+1.  Assume $\varphi = \sum_{i=1}^n a_i \mathbb{1}_{A_i}$ where $A_i$ are disjoint. If $\varphi \ge 0$ a.e., then $a_i \ge 0$ for all $i$ where $\mu(A_i) > 0$.
+    Since $\int \varphi \, d\mu = \sum a_i \mu(A_i)$ and each term is $a_i \mu(A_i) \ge 0$, the sum is $\ge 0$.
+
+2.  For $\varphi = \sum a_i \mathbb{1}_{A_i}$, we have $a\varphi = \sum (a a_i) \mathbb{1}_{A_i}$.
+    By definition, $\int a\varphi \, d\mu = \sum (a a_i) \mu(A_i) = a \sum a_i \mu(A_i) = a \int \varphi \, d\mu$.
+
+3.  Suppose $\varphi = \sum_i a_i \mathbb{1}_{ A_i }$ and $\psi = \sum_j b_j \mathbb{1}_{ B_j }$, where the $A_i$ and $B_j$ partition $\Omega$ respectively.
+    
+    Consider the intersection $A_i \cap B_j$. On this set, $\varphi + \psi = a_i + b_j$.
+    Note that $\bigcup_i \bigcup_j ( A_i \cap B_j ) = \Omega$ and these sets are disjoint. Thus:
+
+    $$
+    \begin{aligned}
+    \int ( \varphi + \psi ) \, d\mu &= \sum_i \sum_j ( a_i + b_j ) \mu( A_i \cap B_j ) \\
+    &= \sum_i \sum_j a_i \mu( A_i \cap B_j ) + \sum_i \sum_j b_j \mu( A_i \cap B_j ) \\
+    &= \sum_i a_i \left( \sum_j \mu( A_i \cap B_j ) \right) + \sum_j b_j \left( \sum_i \mu( A_i \cap B_j ) \right) \\
+    &= \sum_i a_i \mu( A_i ) + \sum_j b_j \mu( B_j ) \\
+    &= \int \varphi \, d\mu + \int \psi \, d\mu \quad \square
+    \end{aligned}
+    $$
+
+4.  Since $\psi - \varphi \ge 0$ a.e., by property 1 and 3:
+    $\int \psi \, d\mu - \int \varphi \, d\mu = \int (\psi - \varphi) \, d\mu \ge 0$.
+
+5. Follows directly from 4 by applying both $\varphi \le \psi$ and $\psi \le \varphi$.
+
+6.  Observe that $|\varphi| = \max(\varphi, -\varphi)$.
+    Since $\varphi \le |\varphi|$, we have $\int \varphi \, d\mu \le \int |\varphi| \, d\mu$ by (4).
+    Since $-\varphi \le |\varphi|$, we have $-\int \varphi \, d\mu = \int (-\varphi) \, d\mu \le \int |\varphi| \, d\mu$.
+    Together, these imply $|\int \varphi \, d\mu| \le \int |\varphi| \, d\mu$. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+

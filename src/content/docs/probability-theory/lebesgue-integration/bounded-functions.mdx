@@ -1,0 +1,115 @@
+---
+title: Bounded Functions
+sidebar:
+  order: 2
+---
+
+We now extend our definition of the integral from [simple functions](simple-functions) to **bounded functions** supported on a set of finite measure.
+
+## Step 2: Bounded Functions with Finite Support
+
+<Aside icon="seti:smarty" title="Definition">
+Let $f$ be a bounded measurable function such that $f(x) = 0$ for $x \in E^c$, where $E$ is a set with **finite measure** ($\mu(E) < \infty$).
+
+We say $f$ is **supported on a set with finite measure**.
+</Aside>
+
+### Approximation with Simple Functions
+
+Recall the Riemann integral strategy: approximate the area from **below** and **above** using rectangles (step functions). We do the same here using simple functions.
+
+Consider the following two values:
+
+$$
+I_*(f) = \sup_{\varphi \le f} \int \varphi \, d\mu \quad \text{and} \quad I^*(f) = \inf_{\psi \ge f} \int \psi \, d\mu
+$$
+
+where the supremum and infimum are taken over all simple functions $\varphi, \psi$ which vanish on $E^c$.
+
+**Inequality 1:**
+Since $\varphi \le f \le \psi$, we have $\varphi \le \psi$ everywhere. Since both are simple functions, by property 4 of simple integrals:
+
+$$
+\int \varphi \, d\mu \le \int \psi \, d\mu
+$$
+
+Taking the supremum over $\varphi$ and infimum over $\psi$, we get:
+
+$$
+\sup_{\varphi \le f} \int \varphi \, d\mu \le \inf_{\psi \ge f} \int \psi \, d\mu \quad \implies \quad I_*(f) \le I^*(f) \quad \textcolor{gray}{\text{--- (1)}}
+$$
+
+### Closing the Gap
+
+To define the integral, we want these two values to be equal. We can show this by constructing a specific sequence of simple functions that converges to $f$.
+
+Since $f$ is bounded, let $|f(x)| \le M$ for all $x$.
+For a fixed integer $n$, partition the range $[-M, M]$ into intervals of size $M/n$. Define the sets:
+
+$$
+E_k = \left\{ x \in E : \frac{kM}{n} \ge f(x) > \frac{(k-1)M}{n} \right\} \quad \text{for } k = -n, \dots, n \text{ (and } k \ne 0 \text{ logic handles } 0)
+$$
+
+Now define the approximating simple functions:
+
+$$
+\psi_n(x) = \sum_{k=-n}^{n} \frac{kM}{n} \mathbb{1}_{E_k} \quad \text{(Upper approximation)}
+$$
+
+$$
+\varphi_n(x) = \sum_{k=-n}^{n} \frac{(k-1)M}{n} \mathbb{1}_{E_k} \quad \text{(Lower approximation)}
+$$
+
+We approximate $f$ by rounding its values up ($\psi_n$) or down ($\varphi_n$) to the nearest grid level $kM/n$.
+<img src="/assets/images/probability-theory/lebesgue-integration/bounded-approx.svg" alt="Approximating a bounded function" />
+
+Note that for any $x \in E$, the difference between the upper and lower approximation is exactly the step size:
+
+$$
+\psi_n(x) - \varphi_n(x) = \frac{M}{n} \mathbb{1}_E(x)
+$$
+
+Integrating this difference:
+
+$$
+\int (\psi_n - \varphi_n) \, d\mu = \int \frac{M}{n} \mathbb{1}_E \, d\mu = \frac{M}{n} \mu(E)
+$$
+
+Now, observe that:
+
+$$
+\sup_{\varphi \le f} \int \varphi \, d\mu \ge \int \varphi_n \, d\mu = \int \psi_n \, d\mu - \frac{M}{n} \mu(E) \ge \inf_{\psi \ge f} \int \psi \, d\mu - \frac{M}{n} \mu(E)
+$$
+
+Taking the limit as $n \to \infty$ (since $\mu(E) < \infty$, the term $\frac{M}{n}\mu(E) \to 0$):
+
+$$
+\sup \int \varphi \ge \inf \int \psi \quad \textcolor{gray}{\text{--- (2)}}
+$$
+
+### Definition of the Integral
+
+Combining (1) and (2), we have equality!
+
+$$
+\sup_{\varphi \le f} \int \varphi \, d\mu = \inf_{\psi \ge f} \int \psi \, d\mu
+$$
+
+We define the **Lebesgue Integral** of $f$ to be this common value:
+
+$$
+\int f \, d\mu := \sup_{\varphi \le f} \int \varphi \, d\mu
+$$
+
+## Properties
+
+<Aside type="caution" icon="pencil" title="Exercise 6">
+<Tabs>
+<TabItem label="Problem">
+Prove that Properties 1-6 for simple functions (Linearity, Monotonicity, etc.) also hold for bounded functions with finite support.
+</TabItem>
+<TabItem label="Hint">
+Use the fact that for any bounded function $f$ with finite support, there exists a sequence of simple functions $\varphi_n$ such that $\varphi_n \to f$ as $n \to \infty$.
+</TabItem>
+</Tabs>
+</Aside>

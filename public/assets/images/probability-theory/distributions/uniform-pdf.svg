@@ -1,0 +1,37 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Uniform Distribution PDF</title>
+  <style>
+    :root { 
+      --text: #374151; --axis: #9ca3af; --curve: #3b82f6; --highlight: #f59e0b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #6b7280; --curve: #60a5fa; --highlight: #fbbf24; }
+    }
+    text { fill: var(--text); font-family: system-ui, sans-serif; font-size: 14px; }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .curve { stroke: var(--curve); stroke-width: 3; fill: none; }
+    .dashed { stroke: var(--axis); stroke-dasharray: 4; stroke-width: 1; }
+  </style>
+
+  <!-- Axes -->
+  <line x1="20" y1="170" x2="380" y2="170" class="axis" />
+  <line x1="50" y1="180" x2="50" y2="20" class="axis" />
+
+  <!-- Labels -->
+  <text x="50" y="15" text-anchor="middle">f(x)</text>
+  <text x="370" y="190">x</text>
+  <text x="35" y="185">0</text>
+  <text x="250" y="185">1</text>
+  <text x="35" y="55">1</text>
+
+  <!-- Curve: Uniform [0,1] -->
+  <!-- 0 to 1 on X corresponds to 50 to 250 (width 200) -->
+  <!-- Height 1 on Y corresponds to 170 to 50 (height 120) -->
+  
+  <line x1="20" y1="170" x2="50" y2="170" class="curve" /> <!-- x < 0 -->
+  <line x1="50" y1="170" x2="50" y2="50" class="dashed" /> <!-- Jump up -->
+  <line x1="50" y1="50" x2="250" y2="50" class="curve" /> <!-- The top -->
+  <line x1="250" y1="50" x2="250" y2="170" class="dashed" /> <!-- Jump down -->
+  <line x1="250" y1="170" x2="380" y2="170" class="curve" /> <!-- x > 1 -->
+
+</svg>

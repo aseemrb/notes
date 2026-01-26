@@ -1,0 +1,62 @@
+<svg viewBox="0 70 400 230" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <style>
+    :root { --text: #374151; --axis: #9ca3af; --curve: #3b82f6; --fill: #3b82f6; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #6b7280; --curve: #60a5fa; --fill: #60a5fa; }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .text { fill: var(--text); font-size: 14px; }
+    .column-border { stroke: var(--curve); stroke-width: 2; fill: none; }
+    .column-fill { fill: var(--fill); fill-opacity: 0.25; }
+    .floor { fill: none; stroke: var(--axis); stroke-dasharray: 2; stroke-width: 1; }
+  </style>
+
+  <!-- Base plane Omega -->
+  <ellipse cx="200" cy="220" rx="160" ry="60" class="axis" style="fill: var(--axis); fill-opacity: 0.05;" />
+  <text x="50" y="240" class="text" font-weight="bold">Ω</text>
+
+  <!-- Cylinder 1 (A1) -->
+  <g transform="translate(130, 205)">
+    <text x="-55" y="10" class="text" font-size="12">A₁</text>
+    <text x="-10" y="-120" class="text" font-weight="bold">a₁</text>
+    
+    <!-- 1. The full floor set A1 -->
+    <ellipse cx="0" cy="0" rx="40" ry="20" class="column-fill" />
+    <ellipse cx="0" cy="0" rx="40" ry="20" class="floor" />
+    
+    <!-- 2. The cylinder body (lower part) -->
+    <!-- Using a path that follows the base ellipse and goes up -->
+    <path d="M -40 0 A 40 20 0 0 0 40 0 L 40 -90 A 40 20 0 0 1 -40 -90 Z" class="column-fill" />
+    
+    <!-- 3. The outermost vertical edges -->
+    <line x1="-40" y1="0" x2="-40" y2="-90" class="column-border" />
+    <line x1="40" y1="0" x2="40" y2="-90" class="column-border" />
+    
+    <!-- 4. The lid (Top of the cylinder) -->
+    <ellipse cx="0" cy="-90" rx="40" ry="20" class="column-fill" />
+    <ellipse cx="0" cy="-90" rx="40" ry="20" class="column-border" />
+  </g>
+
+  <!-- Cylinder 2 (A2) -->
+  <g transform="translate(260, 230)">
+    <text x="35" y="10" class="text" font-size="12">A₂</text>
+    <text x="-10" y="-145" class="text" font-weight="bold">a₂</text>
+    
+    <!-- 1. The full floor set A2 -->
+    <ellipse cx="0" cy="0" rx="30" ry="15" class="column-fill" />
+    <ellipse cx="0" cy="0" rx="30" ry="15" class="floor" />
+    
+    <!-- 2. The cylinder body -->
+    <path d="M -30 0 A 30 15 0 0 0 30 0 L 30 -120 A 30 15 0 0 1 -30 -120 Z" class="column-fill" />
+    
+    <!-- 3. The vertical edges -->
+    <line x1="-30" y1="0" x2="-30" y2="-120" class="column-border" />
+    <line x1="30" y1="0" x2="30" y2="-120" class="column-border" />
+    
+    <!-- 4. The lid -->
+    <ellipse cx="0" cy="-120" rx="30" ry="15" class="column-fill" />
+    <ellipse cx="0" cy="-120" rx="30" ry="15" class="column-border" />
+  </g>
+
+
+</svg>

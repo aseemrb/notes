@@ -1,0 +1,29 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Standard Normal Distribution PDF</title>
+  <style>
+    :root { 
+      --text: #374151; --axis: #9ca3af; --curve: #3b82f6; 
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #6b7280; --curve: #60a5fa; }
+    }
+    text { fill: var(--text); font-family: system-ui, sans-serif; font-size: 14px; }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .curve { stroke: var(--curve); stroke-width: 3; fill: none; }
+    .guide { stroke: var(--axis); stroke-dasharray: 4; stroke-width: 1; }
+  </style>
+
+  <!-- Axes -->
+  <!-- Center X at 200 -->
+  <line x1="20" y1="170" x2="380" y2="170" class="axis" />
+  <line x1="200" y1="180" x2="200" y2="20" class="axis" />
+
+  <!-- Labels -->
+  <text x="200" y="15" text-anchor="middle">f(x)</text>
+  <text x="370" y="190">x</text>
+
+  <!-- Curve: Bell Shape -->
+  <!-- Peak at (200, 50). Falls off to sides. -->
+  <path d="M 50 168 Q 150 160 170 100 Q 200 20 230 100 Q 250 160 350 168" class="curve" />
+
+</svg>

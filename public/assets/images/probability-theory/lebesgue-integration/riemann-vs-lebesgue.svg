@@ -1,0 +1,50 @@
+<svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <style>
+    :root { --axis: #555; --text: #444; --riemann: #3b82f6; --lebesgue: #10b981; --grid: #f3f4f6; }
+    @media (prefers-color-scheme: dark) {
+      :root { --axis: #888; --text: #ccc; --riemann: #60a5fa; --lebesgue: #34d399; --grid: #1f2937; }
+    }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .text { fill: var(--text); font-size: 13px; }
+    .riemann { fill: var(--riemann); stroke: var(--riemann); stroke-width: 2; fill-opacity: 0.2; }
+    .lebesgue { fill: var(--lebesgue); stroke: var(--lebesgue); stroke-width: 2; fill-opacity: 0.2; }
+    .label { font-size: 14px; font-weight: bold; fill: var(--text); }
+  </style>
+
+  <!-- Panel 1: Riemann -->
+  <g transform="translate(50, 40)">
+    <text x="100" y="-15" text-anchor="middle" class="label">Riemann Domain: Interval</text>
+    <line x1="0" y1="160" x2="200" y2="160" class="axis" />
+    <line x1="0" y1="20" x2="0" y2="160" class="axis" />
+    
+    <!-- Partitioned line -->
+    <rect x="0" y="80" width="60" height="80" class="riemann" />
+    <rect x="60" y="40" width="80" height="120" class="riemann" />
+    <rect x="140" y="100" width="60" height="60" class="riemann" />
+    
+    <text x="30" y="175" text-anchor="middle" class="text">I₁</text>
+    <text x="100" y="175" text-anchor="middle" class="text">I₂</text>
+    <text x="170" y="175" text-anchor="middle" class="text">I₃</text>
+  </g>
+
+  <!-- Separator -->
+  <line x1="300" y1="20" x2="300" y2="230" stroke="#888" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+
+  <!-- Panel 2: Lebesgue -->
+  <g transform="translate(350, 40)">
+    <text x="100" y="-15" text-anchor="middle" class="label">Lebesgue Domain: Measurable Sets</text>
+    
+    <!-- Domain Omega as a blob -->
+    <path d="M 10 100 Q 20 200 100 200 Q 180 200 190 100 Q 180 0 100 0 Q 20 0 10 100" fill="none" class="axis" />
+    <text x="10" y="10" class="text" font-weight="bold">Ω</text>
+
+    <!-- Partitions as blobs -->
+    <path d="M 40 50 Q 60 40 80 50 Q 90 80 70 110 Q 50 120 40 90 Z" class="lebesgue" />
+    <text x="50" y="85" class="text">A₁</text>
+
+    <path d="M 120 70 Q 150 60 170 100 Q 160 140 120 150 Q 80 130 120 70" class="lebesgue" />
+    <text x="130" y="115" class="text">A₂</text>
+
+    <text x="100" y="225" text-anchor="middle" class="text" font-style="italic">Sets don't need to be intervals</text>
+  </g>
+</svg>

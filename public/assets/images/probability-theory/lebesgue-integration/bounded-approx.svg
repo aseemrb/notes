@@ -1,0 +1,152 @@
+<svg viewBox="-40 0 440 200" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, sans-serif">
+  <style>
+    :root { 
+      --text: #374151; 
+      --axis: #9ca3af; 
+      --curve: #8b5cf6; /* Violet/Purple to match sketch */
+      --upper: #ef4444; 
+      --lower: #10b981;
+      --grid: #e5e7eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --text: #d1d5db; 
+        --axis: #6b7280; 
+        --curve: #a78bfa; 
+        --upper: #f87171; 
+        --lower: #34d399;
+        --grid: #374151;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4; }
+    .curve { stroke: var(--curve); stroke-width: 2.5; fill: none; }
+    .upper-step { stroke: var(--upper); stroke-width: 3; fill: none; stroke-linecap: round; }
+    .lower-step { stroke: var(--lower); stroke-width: 3; fill: none; stroke-linecap: round; }
+    .projection { stroke: var(--axis); stroke-width: 1; stroke-dasharray: 3; opacity: 0.6; }
+    .text { fill: var(--text); font-size: 12px; }
+    .label { font-weight: bold; font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; }
+  </style>
+
+  <!-- Title/Legend -->
+  <g transform="translate(280, 30)">
+    <line x1="0" y1="0" x2="20" y2="0" class="curve" />
+    <text x="25" y="4" class="text label">f</text>
+    
+    <line x1="0" y1="20" x2="20" y2="20" class="upper-step" />
+    <text x="25" y="24" class="text label">ψ (upper)</text>
+    
+    <line x1="0" y1="40" x2="20" y2="40" class="lower-step" />
+    <text x="25" y="44" class="text label">φ (lower)</text>
+  </g>
+
+  <!-- Grid Lines (Levels spaced by 30 units) -->
+  <!-- Level 2: y=65 -->
+  <!-- Level 1: y=95 -->
+  <!-- Level 0: y=125 (Axis) -->
+  <!-- Level -1: y=155 -->
+  <!-- Level -2: y=185 -->
+  
+  <line x1="20" y1="65" x2="380" y2="65" class="grid" />
+  <line x1="20" y1="95" x2="380" y2="95" class="grid" />
+  <line x1="20" y1="125" x2="380" y2="125" class="grid" /> <!-- Center Axis -->
+  <line x1="20" y1="155" x2="380" y2="155" class="grid" />
+  <line x1="20" y1="185" x2="380" y2="185" class="grid" />
+
+  <!-- Main Axis Line -->
+  <line x1="20" y1="125" x2="380" y2="125" class="axis" />
+
+  <!-- 
+    Curve Points Plan:
+    Start: (40, 125)
+    Cross L1 (95): x=70
+    Peak: (110, 80)
+    Cross L1 (95): x=150
+    Cross L0 (125): x=180
+    Cross L-1 (155): x=210
+    Valley: (250, 170)
+    Cross L-1 (155): x=290
+    Cross L0 (125): x=320
+    End: (360, 100)
+  -->
+  <path d="M 40 125 C 50 125, 60 95, 70 95 S 90 80, 110 80 S 140 95, 150 95 S 170 125, 180 125 S 200 155, 210 155 S 230 170, 250 170 S 280 155, 290 155 S 310 125, 320 125 S 340 100, 360 100" class="curve" />
+
+  <!-- Vertical Projection Lines at Crossings -->
+  <line x1="70" y1="95" x2="70" y2="125" class="projection" />
+  <line x1="150" y1="95" x2="150" y2="125" class="projection" />
+  <!-- x=180 is on axis, no projection needed or just defined by grid -->
+  <line x1="210" y1="125" x2="210" y2="155" class="projection" />
+  <line x1="290" y1="125" x2="290" y2="155" class="projection" />
+  
+  <!-- Also projected "bounds" for the highest/lowest segments -->
+  <line x1="70" y1="65" x2="70" y2="95" class="projection" />
+  <line x1="150" y1="65" x2="150" y2="95" class="projection" />
+  
+  <line x1="210" y1="155" x2="210" y2="185" class="projection" />
+  <line x1="290" y1="155" x2="290" y2="185" class="projection" />
+
+  <!-- 
+    Step Functions Logic:
+    Segment 1: x[40, 70]. Curve in [125, 95] (Band 0).
+       Upper (Red) at y=95.
+       Lower (Green) at y=125.
+  -->
+  <line x1="40" y1="95" x2="70" y2="95" class="upper-step" />
+  <line x1="40" y1="125" x2="70" y2="125" class="lower-step" />
+
+  <!-- 
+    Segment 2: x[70, 150]. Curve in [95, 65 ish] (Band 1).
+       Upper (Red) at y=65.
+       Lower (Green) at y=95.
+  -->
+  <line x1="70" y1="65" x2="150" y2="65" class="upper-step" />
+  <line x1="70" y1="95" x2="150" y2="95" class="lower-step" />
+
+  <!-- 
+    Segment 3: x[150, 180]. Curve in [95, 125] (Band 0).
+       Upper (Red) at y=95.
+       Lower (Green) at y=125.
+  -->
+  <line x1="150" y1="95" x2="180" y2="95" class="upper-step" />
+  <line x1="150" y1="125" x2="180" y2="125" class="lower-step" />
+
+  <!-- 
+    Segment 4: x[180, 210]. Curve in [125, 155] (Band -1).
+       Upper (Red) at y=125.
+       Lower (Green) at y=155.
+  -->
+  <line x1="180" y1="125" x2="210" y2="125" class="upper-step" />
+  <line x1="180" y1="155" x2="210" y2="155" class="lower-step" />
+
+  <!-- 
+    Segment 5: x[210, 290]. Curve in [155, 185] (Band -2).
+       Upper (Red) at y=155.
+       Lower (Green) at y=185.
+  -->
+  <line x1="210" y1="155" x2="290" y2="155" class="upper-step" />
+  <line x1="210" y1="185" x2="290" y2="185" class="lower-step" />
+
+  <!-- 
+    Segment 6: x[290, 320]. Curve in [155, 125] (Band -1).
+       Upper (Red) at y=125.
+       Lower (Green) at y=155.
+  -->
+  <line x1="290" y1="125" x2="320" y2="125" class="upper-step" />
+  <line x1="290" y1="155" x2="320" y2="155" class="lower-step" />
+  
+  <!-- 
+    Segment 7: x[320, 360]. Curve goes up from 125 to 100 (Band 0).
+       Upper (Red) at y=95.
+       Lower (Green) at y=125.
+  -->
+  <line x1="320" y1="95" x2="360" y2="95" class="upper-step" />
+  <line x1="320" y1="125" x2="360" y2="125" class="lower-step" />
+
+  <!-- Annotation for step size M/n -->
+  <g transform="translate(10, 110)">
+     <!-- Bracket or something showing distance between 95 and 125 -->
+     <path d="M 5 15 L 0 15 L 0 -15 L 5 -15" stroke="var(--text)" fill="none" />
+     <text x="-5" y="4" text-anchor="end" class="text label" font-size="12">M/n</text>
+  </g>
+
+</svg>

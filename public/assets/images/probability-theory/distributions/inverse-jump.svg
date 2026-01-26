@@ -1,0 +1,87 @@
+<svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Discontinuous Distribution Inversion</title>
+  <desc id="desc">Visualization of inverse transform sampling with a jump discontinuity in F(x).</desc>
+
+  <style>
+    :root {
+      --bg: transparent;
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #e5e7eb;
+      --curve: #3b82f6;
+      --measure: #ef4444; /* red for jump gap */
+      --highlight: #f59e0b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #374151;
+        --curve: #60a5fa;
+        --measure: #f87171;
+        --highlight: #fbbf24;
+      }
+    }
+    text { fill: var(--text); font-family: system-ui, sans-serif; font-size: 14px; }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .curve { stroke: var(--curve); stroke-width: 4; fill: none; }
+    .jump-line { stroke: var(--axis); stroke-width: 1; stroke-dasharray: 4; }
+    .mapping { stroke: var(--highlight); stroke-width: 2; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+    .gap-brace { fill: none; stroke: var(--measure); stroke-width: 2; }
+    .label { font-weight: 600; }
+    .sub-label { font-size: 12px; fill: var(--highlight); }
+    .gap-label { font-size: 12px; fill: var(--measure); font-weight: 500;}
+  </style>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--highlight)" />
+    </marker>
+  </defs>
+
+  <!-- Axes -->
+  <line x1="50" y1="300" x2="50" y2="50" class="axis" />
+  <line x1="45" y1="300" x2="500" y2="300" class="axis" />
+  
+  <text x="50" y="30" text-anchor="middle" class="label">ω</text>
+  <text x="480" y="305" text-anchor="end" class="label">x</text>
+
+  <!-- Curve F(x) with JUMP at x0 = 250 -->
+  <!-- Part 1: (50, 300) -> (250, 220) -->
+  <path d="M 50 295 Q 150 290, 250 220" class="curve" />
+  <circle cx="250" cy="220" r="4" stroke="var(--curve)" stroke-width="2" fill="var(--bg)" /> <!-- Open circle bottom -->
+
+  <!-- Jump Gap on x0 line -->
+  <line x1="250" y1="220" x2="250" y2="120" class="jump-line" />
+
+  <!-- Part 2: (250, 120) -> (450, 50) -->
+  <path d="M 250 120 Q 350 80, 480 60" class="curve" />
+  <circle cx="250" cy="120" r="4" fill="var(--curve)" /> <!-- Closed circle top (Right Continuous) -->
+
+  <!-- Highlight the GAP on Y-axis -->
+  <!-- Project limits to Y-axis -->
+  <line x1="250" y1="220" x2="55" y2="220" stroke="var(--measure)" stroke-width="1" stroke-dasharray="2" opacity="0.5" />
+  <line x1="250" y1="120" x2="55" y2="120" stroke="var(--measure)" stroke-width="1" stroke-dasharray="2" opacity="0.5" />
+
+  <!-- Curly Brace for Gap -->
+  <path d="M 45 120 Q 35 120 35 130 L 35 160 Q 35 170 25 170 Q 35 170 35 180 L 35 210 Q 35 220 45 220" class="gap-brace" />
+  
+  <text x="60" y="175" class="gap-label">Interval of ω values</text>
+  <text x="60" y="190" class="gap-label">Prob Mass = F(x₀) - F(x₀-)</text>
+
+  <!-- Arrows mapping from Gap to x0 -->
+  <!-- Arrow 1 (High in gap) -->
+  <line x1="160" y1="140" x2="245" y2="140" class="mapping" />
+  <!-- Arrow 2 (Low in gap) -->
+  <line x1="160" y1="200" x2="245" y2="200" class="mapping" />
+  
+  <!-- Vertical line down to x0 -->
+  <line x1="250" y1="120" x2="250" y2="300" stroke="var(--highlight)" stroke-width="2" stroke-dasharray="6 4" />
+  
+  <circle cx="250" cy="300" r="4" fill="var(--highlight)" />
+  <text x="250" y="325" text-anchor="middle" class="label">x₀ (Point Mass)</text>
+
+  <!-- Explanation -->
+  <text x="200" y="110" class="sub-label" text-anchor="end">All these ω map to x₀</text>
+
+</svg>
