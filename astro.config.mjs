@@ -45,7 +45,7 @@ export default defineConfig({
 					items: [
 						{ slug: 'probability-theory', label: 'Introduction' },
 						{ label: 'Probability Spaces', collapsed: true, autogenerate: { directory: 'probability-theory/probability-spaces', collapsed: true } },
-						{ label: 'Events', collapsed: true, autogenerate: { directory: 'probability-theory/events', collapsed: true } },
+						{ label: 'Events & Random Variables', collapsed: true, autogenerate: { directory: 'probability-theory/events', collapsed: true } },
 					],
 				},
 			],

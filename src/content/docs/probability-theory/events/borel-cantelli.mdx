@@ -1,5 +1,66 @@
 ---
 title: Borel-Cantelli Lemmas
 sidebar:
-  order: 2
+  order: 3
 ---
+
+The Borel-Cantelli lemmas are powerful tools that help us determine whether a sequence of events will happen "infinitely often" (i.o.) or if they will eventually stop happening.
+
+Recall that $\lbrace A_n \text{ i.o.} \rbrace = \limsup A_n$. We are interested in $\Pr(A_n \text{ i.o.})$.
+
+## First Borel-Cantelli Lemma
+This lemma applies to **any** sequence of events; independence is **not** required.
+
+<Aside icon="seti:smarty" title="Borel-Cantelli I">
+<Tabs>
+<TabItem label="Statement">
+If $\sum_{n=1}^\infty \Pr(A_n) < \infty$, then
+$$
+\Pr(A_n \text{ i.o.}) = 0.
+$$
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Define Indicator Variable**
+    Let $N = \sum_{n=1}^\infty \mathbb{1}_{A_n}$ be the total number of events that occur.
+
+2.  **Expected Number of Occurrences**
+    By Monotone Convergence (or linearity of expectation),
+    $$
+    \E[N] = \E\left[\sum_{n=1}^\infty \mathbb{1}_{A_n}\right] = \sum_{n=1}^\infty \Pr(A_n) < \infty.
+    $$
+
+3.  **Conclusion**
+    Since the expected number of occurrences is finite ($\E[N] < \infty$), the random variable $N$ must be finite with probability 1 (if it were infinite with positive probability, the expectation would be infinite).
+    Thus, $A_n$ occurs infinitely often with probability 0.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+**Intuition:** If the sum of probabilities is finite, the events are "rare enough" that, with probability 1, only finitely many of them will occur. The sequence eventually "dies out".
+
+## Second Borel-Cantelli Lemma
+This lemma is a partial converse to the first, but it requires a crucial assumption: **independence**.
+
+<Aside icon="seti:smarty" title="Borel-Cantelli II">
+If the events $A_n$ are **independent** and $\sum_{n=1}^\infty \Pr(A_n) = \infty$, then
+$$
+\Pr(A_n \text{ i.o.}) = 1.
+$$
+</Aside>
+
+**Intuition:** If the events are independent and have "enough probability mass" (infinite sum), then they are guaranteed to keep happening forever.
+
+**Why is independence needed?**
+Consider $A_n = A$ for all $n$, where $\Pr(A) = 1/2$.
+Then $\sum \Pr(A_n) = \infty$ (diverges).
+However, $A_n \text{ i.o.}$ implies $A$ happens infinitely often, which just means $A$ happens (since they are all the same). $\Pr(A \text{ i.o.}) = \Pr(A) = 1/2 \neq 1$.
+The "clumping" (perfect correlation) prevents the probability from being 1. Independence ensures the events are "scattered" enough to eventually happen.
+
+## Summary
+
+| Condition | Assumption | Result for $\Pr(A_n \text{ i.o.})$ |
+| :--- | :--- | :--- |
+| $\sum \Pr(A_n) < \infty$ | None | **0** |
+| $\sum \Pr(A_n) = \infty$ | **Independence** | **1** |

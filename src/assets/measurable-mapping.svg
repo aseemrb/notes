@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" class="w-full h-auto">
+  <style>
+    /* Default (Light Mode) */
+    :root {
+      --bg-color: transparent;
+      --stroke-main: #334155;     /* Slate-700 */
+      --text-main: #1e293b;       /* Slate-800 */
+      --text-sub: #475569;        /* Slate-600 */
+      --arrow-color: #64748b;     /* Slate-500 */
+      
+      /* Highlights */
+      --hilite-red-stroke: #ef4444;       /* Red-500 */
+      --hilite-red-text: #dc2626;         /* Red-600 for contrast */
+      --hilite-red-bg: rgba(239, 68, 68, 0.1);
+      
+      --hilite-green-stroke: #22c55e;     /* Green-500 */
+      --hilite-green-text: #16a34a;       /* Green-600 for contrast */
+      --hilite-green-bg: rgba(34, 197, 94, 0.1);
+    }
+
+    /* Dark Mode */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --stroke-main: #94a3b8;   /* Slate-400 */
+        --text-main: #e2e8f0;     /* Slate-200 */
+        --text-sub: #cbd5e1;      /* Slate-300 */
+        --arrow-color: #94a3b8;   /* Slate-400 */
+        
+        --hilite-red-stroke: #f87171;     /* Red-400 */
+        --hilite-red-text: #f87171;       /* Red-400 */
+        --hilite-red-bg: rgba(248, 113, 113, 0.1);
+        
+        --hilite-green-stroke: #4ade80;   /* Green-400 */
+        --hilite-green-text: #4ade80;     /* Green-400 */
+        --hilite-green-bg: rgba(74, 222, 128, 0.1);
+      }
+    }
+
+    .main-stroke { stroke: var(--stroke-main); fill: none; }
+    .main-text { fill: var(--text-main); font-family: sans-serif; font-weight: bold; font-size: 22px; }
+    
+    .sub-text { fill: var(--text-sub); font-family: sans-serif; font-size: 18px; }
+    .caption-text { fill: var(--text-sub); font-family: sans-serif; font-size: 16px; }
+    
+    .arrow-path { stroke: var(--arrow-color); fill: none; }
+    .arrow-text { fill: var(--arrow-color); font-family: serif; font-style: italic; font-size: 24px; }
+    .arrow-head { fill: var(--arrow-color); }
+
+    .red-region { stroke: var(--hilite-red-stroke); fill: var(--hilite-red-bg); }
+    .red-label { fill: var(--hilite-red-text); }
+    
+    .green-region { stroke: var(--hilite-green-stroke); fill: var(--hilite-green-bg); }
+    .green-label { fill: var(--hilite-green-text); }
+
+    /* Math Script Font for Sigma Fields */
+    .math-script { 
+      font-family: "Brush Script MT", "Apple Chancery", "Comic Sans MS", cursive; 
+      font-size: 28px; 
+      font-weight: normal;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="arrow-head" />
+    </marker>
+  </defs>
+  
+  <!-- Domain Omega -->
+  <ellipse cx="200" cy="200" rx="140" ry="90" class="main-stroke" stroke-width="2" />
+  <text x="200" y="90" class="main-text" text-anchor="middle">Space (Ω, <tspan class="math-script">F</tspan>)</text>
+  
+  <!-- Codomain S -->
+  <ellipse cx="600" cy="200" rx="140" ry="90" class="main-stroke" stroke-width="2" />
+  <text x="600" y="90" class="main-text" text-anchor="middle">Space (S, <tspan class="math-script">A</tspan>)</text>
+
+  <!-- Subset A in S (Red) -->
+  <ellipse cx="600" cy="200" rx="60" ry="35" class="red-region" stroke-width="2" stroke-dasharray="5,5" />
+  <text x="600" y="205" class="sub-text red-label" text-anchor="middle">A ∈ <tspan class="math-script">A</tspan></text>
+
+  <!-- Subset X^-1(A) in Omega (Green) -->
+  <path d="M 160 180 Q 200 160, 240 180 Q 255 210, 240 230 Q 200 250, 160 230 Q 145 200, 160 180 Z" class="green-region" stroke-width="2" stroke-dasharray="5,5" />
+  <text x="200" y="215" class="sub-text green-label" text-anchor="middle">X⁻¹(A) ∈ <tspan class="math-script">F</tspan></text>
+
+  <!-- Mapping Arrows -->
+  <!-- Top arrow -->
+  <path d="M 230 170 Q 400 120, 560 180" class="arrow-path" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <!-- Bottom arrow -->
+  <path d="M 230 230 Q 400 280, 560 220" class="arrow-path" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  
+  <text x="400" y="190" class="arrow-text" text-anchor="middle">X</text>
+
+  <!-- Caption text -->
+  <text x="400" y="340" class="caption-text" text-anchor="middle">
+    If X⁻¹(A) is in <tspan class="math-script">F</tspan> for any A ∈ <tspan class="math-script">A</tspan>, then X is measurable
+  </text>
+</svg>

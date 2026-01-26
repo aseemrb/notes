@@ -3,3 +3,137 @@ title: Limits and Independence
 sidebar:
   order: 1
 ---
+
+Before we can discuss laws of large numbers or "0-1" laws, we need two critical tools: a way to talk about the limiting behavior of a sequence of events, and a rigorous definition of independence.
+
+## Events as Sets
+
+Recall that in our formal probability model $(\Omega, \cF, \Pr)$, an **event** is a set $A \in \cF$. The $\sigma$-field structure ensures that we can perform countable logical operations on these events and still stay within our model.
+
+| Set Operation | Logical Meaning |
+| :--- | :--- |
+| $\omega \in A \cup B$ | $A$ **OR** $B$ occurs |
+| $\omega \in A \cap B$ | $A$ **AND** $B$ occur |
+| $\omega \in A^c$ | $A$ does **NOT** occur |
+| $A \subseteq B$ | $A$ **IMPLIES** $B$ |
+| $\omega \in \bigcap_{n=1}^\infty A_n$ | **ALL** $A_n$ occur |
+| $\omega \in \bigcup_{n=1}^\infty A_n$ | **AT LEAST ONE** $A_n$ occurs |
+
+This dictionary allows us to translate complex logical questions about random processes into set-theoretic manipulations. This is especially useful when studying the long-term behavior of a process.
+
+## Limits of Sets
+
+Just as numbers can converge, sequences of sets can also have limits.
+For a sequence of events $A_1, A_2, \dots$, we define their **limit superior** and **limit inferior**.
+
+### Lim Sup (Infinitely Often)
+
+The limit superior of the sequence $A_n$ is the set of outcomes that occur in **infinitely many** of the sets $A_n$.
+We can think of this as approaching the limit **from above** (outer envelope).
+
+$$ \limsup_{n \to \infty} A_n = \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k $$
+
+**Intuition**:
+*   $\omega \in \limsup A_n$ if **for every** $n$, there exists some $k \ge n$ such that $\omega \in A_k$.
+*   This implies that $\omega$ keeps appearing in the sequence "again and again" without stopping.
+*   Thus, we say $\lbrace A_n \text{ i.o.} \rbrace$ — the event that $A_n$ happens **infinitely often**.
+*   There is **no last occurrence** of this event.
+
+### Lim Inf (Eventually)
+
+The limit inferior of the sequence $A_n$ is the set of outcomes that occur in **all but finitely many** of the sets $A_n$.
+We can think of this as approaching the limit **from below** (inner envelope).
+
+$$ \liminf_{n \to \infty} A_n = \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k $$
+
+**Intuition**:
+*   $\omega \in \liminf A_n$ if **there exists** some $n$ such that for all $k \ge n$, $\omega \in A_k$.
+*   This means after some point, $\omega$ is always in $A_k$.
+*   Thus, we say $\lbrace A_n \text{ eventually} \rbrace$ or $\lbrace A_n \text{ a.a.} \rbrace$ — the event that $A_n$ happens **almost always**.
+
+<Aside type="caution" title="Limit Existence">
+If $\liminf A_n = \limsup A_n$, we say the sequence $A_n$ **has a limit**, and write:
+$$
+\lim_{n \to \infty} A_n = A
+$$
+Note that $\liminf A_n \subseteq \limsup A_n$ always holds.
+</Aside>
+
+### Probability of Limits
+
+We can relate the probability of the limits to the limits of the probabilities.
+
+<Aside icon="seti:smarty" title="Theorem: Probability of Limits">
+<Tabs>
+<TabItem label="Statement">
+1. For any sequence of events $\{A_n\}$:
+   $$
+   \Pr(\liminf_{n \to \infty} A_n) \le \liminf_{n \to \infty} \Pr(A_n) \le \limsup_{n \to \infty} \Pr(A_n) \le \Pr(\limsup_{n \to \infty} A_n)
+   $$
+2. If $A_n \to A$, then $\Pr(A_n) \to \Pr(A)$ (Continuity of Probability).
+</TabItem>
+<TabItem label="Proof">
+Define the tail sequences $B_n$ and $C_n$:
+$$
+B_n = \bigcap_{k=n}^\infty A_k, \quad C_n = \bigcup_{k=n}^\infty A_k
+$$
+
+<Steps>
+1. **Monotonicity**
+
+   $B_n$ is an **increasing** sequence of sets ($B_n \subseteq B_{n+1}$) because the intersection is over fewer terms. Thus $B_n \uparrow \liminf A_n$.
+   $C_n$ is a **decreasing** sequence of sets ($C_n \supseteq C_{n+1}$) because the union is over fewer terms. Thus $C_n \downarrow \limsup A_n$.
+
+2. **Continuity of Measure**
+
+   By the continuity of probability measures (from below and above):
+   *   $\Pr(B_n) \uparrow \Pr(\liminf A_n)$
+   *   $\Pr(C_n) \downarrow \Pr(\limsup A_n)$
+
+3. **Inequality**
+
+   Since $B_n \subseteq A_n \subseteq C_n$ for all $n$, we have $\Pr(B_n) \le \Pr(A_n) \le \Pr(C_n)$.
+   Taking limits (liminf and limsup) across the inequality:
+   $$
+   \lim_{n \to \infty} \Pr(B_n) \le \liminf_{n \to \infty} \Pr(A_n) \le \limsup_{n \to \infty} \Pr(A_n) \le \lim_{n \to \infty} \Pr(C_n)
+   $$
+
+   Substituting the limits of $\Pr(B_n)$ and $\Pr(C_n)$ gives result (1). Result (2) follows immediately when limits exist.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Independence
+
+Our intuition for independence is that knowing one event occurred gives us no information about whether another event occurred. In measure theory, we define this formally using the product rule.
+
+### Independence of Events
+
+<Aside type="tip" icon="open-book" title="Definition: Independent Events">
+Two events $A$ and $B$ are **independent** if:
+$$
+\Pr(A \cap B) = \Pr(A)\Pr(B)
+$$
+A finite collection of events $A_1, \dots, A_n$ is independent if for any sub-collection $A_{i_1}, \dots, A_{i_k}$:
+$$
+\Pr(\bigcap_{j=1}^k A_{i_j}) = \prod_{j=1}^k \Pr(A_{i_j})
+$$
+</Aside>
+
+<Aside type="danger" title="Warning: Pairwise independence does *not* imply mutual independence!">
+</Aside>
+
+### Independence of $\sigma$-fields
+
+Independence is fundamentally a property of $\sigma$-fields (information).
+
+<Aside type="tip" icon="open-book" title="Definition: Independent σ-fields">
+Two $\sigma$-fields $\cF$ and $\cG$ are independent if for every $A \in \cF$ and $B \in \cG$:
+$$
+\Pr(A \cap B) = \Pr(A)\Pr(B)
+$$
+</Aside>
+
+This generalizes to generic families of events. Two families $\mathcal{A}$ and $\mathcal{B}$ are independent if $\Pr(A \cap B) = \Pr(A)\Pr(B)$ for all $A \in \mathcal{A}, B \in \mathcal{B}$.
+A useful theorem states that if two $\pi$-systems (families closed under intersection) are independent, then the $\sigma$-fields they generate are also independent.
