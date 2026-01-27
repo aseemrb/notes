@@ -3,3 +3,111 @@ title: Expectation
 sidebar:
   order: 6
 ---
+
+We are now ready to define expectation. Let $X$ be a random variable on a probability space $(\Omega, \mathcal{F}, \mathbb{P})$. Then its **expectation** $\mathbb{E}X$ is simply the [Lebesgue integration](../general-functions#definition-of-the-integral) of $X$ on $(\Omega, \mathcal{F}, \mathbb{P})$.
+
+<Aside type="tip" icon="open-book" title="Definition: Expectation">
+$$
+\mathbb{E}[X] = \int X \, d\mathbb{P}
+$$
+
+Terms **Expectation**, **Mean**, and **Average** refer to the same thing.
+</Aside>
+
+### Integrability
+
+Recall that $X$ is integrable only if $\mathbb{E}[|X|] < \infty$.
+We have seen that $\mathbb{E}[X] = \mathbb{E}[X^+] - \mathbb{E}[X^-]$.
+Thus $X$ is integrable only if **both** $\mathbb{E}[X^+]$ and $\mathbb{E}[X^-]$ are finite.
+
+<Aside type="danger" title="Remark">
+We also allow one of $\mathbb{E}[X^+]$ or $\mathbb{E}[X^-]$ to be $\infty$.
+In that case, we say $\mathbb{E}[X] = \infty$ or $-\infty$.
+If **both** are $\infty$, then the expectation is **not defined**.
+</Aside>
+
+## Immediate Properties
+
+Since expectation is an integral, it inherits all properties of the integral:
+*   **Linearity**: $\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b\mathbb{E}[Y]$
+*   **Monotonicity**: $X \le Y$ a.s. $\implies \mathbb{E}[X] \le \mathbb{E}[Y]$
+*   **Triangle Inequality**: $|\mathbb{E}[X]| \le \mathbb{E}[|X|]$
+
+*(These hold whenever the quantities are well-defined).*
+
+## Relation to Elementary Probability
+
+<Aside type="caution" icon="error" title="Question">
+In elementary probability courses, expectation is defined as:
+$$
+\mathbb{E}[X] = \begin{cases} \sum_i x_i \mathbb{P}(X=x_i) & \text{if } X \text{ is discrete} \\ \int x f(x) \, dx & \text{if } X \text{ has density } f \end{cases}
+$$
+This is clearly not what we defined. The integration is not even on the right probability space ($\mathbb{R}$ vs $\Omega$).
+**Why are they the same?**
+</Aside>
+
+The answer lies in the **Change of Variable Formula**, which relates the abstract integral on $\Omega$ to an integral on $\mathbb{R}$ using the distribution of $X$.
+
+## Change of Variable Formula
+
+<Aside icon="seti:smarty" title="Theorem: Change of Variable">
+<Tabs>
+<TabItem label="Statement">
+Let $X$ be a random variable with distribution $\mu$ (i.e., $\mu(A) = \mathbb{P}(X \in A)$).
+Let $f$ be a measurable function such that $f \ge 0$ or $\mathbb{E}[|f(X)|] < \infty$.
+Then:
+
+$$
+\mathbb{E}[f(X)] = \int_{\Omega} f(X(\omega)) \, d\mathbb{P}(\omega) = \int_{\mathbb{R}} f(y) \, \mu(dy)
+$$
+</TabItem>
+<TabItem label="Proof">
+We use the standard [machinery of Lebesgue integration](./#key-topics), going from indicator functions all the way to general functions:
+
+<Steps>
+1.  **Indicator Functions**:
+    Let $f = \mathbb{1}_B$ for some $B \in \mathcal{B}$ (Borel set).
+    $$
+    \mathbb{E}[\mathbb{1}_B(X)] = \mathbb{P}(X \in B) = \mu(B) \quad \text{(by definition of } \mu \text{)}
+    $$
+    On the other hand:
+    $$
+    \int \mathbb{1}_B(y) \, \mu(dy) = \mu(B)
+    $$
+    So it holds for indicator functions.
+
+2.  **Simple Functions**:
+    Let $f(x) = \sum_{m=1}^n c_m \mathbb{1}_{B_m}$.
+    By linearity of expectation and integration:
+    $$
+    \mathbb{E}[f(X)] = \sum c_m \mathbb{E}[\mathbb{1}_{B_m}(X)] = \sum c_m \mu(B_m) = \int f(y) \, \mu(dy)
+    $$
+
+3.  **Non-Negative Functions**:
+    Let $f \ge 0$. Choose simple functions $f_n \uparrow f$ (e.g., $f_n = ( \lfloor 2^n f(x) \rfloor / 2^n ) \wedge n$).
+    Then:
+    $$
+    \mathbb{E}[f(X)] \stackrel{\text{MCT}}{=} \lim_{n \to \infty} \mathbb{E}[f_n(X)] = \lim_{n \to \infty} \int f_n(y) \, \mu(dy) \stackrel{\text{MCT}}{=} \int f(y) \, \mu(dy)
+    $$
+
+4.  **General Functions**:
+    Decompose $f = f^+ - f^-$.
+    $$
+    \begin{aligned}
+    \mathbb{E}[f(X)] &= \mathbb{E}[f^+(X)] - \mathbb{E}[f^-(X)] \\
+    &= \int f^+(y) \, \mu(dy) - \int f^-(y) \, \mu(dy) \\
+    &= \int f(y) \, \mu(dy) \quad \square
+    \end{aligned}
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="tip" title="Application">
+In particular, if $X$ is a random variable with density $g$ (meaning $\mu(dy) = g(y) \, dy$), then:
+$$
+\mathbb{E}[f(X)] = \int f(y) g(y) \, dy
+$$
+If $f(x) = x$, we recover $\mathbb{E}[X] = \int y g(y) \, dy$.
+</Aside>

@@ -1,10 +1,14 @@
 ---
-title: Limits and Independence
+title: Limits of Events
 sidebar:
   order: 1
 ---
 
-Before we can discuss laws of large numbers or "0-1" laws, we need two critical tools: a way to talk about the limiting behavior of a sequence of events, and a rigorous definition of independence.
+Before we can discuss sophisticated results like the laws of large numbers or even the Kolmogorov's "0-1" law, we need two critical tools: a way to talk about the limiting behavior of a sequence of events, and a rigorous definition of independence of events.
+
+<Aside type="danger" title="Remark">
+  We will look at independence of [random variables](../random-variables) in much more detail later, once we define random variables and some other related constructs.
+</Aside>
 
 ## Events as Sets
 
@@ -103,53 +107,3 @@ $$
 </TabItem>
 </Tabs>
 </Aside>
-
-## Independence
-
-Our intuition for independence is that knowing one event occurred gives us no information about whether another event occurred. In measure theory, we define this formally using the product rule.
-
-### Independence of Events
-
-<Aside type="tip" icon="open-book" title="Definition: Independent Events">
-Two events $A$ and $B$ are **independent** if:
-$$
-\Pr(A \cap B) = \Pr(A)\Pr(B)
-$$
-A finite collection of events $A_1, \dots, A_n$ is independent if for any sub-collection $A_{i_1}, \dots, A_{i_k}$:
-$$
-\Pr(\bigcap_{j=1}^k A_{i_j}) = \prod_{j=1}^k \Pr(A_{i_j})
-$$
-</Aside>
-
-<Aside type="danger" title="Warning">
-Pairwise independence does *not* imply mutual independence!
-
-**Counter-Example**: Consider tossing two fair coins. Let:
-*   $A = \{\text{First coin is Heads}\}$
-*   $B = \{\text{Second coin is Heads}\}$
-*   $C = \{\text{Coins match (both H or both T)}\}$
-
-Then $\Pr(A) = \Pr(B) = \Pr(C) = 1/2$. The events are pairwise independent:
-*   $\Pr(A \cap B) = 1/4 = \Pr(A)\Pr(B)$
-*   $\Pr(A \cap C) = 1/4 = \Pr(A)\Pr(C)$
-*   $\Pr(B \cap C) = 1/4 = \Pr(B)\Pr(C)$
-
-However, they are **not** mutually independent because knowing $A$ and $B$ determines $C$ completely:
-$$
-\Pr(A \cap B \cap C) = \Pr(\{HH\}) = 1/4 \neq \Pr(A)\Pr(B)\Pr(C) = 1/8
-$$
-</Aside>
-
-### Independence of σ-fields
-
-Independence is fundamentally a property of $\sigma$-fields (information).
-
-<Aside type="tip" icon="open-book" title="Definition: Independent σ-fields">
-Two $\sigma$-fields $\cF$ and $\cG$ are independent if for every $A \in \cF$ and $B \in \cG$:
-$$
-\Pr(A \cap B) = \Pr(A)\Pr(B)
-$$
-</Aside>
-
-This generalizes to generic families of events. Two families $\mathcal{A}$ and $\mathcal{B}$ are independent if $\Pr(A \cap B) = \Pr(A)\Pr(B)$ for all $A \in \mathcal{A}, B \in \mathcal{B}$.
-A useful theorem states that if two $\pi$-systems (families closed under intersection) are independent, then the $\sigma$-fields they generate are also independent.

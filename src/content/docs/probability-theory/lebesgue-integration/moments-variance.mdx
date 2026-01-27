@@ -3,3 +3,146 @@ title: Moments, Variance
 sidebar:
   order: 7
 ---
+
+We define higher-order statistics based on the expectation.
+
+<Aside type="tip" icon="open-book" title="Definition: k-th Moment">
+The **$k$-th moment** of a random variable $X$ is defined as $\mathbb{E}[X^k]$ for $k = 1, 2, \dots$.
+</Aside>
+
+<Aside type="tip" icon="open-book" title="Definition: Variance">
+The **Variance** of $X$ is the second moment of the re-centered random variable:
+
+$$
+\text{Var}(X) = \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
+$$
+</Aside>
+
+## Examples
+
+<Steps>
+1.  **Bernoulli Distribution**: $X \sim \text{Bern}(p)$.
+    $$
+    \mathbb{P}(X=1) = p, \quad \mathbb{P}(X=0) = 1-p
+    $$
+    *   **Mean**: $\mathbb{E}[X] = 1 \cdot p + 0 \cdot (1-p) = p$.
+    *   **Second Moment**: Since $X$ takes values $\{0, 1\}$, we have $X^2 = X$. Thus
+        $$
+        \mathbb{E}[X^2] = \mathbb{E}[X] = p
+        $$
+    *   **Variance**:
+        $$
+        \text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = p - p^2 = p(1-p)
+        $$
+
+2.  **Poisson Distribution**: $X \sim \text{Poi}(\lambda), \ \lambda > 0$.
+    $$
+    \mathbb{P}(X=k) = e^{-\lambda} \frac{\lambda^k}{k!}, \quad k = 0, 1, \dots
+    $$
+    To calculate moments, it is easier to use **factorial moments**. Consider $\mathbb{E}[X(X-1)\dots(X-k+1)]$.
+    
+    $$
+    \begin{aligned}
+    \mathbb{E}[X(X-1)\dots(X-k+1)] &= \sum_{j=0}^{\infty} j(j-1)\dots(j-k+1) e^{-\lambda} \frac{\lambda^j}{j!} \\
+    &= \sum_{j=k}^{\infty} \frac{j!}{(j-k)!} e^{-\lambda} \frac{\lambda^j}{j!} = \sum_{j=k}^{\infty} e^{-\lambda} \frac{\lambda^j}{(j-k)!}
+    \end{aligned}
+    $$
+    
+    Let $i = j-k$. Then:
+    $$
+    = \lambda^k \sum_{i=0}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!} = \lambda^k \underbrace{\left( \sum_{i=0}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!} \right)}_{1 \text{ (sum of PMF)}} = \lambda^k
+    $$
+    
+    *   **Mean**: Put $k=1$. $\mathbb{E}[X] = \lambda^1 = \lambda$.
+    *   **Second Moment**: Using $k=2$, $\mathbb{E}[X(X-1)] = \lambda^2$.
+        $$
+        \mathbb{E}[X^2] = \mathbb{E}[X(X-1)] + \mathbb{E}[X] = \lambda^2 + \lambda
+        $$
+    *   **Variance**:
+        $$
+        \text{Var}(X) = (\lambda^2 + \lambda) - \lambda^2 = \lambda
+        $$
+
+3.  **Exponential Distribution**: $X \sim \text{Exp}(\lambda)$.
+    Density $f(x) = \lambda e^{-\lambda x}, \ x \ge 0$.
+    $$
+    \mathbb{E}[X^k] = \int_0^{\infty} x^k \lambda e^{-\lambda x} \, dx
+    $$
+    Substitute $y = \lambda x \implies dx = dy/\lambda$.
+    $$
+    = \frac{1}{\lambda^k} \int_0^{\infty} y^k e^{-y} \, dy = \frac{\Gamma(k+1)}{\lambda^k} = \frac{k!}{\lambda^k}
+    $$
+    *   **Mean**: $\mathbb{E}[X] = 1! / \lambda^1 = 1/\lambda$.
+    *   **Variance**:
+        $$
+        \text{Var}(X) = \frac{2!}{\lambda^2} - \left( \frac{1}{\lambda} \right)^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}
+        $$
+</Steps>
+
+## Moment Generating Functions
+
+<Aside type="tip" icon="open-book" title="Definition: MGF">
+The **Moment Generating Function (MGF)** of a random variable $X$ is defined as:
+$$
+M_X(t) = \mathbb{E}[e^{tX}]
+$$
+defined for all $t \in \mathbb{R}$ where this expectation exists.
+</Aside>
+
+### Intuition: Why "Generating"?
+
+If the MGF exists in a neighborhood of $t=0$, we can expand $e^{tX}$ as a Taylor series:
+$$
+e^{tX} = 1 + tX + \frac{(tX)^2}{2!} + \frac{(tX)^3}{3!} + \dots
+$$
+Taking expectations (assuming we can swap sum and expectation):
+$$
+M_X(t) = 1 + t\mathbb{E}[X] + \frac{t^2}{2!}\mathbb{E}[X^2] + \frac{t^3}{3!}\mathbb{E}[X^3] + \dots
+$$
+Thus, the $k$-th derivative at $t=0$ **generates** the $k$-th moment:
+$$
+M_X^{(k)}(0) = \mathbb{E}[X^k]
+$$
+
+### Existence
+
+The MGF does not always exist! The term $e^{tX}$ grows very fast. For $\mathbb{E}[e^{tX}]$ to be finite, the probability density of $X$ must decay fast enough (faster than $e^{-tx}$) to counteract this growth.
+
+*   **Light Tails**: If tails decay exponentially (like Poisson, Exponential, Normal), the MGF usually exists in a neighborhood of 0.
+*   **Heavy Tails**: If tails decay slower (polyomially), the integral might diverge for $t > 0$.
+
+<Aside type="caution" icon="pencil" title="Exercise 9">
+<Tabs>
+<TabItem label="Exponential (Light Tail)">
+Let $X \sim \text{Exp}(\lambda)$ with density $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$.
+
+- Calculate $M_X(t) = \mathbb{E}[e^{tX}]$.
+- For which $t$ is this finite?
+
+<details>
+<summary>Reveal Hint</summary>
+Integrate $\lambda e^{-(\lambda - t)x}$. What happens when $t \ge \lambda$?
+</details>
+</TabItem>
+<TabItem label="Cauchy (Heavy Tail)">
+Let $X$ have the standard Cauchy density:
+$$
+f(x) = \frac{1}{\pi (1+x^2)}, \quad x \in \mathbb{R}
+$$
+Show that the MGF $M_X(t)$ is **infinite** for all $t \ne 0$.
+
+<details>
+<summary>Reveal Hint</summary>
+For $t > 0$, look at the behavior as $x \to \infty$. Does $\frac{e^{tx}}{1+x^2}$ have a finite integral?
+</details>
+</TabItem>
+<TabItem label="Connection to Radius">
+Consider the Taylor series expansion of $M_X(t)$.
+
+Why does the **radius of convergence**, $R$ (the largest value such that the series converges for all $|t| < R$), relate to the "heaviness" of the tails of $X$?
+
+- What if $R=0$?
+- What if $R=\infty$?
+</TabItem>
+</Tabs>
+</Aside>
