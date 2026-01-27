@@ -24,25 +24,16 @@ Here $\mathbb{1}_{A_i}$ is the **indicator function** of the set $A_i$.
 
 Simple functions are the Lebesgue counterpart of **step functions** used for Riemann integrals.
 
-<div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem;">
-  <div>
-    <img src="/assets/images/probability-theory/lebesgue-integration/riemann-vs-lebesgue.svg" alt="Riemann vs Lebesgue Domains" />
-    <p style="font-size: 0.8rem; text-align: center; color: var(--sl-color-gray-3); margin-top: 0.5rem;">
-      In the Lebesgue setting, we don't need the domain to be the real line or partitioned into intervals. Any measurable subset $A_i$ can serve as the base for a constant value.
-    </p>
-  </div>
-</div>
+![Riemann vs Lebesgue Domains](/assets/images/probability-theory/lebesgue-integration/riemann-vs-lebesgue.svg)
+
+*In the Lebesgue setting, we don't need the domain to be the real line or partitioned into intervals. Any measurable subset $A_i$ can serve as the base for a constant value.*
 
 In this simple case, the integration is just the **volume** (height $\times$ size of set) of the region under the function, i.e.,
 $$
 \int \varphi \, d\mu = a_1 \mu(A_1) + a_2 \mu(A_2)
 $$
 
-<div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 0.5rem;">
-  <div>
-    <img src="/assets/images/probability-theory/lebesgue-integration/simple-function-volume.svg" alt="Volume Interpretation" />
-  </div>
-</div>
+![Volume Interpretation](/assets/images/probability-theory/lebesgue-integration/simple-function-volume.svg)
 
 <Aside type="tip" icon="open-book" title="Definition: Lebesgue Integral of a Simple Function">
 For a simple function $\varphi = \sum_{i=1}^n a_i \mathbb{1}_{A_i}$, the integral is defined as:
