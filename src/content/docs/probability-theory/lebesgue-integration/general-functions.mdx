@@ -3,3 +3,62 @@ title: General Functions
 sidebar:
   order: 4
 ---
+
+Finally, we extend the definition to **any** measurable function $f$.
+
+## General Measurable Functions
+
+<Aside type="tip" icon="open-book" title="Definition: Integrable Function">
+Let $f$ be any measurable function. We call $f$ **integrable** if
+$$
+\int |f| \, d\mu < \infty
+$$
+</Aside>
+
+### Decomposition
+
+We can decompose any function $f$ into its positive and negative parts:
+
+$$
+f^+(x) = \max\{f(x), 0\} \quad \text{(Positive part)}
+$$
+$$
+f^-(x) = -\min\{f(x), 0\} = \max\{-f(x), 0\} \quad \text{(Negative part)}
+$$
+
+Note that both $f^+$ and $f^-$ are **non-negative** measurable functions (so Step 3 applies to them).
+Key identities:
+*   $f = f^+ - f^-$
+*   $|f| = f^+ + f^-$
+
+### Definition of the Integral
+
+<Aside type="tip" icon="open-book" title="Definition">
+For an integrable function $f$, we define the Lebesgue integral as:
+
+$$
+\int f \, d\mu = \int f^+ \, d\mu - \int f^- \, d\mu
+$$
+</Aside>
+
+### Condition for Integrability
+
+Since $|f| = f^+ + f^-$, by linearity (Property 3 for non-negative functions):
+$$
+\int |f| \, d\mu = \int f^+ \, d\mu + \int f^- \, d\mu
+$$
+
+Thus, $f$ is integrable if and only if **both** $\int f^+ \, d\mu < \infty$ and $\int f^- \, d\mu < \infty$.
+
+## Properties
+
+<Aside type="caution" icon="pencil" title="Exercise 8">
+<Tabs>
+<TabItem label="Problem">
+Prove that Properties 1-6 also hold for general integrable functions.
+</TabItem>
+<TabItem label="Hint">
+Use the decomposition $f = f^+ - f^-$ and the linearity of the integral for non-negative functions. Be careful with signs!
+</TabItem>
+</Tabs>
+</Aside>

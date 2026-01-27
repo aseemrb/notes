@@ -3,3 +3,105 @@ title: Non-Negative Functions
 sidebar:
   order: 3
 ---
+
+Now we don't need the functions to be bounded or supported on a set with finite measure. We extend the definition of the integral to non-negative measurable functions ($f \ge 0$).
+
+<Aside type="tip" icon="open-book" title="Definition">
+Let $f \ge 0$ be a measurable function. We define:
+$$
+\int f \, d\mu = \sup \left\{ \int h \, d\mu : 0 \le h \le f, \ h \in H \right\}
+$$
+where $H$ denotes the class of functions that are **bounded** and **supported on a set with finite measure**.
+</Aside>
+
+## Approximation Strategy
+
+One way is to approximate $f$ by a sequence of truncated functions.
+Define:
+$$
+h_n = (f \wedge n) \mathbf{1}_{E_n}
+$$
+
+where $E_n \uparrow \Omega$ is a sequence of sets with $\mu(E_n) < \infty$ for all $n$; and $f \wedge n = \min(f, n)$.
+
+<div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin: 2rem 0;">
+  <div>
+    <img src="/assets/images/probability-theory/lebesgue-integration/non-negative-approx.svg" alt="Approximating a non-negative function" />
+    <p style="font-size: 0.8rem; text-align: center; color: var(--sl-color-gray-3); margin-top: 0.5rem;">
+      We approximate $f$ by clipping its height at $n$ and restricting its domain to a set $E_n$ of finite measure.
+      Shown: <span style="color: #ec4899;">$h_1 = (f \wedge 1) \mathbf{1}_{E_1}$</span> and <span style="color: #3b82f6;">$h_2 = (f \wedge 2) \mathbf{1}_{E_2}$</span>.
+    </p>
+  </div>
+</div>
+
+<Aside icon="seti:smarty" title="Lemma">
+<Tabs>
+<TabItem label="Statement">
+$$
+\lim_{n \to \infty} \int h_n \, d\mu = \int f \, d\mu
+$$
+</TabItem>
+
+<TabItem label="Proof">
+<Steps>
+1.  **Existence of Limit**:
+    Since $n$ increases and $E_n$ expands, $h_n$ is a non-decreasing sequence ($h_n \le h_{n+1}$).
+    Thus $\int h_n \, d\mu$ is non-decreasing, so the limit $\lim_{n \to \infty} \int h_n \, d\mu$ exists.
+
+2.  **Lower Bound**:
+    Let $h \in H$ be any function in the class defined above. Let $M$ be its bound ($h \le M$).
+    Since $h$ is supported on a set of finite measure, let $E = \{x : h(x) > 0\}$ with $\mu(E) < \infty$.
+    
+    For any $n \ge M$:
+    $$
+    \int_{E_n} h_n \, d\mu = \int_{E_n} (f \wedge n) \, d\mu \ge \int_{E_n} h \, d\mu
+    $$
+    (since on $E_n$, $h_n = f \wedge n \ge h \wedge n = h$ because $h \le f$ and $h \le M \le n$).
+
+3.  **Decomposition**:
+    $$
+    \int_{E_n} h \, d\mu = \int h \, d\mu - \int_{E_n^c} h \, d\mu
+    $$
+    Consider the term $\int_{E_n^c} h \, d\mu$. Since $h$ is supported on $E$:
+    $$
+    \int_{E_n^c} h \, d\mu = \int_{E_n^c \cap E} h \, d\mu \le \int_{E_n^c \cap E} M \, d\mu = M \mu(E \cap E_n^c) = M \mu(E \setminus E_n)
+    $$
+    
+    As $E_n \uparrow \Omega$, we have $E \setminus E_n \downarrow \emptyset$, so $\mu(E \setminus E_n) \to 0$ (since $\mu(E) < \infty$).
+    Thus, $\int_{E_n^c} h \, d\mu \to 0$.
+
+4.  **Inequality**:
+    So we have $\lim_{n \to \infty} \int h_n \, d\mu \ge \int h \, d\mu$.
+    Since this holds for **any** $h \in H$, taking the supremum over all such $h$:
+    $$
+    \lim_{n \to \infty} \int h_n \, d\mu \ge \sup_{h \in H} \int h \, d\mu = \int f \, d\mu
+    $$
+
+5.  **Equality**:
+    On the other hand, since each $h_n \in H$ (it is bounded by $n$ and supported on $E_n$), by definition:
+    $$
+    \int h_n \, d\mu \le \int f \, d\mu \implies \lim_{n \to \infty} \int h_n \, d\mu \le \int f \, d\mu
+    $$
+    
+    Combining both inequalities, we get the result. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="danger" title="Important">
+This proof does not imply that the integral is finite. Both $\lim \int h_n$ and $\int f$ can be $+\infty$.
+</Aside>
+
+## Properties
+
+<Aside type="caution" icon="pencil" title="Exercise 7">
+<Tabs>
+<TabItem label="Problem">
+Prove that Properties 1-6 also hold for non-negative measurable functions.
+</TabItem>
+<TabItem label="Hint">
+Use the properties for bounded and finitely supported functions and apply the approximation strategy above.
+</TabItem>
+</Tabs>
+</Aside>

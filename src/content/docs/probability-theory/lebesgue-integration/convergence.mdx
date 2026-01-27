@@ -3,3 +3,137 @@ title: Convergence
 sidebar:
   order: 5
 ---
+
+A central question in integration theory is dealing with limits: **Limit of integration vs. Integration of limit**. Under what conditions can we interchange them?
+
+$$
+\lim_{n \to \infty} \int f_n \, d\mu \stackrel{?}{=} \int \lim_{n \to \infty} f_n \, d\mu
+$$
+
+## Monotone Convergence Theorem (MCT)
+
+<Aside icon="seti:smarty" title="Theorem: Monotone Convergence">
+<Tabs>
+<TabItem label="Statement">
+If $f_n \ge 0$ and $f_n \uparrow f$ (non-decreasing sequence converging to $f$), then:
+
+$$
+\int f_n \, d\mu \uparrow \int f \, d\mu
+$$
+</TabItem>
+<TabItem label="Proof Idea">
+<Steps>
+1.  **$\le$ direction**:
+    Since $f_n \le f_{n+1} \le f$ for all $n$, by monotonicity of the integral:
+    $$
+    \int f_n \, d\mu \le \int f \, d\mu
+    $$
+    Thus $\lim \int f_n \, d\mu \le \int f \, d\mu$.
+
+2.  **$\ge$ direction**:
+    Let $\varphi$ be any simple function such that $0 \le \varphi \le f$.
+    Let $c \in (0, 1)$. Consider the sets $E_n = \{ x : f_n(x) \ge c \varphi(x) \}$.
+    Since $f_n \uparrow f$ and $f \ge \varphi$, the sets $E_n$ grow to cover the whole space where $\varphi > 0$.
+    
+    $$
+    \int f_n \, d\mu \ge \int_{E_n} f_n \, d\mu \ge c \int_{E_n} \varphi \, d\mu
+    $$
+
+    Taking limit $n \to \infty$: $\lim \int f_n \ge c \int \varphi$.
+    Letting $c \to 1$: $\lim \int f_n \ge \int \varphi$.
+    Since this holds for **any** simple $\varphi \le f$, taking the supremum gives $\lim \int f_n \ge \int f$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Fatou's Lemma
+
+<Aside icon="seti:smarty" title="Fatou's Lemma">
+<Tabs>
+<TabItem label="Statement">
+If $f_n \ge 0$ for $n = 1, 2, \dots$, then:
+
+$$
+\liminf_{n \to \infty} \int f_n \, d\mu \ge \int \left( \liminf_{n \to \infty} f_n \right) \, d\mu
+$$
+
+<span style="color: var(--sl-color-green-low);">*(intuitive)*</span>
+</TabItem>
+<TabItem label="Proof Idea">
+<Steps>
+1.  Define $g_k(x) = \inf_{n \ge k} f_n(x)$.
+    Then $g_k$ is a non-decreasing sequence: $g_1 \le g_2 \le \dots$
+2.  Also, by definition of limit inferior: $\lim_{k \to \infty} g_k = \sup_k (\inf_{n \ge k} f_n) = \liminf_{n \to \infty} f_n$.
+3.  Since $g_k \le f_n$ for all $n \ge k$, we have $\int g_k \, d\mu \le \int f_n \, d\mu$ for all $n \ge k$.
+    
+    Therefore, $\int g_k \, d\mu \le \inf_{n \ge k} \int f_n \, d\mu$.
+4.  Apply the **Monotone Convergence Theorem** to $g_k$:
+    $$
+    \begin{aligned}
+    \int \liminf f_n \, d\mu &= \int \lim g_k \, d\mu = \lim \int g_k \, d\mu \\
+    &\le \lim_{k \to \infty} \left( \inf_{n \ge k} \int f_n \, d\mu \right) \\
+    &= \liminf_{n \to \infty} \int f_n \, d\mu
+    \end{aligned}
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Dominated Convergence Theorem (DCT)
+
+<Aside icon="seti:smarty" title="Theorem: Dominated Convergence">
+<Tabs>
+<TabItem label="Statement">
+Suppose $f_n \to f$ **a.e.** (almost everywhere).
+If there exists an **integrable** function $g$ such that:
+
+$$
+|f_n| \le g \quad \text{for all } n
+$$
+
+(we say $f_n$ is <span class="text-accent">dominated by $g$</span>), then:
+
+$$
+\int f_n \, d\mu \to \int f \, d\mu
+$$
+</TabItem>
+<TabItem label="Proof Idea">
+Since $|f_n| \le g$, we have $-g \le f_n \le g$, thus $g + f_n \ge 0$ and $g - f_n \ge 0$.
+Apply **Fatou's Lemma** to these non-negative sequences.
+<Steps>
+1.  **For $g + f_n$**:
+    $$
+    \begin{aligned}
+    \int (g+f) &= \int \liminf (g+f_n) \\
+    &\le \liminf \int (g+f_n) \\
+    &= \int g + \liminf \int f_n
+    \end{aligned}
+    $$
+    Subtracting $\int g$ (which is finite) gives: $\int f \le \liminf \int f_n$.
+
+2.  **For $g - f_n$**:
+    $$
+    \begin{aligned}
+    \int (g-f) &= \int \liminf (g-f_n) \\
+    &\le \liminf \int (g-f_n) \\
+    &= \int g + \liminf \int (-f_n) \\
+    &= \int g - \limsup \int f_n
+    \end{aligned}
+    $$
+    Subtracting $\int g$ gives: $-\int f \le -\limsup \int f_n \implies \int f \ge \limsup \int f_n$.
+
+3.  **Conclusion**:
+    $$
+    \limsup \int f_n \le \int f \le \liminf \int f_n
+    $$
+    This implies the limit exists and equals $\int f$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Summary
+
+So, if the sequence of functions $f_n$ is **monotone** or **dominated**, then we can "push" the limit of integration inside the integral.
