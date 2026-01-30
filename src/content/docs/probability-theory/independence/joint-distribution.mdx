@@ -1,0 +1,126 @@
+---
+title: Joint Distribution
+sidebar:
+  order: 2
+---
+
+We define the joint distribution to study the behavior of multiple random variables simultaneously.
+
+## Joint Distribution Function
+
+<Aside type="tip" icon="open-book" title="Definition">
+The **joint distribution function** of two random variables $X$ and $Y$ is defined as:
+$$
+F_{X,Y}(x, y) = \mathbb{P}(X \le x, Y \le y)
+$$
+for $x, y \in \mathbb{R}$.
+</Aside>
+
+## Independence via Joint CDF
+
+Independence can be characterized purely in terms of distribution functions.
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+Two random variables $X \perp Y$ are independent if and only if their joint distribution factorizes into the product of their marginal distributions:
+$$
+F_{X,Y}(x, y) = F_X(x) F_Y(y) \quad \forall x, y \in \mathbb{R}
+$$
+Equivalently:
+$$
+\mathbb{P}(X \le x, Y \le y) = \mathbb{P}(X \le x)\mathbb{P}(Y \le y)
+$$
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Forward Direction ($\Rightarrow$)**:
+
+    If $X \perp Y$, then by definition $\mathbb{P}(X \in A, Y \in B) = \mathbb{P}(X \in A)\mathbb{P}(Y \in B)$ for any Borel sets.
+    Choosing $A = (-\infty, x]$ and $B = (-\infty, y]$ gives the result trivially.
+
+2.  **Reverse Direction ($\Leftarrow$)**:
+
+    - The events $\{X \le x\}_{x \in \mathbb{R}}$ form a $\pi$-system that generates $\sigma(X)$.
+    - The events $\{Y \le y\}_{y \in \mathbb{R}}$ form a $\pi$-system that generates $\sigma(Y)$.
+    
+    If independence holds for these generating $\pi$-systems, then by the [Independence of $\pi$-systems theorem](../independent-rvs/#checking-independence-via-π-systems), the generated $\sigma$-fields are independent:
+    $$
+    \sigma(\{X \le x\}_{x \in \mathbb{R}}) \perp \sigma(\{Y \le y\}_{y \in \mathbb{R}})
+    $$
+    Thus $X \perp Y$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+### Generalization
+
+This generalizes to $n$ random variables $X_1, \dots, X_n$. They are mutually independent if and only if:
+$$
+\mathbb{P}(X_1 \le x_1, \dots, X_n \le x_n) = \prod_{i=1}^n \mathbb{P}(X_i \le x_i)
+$$
+for all $x_i \in \mathbb{R}$.
+
+## Product Measure
+
+If we define a measure $\eta$ on $\mathbb{R}^2$ by the distribution of the random vector $(X, Y)$:
+$$
+\eta((-\infty, x_1] \times (-\infty, x_2]) = \mathbb{P}(X \le x_1, Y \le x_2)
+$$
+If $X \perp Y$, this factorizes:
+$$
+\eta((-\infty, x_1] \times (-\infty, x_2]) = \mu((-\infty, x_1]) \cdot \nu((-\infty, x_2])
+$$
+where $\mu$ and $\nu$ are the distributions (laws) of $X$ and $Y$ respectively.
+
+This implies that $\eta = \mu \times \nu$ is a **product measure**, satisfying $\eta(A \times B) = \mu(A)\nu(B)$ for Borel sets $A, B$.
+
+## Expectation under Independence
+
+The product structure allows us to compute expectations of functions of independent variables as iterated integrals.
+
+<Aside type="note" title="Property">
+If $X \perp Y$, then for any measurable function $h: (\mathbb{R}^2, \mathcal{B}(\mathbb{R}^2)) \to (\mathbb{R}, \mathcal{B})$ such that either $h \ge 0$ or $\mathbb{E}[|h(X, Y)|] < \infty$ (to ensure integrability), we have:
+$$
+\mathbb{E}[h(X, Y)] = \iint h(x, y) \, \mu(dx) \, \nu(dy)
+$$
+**Reason**:
+$$
+\begin{aligned}
+\mathbb{E}[h(X, Y)] &= \int_{\mathbb{R}^2} h(x, y) \, \eta(dx, dy) \\
+&= \int_{\mathbb{R}^2} h(x, y) \, d(\mu \times \nu) \\
+&= \iint h(x, y) \, \mu(dx) \, \nu(dy)
+\end{aligned}
+$$
+</Aside>
+
+### Product of Expectations
+
+<Aside icon="seti:smarty" title="Theorem: Expectation of Product">
+<Tabs>
+<TabItem label="Statement">
+If $X_1, \dots, X_n$ are independent random variables such that either:
+1.  $X_i \ge 0$ for all $i$, OR
+2.  $\mathbb{E}[|X_i|] < \infty$ for all $i$ (integrable),
+
+Then:
+$$
+\mathbb{E}\left[ \prod_{i=1}^n X_i \right] = \prod_{i=1}^n \mathbb{E}[X_i]
+$$
+</TabItem>
+<TabItem label="Proof">
+Consider the case $n=2$ with $X, Y$. Choose the function $h(x, y) = xy$.
+By the double integral result above:
+$$
+\begin{aligned}
+\mathbb{E}[XY] &= \int_{\mathbb{R}^2} xy \, d(\mu \times \nu) \\
+&= \iint xy \, \mu(dx) \, \nu(dy) \\
+&= \left( \int x \, \mu(dx) \right) \left( \int y \, \nu(dy) \right) \\
+&= \mathbb{E}[X] \mathbb{E}[Y]
+\end{aligned}
+$$
+The result follows by induction for $n > 2$.
+</TabItem>
+</Tabs>
+</Aside>

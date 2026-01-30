@@ -3,3 +3,109 @@ title: Inequalities
 sidebar:
   order: 8
 ---
+
+We can use integrability to bound the probability of "tail events" (values far from the mean). These inequalities form the basis for proving laws of large numbers.
+
+## General Case
+
+<Aside icon="seti:smarty" title="Theorem: Generalized Chebyshev's Inequality">
+<Tabs>
+<TabItem label="Statement">
+Let $X$ be a random variable and $g: \mathbb{R} \to [0, \infty)$ be a non-negative function.
+For any set $B \in \mathcal{B}$, let $L$ be the lower bound of $g$ on $B$:
+$$
+L = \inf \{ g(x) : x \in B \}
+$$
+Then:
+$$
+\mathbb{P}(X \in B) \le \frac{\mathbb{E}[g(X)]}{L}
+$$
+
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Construct a Lower Bound Function**
+    Define a new random variable $Y$ that is a scaled indicator of the set $B$:
+    $$
+    Y = L \cdot \mathbb{1}_{\{X \in B\}}
+    $$
+
+2.  **Compare with $g(X)$**
+    We compare $Y$ and $g(X)$ pointwise:
+    *   If $\omega \in \{X \in B\}$, then $X(\omega) \in B$, so $g(X(\omega)) \ge L$ (by definition of $L$). Also $Y(\omega) = L$. Thus $Y \le g(X)$.
+    *   If $\omega \notin \{X \in B\}$, then $Y(\omega) = 0$. Since $g$ is non-negative, $Y \le g(X)$ holds trivialy.
+    
+    Therefore, $Y \le g(X)$ almost surely.
+
+3.  **Monotonicity of Expectation**
+    Taking expectations on both sides:
+    $$
+    \mathbb{E}[Y] \le \mathbb{E}[g(X)]
+    $$
+    Calculating $\mathbb{E}[Y]$:
+    $$
+    \mathbb{E}[Y] = \mathbb{E}[L \cdot \mathbb{1}_{\{X \in B\}}] = L \cdot \mathbb{P}(X \in B)
+    $$
+    
+    Substituting this back:
+    $$
+    L \cdot \mathbb{P}(X \in B) \le \mathbb{E}[g(X)] \implies \mathbb{P}(X \in B) \le \frac{\mathbb{E}[g(X)]}{L}
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+
+## Important Special Cases
+
+### Markov's Inequality
+
+<Aside icon="seti:smarty" title="Theorem: Markov's Inequality">
+<Tabs>
+<TabItem label="Statement">
+If $X$ is a **non-negative** random variable ($X \ge 0$), then for any $a > 0$:
+$$
+\mathbb{P}(X \ge a) \le \frac{\mathbb{E}[X]}{a}
+$$
+</TabItem>
+<TabItem label="Proof">
+This follows from the general theorem by setting:
+<Steps>
+1. $g(x) = x$ (valid since $X \ge 0$)
+2. $B = [a, \infty)$
+3. Then $L = \inf_{x \ge a} x = a$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+
+### Chebyshev's Inequality
+
+<Aside icon="seti:smarty" title="Theorem: Chebyshev's Inequality">
+<Tabs>
+<TabItem label="Statement">
+Let $X$ be a random variable with finite variance. Then for any $a > 0$:
+$$
+\mathbb{P}(|X - \mu| \ge a) \le \frac{\text{Var}(X)}{a^2}
+$$
+where $\mu = \mathbb{E}[X]$.
+</TabItem>
+<TabItem label="Proof">
+This follows by setting:
+<Steps>
+1. Centered variable: Consider $Y = X - \mu$.
+2. $g(y) = y^2$ (always non-negative).
+3. $B = \{ y : |y| \ge a \} = (-\infty, -a] \cup [a, \infty)$.
+4. Then $L = \inf \{ y^2 : |y| \ge a \} = a^2$.
+5. $\mathbb{E}[g(Y)] = \mathbb{E}[(X-\mu)^2] = \text{Var}(X)$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+Alternatively, for the raw second moment:
+$$
+\mathbb{P}(|X| \ge a) \le \frac{\mathbb{E}[X^2]}{a^2}
+$$

@@ -1,0 +1,301 @@
+---
+title: Characteristic Function
+sidebar:
+  order: 4
+---
+
+The characteristic function is a powerful tool in probability theory, often serving as the "probability version" of the [Fourier transform](https://en.wikipedia.org/wiki/Fourier_transform).
+
+## Definition
+
+<Aside type="tip" icon="open-book" title="Definition">
+Let $X$ be a random variable. Its **characteristic function (CHF)** is defined as:
+$$
+\varphi_X(t) = \mathbb{E}[e^{itX}]
+$$
+where $i = \sqrt{-1}$ and $t \in \mathbb{R}$.
+</Aside>
+
+Using Euler's formula, we can express this as:
+$$
+\varphi_X(t) = \mathbb{E}[\cos(tX)] + i\mathbb{E}[\sin(tX)]
+$$
+
+<Aside type="danger"title="Note">
+Unlike the **Moment Generating Function** ($M_X(t) = \mathbb{E}[e^{tX}]$) or the **Generating Function** ($\mathbb{E}[t^X]$ for discrete variables), the characteristic function **always exists** for all $t \in \mathbb{R}$.
+*   Since $|e^{itx}| = 1$, the integral always converges.
+*   This makes it the preferred tool for proving general results about random variables without worrying about existence conditions (like light tails).
+</Aside>
+
+## Properties
+
+<Aside icon="seti:smarty" title="Theorem: Basic Properties of CHF">
+<Tabs>
+<TabItem label="Statement">
+1.  $\varphi_X(0) = 1$
+2.  $\varphi_X(-t) = \overline{\varphi_X(t)}$ (complex conjugate)
+3.  Boundedness: $\|\varphi_X(t)\| \le 1$ for all $t$.
+4.  Linear Transformation: $\varphi_{aX+b}(t) = e^{itb} \varphi_X(at)$
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Property 1**:
+    $\varphi_X(0) = \mathbb{E}[e^{i \cdot 0 \cdot X}] = \mathbb{E}[1] = 1$.
+
+2.  **Property 2**:
+    $$
+    \begin{align*}
+    \varphi_X(-t) &= \mathbb{E}[\cos(-tX) + i\sin(-tX)] \\
+    &= \mathbb{E}[\cos(tX) - i\sin(tX)] \\
+    &= \overline{\mathbb{E}[e^{itX}]} = \overline{\varphi_X(t)}
+    \end{align*}
+    $$
+
+3.  **Property 3**:
+
+    We use **Jensen's Inequality**. Note that the function $f(x, y) = \sqrt{x^2 + y^2}$ (distance from origin) is convex.
+    Let $U = \cos(tX)$ and $V = \sin(tX)$. Then
+    $$
+    |\varphi_X(t)| = | \mathbb{E}[U] + i\mathbb{E}[V] | = \sqrt{(\mathbb{E}[U])^2 + (\mathbb{E}[V])^2}
+    $$
+    By Jensen's Inequality for the convex function $f$:
+    $$
+    \begin{align*}
+    |\mathbb{E}[e^{itX}]| &= f(\mathbb{E}[U], \mathbb{E}[V]) \\
+    &\le \mathbb{E}[f(U, V)] = \mathbb{E}[|e^{itX}|] = 1
+    \end{align*}
+    $$
+
+4.  **Property 4**:
+    $$
+    \begin{align*}
+    \varphi_{aX+b}(t) &= \mathbb{E}[e^{it(aX+b)}] = \mathbb{E}[e^{itb} e^{i(at)X}] \\
+    &= e^{itb} \mathbb{E}[e^{i(at)X}] = e^{itb} \varphi_X(at)
+    \end{align*}
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Sums of Independent Random Variables
+
+One of the most useful properties of characteristic functions is handling sums of independent variables.
+
+<Aside icon="seti:smarty" title="Theorem: Convolution Property">
+<Tabs>
+<TabItem label="Statement">
+If $X$ and $Y$ are independent random variables, then the characteristic function of their sum is the product of their characteristic functions:
+$$
+\varphi_{X+Y}(t) = \varphi_X(t) \varphi_Y(t)
+$$
+</TabItem>
+<TabItem label="Proof">
+$$
+\begin{aligned}
+\varphi_{X+Y}(t) &= \mathbb{E}[e^{it(X+Y)}] \\
+&= \mathbb{E}[e^{itX} e^{itY}] \\
+&= \mathbb{E}[e^{itX}] \mathbb{E}[e^{itY}] \quad \text{(since } X \perp Y \text{ and } e^{itX} \perp e^{itY} \text{)} \\
+&= \varphi_X(t) \varphi_Y(t)
+\end{aligned}
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Example: Poisson Distribution
+
+Let $X \sim \text{Poi}(\lambda)$. The probability mass function is:
+$$
+\mathbb{P}(X=k) = e^{-\lambda} \frac{\lambda^k}{k!}, \quad k=0, 1, \dots
+$$
+
+We compute its characteristic function:
+
+$$
+\begin{aligned}
+\varphi_X(t) &= \mathbb{E}[e^{itX}] = \sum_{k=0}^\infty e^{itk} e^{-\lambda} \frac{\lambda^k}{k!} \\
+&= e^{-\lambda} \sum_{k=0}^\infty \frac{(\lambda e^{it})^k}{k!} \\
+&= e^{-\lambda} e^{\lambda e^{it}} = e^{\lambda(e^{it} - 1)}
+\end{aligned}
+$$
+
+### Sum of Independent Poisson RVs
+
+Now let $Y \sim \text{Poi}(\eta)$ be independent of $X$.
+Using the convolution property:
+
+$$
+\begin{aligned}
+\varphi_{X+Y}(t) &= \varphi_X(t) \varphi_Y(t) \\
+&= e^{\lambda(e^{it} - 1)} e^{\eta(e^{it} - 1)} \\
+&= e^{(\lambda + \eta)(e^{it} - 1)}
+\end{aligned}
+$$
+
+We observe that this is exactly the characteristic function of a random variable distributed as $\text{Poi}(\lambda + \eta)$.
+
+## Uniqueness
+
+<Aside type="caution" title="Question">
+<Tabs>
+<TabItem label="Question">
+Does the observation occurring above guarantee that $X+Y \sim \text{Poi}(\lambda + \eta)$?
+
+**General Question**: Does the characteristic function uniquely determine the distribution?
+</TabItem>
+<TabItem label="Answer">
+Yes! The characteristic function is essentially a Fourier transform, and the Fourier transform is invertible. This means that if two random variables have the same characteristic function, they must have the same distribution (CDF).
+
+We will formalize this with the Inversion Theorem next.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Inversion Formula (Formalizing Uniqueness)
+
+<Aside icon="seti:smarty" title="Theorem: Inversion Formula">
+<Tabs>
+<TabItem label="Statement">
+Let $\varphi(t) = \int e^{itx} \mu(dx)$ be the characteristic function of a probability measure $\mu$.
+Then for any real numbers $a < b$:
+
+$$
+\lim_{T \to \infty} \frac{1}{2\pi} \int_{-T}^T \frac{e^{-ita} - e^{-itb}}{it} \varphi(t) \, dt = \mu((a,b)) + \frac{1}{2}\mu(\{a,b\})
+$$
+</TabItem>
+<TabItem label="Interpretation">
+Given just the characteristic function $\varphi(t)$, we can recover the probability measure $\mu$.
+*   The formula gives us the measure of any interval $(a, b)$ plus "half the atoms" at the endpoints.
+*   Since there are only countably many points with non-zero probability (atoms/discontinuities), we can usually choose $a, b$ to be continuity points ($\mu(\{a,b\})=0$) to simplify this to just $\mu((a,b))$.
+*   Thus, $\varphi$ uniquely determines the distribution.
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Setup the Integral**:
+    Define the integral $I_T$:
+    $$
+    I_T = \int_{-T}^T \frac{e^{-ita} - e^{-itb}}{it} \varphi(t) \, dt
+    $$
+    Substitute the definition $\varphi(t) = \int e^{itx} \mu(dx)$:
+    $$
+    I_T = \int_{-T}^T \frac{e^{-ita} - e^{-itb}}{it} \left( \int_{-\infty}^\infty e^{itx} \mu(dx) \right) \, dt
+    $$
+    
+2.  **Swap Integrals (Fubini's Theorem)**:
+    Since the integrand is bounded on finite domain $[-T, T]$, we can swap the order of integration:
+    $$
+    \begin{aligned}
+    I_T &= \int_{-\infty}^\infty \left[ \int_{-T}^T \frac{e^{-ita} - e^{-itb}}{it} e^{itx} \, dt \right] \mu(dx) \\
+    &= \int_{-\infty}^\infty \left[ \int_{-T}^T \frac{e^{it(x-a)} - e^{it(x-b)}}{it} \, dt \right] \mu(dx)
+    \end{aligned}
+    $$
+    Note: The term $\frac{e^{-ita} - e^{-itb}}{it}$ is constant with respect to $x$, so we moved it inside the $\mu$-integral to combine with $e^{itx}$.
+
+3.  **Simplify the Inner Integral**:
+    Expand using Euler's formula: $e^{it(x-a)} = \cos(t(x-a)) + i\sin(t(x-a))$.
+    Since we are integrating over a symmetric interval $[-T, T]$:
+    *   $\frac{\cos(t(x-a))}{t}$ is an **odd function** (cosine is even, $t$ is odd). Its integral over $[-T, T]$ is **0**.
+    *   Only the sine terms remain.
+    
+    $$
+    \text{Inner} = \int_{-T}^T \frac{\sin(t(x-a))}{t} \, dt - \int_{-T}^T \frac{\sin(t(x-b))}{t} \, dt
+    $$
+    Let's call the entire expression inside $\mu(dx)$ as $g_T(x)$:
+    $$
+    g_T(x) = \int_{-T}^T \frac{\sin(t(x-a))}{t} \, dt - \int_{-T}^T \frac{\sin(t(x-b))}{t} \, dt
+    $$
+
+4.  **Analyze the Limit**:
+    Recall the Dirichlet integral: $\int_{-\infty}^\infty \frac{\sin y}{y} dy = \pi$.
+    Consider $J(\theta) = \int_{-T}^T \frac{\sin(\theta t)}{t} dt$. Substitute $y = \theta t$.
+    *   If $\theta > 0$, as $T \to \infty$, $J \to \pi$.
+    *   If $\theta < 0$, limits flip upon substitution, so $J \to -\pi$.
+    *   If $\theta = 0$, $J = 0$.
+    
+    Now analyze $\lim_{T \to \infty} g_T(x)$:
+    *   **Case 1: $a < x < b$**: $(x-a) > 0$ and $(x-b) < 0$. Limit is $\pi - (-\pi) = 2\pi$.
+    *   **Case 2: $x = a$**: $(x-a) = 0$ and $(x-b) < 0$. Limit is $0 - (-\pi) = \pi$.
+    *   **Case 3: $x = b$**: $(x-a) > 0$ and $(x-b) = 0$. Limit is $\pi - 0 = \pi$.
+    *   **Case 4: $x < a$ or $x > b$**: Both terms have same sign. Limit is $0$.
+
+5.  **Dominated Convergence Theorem (DCT)**:
+    We want to swap limit and integral: $\lim_{T \to \infty} \int g_T(x) \mu(dx) = \int \lim_{T \to \infty} g_T(x) \mu(dx)$.
+    
+    We need a dominating bound. Note that the Sine Integral is bounded:
+    $$
+    \left| \int_{-T}^T \frac{\sin(t\theta)}{t} dt \right| \le \sup_c \int_{-c}^c \frac{\sin y}{y} dy = M < \infty
+    $$
+    Thus $|g_T(x)| \le 2M$. Since $\mu$ is a finite measure, DCT applies.
+
+6.  **Final Calculation**:
+    $$
+    \begin{aligned}
+    \lim_{T \to \infty} I_T &= \int_{-\infty}^\infty \left( \lim_{T \to \infty} g_T(x) \right) \mu(dx) \\
+    &= 2\pi \mu((a,b)) + \pi \mu(\{a\}) + \pi \mu(\{b\}) \\
+    &= 2\pi \mu((a,b)) + \pi \mu(\{a, b\})
+    \end{aligned}
+    $$
+    Dividing by the $2\pi$ factor from the theorem statement:
+    $$
+    \frac{1}{2\pi} \lim I_T = \mu((a,b)) + \frac{1}{2}\mu(\{a, b\})
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Examples: Normal Distribution
+
+### 1. Standard Normal
+Let $X \sim \mathcal{N}(0, 1)$. The density is $f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$.
+$$
+\begin{aligned}
+\varphi(t) &= \int_{-\infty}^\infty e^{itx} \frac{1}{\sqrt{2\pi}} e^{-x^2/2} \, dx \\
+&= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty e^{-x^2/2 + itx} \, dx \\
+&= \frac{e^{-t^2/2}}{\sqrt{2\pi}} \int_{-\infty}^\infty e^{-(x - it)^2/2} \, dx
+\end{aligned}
+$$
+By substituting $y = x - it$ and noting that the integral of the Gaussian PDF is 1 (even with a complex shift, which can be rigorously justified using contour integration):
+$$
+\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}} e^{-(x-it)^2/2} \, dx = 1
+$$
+Thus:
+$$
+\varphi(t) = e^{-t^2/2}
+$$
+
+### 2. General Normal
+Let $Y \sim \mathcal{N}(\mu, \sigma^2)$.
+We can write $Y = \mu + \sigma X$ where $X \sim \mathcal{N}(0, 1)$.
+Using the linear transformation property of CHFs ($\varphi_{aX+b}(t) = e^{itb}\varphi_X(at)$):
+$$
+\begin{aligned}
+\varphi_Y(t) &= e^{it\mu} \varphi_X(\sigma t) \\
+&= e^{it\mu} e^{-(\sigma t)^2/2} \\
+&= e^{it\mu - \sigma^2 t^2/2}
+\end{aligned}
+$$
+
+### 3. Sum of Independent Normals
+Let $Y \sim \mathcal{N}(\mu_1, \sigma_1^2)$ and $Z \sim \mathcal{N}(\mu_2, \sigma_2^2)$ be independent.
+$$
+\begin{aligned}
+\varphi_{Y+Z}(t) &= \varphi_Y(t) \varphi_Z(t) \\
+&= \exp\left(it\mu_1 - \frac{\sigma_1^2 t^2}{2}\right) \exp\left(it\mu_2 - \frac{\sigma_2^2 t^2}{2}\right) \\
+&= \exp\left(it(\mu_1 + \mu_2) - \frac{(\sigma_1^2 + \sigma_2^2)t^2}{2}\right)
+\end{aligned}
+$$
+This is precisely the characteristic function of a Normal distribution with mean $\mu_1 + \mu_2$ and variance $\sigma_1^2 + \sigma_2^2$.
+$$
+\implies Y+Z \sim \mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)
+$$
+
+<Aside type="danger" title="Importance of CHF">
+It was obvious that:
+*   $\mathbb{E}[Y+Z] = \mu_1 + \mu_2$ (Linearity of Expectation)
+*   $\text{Var}(Y+Z) = \sigma_1^2 + \sigma_2^2$ (Linearity of Variance for independent variables)
+
+**BUT**, it was **not** obvious that $Y+Z$ follows a **Normal distribution**!
+We know this only because of the **Inversion Formula (uniqueness theorem)** of characteristic functions: since the CHF matches that of a Normal, the variable *must* be Normal.
+</Aside>

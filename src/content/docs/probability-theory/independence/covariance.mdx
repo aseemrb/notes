@@ -1,0 +1,157 @@
+---
+title: Covariance & Correlation
+sidebar:
+  order: 3
+---
+
+We now introduce concepts to measure the linear relationship between two random variables.
+
+## Definitions
+
+<Aside type="tip" icon="open-book" title="Definition: Covariance">
+Let $X, Y$ be two random variables. Their **covariance** is:
+$$
+\text{Cov}(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]
+$$
+provided the expectations exist.
+
+**Computational Formula:**
+$$
+\text{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+$$
+</Aside>
+
+<Aside type="tip" icon="open-book" title="Definition: Correlation">
+The **correlation coefficient** is a normalized version of covariance:
+$$
+\text{Corr}(X, Y) = \frac{\text{Cov}(X, Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
+$$
+</Aside>
+
+**Why normalize?** Covariance captures how $X$ and $Y$ relate, but it depends on the scale.
+*   $\text{Cov}(aX, bY) = ab \, \text{Cov}(X, Y)$
+*   $\text{Var}(aX) = a^2 \text{Var}(X)$
+
+Dividing by the square root of variances cancels out the scaling factors ($a$ and $b$ assuming they are positive), making correlation dimensionless and easier to interpret.
+
+### Uncorrelatedness
+
+$X$ and $Y$ are called **uncorrelated** if:
+$$
+\text{Cov}(X, Y) = 0
+$$
+
+<Aside type="danger"title="Note">
+We use Covariance instead of Correlation to define uncorrelatedness, because Correlation is undefined if $\text{Var}(X) = 0$ (i.e., $X$ is constant), whereas Covariance is simply 0 in that case.
+</Aside>
+
+## Independence vs. Uncorrelatedness
+
+<Aside type="danger" title="Important">
+Independence and Uncorrelatedness are **NOT** the same thing.
+</Aside>
+
+1.  **Independence $\implies$ Uncorrelatedness** (if variances exist)
+    If $X \perp Y$, then $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$.
+    Thus $\text{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y] = 0$.
+
+    *Technical Note*: If $X$ or $Y$ do not have finite expectations (e.g., Cauchy distribution), then Covariance is undefined, so they cannot be "uncorrelated" even if independent. Thus, strictly speaking, independence is not "stronger" than uncorrelatedness because it doesn't enforce moment existence.
+
+2.  **Uncorrelatedness $\;\not\!\!\!\implies$ Independence**
+    $\text{Cov}(X, Y) = 0$ provides only a single number summarizing a linear relationship; it does not guarantee the full factorization of probabilities required for independence.
+
+    <Aside type="caution" icon="pencil" title="Exercise 10">
+    <Tabs>
+    <TabItem label="Problem">
+    Find an example where $\text{Cov}(X, Y) = 0$ but $X \not\perp Y$.
+    </TabItem>
+    <TabItem label="Solution">
+    Let $X \sim \mathcal{N}(0, 1)$ and $Y = |X|$.
+    <Steps>
+    1. Clearly $X$ and $Y$ are dependent (knowing $X$ fully determines $Y$).
+    2. $\mathbb{E}[X] = 0$.
+    3. $\text{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y] = \mathbb{E}[X|X|] - 0$.
+    4. $X|X|$ is an odd function (e.g., $(-x)|-x| = -x|x|$).
+    5. Since the standard normal PDF is even, the integral over $\mathbb{R}$,
+        $$
+        \mathbb{E}[X|X|] = \int_{-\infty}^{\infty} \frac{x|x|}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} \, dx = 0
+        $$
+    6. Thus $\text{Cov}(X, Y) = 0$, so they are uncorrelated but dependent.
+    </Steps>
+    </TabItem>
+    </Tabs>
+    </Aside>
+
+## Properties
+
+<Aside icon="seti:smarty" title="Theorem: Properties of Variance and Covariance">
+<Tabs>
+<TabItem label="Statement">
+1.  **Linearity of Variance for Sums**:
+    $$
+    \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X, Y)
+    $$
+2.  **Cauchy-Schwarz Inequality**:
+    $$
+    |\text{Cov}(X, Y)| \le \sqrt{\text{Var}(X)\text{Var}(Y)}
+    $$
+    This implies that $-1 \le \text{Corr}(X, Y) \le 1$.
+</TabItem>
+<TabItem label="Proof">
+**Part 1:**
+$$
+\begin{aligned}
+\text{Var}(X + Y) &= \mathbb{E}[((X + Y) - \mathbb{E}[X + Y])^2] \\
+&= \mathbb{E}[((X - \mathbb{E}[X]) + (Y - \mathbb{E}[Y]))^2] \\
+&= \mathbb{E}[(X - \mathbb{E}[X])^2] + \mathbb{E}[(Y - \mathbb{E}[Y])^2] + 2\mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] \\
+&= \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X, Y)
+\end{aligned}
+$$
+
+**Part 2:**
+Consider the variance of a linear combination $aX - Y$ for any $a \in \mathbb{R}$.
+$$
+0 \le \text{Var}(aX - Y) = a^2\text{Var}(X) + \text{Var}(Y) - 2a\text{Cov}(X, Y)
+$$
+This is a quadratic function in $a$: $Aa^2 + Ba + C \ge 0$.
+For this to hold for all $a$, the discriminant must be non-positive ($B^2 - 4AC \le 0$).
+$$
+\begin{aligned}
+(-2\text{Cov}(X, Y))^2 - 4(\text{Var}(X))(\text{Var}(Y)) &\le 0 \\
+4\text{Cov}(X, Y)^2 &\le 4\text{Var}(X)\text{Var}(Y) \\
+|\text{Cov}(X, Y)| &\le \sqrt{\text{Var}(X)\text{Var}(Y)}
+\end{aligned}
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside title="Note">
+*   $\text{Corr}(X, Y) = 1$ iff $Y = aX + b$ for some $a > 0$.
+*   $\text{Corr}(X, Y) = -1$ iff $Y = aX + b$ for some $a < 0$.
+</Aside>
+
+### Example: Binomial Distribution
+
+Let $X \sim \text{Bin}(n, p)$.
+We can model $X$ as the sum of $n$ independent trials:
+$$
+X = Y_1 + \dots + Y_n
+$$
+where $Y_i \sim \text{Bernoulli}(p)$ are **i.i.d.** (independent and identically distributed).
+
+1.  **Expectation**:
+    Since expectation is always linear:
+    $$
+    \mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[Y_i] = n \mathbb{E}[Y_1] = np
+    $$
+
+2.  **Variance**:
+    Since $Y_i$ are **independent**, $\text{Cov}(Y_i, Y_j) = 0$ for $i \ne j$. Thus the variance of the sum is the sum of the variances:
+    $$
+    \text{Var}(X) = \sum_{i=1}^n \text{Var}(Y_i)
+    $$
+    For a Bernoulli variable, $\text{Var}(Y_i) = p(1-p)$.
+    $$
+    \implies \text{Var}(X) = n p(1-p)
+    $$

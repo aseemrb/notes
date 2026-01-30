@@ -86,7 +86,7 @@ export const katexMacros = {
     // Probability
     '\\Pr': '\\mathbf{P}',
     '\\E': '\\mathbf{E}',
-    '\\Var': '\\mathbf{Var}',
-    '\\Cov': '\\mathbf{Cov}',
-    '\\Corr': '\\mathbf{Corr}',
+    '\\Var': '\\text{Var}',
+    '\\Cov': '\\text{Cov}',
+    '\\Corr': '\\text{Corr}',
 };

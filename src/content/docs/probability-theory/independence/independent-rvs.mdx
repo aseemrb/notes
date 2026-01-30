@@ -1,0 +1,113 @@
+---
+title: Independence of RVs
+sidebar:
+  order: 1
+---
+
+We've seen independence of events before. Now we formalize independence for random variables.
+
+<Aside type="tip" icon="open-book" title="Definition">
+Two random variables $X$ and $Y$ are **independent** if the [$\sigma$-fields they generate are independent](../../events/independence#independence-of-σ-fields), denoted $\sigma(X) \perp \sigma(Y)$.
+
+This means that for any Borel sets $A, B \in \mathcal{B}$:
+$$
+\{X \in A\} \perp \{Y \in B\}
+$$
+Or equivalently:
+$$
+\mathbb{P}(X \in A, Y \in B) = \mathbb{P}(X \in A)\mathbb{P}(Y \in B)
+$$
+</Aside>
+
+## Mutual Independence
+
+More generally, $X_1, \dots, X_n$ are **mutually independent** if $\sigma(X_1), \dots, \sigma(X_n)$ are independent. This holds if and only if the following is true <span class="text-accent">for all</span> Borel sets $A_1, \dots, A_n \in \mathcal{B}$:
+
+$$
+\mathbb{P}(X_1 \in A_1, \dots, X_n \in A_n) = \prod_{i=1}^n \mathbb{P}(X_i \in A_i)
+$$
+
+<Aside type="danger" title="Remark">
+Recall that for events $E_1, \dots, E_n$, the condition $\mathbb{P}(\cap E_i) = \prod \mathbb{P}(E_i)$ is in general **not** enough for mutual independence; we need it to hold for all subsets of indices (or equivalently for $E_i$ replaced by $E_i^c$).
+
+However, for random variables, the definition above **is** sufficient. Why?
+Because the sets $A_i$ are arbitrary Borel sets. We can choose $A_i = \mathbb{R}$ for indices we want to "ignore", effectively removing those variables from the intersection. Since the definition requires the equality for **all** $A_i$, it covers all sub-combinations automatically.
+</Aside>
+
+## Functions of Independent RVs
+
+Independence is preserved under measurable transformations.
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+If $X \perp Y$ are independent random variables, and $f, g$ are measurable functions, then $f(X)$ and $g(Y)$ are independent.
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  We need to show that for any $A, B \in \mathcal{B}$:
+    $$
+    \mathbb{P}(f(X) \in A, g(Y) \in B) = \mathbb{P}(f(X) \in A)\mathbb{P}(g(Y) \in B)
+    $$
+2.  Rewrite the events using preimages:
+    $$
+    \{f(X) \in A\} = \{X \in f^{-1}(A)\}, \quad \{g(Y) \in B\} = \{Y \in g^{-1}(B)\}
+    $$
+3.  Since $f, g$ are measurable, $A' = f^{-1}(A) \in \mathcal{B}$ and $B' = g^{-1}(B) \in \mathcal{B}$.
+4.  Since $X \perp Y$, we have:
+    $$
+    \mathbb{P}(X \in A', Y \in B') = \mathbb{P}(X \in A')\mathbb{P}(Y \in B')
+    $$
+    Substituting back gives the result.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Checking Independence via π-Systems
+
+It is often tedious to check independence for *all* sets in a $\sigma$-field. It suffices to check it on a generating $\pi$-system (a family of sets closed under finite intersection).
+
+<Aside type="tip" icon="open-book" title="Definition: Independent Classes">
+Two classes of sets $\mathcal{A}_1$ and $\mathcal{A}_2$ are independent if:
+$$
+\mathbb{P}(A_1 \cap A_2) = \mathbb{P}(A_1)\mathbb{P}(A_2) \quad \forall A_1 \in \mathcal{A}_1, A_2 \in \mathcal{A}_2
+$$
+</Aside>
+
+<Aside icon="seti:smarty" title="Theorem: Independence of π-systems">
+<Tabs>
+<TabItem label="Statement">
+Let $\mathcal{A}_1$ and $\mathcal{A}_2$ be independent $\pi$-systems. Then the $\sigma$-fields they generate are also independent:
+$$
+\sigma(\mathcal{A}_1) \perp \sigma(\mathcal{A}_2)
+$$
+</TabItem>
+<TabItem label="Proof">
+We can cook up a proof using Dynkin's $\pi$-$\lambda$ Theorem.
+<Steps>
+1.  **Fix one set**: Let $B_2 \in \mathcal{A}_2$ be fixed.
+2.  **Define a $\lambda$-system**:
+    Define $\mathcal{L} = \{ B \in \sigma(\mathcal{A}_1) : \mathbb{P}(B \cap B_2) = \mathbb{P}(B)\mathbb{P}(B_2) \}$.
+    It is easy to verify that $\mathcal{L}$ is a $\lambda$-system (closed under complements and disjoint countable unions).
+3.  **Containment**:
+    By hypothesis, $\mathcal{A}_1 \subseteq \mathcal{L}$.
+    Since $\mathcal{A}_1$ is a $\pi$-system, Dynkin's theorem implies $\sigma(\mathcal{A}_1) \subseteq \mathcal{L}$.
+    
+    This means $\sigma(\mathcal{A}_1)$ is independent of the fixed set $B_2$.
+    $$
+    \sigma(\mathcal{A}_1) \perp \{B_2\}
+    $$
+    This holds for **any** $B_2 \in \mathcal{A}_2$.
+4.  **Swap and Repeat**:
+    Now fix an arbitrary set $B_1 \in \sigma(\mathcal{A}_1)$.
+    Define $\mathcal{L}' = \{ B \in \sigma(\mathcal{A}_2) : \mathbb{P}(B_1 \cap B) = \mathbb{P}(B_1)\mathbb{P}(B) \}$.
+    
+    From step 3, we know $\mathcal{A}_2 \subseteq \mathcal{L}'$.
+    Again, since $\mathcal{A}_2$ is a $\pi$-system, Dynkin's theorem implies $\sigma(\mathcal{A}_2) \subseteq \mathcal{L}'$.
+5.  **Conclusion**:
+    Thus, for any $B_1 \in \sigma(\mathcal{A}_1)$ and $B_2 \in \sigma(\mathcal{A}_2)$, they are independent.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>

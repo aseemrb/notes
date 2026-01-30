@@ -1,0 +1,109 @@
+---
+title: Multivariate Gaussian
+sidebar:
+  order: 5
+---
+
+The Multivariate Gaussian (or Normal) distribution is the most important joint distribution in probability and statistics.
+
+## Definition
+
+<Aside type="tip" icon="open-book" title="Definition">
+An $\mathbb{R}^n$-valued random vector $\vec{X} = (X_1, \dots, X_n)$ is called a **Gaussian** or **Normal** vector if every linear combination $\sum_{j=1}^n a_j X_j$ has a 1-dimensional normal distribution (possibly degenerate).
+
+*   **Degenerate**: A constant distribution ($\mu = \text{const}, \sigma^2 = 0$).
+</Aside>
+
+## Characteristic Function
+
+<Aside icon="seti:smarty" title="Theorem: CHF of Gaussian">
+<Tabs>
+<TabItem label="Statement">
+$\vec{X}$ is an $\mathbb{R}^n$-valued Gaussian random vector if and only if its [CHF](../characteristic-function) has the form:
+
+$$
+\varphi_{\vec{X}}(\vec{t}) = \exp\left\{ i\langle \vec{t}, \vec{\mu} \rangle - \frac{1}{2} \langle \vec{t}, \Sigma \vec{t} \rangle \right\}
+$$
+
+where:
+<Steps>
+1.   $\vec{\mu} \in \mathbb{R}^n$ is the **mean vector**: $\vec{\mu} = (\mathbb{E}[X_1], \dots, \mathbb{E}[X_n])$.
+2.   $\Sigma$ is the $n \times n$ **covariance matrix** (symmetric, positive semi-definite): $\Sigma_{ij} = \text{Cov}(X_i, X_j)$.
+3.   $\vec{t} = (t_1, \dots, t_n)$ and $\langle \cdot, \cdot \rangle$ denotes the dot product.
+</Steps>
+</TabItem>
+<TabItem label="Proof">
+<Steps>
+1.  **Direction $\Leftarrow$ (Assume CHF Form)**:
+    Assume $\varphi_{\vec{X}}(\vec{t})$ has the form given above.
+    Let $Y$ be any linear combination: $Y = \sum_j a_j X_j = \langle \vec{a}, \vec{X} \rangle$.
+    We compute the characteristic function of $Y$:
+    $$
+    \begin{aligned}
+    \varphi_Y(t) &= \mathbb{E}[e^{itY}] = \mathbb{E}[e^{it \langle \vec{a}, \vec{X} \rangle}] \\
+    &= \mathbb{E}[e^{i \langle t\vec{a}, \vec{X} \rangle}] \\
+    &= \varphi_{\vec{X}}(t\vec{a})
+    \end{aligned}
+    $$
+    Substituting $t\vec{a}$ into our assumed form:
+    $$
+    \begin{aligned}
+    \varphi_{\vec{X}}(t\vec{a}) &= \exp\left\{ i\langle t\vec{a}, \vec{\mu} \rangle - \frac{1}{2} \langle t\vec{a}, \Sigma (t\vec{a}) \rangle \right\} \\
+    &= \exp\left\{ it\langle \vec{a}, \vec{\mu} \rangle - \frac{t^2}{2} \langle \vec{a}, \Sigma \vec{a} \rangle \right\}
+    \end{aligned}
+    $$
+    This is the CHF of a 1-dim Normal distribution with mean $\langle \vec{a}, \vec{\mu} \rangle$ and variance $\langle \vec{a}, \Sigma \vec{a} \rangle$ (which is $\vec{a}^T \Sigma \vec{a}$).
+    Thus, $Y$ follows a normal distribution.
+
+2.  **Direction $\Rightarrow$ (Assume Definition)**:
+    Suppose $\vec{X}$ is Gaussian. Then for any vector $\vec{a}$, let $Y = \langle \vec{a}, \vec{X} \rangle$.
+    By definition, $Y$ is a 1-dim Gaussian RV.
+    
+    Calculate its parameters:
+    *   $\mathbb{E}[Y] = \mathbb{E}[\sum a_i X_i] = \sum a_i \mathbb{E}[X_i] = \langle \vec{a}, \vec{mu} \rangle$.
+    *   $\text{Var}(Y) = \text{Cov}(\sum_i a_i X_i, \sum_j a_j X_j) = \sum_{i,j} a_i a_j \text{Cov}(X_i, X_j) = \vec{a}^T \Sigma \vec{a} = \langle \vec{a}, \Sigma \vec{a} \rangle$.
+    
+    So the CHF of $Y$ is known:
+    $$
+    \varphi_Y(t) = \exp\left\{ it\langle \vec{a}, \vec{\mu} \rangle - \frac{t^2}{2} \langle \vec{a}, \Sigma \vec{a} \rangle \right\}
+    $$
+    
+    Now, observe that $\varphi_{\vec{X}}(\vec{a})$ is just the expectation of $e^{i\langle \vec{a}, \vec{X} \rangle}$, which is exactly $\mathbb{E}[e^{i \cdot 1 \cdot Y}] = \varphi_Y(1)$.
+    $$
+    \begin{aligned}
+    \varphi_{\vec{X}}(\vec{a}) &= \varphi_Y(1) \\
+    &= \exp\left\{ i\langle \vec{a}, \vec{\mu} \rangle - \frac{1}{2} \langle \vec{a}, \Sigma \vec{a} \rangle \right\}
+    \end{aligned}
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="caution" icon="seti:info" title="Remark">
+The distribution of a Gaussian random vector is completely determined by its mean vector $\vec{\mu}$ and covariance matrix $\Sigma$.
+Notation: $\vec{X} \sim \mathcal{N}_n(\vec{\mu}, \Sigma)$.
+</Aside>
+
+## Corollaries
+
+### 1. Affine Transformations
+
+<Aside icon="seti:smarty" title="Corollary">
+If $\vec{X} \sim \mathcal{N}(\vec{\mu}, \Sigma)$, and $A$ is a $k \times n$ matrix, $\vec{c} \in \mathbb{R}^k$, then:
+$$
+A\vec{X} + \vec{c} \sim \mathcal{N}(A\vec{\mu} + \vec{c}, A\Sigma A^T)
+$$
+**Proof**: Simply plug into the characteristic function or definition.
+</Aside>
+
+### 2. Independence and Uncorrelatedness
+
+<Aside icon="seti:smarty" title="Corollary">
+Let $\vec{X} \sim \mathcal{N}(\vec{\mu}, \Sigma)$.
+Two components $X_i$ and $X_j$ are independent if and only if they are uncorrelated ($\text{Cov}(X_i, X_j) = 0$).
+<Aside type="danger" title="Important">
+This result holds **ONLY** when $X_i, X_j$ are **jointly Gaussian** (i.e., part of a Gaussian vector).
+In general, as we saw in the [Covariance section](../covariance), $\text{Cov} = 0$ does not imply independence.
+</Aside>
+</Aside>
