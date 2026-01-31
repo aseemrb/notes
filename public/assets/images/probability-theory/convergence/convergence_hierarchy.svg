@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" style="font-family: sans-serif; background: transparent;">
+  <style>
+    :root { 
+      --text: #374151; 
+      --stroke: #374151;
+      --bg: #ffffff;
+      --accent-red: #29c775ff;
+      --accent-blue: #3b82f6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --text: #d1d5db; 
+        --stroke: #9ca3af;
+        --bg: #1f2937;
+        --accent-red: #60a251ff;
+        --accent-blue: #60a5fa;
+      }
+    }
+    .node-ellipse { fill: none; stroke: var(--accent-red); stroke-width: 2.5; }
+    .arrow-straight { stroke: var(--stroke); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arrow-curved { stroke: var(--accent-blue); stroke-width: 2; fill: none; marker-end: url(#arrowhead-blue); stroke-dasharray: 4,2; }
+    .label-text { fill: var(--text); font-size: 16px; text-anchor: middle; dominant-baseline: middle; }
+    .edge-label { fill: var(--accent-blue); font-size: 18px; }
+    
+    /* Double line effect for strong implication? simplified to bold single line or stick to sketch double line style */
+    .double-arrow { stroke: var(--stroke); stroke-width: 4; fill: none; marker-end: url(#arrowhead); }
+    /* Actually double line is hard with just markers. Let's use thick single line for now. */
+
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--stroke)" />
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent-blue)" />
+    </marker>
+  </defs>
+
+  <g transform="translate(0, 0)">
+  <!-- Nodes -->
+  <!-- AS Convergence (Top Left) -->
+  <ellipse cx="150" cy="50" rx="100" ry="30" class="node-ellipse" />
+  <text x="150" y="50" class="label-text">a.s. Convergence</text>
+
+  <!-- Lp Convergence (Top Right) -->
+  <ellipse cx="450" cy="50" rx="100" ry="30" class="node-ellipse" />
+  <text x="450" y="50" class="label-text">Lᵖ Convergence</text>
+
+  <!-- Prob Convergence (Bottom Center) -->
+  <ellipse cx="300" cy="220" rx="120" ry="35" class="node-ellipse" />
+  <text x="300" y="220" class="label-text">Convergence in Prob.</text>
+
+  <!-- Edges -->
+  
+  <!-- AS => P (Down-Right) -->
+  <!-- From (150, 80) to (250, 190) approx -->
+  <g transform="translate(5,0)"> <!-- Offset slightly for pair -->
+      <line x1="170" y1="80" x2="260" y2="185" class="arrow-straight" style="stroke-width: 3;" />
+  </g>
+
+  <!-- Lp => P (Down-Left) -->
+  <g transform="translate(-5,0)">
+     <line x1="430" y1="80" x2="340" y2="185" class="arrow-straight" style="stroke-width: 3;" />
+  </g>
+
+  <!-- P => AS (Curved Up-Left) -->
+  <!-- "Exists Subsequence" -->
+  <path d="M 215 195 Q 120 180 120 82" class="arrow-curved" />
+  <text x="90" y="150" class="edge-label" text-anchor="end">
+    <tspan x="150" dy="1.5em">There exists a</tspan>
+    <tspan x="150" dy="1.2em">subsequence</tspan>
+  </text>
+
+  <!-- P => Lp (Curved Up-Right) -->
+  <!-- "U.I." -->
+  <path d="M 385 195 Q 480 180 480 82" class="arrow-curved" />
+  <text x="450" y="180" class="edge-label" text-anchor="start">Uniformly</text>
+  <text x="450" y="200" class="edge-label" text-anchor="start">Integrable</text>
+
+</g>
+</svg>

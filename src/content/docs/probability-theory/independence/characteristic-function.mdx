@@ -44,11 +44,11 @@ Unlike the **Moment Generating Function** ($M_X(t) = \mathbb{E}[e^{tX}]$) or the
 
 2.  **Property 2**:
     $$
-    \begin{align*}
+    \begin{aligned}
     \varphi_X(-t) &= \mathbb{E}[\cos(-tX) + i\sin(-tX)] \\
     &= \mathbb{E}[\cos(tX) - i\sin(tX)] \\
     &= \overline{\mathbb{E}[e^{itX}]} = \overline{\varphi_X(t)}
-    \end{align*}
+    \end{aligned}
     $$
 
 3.  **Property 3**:
@@ -60,18 +60,18 @@ Unlike the **Moment Generating Function** ($M_X(t) = \mathbb{E}[e^{tX}]$) or the
     $$
     By Jensen's Inequality for the convex function $f$:
     $$
-    \begin{align*}
+    \begin{aligned}
     |\mathbb{E}[e^{itX}]| &= f(\mathbb{E}[U], \mathbb{E}[V]) \\
     &\le \mathbb{E}[f(U, V)] = \mathbb{E}[|e^{itX}|] = 1
-    \end{align*}
+    \end{aligned}
     $$
 
 4.  **Property 4**:
     $$
-    \begin{align*}
+    \begin{aligned}
     \varphi_{aX+b}(t) &= \mathbb{E}[e^{it(aX+b)}] = \mathbb{E}[e^{itb} e^{i(at)X}] \\
     &= e^{itb} \mathbb{E}[e^{i(at)X}] = e^{itb} \varphi_X(at)
-    \end{align*}
+    \end{aligned}
     $$
 </Steps>
 </TabItem>

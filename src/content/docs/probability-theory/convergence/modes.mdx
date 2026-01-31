@@ -1,0 +1,235 @@
+---
+title: Modes of Convergence
+sidebar:
+  order: 1
+---
+
+We define three standard modes of convergence for random variables here. Convergence in distribution (Weak Convergence) is treated separately due to its depth.
+
+## Almost Sure Convergence
+
+<Aside type="tip" icon="open-book" title="Definition">
+A sequence of random variables $X_1, \dots, X_n$ is said to **converge almost surely (a.s.)** to a random variable $X$ if:
+$$
+\mathbb{P}\left( \lim_{n \to \infty} X_n = X \right) = 1
+$$
+Denoted by: $X_n \xrightarrow{a.s.} X$.
+</Aside>
+
+**Equivalent formulations**:
+*   $\mathbb{P}(\{ \omega : X_n(\omega) \to X(\omega) \}) = 1$
+*   $\mathbb{P}(\{ \omega : \lim_{n \to \infty} X_n(\omega) \neq X(\omega) \}) = 0$
+
+Essentially, the set of sample paths $\omega$ where the sequence *fails* to converge has probability zero.
+
+## Convergence in L<sup>p</sup>
+
+Also called Mean Convergence. Let's look at some context to have a better understanding of the definition.
+
+### Context: L<sup>p</sup> Space
+*   $X \in L^p$ means $\mathbb{E}[|X|^p] < \infty$.
+*   **Norm**: In a general measure space, $\|f\|_p = (\int |f|^p \, d\mu)^{1/p}$.
+*   In a probability space ($L^p(\Omega, \mathcal{F}, \mathbb{P})$), recall that since [expectation](../../lebesgue-integration/expectation) is the Lebesgue integration over the probability measure, this becomes:
+    $$
+    \|X\|_p = \left( \mathbb{E}[|X|^p] \right)^{1/p}
+    $$
+*   Thus, $X_n \xrightarrow{L^p} X \iff \|X_n - X\|_p \to 0$.
+
+<Aside type="tip" icon="open-book" title="Definition">
+A sequence $\{X_n\}_{n \ge 1}$ is said to **converge in $L^p$** to $X$ (for $1 \le p < \infty$) if $X \in L^p$ and:
+$$
+\mathbb{E}[|X_n - X|^p] \to 0 \quad \text{as } n \to \infty
+$$
+Denoted by: $X_n \xrightarrow{L^p} X$.
+</Aside>
+
+<Aside type="caution" icon="pencil" title="Exercise 11">
+<Tabs>
+<TabItem label="Problem">
+1.  Prove that $\mathbb{E}[|X_n - X|] \to 0 \implies \mathbb{E}[X_n] \to \mathbb{E}[X]$.
+2.  Find an example where the reverse direction is **not** true.
+</TabItem>
+<TabItem label="Hint">
+For the first part, use the fact that $| \mathbb{E}[X_n] - \mathbb{E}[X] | = | \mathbb{E}[X_n - X] | \le \mathbb{E}[|X_n - X|]$.
+
+For the second part, consider a sequence of random variables that are "close" to each other on average, but not necessarily in the limit.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Convergence in Probability
+
+<Aside type="tip" icon="open-book" title="Definition">
+A sequence $\{X_n\}$ is said to **converge in probability** to a random variable $X$ if for **any** $\epsilon > 0$:
+$$
+\mathbb{P}(|X_n - X| > \epsilon) \to 0 \quad \text{as } n \to \infty
+$$
+Equivalently:
+$$
+\lim_{n \to \infty} \mathbb{P}(\{\omega : |X_n(\omega) - X(\omega)| > \epsilon \}) = 0
+$$
+Denoted by: $X_n \xrightarrow{P} X$.
+</Aside>
+
+## Relationships between Modes
+
+### Almost Sure ⟹ in Probability
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+Almost sure convergence is stronger than convergence in probability:
+$$
+X_n \xrightarrow{a.s.} X \implies X_n \xrightarrow{P} X
+$$
+</TabItem>
+<TabItem label="Proof">
+Fix $\epsilon > 0$. Define the sets $A_n = \{ |X_m - X| \le \epsilon \text{ for all } m \ge n \}$.
+Notice that the sequence $\{A_n\}$ is **non-decreasing** ($A_n \subseteq A_{n+1}$).
+The limit set is:
+$$
+\lim_n A_n = \bigcup_n A_n = \{ \exists n \text{ s.t. } |X_m - X| \le \epsilon \text{ for all } m \ge n \}
+$$
+This set contains the event $\{ \lim_{n \to \infty} X_n = X \}$.
+Since $X_n \xrightarrow{a.s.} X$, we have $\mathbb{P}(\lim X_n = X) = 1$, which implies $\mathbb{P}(\lim A_n) = 1$.
+
+By **continuity of probability** for non-decreasing sets:
+$$
+\lim_{n \to \infty} \mathbb{P}(A_n) = \mathbb{P}(\lim A_n) = 1
+$$
+On the other hand, notice that $A_n \subseteq \{ |X_n - X| \le \epsilon \}$.
+Thus:
+$$
+\mathbb{P}(|X_n - X| \le \epsilon) \ge \mathbb{P}(A_n) \to 1
+$$
+This means $\mathbb{P}(|X_n - X| > \epsilon) \to 0$, so $X_n \xrightarrow{P} X$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+### L<sup>p</sup> ⟹ in Probability
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+Convergence in mean ($L^p$) is stronger than convergence in probability:
+$$
+X_n \xrightarrow{L^p} X \implies X_n \xrightarrow{P} X
+$$
+</TabItem>
+<TabItem label="Proof">
+For any $\epsilon > 0$:
+$$
+\mathbb{P}(|X_n - X| > \epsilon) = \mathbb{P}(|X_n - X|^p > \epsilon^p)
+$$
+By **Markov's Inequality**:
+$$
+\le \frac{\mathbb{E}[|X_n - X|^p]}{\epsilon^p}
+$$
+Since $X_n \xrightarrow{L^p} X$, the numerator goes to 0 as $n \to \infty$. Thus the probability goes to 0. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+### L<sup>q</sup> ⟹ L<sup>p</sup> for p < q
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+If $1 \le p < q < \infty$, then convergence in a higher moment implies convergence in a lower moment:
+$$
+X_n \xrightarrow{L^q} X \implies X_n \xrightarrow{L^p} X
+$$
+This assumes we are in a finite measure space (like a probability space).
+</TabItem>
+<TabItem label="Proof">
+We want to bound $\mathbb{E}[|X_n - X|^p]$. Let $\epsilon < 1$.
+Split the expectation based on the size of the difference:
+
+$$
+\mathbb{E}[|X_n - X|^p] = \mathbb{E}\left[ |X_n - X|^p \mathbb{1}_{\{|X_n - X| \ge \epsilon\}} \right] + \mathbb{E}\left[ |X_n - X|^p \mathbb{1}_{\{|X_n - X| < \epsilon\}} \right]
+$$
+
+Analyze the two terms:
+1.  **Large Difference** ($|X_n - X| \ge \epsilon$):
+    Here, $|X_n - X|^p = |X_n - X|^q \cdot |X_n - X|^{p-q}$.
+    Since $|X_n - X| \ge \epsilon$ and $p-q < 0$, we have $|X_n - X|^{p-q} \le \epsilon^{p-q}$.
+    $$
+    \implies |X_n - X|^p \le \epsilon^{p-q} |X_n - X|^q
+    $$
+2.  **Small Difference** ($|X_n - X| < \epsilon$):
+    Here, $|X_n - X|^p < \epsilon^p$.
+
+Combining these bounds:
+$$
+\mathbb{E}[|X_n - X|^p] \le \epsilon^{p-q} \mathbb{E}[|X_n - X|^q \mathbb{1}_{\dots}] + \epsilon^p
+$$
+Dropping the indicator (making the expectation larger):
+$$
+\le \epsilon^{p-q} \mathbb{E}[|X_n - X|^q] + \epsilon^p
+$$
+
+Now take limits:
+$$
+\limsup_{n \to \infty} \mathbb{E}[|X_n - X|^p] \le \epsilon^{p-q} \underbrace{\limsup_{n \to \infty} \mathbb{E}[|X_n - X|^q]}_{0 \text{ (since } L^q \text{ conv)}} + \epsilon^p
+$$
+$$
+= \epsilon^p
+$$
+Since $\epsilon$ can be arbitrarily small, the limit must be 0. Thus $X_n \xrightarrow{L^p} X$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Non-Implications (Counter-examples)
+
+In general, Convergence in Probability does **not** imply Almost Sure or $L^p$ convergence.
+
+### The Typewriter Sequence
+The following example shows that convergence in probability does not imply almost sure convergence.
+
+Consider $\Omega = [0,1]$ with Lebesgue measure. Let $X = 0$.
+Define $X_n$ as indicator functions of intervals that "scan" across $[0,1]$ repeatedly.
+-   $X_1 = \mathbb{1}_{[0,1]}$
+-   $X_2 = \mathbb{1}_{[0,1/2]}, X_3 = \mathbb{1}_{[1/2,1]}$
+-   $X_4 = \mathbb{1}_{[0,1/3]}, X_5 = \mathbb{1}_{[1/3,2/3]}, X_6 = \mathbb{1}_{[2/3,1]}$
+-   And so on.
+
+![Typewriter Sequence](/assets/images/probability-theory/convergence/convergence_oscillating.svg)
+
+*   **Convergence in Probability**: Yes. The measure of the support of $X_n$ is $1/k$ (where $k$ is the denominator group), which goes to 0. Thus $\mathbb{P}(|X_n| > \epsilon) \to 0$.
+*   **Almost Sure**: No. For any point $\omega \in [0,1]$, the interval will cover it infinitely often as the sequence cycles. Thus $\lim X_n(\omega)$ does not exist (it oscillates between 0 and 1).
+    $$
+    X_n \xrightarrow{P} 0 \quad \text{but} \quad X_n \not\!\!\xrightarrow{a.s.} 0
+    $$
+*   **Note**: This sequence **does** converge in $L^p$ since $\mathbb{E}[|X_n|^p] = \text{length} \to 0$.
+
+### The Escaping Mass Sequence
+The following example shows that convergence in probability does not imply $L^p$ convergence.
+
+Consider the same space. Let $X_n$ be tall, thin rectangles that maintain constant area.
+$$
+X_n = n \cdot \mathbb{1}_{[0, 1/n]}
+$$
+
+![Escaping Mass Sequence](/assets/images/probability-theory/convergence/convergence_unbounded.svg)
+
+*   **Convergence in Probability**: Yes. The support is $[0, 1/n]$, which has measure $1/n \to 0$.
+    $$
+    \mathbb{P}(|X_n| > \epsilon) = 1/n \to 0
+    $$
+*   **$L^p$ Convergence**: No.
+    $$
+    \mathbb{E}[|X_n - 0|^1] = \int_0^{1/n} n \, dx = 1 \not\to 0
+    $$
+    (For $p > 1$, $\mathbb{E}[|X_n|^p] = n^{p-1} \to \infty$).
+    $$
+    X_n \xrightarrow{P} 0 \quad \text{but} \quad X_n \not\xrightarrow{L^1} 0
+    $$
+*   **Note**: This sequence **does** converge almost surely to 0. For any $\omega > 0$, eventually $1/n < \omega$, so $X_n(\omega) = 0$ for all large $n$. (Convergence fails only at $\omega=0$, which has probability 0).
+
+<Aside type="danger" title="Remark">
+These examples also demonstrate that:
+1.  $X_n \xrightarrow{L^p} X \kern{0.8em} \not\!\!\!\implies X_n \xrightarrow{a.s.} X$ (Example 1)
+2.  $X_n \xrightarrow{a.s.} X \kern{0.8em} \not\!\!\!\implies X_n \xrightarrow{L^p} X$ (Example 2)
+</Aside>

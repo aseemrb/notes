@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" style="font-family: sans-serif; background: transparent;">
+  <style>
+    :root { 
+      --text: #374151; 
+      --axis: #9ca3af; 
+      --curve: #f59e0b; /* Amber-500 */
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --text: #d1d5db; 
+        --axis: #6b7280; 
+        --curve: #fbbf24; /* Amber-400 */
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .tick { stroke: var(--axis); stroke-width: 1; }
+    .curve { fill: none; stroke: var(--curve); stroke-width: 3; stroke-linecap: round; }
+    .projection { stroke: var(--axis); stroke-width: 1.5; stroke-dasharray: 4,3; fill: none; }
+    .label { fill: var(--text); font-size: 20px; text-anchor: middle; }
+    .math { font-family: serif; font-style: italic; }
+    .title { fill: var(--text); font-size: 20px; font-weight: bold; text-anchor: middle;}
+  </style>
+
+  <!-- Left Plot: Flat Region (x not in Omega_0) -->
+  <g transform="translate(50, 40)">
+    <!-- Axes -->
+    <line x1="0" y1="150" x2="250" y2="150" class="axis" />
+    <line x1="0" y1="150" x2="0" y2="0" class="axis" />
+    
+    <!-- Labels -->
+    <text x="240" y="140" class="label">y</text>
+    <text x="-20" y="20" class="label">F(y)</text>
+
+    <!-- Curve: Flat at y=75 (x value) -->
+    <!-- Points: (0, 150) -> (50, 75) -> (150, 75) -> (200, 20) -->
+    <path d="M 0 150 Q 30 140, 50 75 L 150 75 Q 170 70, 200 20" class="curve" />
+
+    <!-- Dashed Lines -->
+    <line x1="0" y1="75" x2="250" y2="75" class="projection" /> <!-- Horizontal x -->
+    <line x1="50" y1="75" x2="50" y2="150" class="projection" /> <!-- Vertical a_x -->
+    <line x1="150" y1="75" x2="150" y2="150" class="projection" /> <!-- Vertical b_x -->
+
+    <!-- Text Labels -->
+    <text x="-15" y="80" class="label">x</text>
+    <text x="50" y="170" class="label math">aₓ</text>
+    <text x="150" y="170" class="label math">bₓ</text>
+    
+    <text x="125" y="40" class="title" fill="#FF5252">x ∉ Ω₀</text>
+  </g>
+
+  <!-- Right Plot: Strictly Increasing (x in Omega_0) -->
+  <g transform="translate(400, 40)">
+    <!-- Axes -->
+    <line x1="0" y1="150" x2="250" y2="150" class="axis" />
+    <line x1="0" y1="150" x2="0" y2="0" class="axis" />
+    
+    <!-- Labels -->
+    <text x="240" y="140" class="label">y</text>
+    <text x="-20" y="20" class="label">F(y)</text>
+
+    <!-- Curve: Increasing through y=75 -->
+    <!-- Points: (0, 150) -> (100, 75) -> (200, 20) -->
+    <path d="M 0 150 C 60 140, 60 110, 100 75 C 140 40, 160 30, 200 20" class="curve" />
+
+    <!-- Dashed Lines -->
+    <line x1="0" y1="75" x2="250" y2="75" class="projection" /> <!-- Horizontal x -->
+    <line x1="100" y1="75" x2="100" y2="150" class="projection" /> <!-- Vertical a_x = b_x -->
+
+    <!-- Text Labels -->
+    <text x="-15" y="80" class="label">x</text>
+    <text x="100" y="170" class="label math">aₓ = bₓ</text>
+    
+    <text x="75" y="40" class="title" fill="#448AFF">x ∈ Ω₀</text>
+  </g>
+
+</svg>

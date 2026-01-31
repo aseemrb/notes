@@ -15,7 +15,6 @@ export default defineConfig({
 		rehypePlugins: [[rehypeKatex, { macros: katexMacros }]],
 	},
 	integrations: [
-
 		starlight({
 			plugins: [starlightThemeRapide()],
 			title: 'Notes',
@@ -48,6 +47,7 @@ export default defineConfig({
 						{ label: 'Events & Random Variables', collapsed: true, autogenerate: { directory: 'probability-theory/events', collapsed: true } },
 						{ label: 'Lebesgue Integration', collapsed: true, autogenerate: { directory: 'probability-theory/lebesgue-integration', collapsed: true } },
 						{ label: 'Independence', collapsed: true, autogenerate: { directory: 'probability-theory/independence', collapsed: true } },
+						{ label: 'Convergence', collapsed: true, autogenerate: { directory: 'probability-theory/convergence', collapsed: true } },
 					],
 				},
 			],

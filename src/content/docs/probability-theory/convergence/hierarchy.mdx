@@ -1,0 +1,123 @@
+---
+title: Convergence Hierarchy
+sidebar:
+  order: 2
+---
+
+We investigate the conditions required to reverse the implications between different modes of convergence. We know that almost sure convergence and $L^p$ convergence both imply convergence in probability. The reverse implications generally require additional conditions.
+
+## Subsequence Principle
+
+Convergence in probability does not imply almost sure convergence (as seen in the "Typewriter" counter-example). However, it does imply that a *subsequence* converges almost surely.
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+If $X_n \xrightarrow{P} X$, then there exists a subsequence $\{n_m\}_{m \ge 1}$ such that:
+$$
+X_{n_m} \xrightarrow{a.s.} X \quad \text{as } m \to \infty
+$$
+</TabItem>
+<TabItem label="Proof">
+Set $n_0 = 0$ (dummy term). For any $m \ge 1$, we can find an index $n_m$ large enough.
+Let $n_m = \inf \{ n > n_{m-1} : \mathbb{P}(|X_n - X| > 1/m) \le 2^{-m} \}$.
+
+We can always find such an $n_m$ because $X_n \xrightarrow{P} X$ (implies the probability goes to 0, eventually dropping below $2^{-m}$).
+
+Now consider the sum of these probabilities:
+$$
+\sum_{m=1}^\infty \mathbb{P}\left(|X_{n_m} - X| > \frac{1}{m}\right) \le \sum_{m=1}^\infty 2^{-m} = 1 < \infty
+$$
+
+By the **First Borel-Cantelli Lemma**:
+Since the sum of probabilities is finite, the probability that the events $A_m = \{ |X_{n_m} - X| > 1/m \}$ happen infinitely often is 0.
+$$
+\mathbb{P}(A_m \text{ i.o.}) = 0
+$$
+Equivalently, almost surely, $|X_{n_m} - X| > 1/m$ happens for only **finitely many** $m$.
+
+Thus, for almost every $\omega$, there exists an $m_0(\omega)$ such that for all $m \ge m_0$:
+$$
+|X_{n_m}(\omega) - X(\omega)| \le \frac{1}{m}
+$$
+Since $1/m \to 0$, this implies $X_{n_m} \xrightarrow{a.s.} X$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Uniform Integrability
+
+Convergence in Probability implies $L^1$ convergence if and only if the sequence is **Uniformly Integrable (U.I.)**. This condition prevents "mass escaping to infinity".
+
+<Aside type="tip" icon="open-book" title="Definition">
+A sequence of random variables $\{X_n\}_{n \ge 1}$ is called **Uniformly Integrable (U.I.)** if:
+$$
+\lim_{K \to \infty} \sup_n \mathbb{E}\left[ |X_n| \mathbb{1}_{\{|X_n| > K\}} \right] = 0
+$$
+</Aside>
+
+Essentially, the contribution to the expectation from the "tails" of the distribution goes to 0 uniformly across all $X_n$.
+
+### Vitali Convergence Theorem
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+If $X_n \xrightarrow{P} X$ and the sequence $\{X_n\}_{n \ge 1}$ is **Uniformly Integrable**, then:
+$$
+X_n \xrightarrow{L^1} X
+$$
+</TabItem>
+<TabItem label="Proof">
+Without loss of generality, assume $X \equiv 0$ (or consider $Y_n = X_n - X$). Be careful that U.I. of $X_n$ and $X$ implies U.I. of $X_n - X$.
+We want to show $\mathbb{E}[|X_n|] \to 0$.
+
+Fix any $\epsilon > 0$.
+1.  **Tail Control (U.I.)**:
+    Since $\{X_n\}$ is U.I., there exists a threshold $K > 0$ (large enough) such that for **all** $n$:
+    $$
+    \mathbb{E}\left[ |X_n| \mathbb{1}_{\{|X_n| > K\}} \right] \le \epsilon \quad \textcolor{gray}{\text{--- (1)}}
+    $$
+
+2.  **Probability Control**:
+    Since $X_n \xrightarrow{P} 0$, for the fixed $K$ above, there exists an $N$ such that for all $n \ge N$:
+    $$
+    \mathbb{P}(|X_n| > \epsilon) \le \frac{\epsilon}{K} \quad \textcolor{gray}{\text{--- (2)}}
+    $$
+    *(Note: The proof logic typically splits events differently, let's follow the standard epsilon-split used in the notes.)*
+
+**Refined Split**:
+Decompose the expectation $\mathbb{E}[|X_n|]$ into three regions based on the value of $|X_n|$:
+*   **Small**: $|X_n| \le \epsilon$
+*   **Medium**: $\epsilon < |X_n| \le K$
+*   **Large**: $|X_n| > K$
+
+$$
+\begin{aligned}
+\mathbb{E}[|X_n|] &= \int_{|X_n| \le \epsilon} |X_n| \, d\mathbb{P} + \int_{\epsilon < |X_n| \le K} |X_n| \, d\mathbb{P} + \int_{|X_n| > K} |X_n| \, d\mathbb{P} \\
+\\
+&\le \int \epsilon \, d\mathbb{P} + \int K \cdot \mathbb{1}_{\{|X_n| > \epsilon\}} \, d\mathbb{P} + \epsilon \quad \textcolor{gray}{\text{(using (1))}} \\
+\\
+&\le \epsilon + K \cdot \mathbb{P}(|X_n| > \epsilon) + \epsilon
+\end{aligned}
+$$
+
+Now use the convergence in probability (2): for $n \ge N$, $\mathbb{P}(|X_n| > \epsilon)$ is very small (say $\le \epsilon/K$).
+$$
+\le \epsilon + K \left(\frac{\epsilon}{K}\right) + \epsilon = 3\epsilon
+$$
+
+Since $\epsilon$ was arbitrary, $\mathbb{E}[|X_n|] \to 0$. Thus $X_n \xrightarrow{L^1} 0$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="danger" title="Remark">
+For $L^p$ convergence ($p > 1$), the condition is that $\{ |X_n|^p \}$ must be Uniformly Integrable.
+</Aside>
+
+## Summary of Relationships
+
+The following diagram summarizes the hierarchy of convergence modes.
+
+![Convergence Hierarchy Diagram](/assets/images/probability-theory/convergence/convergence_hierarchy.svg)

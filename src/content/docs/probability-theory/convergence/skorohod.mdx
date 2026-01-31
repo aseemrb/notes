@@ -1,0 +1,115 @@
+---
+title: Skorohod's Representation Theorem
+sidebar:
+  order: 4
+---
+
+This theorem provides a powerful tool connecting **Weak Convergence** (convergence in distribution) and **Almost Sure Convergence**. It states that if variables converge in distribution, we can construct copies of them on a common probability space that converge almost surely.
+
+## Theorem Statement
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}_{n \ge 1}$ be a sequence of random variables such that $X_n \xrightarrow{d} X$.
+
+Then there exists a probability space $(\Omega, \mathcal{F}, \mathbb{P})$ and random variables on it, $\{Y_n\}_{n \ge 1}$ and $Y$, such that:
+1.  **Same Distributions**: $X_n \stackrel{d}{=} Y_n$ for all $n$, and $X \stackrel{d}{=} Y$.
+2.  **Almost Sure Convergence**:
+    $$
+    Y_n \xrightarrow{a.s.} Y \quad \text{as } n \to \infty
+    $$
+</TabItem>
+
+<TabItem label="Proof">
+**Construction**:
+We use the **standard uniform space** as our common probability space:
+$$
+(\Omega, \mathcal{F}, \mathbb{P}) = ([0, 1], \mathcal{B}, \lambda)
+$$
+where $\lambda$ is the Lebesgue measure.
+
+Let $F_n$ be the CDF of $X_n$ and $F$ be the CDF of $X$.
+We define $Y_n$ and $Y$ using the **generalized inverse** (quantile function):
+$$
+\begin{aligned}
+Y_n(\omega) &= F_n^{-1}(\omega) = \inf \{x : F_n(x) \ge \omega\} \\
+Y(\omega) &= F^{-1}(\omega) = \inf \{x : F(x) \ge \omega\}
+\end{aligned}
+$$
+*(Note: The notes define $F^{-1}(x) = \sup\{y : F(y) < x\}$. This is equivalent for dist. functions).*
+
+To visualize the connection between the "flat parts" of $F$ and the continuity of $F^{-1}$, consider the following definitions for any $x \in [0,1)$:
+$$
+a_x = \sup \{y : F(y) < x\} = F^{-1}(x), \quad b_x = \inf \{y : F(y) > x\}
+$$
+If $F$ has a flat part at height $x$, then $a_x \neq b_x$. If strictly increasing, $a_x = b_x$.
+
+![Skorohod Flat Regions](/assets/images/probability-theory/convergence/skorohod_flat.svg)
+
+From the properties of the generalized inverse (Inverse Transform Sampling), we know that if $\omega \sim \text{Unif}[0,1]$, then $F^{-1}(\omega)$ has CDF $F$. Thus:
+$$
+Y_n \stackrel{d}{=} X_n \quad \text{and} \quad Y \stackrel{d}{=} X
+$$
+
+**Convergence Proof**:
+We want to show $Y_n(\omega) \to Y(\omega)$ for almost all $\omega \in (0,1)$.
+
+Let $\Omega_0 \subset (0,1)$ be the set of points where $F^{-1}$ is continuous (or related to the "flat parts" of $F$).
+Specifically, consider the intervals where $F$ is constant. The set of values $x$ where $F(x)$ is flat corresponds to jumps in $F^{-1}$. Since $F^{-1}$ is monotone, it has at most countably many discontinuities.
+For any $\omega \in \Omega_0$ (which is almost everywhere), we show convergence.
+
+<Steps>
+1. **Lower Bound** ($\liminf Y_n \ge Y$)
+    
+    Let $\omega \in \Omega_0$.
+    Pick any $y < Y(\omega) = F^{-1}(\omega)$.
+    This implies $F(y) < \omega$ (from the definition of inverse, if $\omega$ is not in a flat gap).
+    Let's choose $y$ such that $F$ is continuous at $y$ (possible since discontinuities are countable).
+    Since $X_n \xrightarrow{d} X$, we have $F_n(y) \to F(y)$.
+    Since $F(y) < \omega$, for sufficiently large $n$, we must have $F_n(y) < \omega$.
+    By definition of inverse:
+    $$
+    F_n(y) < \omega \implies y \le F_n^{-1}(\omega) = Y_n(\omega)
+    $$
+    Thus, for large $n$, $Y_n(\omega) \ge y$.
+    Taking the liminf:
+    $$
+    \liminf_{n \to \infty} Y_n(\omega) \ge y
+    $$
+    Since this holds for any $y < Y(\omega)$ (where $F$ is continuous), let $y \uparrow Y(\omega)$:
+    $$
+    \liminf_{n \to \infty} Y_n(\omega) \ge Y(\omega)
+    $$
+
+2. **Upper Bound** ($\limsup Y_n \le Y$)
+    
+    Similarly, for $\omega \in \Omega_0$, pick $z > Y(\omega)$.
+    This implies $F(z) > \omega$. Choose $z$ such that $F$ is continuous at $z$.
+    Then $F_n(z) \to F(z) > \omega$.
+    For large $n$, $F_n(z) > \omega \implies Y_n(\omega) \le z$.
+    Taking the limsup:
+    $$
+    \limsup_{n \to \infty} Y_n(\omega) \le z
+    $$
+    Letting $z \downarrow Y(\omega)$:
+    $$
+    \limsup_{n \to \infty} Y_n(\omega) \le Y(\omega)
+    $$
+</Steps>
+
+Combining steps 1 and 2, $Y_n(\omega) \to Y(\omega)$ for all $\omega \in \Omega_0$, which has probability 1.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Implications
+
+This theorem allows us to transfer results from almost sure convergence to weak convergence. For example, if we have a continuous mapping $g$, we know that $X_n \to X$ a.s. implies $g(X_n) \to g(X)$ a.s.
+Using Skorohod's theorem:
+1.  $X_n \xrightarrow{d} X$.
+2.  Switch to $Y_n \xrightarrow{a.s.} Y$.
+3.  Then $g(Y_n) \xrightarrow{a.s.} g(Y)$.
+4.  Since a.s. implies weak convergence, $g(Y_n) \xrightarrow{d} g(Y)$.
+5.  Since distribution depends only on the law, $g(X_n) \xrightarrow{d} g(X)$.
+

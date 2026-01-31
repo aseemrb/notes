@@ -1,0 +1,226 @@
+---
+title: Weak Convergence
+sidebar:
+  order: 3
+---
+
+Also called **convergence in distribution**.
+
+## Definition
+
+<Aside type="tip" icon="open-book" title="Definition">
+A sequence of random variables $\{X_n\}$ with cumulative distribution functions $F_n$ is said to **converge in distribution** (or **converge weakly**) to a random variable $X$ with distribution function $F$, if:
+$$
+\lim_{n \to \infty} F_n(x) = F(x)
+$$
+for all points $x$ where $F$ is continuous.
+
+**Notation**: $X_n \Rightarrow X$ or $X_n \xrightarrow{d} X$.
+</Aside>
+
+<Aside type="danger" title="Remark">
+Convergence in distribution is fundamentally different from other modes because it describes the convergence of the **laws** (distributions), not the random variables themselves, i.e., it's not about the relation between $X_n(\omega)$ and $X(\omega)$, but only about their distributions.
+*   It does not imply that $X_n$ and $X$ are close to each other in value.
+*   It does not even require $X_n$ and $X$ to be defined on the same probability space!
+*   It only asserts that for large $n$, the *statistical behavior* of $X_n$ is modeled by $F$.
+</Aside>
+
+## Example: Binomial to Poisson
+
+This is the classic "Law of Rare Events". If we have a sequence of Binomial distributions where the number of trials $n$ goes to infinity and the probability of success $p_n$ goes to 0 such that $n p_n \to \lambda$, the distribution converges to a Poisson distribution.
+
+Let $X_n \sim \text{Bin}(n, p_n)$ with $p_n = \lambda/n$.
+The probability mass function (PMF) for a fixed $k$ is:
+
+$$
+\begin{aligned}
+\mathbb{P}(X_n = k) &= \binom{n}{k} p_n^k (1-p_n)^{n-k} \\
+&= \frac{n(n-1)\dots(n-k+1)}{k!} \left(\frac{\lambda}{n}\right)^k \left(1-\frac{\lambda}{n}\right)^{n-k} \\
+&= \frac{\lambda^k}{k!} \underbrace{\frac{n(n-1)\dots(n-k+1)}{n^k}}_{\to 1} \underbrace{\left(1-\frac{\lambda}{n}\right)^n}_{\to e^{-\lambda}} \underbrace{\left(1-\frac{\lambda}{n}\right)^{-k}}_{\to 1}
+\end{aligned}
+$$
+
+Taking the limit as $n \to \infty$:
+$$
+\lim_{n \to \infty} \mathbb{P}(X_n = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+$$
+This is the PMF of a **Poisson$(\lambda)$** distribution. Thus $X_n \xrightarrow{d} \text{Pois}(\lambda)$.
+
+## Example: Geometric to Exponential
+
+A classic example is the convergence of a scaled Geometric distribution to an Exponential distribution.
+
+Consider a sequence of independent Bernoulli trials with success probability $p$.
+Let $X_p$ be the number of trials until the first success. This follows a **Geometric distribution** with parameter $p$:
+$$
+\begin{aligned}
+\mathbb{P}(X_p = n) &= p(1-p)^{n-1} \\
+\mathbb{P}(X_p > n) &= (1-p)^n
+\end{aligned}
+$$
+for $n = 1, 2, \dots$. Note that $X_p > n$ means the first $n$ trials were failures.
+
+As $p \to 0$, we analyze the distribution function of $p X_p$, i.e., $\mathbb{P}(p X_p \le x)$.
+
+$$
+\begin{aligned}
+\lim_{p \to 0} \mathbb{P}(p X_p > x) &= \lim_{p \to 0} \mathbb{P}\left(X_p > \frac{x}{p}\right) \\
+&= \lim_{p \to 0} (1-p)^{x/p}
+\end{aligned}
+$$
+
+Recalling the limit definition of the exponential function $\lim_{m \to \infty} (1 - \frac{1}{m})^m = e^{-1}$. To apply this, we make the substitution $m = 1/p$. As $p \to 0$, $m \to \infty$.
+$$
+\lim_{p \to 0} (1-p)^{x/p} = \lim_{m \to \infty} \left(1 - \frac{1}{m}\right)^{mx} = \left[ \lim_{m \to \infty} \left(1 - \frac{1}{m}\right)^m \right]^x = e^{-x}
+$$
+
+Thus:
+$$
+\lim_{p \to 0} \mathbb{P}(p X_p \le x) = 1 - e^{-x} \quad \text{for all } x > 0
+$$
+
+This is precisely the CDF of an **Exponential distribution** with rate parameter $\lambda = 1$.
+$$
+p X_p \xrightarrow{d} \text{Exp}(1) \quad \text{as } p \to 0
+$$
+
+## Convergence in Probability Implies Weak Convergence
+
+We know that convergence in probability is stronger than convergence in distribution. Here we provide a proof.
+
+<Aside icon="seti:smarty" title="Proposition">
+<Tabs>
+<TabItem label="Statement">
+  Let $\{X_n\}_{n \ge 1}$ be a sequence of random variables.
+  If $X_n \xrightarrow{P} X$, then $X_n \xrightarrow{d} X$.
+</TabItem>
+
+<TabItem label="Proof">
+Let $F_n$ and $F$ be the CDFs of $X_n$ and $X$ respectively.<br/>
+Let $a$ be any point where $F$ is continuous.<br/>
+We want to show that $F_n(a) \to F(a)$ for any $a$ where $F$ is continuous.
+
+<Steps>
+1. Let $\epsilon > 0$. Since $F$ is continuous at $a$, there exists $\delta > 0$ such that:
+    $$
+    F(a) - \epsilon < F(a-\delta) \le F(a) \le F(a+\delta) < F(a) + \epsilon \quad\textcolor{gray}{\text{---(1.1)}}
+    $$
+
+2. Since $X_n \xrightarrow{P} X$, there exists $N_{\epsilon} > 0$ such that:
+    $$
+    \mathbb{P}(|X_n - X| > \delta) < \epsilon \quad \text{for all } n \ge N_{\epsilon} \quad \textcolor{gray}{\text{---(1.2)}}
+    $$
+
+3. Now, for such $n$, consider the event $\{X_n \le a\}$. We can decompose it as:
+    $$
+    \begin{aligned}
+    F_n(a) &= \mathbb{P}(X_n \le a) \\
+    &= \mathbb{P}(X_n \le a, |X_n - X| \le \delta) + \mathbb{P}(X_n \le a, |X_n - X| > \delta)
+    \end{aligned}
+    $$
+
+4. **Upper Bound**
+    
+    The second probability term is bounded by $\epsilon$ from <span style="color:gray">$(1.2)$</span>:
+    $$
+    \mathbb{P}(X_n \le a, |X_n - X| > \delta) \le \mathbb{P}(|X_n - X| > \delta) < \epsilon
+    $$
+    For the first term, observe the implication:
+    $$
+    X_n \le a \text{ and } |X_n - X| \le \delta \implies X \le a + \delta
+    $$
+    This implies the inclusion of events $\{X_n \le a, |X_n - X| \le \delta\} \subseteq \{X \le a+\delta\}$. Thus:
+    $$
+    \mathbb{P}(X_n \le a, |X_n - X| \le \delta) \le \mathbb{P}(X \le a+\delta) = F(a+\delta)
+    $$
+    Combining these and using classical continuity bound <span style="color:gray">$(1.1)$</span>:
+    $$
+    F_n(a) < F(a+\delta) + \epsilon < (F(a) + \epsilon) + \epsilon = F(a) + 2\epsilon
+    $$
+
+5. **Lower Bound**
+
+    To find a lower bound for the first term $\mathbb{P}(X_n \le a, |X_n - X| \le \delta)$, consider the reverse implication:
+    $$
+    X \le a-\delta \text{ and } |X_n - X| \le \delta \implies X_n \le a
+    $$
+    This gives the inclusion $\{X \le a-\delta, |X_n - X| \le \delta\} \subseteq \{X_n \le a, |X_n - X| \le \delta\}$.
+    
+    Now, write $\mathbb{P}(X \le a-\delta)$ as the sum of disjoint events based on the condition $|X_n - X| \le \delta$:
+    $$
+    \mathbb{P}(X \le a-\delta) = \mathbb{P}(X \le a-\delta, |X_n - X| \le \delta) + \underbrace{\mathbb{P}(X \le a-\delta, |X_n - X| > \delta)}_{\le \mathbb{P}(|X_n - X| > \delta) < \epsilon}
+    $$
+    Rearranging this inequality:
+    $$
+    \mathbb{P}(X \le a-\delta, |X_n - X| \le \delta) \ge F(a-\delta) - \epsilon
+    $$
+    Substituting back into our expression for $F_n(a)$ (and ignoring the non-negative second term):
+    $$
+    F_n(a) \ge F(a-\delta) - \epsilon
+    $$
+    Using the continuity bound (1.1) again:
+    $$
+    F_n(a) > (F(a) - \epsilon) - \epsilon = F(a) - 2\epsilon
+    $$
+
+6. **Conclusion**
+
+    Combining bounds, for $n \ge N_{\epsilon}$:
+    $$
+    F(a) - 2\epsilon < F_n(a) < F(a) + 2\epsilon
+    $$
+    Since $\epsilon$ is arbitrary, $F_n(a) \to F(a)$.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## When is the converse true?
+
+Does $X_n \xrightarrow{d} X \implies X_n \xrightarrow{P} X$?
+Generally **No**, because convergence in distribution does not require variables to be close in value (or even on the same space).
+
+However, if the limit is a **constant**, the converse holds.
+
+<Aside icon="seti:smarty" title="Proposition">
+<Tabs>
+<TabItem label="Statement">
+  Let $\{X_n\}_{n \ge 1}$ be a sequence of random variables.
+  If $X_n \xrightarrow{d} c$ for some constant $c$, then $X_n \xrightarrow{P} c$.
+</TabItem>
+
+<TabItem label="Proof">
+  For any $\epsilon > 0$, we want to show that $\mathbb{P}(|X_n - c| \le \epsilon) \to 1$.
+  
+  $$
+  \begin{aligned}
+  \mathbb{P}(|X_n - c| \le \epsilon) &= \mathbb{P}(c - \epsilon \le X_n \le c + \epsilon) \\
+  &\ge \mathbb{P}(c - \epsilon < X_n \le c + \epsilon) \\
+  &= F_n(c + \epsilon) - F_n(c - \epsilon)
+  \end{aligned}
+  $$
+
+  Consider the limit distribution $F$ of the constant random variable $X \equiv c$:
+  $$
+  F(x) = \begin{cases} 0 & x < c \\ 1 & x \ge c \end{cases} = \mathbb{1}_{\{x \ge c\}}
+  $$
+  
+  This function $F$ is continuous at all points except $x=c$.
+  Therefore, for any $\epsilon > 0$, $F$ is continuous at $c + \epsilon$ and $c - \epsilon$.
+  
+  By definition of weak convergence:
+  $$
+  \begin{aligned}
+  F_n(c + \epsilon) &\to F(c + \epsilon) = 1 \\
+  F_n(c - \epsilon) &\to F(c - \epsilon) = 0
+  \end{aligned}
+  $$
+  
+  Thus:
+  $$
+  \lim_{n \to \infty} \mathbb{P}(|X_n - c| \le \epsilon) \ge 1 - 0 = 1
+  $$
+  Since probabilities cannot exceed 1, the limit is exactly 1. Hence $X_n \xrightarrow{P} c$.
+</TabItem>
+</Tabs>
+</Aside>
