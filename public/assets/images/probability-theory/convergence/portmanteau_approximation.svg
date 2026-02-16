@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" style="font-family: sans-serif; background: transparent;">
+  <style>
+    :root { 
+      --text: #374151; 
+      --axis: #9ca3af; 
+      --curve: #3b82f6; /* Blue-500 */
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { 
+        --text: #d1d5db; 
+        --axis: #6b7280; 
+        --curve: #60a5fa; /* Blue-400 */
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .tick { stroke: var(--axis); stroke-width: 1; }
+    .curve { fill: none; stroke: var(--curve); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .projection { stroke: var(--axis); stroke-width: 1.5; stroke-dasharray: 4,3; fill: none; }
+    .label { fill: var(--text); font-size: 18px; text-anchor: middle; dominant-baseline: middle; }
+    .math { font-family: serif; font-style: italic; }
+  </style>
+
+  <g transform="translate(50, 50)">
+    <!-- Axes -->
+    <!-- y-axis: 0 to 200 (visual height 150 for value 1) -->
+    <line x1="0" y1="200" x2="0" y2="0" class="axis" />
+    <!-- x-axis: 0 to 500 -->
+    <line x1="0" y1="200" x2="500" y2="200" class="axis" />
+
+    <!-- Labels -->
+    <text x="500" y="225" class="label">t</text>
+    <text x="-25" y="50" class="label">1</text>
+    <text x="-25" y="200" class="label">0</text>
+
+    <!-- Ticks -->
+    <line x1="-5" y1="50" x2="0" y2="50" class="tick" />
+
+    <!-- Points x and y -->
+    <!-- Let x be at 200, y be at 350 -->
+    <text x="200" y="225" class="label math">x</text>
+    <text x="350" y="225" class="label math">y</text>
+    
+    <!-- Projections -->
+    <line x1="200" y1="200" x2="200" y2="50" class="projection" />
+    <line x1="350" y1="200" x2="350" y2="200" class="projection" /> <!-- trivial projection onto axis -->
+
+    <!-- Function Curve f(t) -->
+    <!-- Flat at 1 until x=200 -->
+    <!-- Slope down to 0 at y=350 -->
+    <!-- Flat at 0 after y=350 -->
+    <polyline points="0,50 200,50 350,200 500,200" class="curve" />
+
+    <!-- Function Label -->
+    <text x="400" y="100" class="label math" font-size="24" fill="var(--curve)">f</text>
+    
+  </g>
+</svg>
