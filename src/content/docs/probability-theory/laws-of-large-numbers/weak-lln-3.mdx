@@ -1,0 +1,82 @@
+---
+title: Weak LLN 3
+sidebar:
+  order: 3
+---
+
+The classical i.i.d. Weak Law: finite mean is enough for the sample average to converge in probability to the mean. This is the form of the WLLN most often invoked in practice. The proof reduces to [WLLN 2](../weak-lln-2) by showing that finite mean implies the tail condition $(\#)$, then using dominated convergence to replace the truncated centering $\mu_n$ with the true mean $\mu$.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Classical i.i.d. WLLN">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}_{n \ge 1}$ be i.i.d. with $\mathbb{E}|X_1| < \infty$. Let
+$$
+S_n = \sum_{i=1}^n X_i, \qquad \mu = \mathbb{E}[X_1].
+$$
+Then
+$$
+\frac{S_n}{n} \xrightarrow{P} \mu \quad \text{as } n \to \infty.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+We deduce this from [WLLN 2](../weak-lln-2) in two steps: check the tail condition $(\#)$, then upgrade the truncated centering to $\mu$.
+
+<Steps>
+1. **Finite mean implies the tail condition.**
+
+    For each $x > 0$, $|X_1| \mathbb{1}_{\{|X_1| > x\}} \le |X_1|$ pointwise, and $|X_1| \mathbb{1}_{\{|X_1| > x\}} \to 0$ pointwise as $x \to \infty$. Since $|X_1|$ is integrable, the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct) gives
+    $$
+    \mathbb{E}\!\left[|X_1| \, \mathbb{1}_{\{|X_1| > x\}}\right] \;\longrightarrow\; 0 \quad \text{as } x \to \infty.
+    $$
+    On the event $\{|X_1| > x\}$ we have $x \le |X_1|$, so
+    $$
+    x \, \mathbb{P}(|X_1| > x) = \mathbb{E}\!\left[x \, \mathbb{1}_{\{|X_1| > x\}}\right] \le \mathbb{E}\!\left[|X_1| \, \mathbb{1}_{\{|X_1| > x\}}\right] \;\longrightarrow\; 0,
+    $$
+    which is the tail condition $(\#)$ of [WLLN 2](../weak-lln-2).
+
+2. **Apply WLLN 2.**
+
+    The hypotheses of [WLLN 2](../weak-lln-2) hold, so
+    $$
+    \frac{S_n}{n} - \mu_n \xrightarrow{P} 0 \quad \text{where} \quad \mu_n = \mathbb{E}\!\left[X_1 \, \mathbb{1}_{\{|X_1| \le n\}}\right].
+    $$
+
+3. **The truncated mean converges to $\mu$.**
+
+    The integrand $X_1 \, \mathbb{1}_{\{|X_1| \le n\}}$ converges pointwise to $X_1$ as $n \to \infty$ and is dominated by $|X_1|$, which is integrable. By [DCT](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct),
+    $$
+    \mu_n \;\longrightarrow\; \mathbb{E}[X_1] = \mu.
+    $$
+
+4. **Combine.**
+
+    Write
+    $$
+    \frac{S_n}{n} - \mu = \underbrace{\left(\frac{S_n}{n} - \mu_n\right)}_{\xrightarrow{P}\, 0} + \underbrace{(\mu_n - \mu)}_{\xrightarrow{}\, 0}.
+    $$
+    The first summand vanishes in probability by step 2; the second is a deterministic sequence tending to $0$. Their sum tends to $0$ in probability (see the exercise below). $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="caution" icon="pencil" title="Exercise">
+<Tabs>
+<TabItem label="Problem">
+Show that if $X_n \xrightarrow{P} X$ and $Y_n \xrightarrow{P} Y$, then
+$$
+X_n + Y_n \xrightarrow{P} X + Y.
+$$
+</TabItem>
+<TabItem label="Hint">
+For any $\epsilon > 0$, use the inclusion
+$$
+\{|(X_n + Y_n) - (X + Y)| > \epsilon\} \subseteq \{|X_n - X| > \epsilon/2\} \cup \{|Y_n - Y| > \epsilon/2\}
+$$
+(triangle inequality) and apply the union bound.
+</TabItem>
+</Tabs>
+</Aside>

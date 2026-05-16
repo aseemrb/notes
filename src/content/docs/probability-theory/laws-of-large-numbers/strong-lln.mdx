@@ -1,0 +1,229 @@
+---
+title: Strong LLN
+sidebar:
+  order: 4
+---
+
+import SLLNRunningAverage from '../../../../components/widgets/SLLNRunningAverage.tsx';
+
+The Strong Law of Large Numbers upgrades the [Weak LLN](../weak-lln-3) from convergence in probability to [almost sure convergence](../../convergence/modes/#almost-sure-convergence), under the same finite-mean hypothesis. The version below (due to Etemadi) further relaxes mutual independence to **pairwise** independence.
+
+## Interactive: Sample Average Converges
+
+Each colored line is the running average $\overline{X}_n = (X_1 + \cdots + X_n)/n$ of one i.i.d. sequence from the chosen distribution; the dashed horizontal line is the true mean $\mu$. The SLLN asserts that, almost surely, every sample path eventually clings to $\mu$. Drag `max n` to see the long-run behavior; press *Resample* to draw new sequences.
+
+<SLLNRunningAverage client:visible />
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Strong LLN (Etemadi)">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}_{n \ge 1}$ be identically distributed and **pairwise independent**, with
+$$
+\mathbb{E}|X_1| < \infty.
+$$
+Let $\mu = \mathbb{E}[X_1]$ and $S_n = \sum_{i=1}^n X_i$. Then
+$$
+\frac{S_n}{n} \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The proof proceeds along the following plan:
+
+1. **Truncate.** Replace $X_k$ with $Y_k = X_k \, \mathbb{1}_{\{|X_k| \le k\}}$ and show that the truncation changes the sum only finitely often (Borel–Cantelli), so it suffices to prove $T_n/n \to \mu$ a.s. where $T_n = \sum_{i=1}^n Y_i$.
+2. **Reduce to $X \ge 0$.** Split $X = X^+ - X^-$.
+3. **Prove convergence along the geometric subsequence** $k(n) = \lfloor \alpha^n \rfloor$ using Chebyshev and Borel–Cantelli; use dominated convergence to identify the limit as $\mu$.
+4. **Fill in the gaps** between consecutive $k(n)$ and $k(n+1)$ using monotonicity of $T_m$ in $m$ (this is where $X \ge 0$ is used). Let $\alpha \downarrow 1$.
+
+The argument relies on two technical lemmas. The first is a pure series estimate; the second uses the first to bound the variances of the truncated variables.
+
+---
+
+### Lemma 1 (series estimate)
+
+<Aside icon="seti:smarty" title="Lemma 1">
+<Tabs>
+<TabItem label="Statement">
+For all $y \ge 0$,
+$$
+2y \sum_{\substack{k > y \\ k \in \mathbb{Z}_{\ge 1}}} k^{-2} \le 4.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+**Case $y \ge 1$.** Using the comparison $\frac{1}{k^2} \le \frac{1}{(k-1)k} = \frac{1}{k-1} - \frac{1}{k}$ for $k \ge 2$, the sum telescopes:
+$$
+\sum_{k = \lfloor y \rfloor + 1}^{\infty} \frac{1}{k^2} \le \sum_{k = \lfloor y \rfloor + 1}^{\infty} \left(\frac{1}{k-1} - \frac{1}{k}\right) = \frac{1}{\lfloor y \rfloor}.
+$$
+Since $\lfloor y \rfloor \ge y/2$ for $y \ge 1$,
+$$
+2y \cdot \frac{1}{\lfloor y \rfloor} \le 2y \cdot \frac{2}{y} = 4.
+$$
+
+**Case $0 \le y < 1$.** The sum is over all $k \ge 1$:
+$$
+\sum_{k=1}^{\infty} \frac{1}{k^2} = 1 + \sum_{k=2}^{\infty} \frac{1}{k^2} \le 1 + 1 = 2,
+$$
+using the same telescoping bound. Then $2y \cdot 2 = 4y \le 4$.
+</TabItem>
+</Tabs>
+</Aside>
+
+### Lemma 2 (variance bound)
+
+<Aside icon="seti:smarty" title="Lemma 2">
+<Tabs>
+<TabItem label="Statement">
+With $Y_k = X_k \, \mathbb{1}_{\{|X_k| \le k\}}$,
+$$
+\sum_{k=1}^{\infty} \frac{\text{Var}(Y_k)}{k^2} \le 4 \, \mathbb{E}|X_1| < \infty.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Use the tail identity $\mathbb{E}[Z^2] = \int_0^{\infty} 2y \, \mathbb{P}(Z > y) \, dy$ for non-negative $Z$ (see [the lemma in WLLN 2](../weak-lln-2/#theorem)) applied to $Z = |Y_k|$. Since $|Y_k| \le k$, $\mathbb{P}(|Y_k| > y) = 0$ for $y \ge k$, so the integral truncates at $k$:
+$$
+\text{Var}(Y_k) \le \mathbb{E}[Y_k^2] = \int_0^k 2y \, \mathbb{P}(|Y_k| > y) \, dy \le \int_0^k 2y \, \mathbb{P}(|X_1| > y) \, dy,
+$$
+using $\mathbb{P}(|Y_k| > y) \le \mathbb{P}(|X_k| > y) = \mathbb{P}(|X_1| > y)$.
+
+Summing and swapping order of summation/integration (Fubini, non-negative integrand):
+$$
+\sum_{k=1}^{\infty} \frac{\text{Var}(Y_k)}{k^2}
+\le \sum_{k=1}^{\infty} \frac{1}{k^2} \int_0^k 2y \, \mathbb{P}(|X_1| > y) \, dy
+= \int_0^{\infty} \left(\sum_{\substack{k > y \\ k \in \mathbb{Z}_{\ge 1}}} \frac{2y}{k^2}\right) \mathbb{P}(|X_1| > y) \, dy.
+$$
+By Lemma 1, the inner sum is at most $4$:
+$$
+\le 4 \int_0^{\infty} \mathbb{P}(|X_1| > y) \, dy = 4 \, \mathbb{E}|X_1|,
+$$
+where the last equality is the standard tail formula $\mathbb{E}|X_1| = \int_0^{\infty} \mathbb{P}(|X_1| > y) \, dy$ for the non-negative variable $|X_1|$.
+</TabItem>
+</Tabs>
+</Aside>
+
+---
+
+### Reduction to the truncated variables
+
+Define $Y_k = X_k \, \mathbb{1}_{\{|X_k| \le k\}}$ and $T_n = \sum_{i=1}^n Y_i$.
+
+<Aside title="Claim">
+$\frac{S_n}{n} \xrightarrow{a.s.} \mu \iff \frac{T_n}{n} \xrightarrow{a.s.} \mu$.
+</Aside>
+
+The events $\{X_k \ne Y_k\} = \{|X_k| > k\}$ satisfy
+$$
+\sum_{k=1}^{\infty} \mathbb{P}(|X_k| > k) = \sum_{k=1}^{\infty} \mathbb{P}(|X_1| > k) \le \int_0^{\infty} \mathbb{P}(|X_1| > t) \, dt = \mathbb{E}|X_1| < \infty,
+$$
+where the inequality compares a Riemann sum at integer points to the integral of the non-increasing function $t \mapsto \mathbb{P}(|X_1| > t)$.
+
+By the [first Borel–Cantelli lemma](../../events/borel-cantelli/#first-borel-cantelli-lemma), $\mathbb{P}(X_k \ne Y_k \text{ i.o.}) = 0$. So almost surely, $X_k = Y_k$ for all $k$ beyond some (random) finite index. Then $S_n - T_n$ stabilizes at a finite constant as $n \to \infty$, and $(S_n - T_n)/n \to 0$ almost surely. This proves the claim.
+
+### Reduction to $X \ge 0$
+
+Decomposing $X_k = X_k^+ - X_k^-$, both $\{X_k^+\}$ and $\{X_k^-\}$ are identically distributed, pairwise independent (each is a function of a single $X_k$), and have finite mean. If the theorem holds for non-negative summands, applying it separately to $X_k^+$ and $X_k^-$ and subtracting gives the general case. **Assume $X_k \ge 0$ for the remainder of the proof.**
+
+### Convergence along the geometric subsequence
+
+Fix $\alpha > 1$ and set $k(n) = \lfloor \alpha^n \rfloor$.
+
+<Steps>
+1. **Chebyshev bound on $T_{k(n)}$.**
+
+    Apply [Chebyshev's inequality](../../lebesgue-integration/inequalities/#chebyshevs-inequality) to $T_{k(n)}$: for $\epsilon > 0$,
+    $$
+    \mathbb{P}\!\left(\frac{|T_{k(n)} - \mathbb{E} T_{k(n)}|}{k(n)} > \epsilon\right) \le \frac{\text{Var}(T_{k(n)})}{\epsilon^2 \, k(n)^2}.
+    $$
+
+2. **Sum over $n$ and swap with Fubini.**
+
+    Since $\{X_m\}$ are pairwise independent, so are $\{Y_m\}$ (each $Y_m$ is a function of a single $X_m$), and the variance of a sum of pairwise uncorrelated variables is the sum of variances:
+    $$
+    \text{Var}(T_{k(n)}) = \sum_{m=1}^{k(n)} \text{Var}(Y_m).
+    $$
+    Summing the Chebyshev bound over $n$ and swapping order:
+    $$
+    \sum_{n=1}^{\infty} \frac{\text{Var}(T_{k(n)})}{k(n)^2}
+    = \sum_{n=1}^{\infty} \frac{1}{k(n)^2} \sum_{m=1}^{k(n)} \text{Var}(Y_m)
+    = \sum_{m=1}^{\infty} \text{Var}(Y_m) \!\!\sum_{n : k(n) \ge m} \frac{1}{k(n)^2}.
+    $$
+
+3. **Bound the inner sum by a geometric series.**
+
+    For $n \ge 1$, $k(n) = \lfloor \alpha^n \rfloor \ge \alpha^n / 2$, hence $k(n)^{-2} \le 4 \alpha^{-2n}$. The condition $k(n) \ge m$ is equivalent to $\alpha^n \ge m$ (since $m$ is an integer). The smallest such $n$ gives $\alpha^{-2n} \le 1/m^2$, and the rest form a geometric series with ratio $\alpha^{-2}$:
+    $$
+    \sum_{n : k(n) \ge m} \frac{1}{k(n)^2} \le \sum_{n : \alpha^n \ge m} \frac{4}{\alpha^{2n}} \le \frac{4/m^2}{1 - \alpha^{-2}}.
+    $$
+
+4. **Combine with Lemma 2.**
+
+    Substituting,
+    $$
+    \sum_{n=1}^{\infty} \frac{\text{Var}(T_{k(n)})}{k(n)^2} \le \frac{4}{1 - \alpha^{-2}} \sum_{m=1}^{\infty} \frac{\text{Var}(Y_m)}{m^2} \le \frac{16 \, \mathbb{E}|X_1|}{1 - \alpha^{-2}} < \infty.
+    $$
+    Therefore $\sum_n \mathbb{P}(\,|T_{k(n)} - \mathbb{E} T_{k(n)}|/k(n) > \epsilon) < \infty$ for every $\epsilon > 0$, and the [first Borel–Cantelli lemma](../../events/borel-cantelli/#first-borel-cantelli-lemma) gives
+    $$
+    \mathbb{P}\!\left(\frac{|T_{k(n)} - \mathbb{E} T_{k(n)}|}{k(n)} > \epsilon \text{ i.o.}\right) = 0,
+    $$
+    so $\limsup_n |T_{k(n)} - \mathbb{E} T_{k(n)}|/k(n) \le \epsilon$ a.s. Taking $\epsilon$ through a countable sequence $\to 0$,
+    $$
+    \frac{T_{k(n)} - \mathbb{E} T_{k(n)}}{k(n)} \xrightarrow{a.s.} 0. \quad\textcolor{gray}{\text{---(1)}}
+    $$
+
+5. **Identify the limit via DCT.**
+
+    Each $Y_m = X_m \, \mathbb{1}_{\{|X_m| \le m\}}$ has the same law as $X_1 \, \mathbb{1}_{\{|X_1| \le m\}}$, which converges pointwise to $X_1$ and is dominated by $|X_1|$. By the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct),
+    $$
+    \mathbb{E}[Y_m] = \mathbb{E}\!\left[X_1 \, \mathbb{1}_{\{|X_1| \le m\}}\right] \;\longrightarrow\; \mathbb{E}[X_1] = \mu.
+    $$
+    The Cesàro average of a convergent sequence has the same limit:
+    $$
+    \frac{\mathbb{E} T_{k(n)}}{k(n)} = \frac{1}{k(n)} \sum_{m=1}^{k(n)} \mathbb{E}[Y_m] \;\longrightarrow\; \mu. \quad\textcolor{gray}{\text{---(2)}}
+    $$
+
+6. **Combine (1) and (2).**
+
+    $$
+    \frac{T_{k(n)}}{k(n)} = \frac{T_{k(n)} - \mathbb{E} T_{k(n)}}{k(n)} + \frac{\mathbb{E} T_{k(n)}}{k(n)} \xrightarrow{a.s.} 0 + \mu = \mu. \quad\textcolor{gray}{\text{---(3)}}
+    $$
+</Steps>
+
+### Filling in the gaps
+
+The subsequence result (3) controls $T_{k(n)}/k(n)$. For an arbitrary $m$, pick $n$ with $k(n) \le m < k(n+1)$. Since $X_k \ge 0$, $T_m$ is non-decreasing in $m$, so
+$$
+\frac{T_{k(n)}}{k(n+1)} \le \frac{T_m}{m} \le \frac{T_{k(n+1)}}{k(n)}.
+$$
+
+The ratios $k(n+1)/k(n) \to \alpha$ as $n \to \infty$ (since $\lfloor \alpha^{n+1} \rfloor / \lfloor \alpha^n \rfloor \to \alpha$). Therefore, by (3),
+$$
+\frac{T_{k(n)}}{k(n+1)} = \frac{T_{k(n)}}{k(n)} \cdot \frac{k(n)}{k(n+1)} \xrightarrow{a.s.} \frac{\mu}{\alpha},
+$$
+$$
+\frac{T_{k(n+1)}}{k(n)} = \frac{T_{k(n+1)}}{k(n+1)} \cdot \frac{k(n+1)}{k(n)} \xrightarrow{a.s.} \alpha \mu.
+$$
+
+The sandwich gives
+$$
+\frac{\mu}{\alpha} \le \liminf_{m \to \infty} \frac{T_m}{m} \le \limsup_{m \to \infty} \frac{T_m}{m} \le \alpha \mu \quad \text{a.s.}
+$$
+
+This holds for every $\alpha > 1$. Taking $\alpha \downarrow 1$ along a countable sequence,
+$$
+\frac{T_m}{m} \xrightarrow{a.s.} \mu,
+$$
+which (by the reduction at the start) gives $S_m / m \xrightarrow{a.s.} \mu$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Remarks
+
+- **Pairwise vs. mutual independence.** The proof uses pairwise independence only twice: in the variance computation $\text{Var}(T_{k(n)}) = \sum_m \text{Var}(Y_m)$ and (implicitly) in establishing that truncated variables remain pairwise independent. The original SLLN proofs (Kolmogorov) required mutual independence; Etemadi's argument shows pairwise is enough when the variables are identically distributed.
+
+- **Sharpness.** Finite mean is necessary: if $\mathbb{E}|X_1| = \infty$, then $\limsup_n |S_n|/n = \infty$ almost surely (a consequence of [Borel–Cantelli II](../../events/borel-cantelli/#second-borel-cantelli-lemma) applied to $\{|X_n| > n\}$), so no constant centering can give convergence.
+
+- **Relation to the [WLLN](../weak-lln-3).** Almost sure convergence implies convergence in probability, so the SLLN strictly implies the classical i.i.d. WLLN. The hypotheses (finite mean, identical distribution) are the same; only the conclusion is strengthened.

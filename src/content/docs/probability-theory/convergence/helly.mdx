@@ -4,4 +4,103 @@ sidebar:
   order: 6
 ---
 
-Content coming soon...
+This is a **compactness result** for sequences of [distribution functions](../../events/distribution). It says that we can always extract a convergent subsequence, but the limit may fail to be a distribution function. In general it is only a right-continuous, non-decreasing function with values in $[0, 1]$. Recovering a distribution function as the limit requires the [tightness condition](../tightness).
+
+## Theorem Statement
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+Let $\{F_n\}_{n \ge 1}$ be a sequence of distribution functions. Then there exists a subsequence $\{F_{n_m}\}_{m \ge 1}$ and a right-continuous, non-decreasing function $F$ such that
+$$
+\lim_{m \to \infty} F_{n_m}(y) = F(y)
+$$
+for all $y$ at which $F$ is continuous.
+</TabItem>
+
+<TabItem label="Proof">
+The argument has three pieces: a diagonal extraction to pin down the limit on the rationals, a right-continuous extension to all of $\mathbb{R}$, and a sandwich argument at continuity points.
+
+<Steps>
+1. **Diagonal extraction over the rationals**
+
+    Let $\{q_k\}_{k \ge 1}$ be an enumeration of $\mathbb{Q}$. Each $F_n$ is a distribution function, so $F_n(q_k) \in [0, 1]$ for every $n$ and $k$ (see [property 2](../../events/distribution/#properties-of-distribution-function)).
+
+    For $q_1$, the sequence $\{F_n(q_1)\}_{n \ge 1}$ is bounded in $[0,1]$. By the Bolzano–Weierstrass theorem, there is a subsequence $\{F_{n_{1,j}}\}_{j \ge 1}$ such that
+    $$
+    F_{n_{1,j}}(q_1) \to G(q_1) \in [0,1].
+    $$
+
+    For $q_2$, apply Bolzano–Weierstrass again to $\{F_{n_{1,j}}(q_2)\}_{j \ge 1}$ to extract a further subsequence $\{F_{n_{2,j}}\}_{j \ge 1}$ with $F_{n_{2,j}}(q_2) \to G(q_2)$.
+
+    Continue inductively. The **diagonal subsequence** $F_{n_m} := F_{n_{m,m}}$ is, from index $m$ onwards, a subsequence of $\{F_{n_{k,j}}\}_{j \ge 1}$ for every $k \le m$. Therefore
+    $$
+    F_{n_m}(q_k) \xrightarrow{m \to \infty} G(q_k) \qquad \text{for every } q_k \in \mathbb{Q}. \quad\textcolor{gray}{\text{---(1.1)}}
+    $$
+
+2. **$G$ is non-decreasing on $\mathbb{Q}$**
+
+    For rationals $q < q'$, monotonicity of each $F_{n_m}$ (see [property 1](../../events/distribution/#properties-of-distribution-function)) gives
+    $$
+    F_{n_m}(q) \le F_{n_m}(q').
+    $$
+    Passing to the limit in <span style="color:gray">$(1.1)$</span>, $G(q) \le G(q')$.
+
+3. **Right-continuous extension to $\mathbb{R}$**
+
+    Define
+    $$
+    F(y) := \inf \{ G(q) : q \in \mathbb{Q}, \ q > y \} \qquad \text{for } y \in \mathbb{R}.
+    $$
+
+    - **Non-decreasing.** If $y_1 \le y_2$, then $\{q \in \mathbb{Q} : q > y_2\} \subseteq \{q \in \mathbb{Q} : q > y_1\}$, so the infimum over the smaller set is at least as large. Hence $F(y_1) \le F(y_2)$.
+
+    - **Right-continuous.** Fix $y$ and $\epsilon > 0$. By definition of the infimum, there is a rational $q^* > y$ with $G(q^*) < F(y) + \epsilon$. For any $y' \in (y, q^*)$, every rational $q > q^*$ also satisfies $q > y'$, so the infimum defining $F(y')$ is taken over a set containing $q^*$:
+        $$
+        F(y') \le G(q^*) < F(y) + \epsilon.
+        $$
+        Combined with monotonicity ($F(y) \le F(y')$), we get $F(y) \le F(y') < F(y) + \epsilon$ for all $y' \in (y, q^*)$. Letting $y' \downarrow y$ gives right-continuity at $y$.
+
+    Values lie in $[0,1]$ since $G$ does.
+
+4. **Convergence at continuity points**
+
+    Let $y$ be a continuity point of $F$ and fix $\epsilon > 0$.
+
+    *Upper sandwich.* By definition of $F(y)$, pick a rational $q' > y$ with
+    $$
+    G(q') < F(y) + \epsilon. \quad\textcolor{gray}{\text{---(1.2)}}
+    $$
+
+    *Lower sandwich.* Continuity at $y$ gives some $y_0 < y$ with $F(y_0) > F(y) - \epsilon$. Pick any rational $q \in (y_0, y)$. Since $q > y_0$ is rational, $G(q)$ appears in the infimum defining $F(y_0)$, so $F(y_0) \le G(q)$, giving
+    $$
+    G(q) \ge F(y_0) > F(y) - \epsilon. \quad\textcolor{gray}{\text{---(1.3)}}
+    $$
+
+    Now squeeze $F_{n_m}(y)$ between rational evaluations. Since $q < y < q'$ and each $F_{n_m}$ is non-decreasing,
+    $$
+    F_{n_m}(q) \le F_{n_m}(y) \le F_{n_m}(q').
+    $$
+    Taking $\liminf$ and $\limsup$ as $m \to \infty$ and using <span style="color:gray">$(1.1)$</span>:
+    $$
+    G(q) \le \liminf_{m \to \infty} F_{n_m}(y) \le \limsup_{m \to \infty} F_{n_m}(y) \le G(q').
+    $$
+    Combining with <span style="color:gray">$(1.2)$</span> and <span style="color:gray">$(1.3)$</span>:
+    $$
+    F(y) - \epsilon < \liminf_{m \to \infty} F_{n_m}(y) \le \limsup_{m \to \infty} F_{n_m}(y) < F(y) + \epsilon.
+    $$
+    Since $\epsilon > 0$ was arbitrary, $\lim_{m \to \infty} F_{n_m}(y) = F(y)$. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Why the limit need not be a distribution function
+
+The function $F$ produced above is non-decreasing, right-continuous, and bounded between $0$ and $1$, but mass can **escape to infinity** along the subsequence. Consider $F_n$ the distribution function of a point mass at $n$:
+$$
+F_n(y) = \mathbb{1}_{\{y \ge n\}}.
+$$
+For every fixed $y \in \mathbb{R}$, $F_n(y) \to 0$ as $n \to \infty$, so the limit is $F \equiv 0$. This $F$ is right-continuous and non-decreasing, but does not satisfy [property 2](../../events/distribution/#properties-of-distribution-function) of a distribution function ($\lim_{y \to \infty} F(y) = 1$). It is not a [weak limit](../weak-convergence) in the usual sense, because there is no random variable whose distribution function is $F$.
+
+The [tightness condition](../tightness) is exactly what rules out this kind of mass leakage and upgrades Helly's conclusion to weak convergence.

@@ -1,0 +1,115 @@
+---
+title: Glivenko-Cantelli Theorem
+sidebar:
+  order: 6
+---
+
+The Glivenko–Cantelli theorem is sometimes called the **Fundamental Theorem of Statistics**: from i.i.d. samples of an unknown distribution, the empirical [distribution function](../../events/distribution) converges to the true distribution function **uniformly** (not just pointwise) and almost surely. It is the strongest possible "you can learn $F$ from a sample" statement at the level of CDFs.
+
+## Setup: Empirical Distribution Function
+
+Let $X_1, X_2, \ldots$ be i.i.d. samples from an unknown distribution with [distribution function](../../events/distribution) $F$. The **empirical distribution function** based on the first $n$ samples is
+$$
+F_n(x) = \frac{1}{n} \sum_{m=1}^{n} \mathbb{1}_{\{X_m \le x\}}.
+$$
+This estimates $\mathbb{P}(X_1 \le x) = F(x)$ by the sample fraction of observations at most $x$.
+
+By the [SLLN](../strong-lln) applied to the bounded random variables $\mathbb{1}_{\{X_m \le x\}}$ (mean $F(x)$), for each fixed $x$,
+$$
+F_n(x) \xrightarrow{a.s.} F(x).
+$$
+The same argument applied to $\mathbb{1}_{\{X_m < x\}}$ gives the left-limit version
+$$
+F_n(x-) = \frac{1}{n} \sum_{m=1}^{n} \mathbb{1}_{\{X_m < x\}} \xrightarrow{a.s.} F(x-).
+$$
+Glivenko–Cantelli upgrades pointwise convergence to uniform convergence in $x$.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem (Glivenko–Cantelli)">
+<Tabs>
+<TabItem label="Statement">
+As $n \to \infty$,
+$$
+\sup_{x \in \mathbb{R}} \big|F_n(x) - F(x)\big| \xrightarrow{a.s.} 0.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The SLLN gives a.s. convergence at each fixed point, but pointwise convergence does not imply uniform convergence when the limit function $F$ has jumps. (For instance, $f_n(x) = x^n$ on $[0, 1]$ converges pointwise to $\mathbb{1}_{\{x = 1\}}$ but not uniformly: the discontinuity at $1$ blocks it.)
+
+The fix: discretize the range of $F$ into $k$ equal pieces via quantile points, apply pointwise SLLN at finitely many points, and use monotonicity of $F_n$ and $F$ to sandwich the error on each piece.
+
+<Steps>
+1. **Quantile grid.**
+
+    For each $k \ge 2$ and $j = 1, \ldots, k-1$, define
+    $$
+    X_{j,k} = \inf\{ y : F(y) \ge j/k \}.
+    $$
+    Adopt the conventions $X_{0,k} = -\infty$ and $X_{k,k} = +\infty$, with $F(-\infty) = 0$ and $F(+\infty-) = 1$.
+
+    By definition of the infimum and right-continuity of $F$,
+    $$
+    F(X_{j,k}) \ge j/k, \qquad F(X_{j,k}-) \le j/k.
+    $$
+    Hence on each interval $[X_{j-1,k}, X_{j,k})$ the increment of $F$ is small:
+    $$
+    F(X_{j,k}-) - F(X_{j-1,k}) \le \frac{j}{k} - \frac{j-1}{k} = \frac{1}{k}.
+    $$
+
+2. **Pointwise SLLN at the grid points (and their left limits).**
+
+    The $2(k-1)$ points $\{X_{j,k}\}$ and the $2(k-1)$ left-limit evaluations $\{X_{j,k}-\}$ are finite in number, so by [SLLN](../strong-lln) there is an event $\Omega_k$ of probability $1$ on which
+    $$
+    F_n(X_{j,k}) \to F(X_{j,k}) \quad \text{and} \quad F_n(X_{j,k}-) \to F(X_{j,k}-) \quad \text{for every } j = 1, \ldots, k-1.
+    $$
+    Pick $N_k(\omega)$ large enough that, for all $n \ge N_k(\omega)$ and all $j$,
+    $$
+    \big|F_n(X_{j,k}) - F(X_{j,k})\big| < \frac{1}{k}, \qquad \big|F_n(X_{j,k}-) - F(X_{j,k}-)\big| < \frac{1}{k}. \quad\textcolor{gray}{\text{---(*)}}
+    $$
+
+3. **Sandwich on each grid interval.**
+
+    Fix $\omega \in \Omega_k$, $n \ge N_k(\omega)$, and $x \in [X_{j-1,k}, X_{j,k})$. Both $F_n$ and $F$ are non-decreasing, so
+
+    **Upper bound.**
+    $$
+    F_n(x) \le F_n(X_{j,k}-) \stackrel{(*)}{<} F(X_{j,k}-) + \frac{1}{k} \le F(x) + \frac{2}{k},
+    $$
+    where the last step uses $F(X_{j,k}-) - F(x) \le F(X_{j,k}-) - F(X_{j-1,k}) \le 1/k$ from step 1.
+
+    **Lower bound.**
+    $$
+    F_n(x) \ge F_n(X_{j-1,k}) \stackrel{(*)}{>} F(X_{j-1,k}) - \frac{1}{k} \ge F(x) - \frac{2}{k},
+    $$
+    using $F(x) - F(X_{j-1,k}) \le 1/k$.
+
+    Combining,
+    $$
+    |F_n(x) - F(x)| \le \frac{2}{k} \quad \text{for every } x \in \mathbb{R}, \; n \ge N_k(\omega).
+    $$
+    Taking the supremum,
+    $$
+    \sup_{x \in \mathbb{R}} \big|F_n(x) - F(x)\big| \le \frac{2}{k} \quad \text{for all } n \ge N_k(\omega).
+    $$
+
+4. **Let $k \to \infty$.**
+
+    Outside the null set $\bigcup_{k \ge 2} \Omega_k^c$ (countable union of null sets, hence null), the previous bound holds for every $k \ge 2$:
+    $$
+    \limsup_{n \to \infty} \sup_{x \in \mathbb{R}} \big|F_n(x) - F(x)\big| \le \frac{2}{k} \quad \text{for every } k.
+    $$
+    Taking $k \to \infty$ gives $\sup_x |F_n(x) - F(x)| \xrightarrow{a.s.} 0$. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Reading the Result
+
+- **Uniformity is what's new.** Pointwise a.s. convergence $F_n(x) \to F(x)$ for each $x$ is immediate from the SLLN. The work is in showing the *worst* $x$ also behaves, regardless of how badly $F$ may jump.
+
+- **Distribution-free rate.** The bound $\sup_x |F_n - F| \le 2/k$ depends only on the grid size $k$, not on $F$. This is the qualitative form of the Dvoretzky–Kiefer–Wolfowitz inequality, which gives the sharp quantitative rate $\sup_x |F_n - F| = O_p(n^{-1/2})$.
+
+- **Why "Fundamental Theorem of Statistics".** Without knowing $F$, observing samples lets you reconstruct it uniformly well from $F_n$. Every functional of $F$ that is continuous in the sup-norm topology can therefore be consistently estimated by the corresponding functional of $F_n$ (quantiles, expectations of bounded continuous functions, Kolmogorov–Smirnov-type statistics).

@@ -1,0 +1,97 @@
+---
+title: Weak LLN 2
+sidebar:
+  order: 2
+---
+
+This is the i.i.d. Weak Law under a tail condition strictly weaker than finite mean. It exposes the precise hypothesis the WLLN actually needs: the tail $x \, \mathbb{P}(|X_1| > x)$ must vanish. The proof reduces to the [truncation WLLN for triangular arrays](../weak-lln-1/#version-without-a-finite-second-moment) by placing the i.i.d. sequence into a constant-column triangular array.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: i.i.d. WLLN under a Tail Condition">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}_{n \ge 1}$ be i.i.d. with the tail condition
+$$
+x \, \mathbb{P}(|X_1| > x) \;\longrightarrow\; 0 \quad \text{as } x \to \infty. \quad \textbf{(\#)}
+$$
+Define
+$$
+S_n = \sum_{i=1}^n X_i, \qquad \mu_n = \mathbb{E}\!\left[X_1 \, \mathbb{1}_{\{|X_1| \le n\}}\right].
+$$
+Then
+$$
+\frac{S_n}{n} - \mu_n \xrightarrow{P} 0.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Place the i.i.d. sequence into a triangular array by setting $X_{n,k} = X_k$ (every column is constant down the rows) and take $b_n = n$. We verify the two hypotheses of the [truncation WLLN](../weak-lln-1/#version-without-a-finite-second-moment):
+$$
+\begin{aligned}
+&\textbf{(*1)} \quad \sum_{k=1}^n \mathbb{P}\!\left(|X_{n,k}| > b_n\right) \;\longrightarrow\; 0, \\
+&\textbf{(*2)} \quad \frac{1}{b_n^2} \sum_{k=1}^n \mathbb{E}\!\left[\overline{X}_{n,k}^{\,2}\right] \;\longrightarrow\; 0,
+\end{aligned}
+$$
+where $\overline{X}_{n,k} = X_{n,k} \, \mathbb{1}_{\{|X_{n,k}| \le b_n\}} = X_k \, \mathbb{1}_{\{|X_k| \le n\}}$.
+
+<Steps>
+1. **Verifying (*1).**
+
+    All $X_{n,k}$ share the law of $X_1$, so
+    $$
+    \sum_{k=1}^n \mathbb{P}\!\left(|X_{n,k}| > n\right) = n \, \mathbb{P}\!\left(|X_1| > n\right) \;\longrightarrow\; 0
+    $$
+    by $(\#)$.
+
+2. **A tail formula for the second moment.**
+
+    To bound $\mathbb{E}[\overline{X}_{n,1}^{\,2}]$ in terms of the tail of $|X_1|$, we use a standard identity:
+
+    <Aside icon="seti:smarty" title="Lemma">
+    For any non-negative random variable $Y \ge 0$,
+    $$
+    \mathbb{E}[Y^2] = \int_0^\infty 2y \, \mathbb{P}(Y > y) \, dy.
+    $$
+    </Aside>
+
+    **Proof of lemma.** Write $\mathbb{P}(Y > y) = \mathbb{E}[\mathbb{1}_{\{Y > y\}}]$ and apply Fubini:
+    $$
+    \int_0^\infty 2y \, \mathbb{P}(Y > y) \, dy = \mathbb{E}\!\left[\int_0^\infty 2y \, \mathbb{1}_{\{Y > y\}} \, dy\right] = \mathbb{E}\!\left[\int_0^Y 2y \, dy\right] = \mathbb{E}[Y^2].
+    $$
+
+3. **Bounding $\mathbb{E}[\overline{X}_{n,1}^{\,2}]$.**
+
+    Apply the lemma with $Y = |\overline{X}_{n,1}|$. Since $|\overline{X}_{n,1}| \le n$, the tail $\mathbb{P}(|\overline{X}_{n,1}| > y) = 0$ for $y \ge n$, so the integral truncates at $n$:
+    $$
+    \mathbb{E}\!\left[\overline{X}_{n,1}^{\,2}\right] = \int_0^n 2y \, \mathbb{P}\!\left(|\overline{X}_{n,1}| > y\right) dy \le \int_0^n 2y \, \mathbb{P}\!\left(|X_1| > y\right) dy,
+    $$
+    where the inequality uses $\mathbb{P}(|\overline{X}_{n,1}| > y) \le \mathbb{P}(|X_1| > y)$ (truncation can only shrink the tail).
+
+4. **Verifying (*2).**
+
+    Using the bound from step 3 and the i.i.d. assumption,
+    $$
+    \frac{1}{b_n^2} \sum_{k=1}^n \mathbb{E}\!\left[\overline{X}_{n,k}^{\,2}\right] = \frac{n}{n^2} \, \mathbb{E}\!\left[\overline{X}_{n,1}^{\,2}\right] = \frac{1}{n} \, \mathbb{E}\!\left[\overline{X}_{n,1}^{\,2}\right] \le \frac{1}{n} \int_0^n 2y \, \mathbb{P}\!\left(|X_1| > y\right) dy.
+    $$
+    The integrand $y \, \mathbb{P}(|X_1| > y)$ tends to $0$ as $y \to \infty$ by $(\#)$, so the Cesàro-type average $\frac{1}{n} \int_0^n 2y \, \mathbb{P}(|X_1| > y) \, dy$ also tends to $0$. This gives (*2).
+
+5. **Apply the triangular-array truncation WLLN.**
+
+    Both hypotheses hold, so $(S_n - a_n)/b_n \xrightarrow{P} 0$ where
+    $$
+    a_n = \sum_{k=1}^n \mathbb{E}[\overline{X}_{n,k}] = n \, \mathbb{E}\!\left[X_1 \, \mathbb{1}_{\{|X_1| \le n\}}\right] = n \mu_n.
+    $$
+    Dividing by $b_n = n$, $(S_n - a_n)/b_n = S_n/n - \mu_n$, and the conclusion follows. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Reading the Result
+
+- **The tail condition $(\#)$ is necessary.** It is known to be both necessary and sufficient for the existence of constants $\mu_n$ making $S_n / n - \mu_n \xrightarrow{P} 0$ for i.i.d. $\{X_n\}$. Distributions failing $(\#)$ (such as the standard Cauchy, where $x \, \mathbb{P}(|X_1| > x) \to 2/\pi$) admit no such centering.
+
+- **Why centering by $\mu_n$ rather than $\mathbb{E}[X_1]$.** The condition $(\#)$ does not imply $\mathbb{E}|X_1| < \infty$, so $\mathbb{E}[X_1]$ may not exist. The truncated mean $\mu_n = \mathbb{E}[X_1 \mathbb{1}_{\{|X_1| \le n\}}]$ always does (it is the expectation of a bounded variable), and serves as the only available centering.
+
+- **Recovering the classical WLLN.** When $\mathbb{E}|X_1| < \infty$ with $\mathbb{E}[X_1] = \mu$, dominated convergence gives $\mu_n \to \mu$, so $S_n/n \xrightarrow{P} \mu$ in the familiar form.

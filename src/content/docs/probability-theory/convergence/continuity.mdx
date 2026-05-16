@@ -4,4 +4,123 @@ sidebar:
   order: 8
 ---
 
-Content coming soon...
+Also known as **Lévy's Continuity Theorem**. It identifies weak convergence of probability measures with pointwise convergence of their [characteristic functions](../../independence/characteristic-function), turning a question about distributions into a question about a single complex-valued function.
+
+## Preliminary: Continuity of Characteristic Functions
+
+Before stating the theorem, we record a basic fact used in its proof.
+
+<Aside icon="seti:smarty" title="Proposition">
+<Tabs>
+<TabItem label="Statement">
+Let $\varphi$ be the characteristic function of a probability measure $\mu$. Then $\varphi$ is continuous on $\mathbb{R}$.
+</TabItem>
+
+<TabItem label="Proof">
+Let $X \sim \mu$, so $\varphi(t) = \mathbb{E}[e^{itX}]$. Fix $t \in \mathbb{R}$ and let $s \to t$. Then:
+
+1. **Pointwise convergence**: As $s \to t$, $e^{isX} \to e^{itX}$ pointwise on $\Omega$, since the map $s \mapsto e^{isx}$ is continuous for every $x \in \mathbb{R}$.
+
+2. **Domination**: $|e^{isX}| = 1$, which is integrable since $\mu$ is a probability measure.
+
+By the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct), $\varphi(s) = \mathbb{E}[e^{isX}] \to \mathbb{E}[e^{itX}] = \varphi(t)$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem (Lévy)">
+<Tabs>
+<TabItem label="Statement">
+Let $\{\mu_n\}_{n \ge 1}$ and $\mu$ be probability measures on $(\mathbb{R}, \mathcal{B})$ with characteristic functions $\varphi_n, \varphi$. Then
+$$
+\mu_n \Rightarrow \mu \quad \Longleftrightarrow \quad \varphi_n(t) \to \varphi(t) \text{ for all } t \in \mathbb{R}.
+$$
+
+In short: [weak convergence](../weak-convergence) of measures is the same as pointwise convergence of characteristic functions.
+</TabItem>
+
+<TabItem label="Proof">
+The forward direction is a one-line application of [Portmanteau](../portmanteau). The reverse direction is the substantive content: pointwise convergence of $\varphi_n$ contains enough information to force [tightness](../tightness), after which Helly and the inversion formula close the argument.
+
+### (⟹) Weak convergence implies pointwise convergence of ch.f.
+
+Let $X_n \sim \mu_n$ and $X \sim \mu$. The map $x \mapsto e^{itx}$ is bounded ($|e^{itx}| = 1$) and continuous. By the [Portmanteau theorem](../portmanteau) (condition 2: expectations of bounded continuous functions converge):
+$$
+\mathbb{E}[e^{itX_n}] \to \mathbb{E}[e^{itX}],
+$$
+which is exactly $\varphi_n(t) \to \varphi(t)$ for every $t \in \mathbb{R}$.
+
+*(Strictly speaking, $e^{itx}$ is complex-valued. Apply Portmanteau separately to the real part $\cos(tx)$ and the imaginary part $\sin(tx)$, both of which are bounded continuous real-valued functions.)*
+
+### (⟸) Pointwise convergence of ch.f. implies weak convergence
+
+This direction has three steps: derive a tail bound from $\varphi_n$, conclude tightness, then identify every subsequential weak limit with $\mu$.
+
+<Steps>
+1. **Tail bound from the characteristic function (Fubini trick).**
+
+    Let $X_n \sim \mu_n$. For any $u > 0$, compute
+    $$
+    \frac{1}{u} \int_{-u}^{u} \big(1 - \varphi_n(t)\big) \, dt
+    = \frac{1}{u} \int_{-u}^{u} \mathbb{E}\big[1 - e^{itX_n}\big] \, dt.
+    $$
+    The integrand is bounded by $2$ on a bounded interval, so by Fubini we may swap:
+    $$
+    = \mathbb{E}\left[\frac{1}{u} \int_{-u}^{u} \big(1 - e^{itX_n}\big) \, dt\right]
+    = \mathbb{E}\left[2 - \frac{2\sin(uX_n)}{uX_n}\right]
+    = 2\,\mathbb{E}\left[1 - \frac{\sin(uX_n)}{uX_n}\right],
+    $$
+    where the inner integral $\int_{-u}^{u} e^{itx} dt = \frac{2 \sin(ux)}{x}$ was evaluated directly.
+
+    Now $|\sin y / y| \le 1$ always, and for $|y| \ge 2$ we have $|\sin y / y| \le 1/|y| \le 1/2$. Restricting to the event $\{|X_n| \ge 2/u\}$, i.e., $\{|uX_n| \ge 2\}$:
+    $$
+    2\,\mathbb{E}\left[1 - \frac{\sin(uX_n)}{uX_n}\right]
+    \ge 2\,\mathbb{E}\left[\left(1 - \frac{1}{|uX_n|}\right) \mathbb{1}_{\{|X_n| \ge 2/u\}}\right]
+    \ge 2 \cdot \tfrac{1}{2} \cdot \mathbb{P}\!\left(|X_n| \ge \tfrac{2}{u}\right).
+    $$
+    The first inequality also used that the integrand is non-negative wherever $|\sin y / y| \le 1$, so dropping the complement of $\{|X_n| \ge 2/u\}$ can only decrease the expectation. We have arrived at the bound
+    $$
+    \mathbb{P}\!\left(|X_n| \ge \tfrac{2}{u}\right) \le \frac{1}{u} \int_{-u}^{u} \big(1 - \varphi_n(t)\big) \, dt. \quad\textcolor{gray}{\text{---(1.1)}}
+    $$
+    Choosing $u$ small makes $2/u$ large, so <span style="color:gray">$(1.1)$</span> controls the probability that $X_n$ falls outside a large interval.
+
+2. **Tightness.**
+
+    Fix $\epsilon > 0$. By the preliminary proposition, $\varphi$ is continuous, and $\varphi(0) = 1$ ([property 1 of CHFs](../../independence/characteristic-function/#properties)). Choose $u > 0$ small enough that
+    $$
+    \frac{1}{u} \int_{-u}^{u} \big(1 - \varphi(t)\big) \, dt < \frac{\epsilon}{2}. \quad\textcolor{gray}{\text{---(1.2)}}
+    $$
+
+    Each $\varphi_n$ is bounded by $1$ in modulus, so $|1 - \varphi_n(t)| \le 2$. Pointwise convergence $\varphi_n \to \varphi$ together with this bound on $[-u, u]$ and the [DCT](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct) gives
+    $$
+    \frac{1}{u} \int_{-u}^{u} \big(1 - \varphi_n(t)\big) \, dt \;\longrightarrow\; \frac{1}{u} \int_{-u}^{u} \big(1 - \varphi(t)\big) \, dt < \frac{\epsilon}{2}.
+    $$
+    So there exists $N$ such that for all $n \ge N$, the left side is below $\epsilon$. Combining with <span style="color:gray">$(1.1)$</span>,
+    $$
+    \mathbb{P}\!\left(|X_n| \ge \tfrac{2}{u}\right) < \epsilon \quad \text{for all } n \ge N.
+    $$
+    The remaining finitely many indices $n < N$ can each be handled by enlarging $M$, since each $\mu_n$ is a probability measure. Setting $M_\epsilon$ to be the maximum of $2/u$ and the values needed for $n < N$ gives $\mathbb{P}(|X_n| \ge M_\epsilon) < \epsilon$ for all $n$. So $\{\mu_n\}$ is [tight](../tightness).
+
+3. **Every subsequential weak limit equals $\mu$.**
+
+    By the [tightness theorem](../tightness), every subsequence of $\{\mu_n\}$ has a further subsequence $\{\mu_{n_k}\}$ converging weakly to some probability measure $\nu$. Applying the forward direction (already proved) to this sub-subsequence,
+    $$
+    \varphi_{n_k}(t) \to \widehat{\nu}(t) \quad \text{for all } t.
+    $$
+    But by assumption $\varphi_{n_k}(t) \to \varphi(t) = \widehat{\mu}(t)$. So $\widehat{\nu} = \widehat{\mu}$, and by the [inversion formula](../../independence/characteristic-function/#inversion-formula-formalizing-uniqueness) characteristic functions determine the measure: $\nu = \mu$.
+
+    Every weak subsequential limit of $\{\mu_n\}$ equals $\mu$. This forces $\mu_n \Rightarrow \mu$: if $F_n(x) \not\to F(x)$ at some continuity point $x$ of $F$, some subsequence stays bounded away from $F(x)$, but tightness lets us extract a sub-subsequence converging weakly to $\mu$, hence $F_{n_{k_j}}(x) \to F(x)$ at continuity points, contradicting the choice of subsequence. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Why This Is Useful
+
+Two distributions are equal iff their characteristic functions agree (by the [inversion formula](../../independence/characteristic-function/#inversion-formula-formalizing-uniqueness)); the continuity theorem extends this to the dynamic setting: $\mu_n$ converges weakly to $\mu$ iff their characteristic functions converge pointwise. Among the consequences:
+
+1. The Central Limit Theorem reduces to showing that the characteristic function of the standardized sum converges to $e^{-t^2/2}$, the [characteristic function of the standard normal](../../independence/characteristic-function/#examples-normal-distribution).
+2. Sums of independent random variables become tractable because [characteristic functions of independent sums multiply](../../independence/characteristic-function/#sums-of-independent-random-variables), so weak convergence of sums reduces to a multiplicative computation.
+3. A pointwise limit $\varphi_n \to g$ does not automatically yield weak convergence to a probability measure: it requires $g$ to be the characteristic function of a probability measure, which by the proposition above requires $g$ to be continuous at $0$. Continuity of the limit at $0$ is what guarantees no mass escapes to infinity.

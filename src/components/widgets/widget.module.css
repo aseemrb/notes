@@ -1,0 +1,98 @@
+/* Shared styling for interactive widgets. Inherits theme colors via currentColor
+ * and starlight CSS variables. */
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: var(--sl-color-bg-nav);
+  color: var(--sl-color-text);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 8rem;
+}
+
+.controlLabel {
+  color: var(--sl-color-text);
+  font-weight: 600;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controlValue {
+  color: var(--sl-color-text-accent);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5rem;
+  font-weight: 600;
+}
+
+.slider {
+  flex: 1;
+  min-width: 6rem;
+  accent-color: var(--sl-color-accent);
+}
+
+.select {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  font: inherit;
+}
+
+.button {
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--sl-color-gray-5);
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.button:hover {
+  background: var(--sl-color-gray-6);
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  color: var(--sl-color-text);
+}
+
+.legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--sl-color-text);
+}
+
+.legendSwatch {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+  border-radius: 2px;
+}

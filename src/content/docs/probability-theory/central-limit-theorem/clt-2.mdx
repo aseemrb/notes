@@ -1,0 +1,223 @@
+---
+title: CLT 2
+sidebar:
+  order: 2
+---
+
+The **Lindeberg–Feller CLT** extends the classical [i.i.d. CLT](../clt-1) to triangular arrays of *independent but not necessarily identically distributed* row entries. The price for this generality is a single technical condition (the **Lindeberg condition**) controlling how much mass the entries place in their tails.
+
+The intuitive content: a large number of *small* independent random effects, regardless of how they are individually distributed, is approximately normal. This is the form of the CLT that justifies the working assumption in experimental physics and statistics that measurement errors are Gaussian.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Lindeberg–Feller CLT">
+<Tabs>
+<TabItem label="Statement">
+For each $n \ge 1$, let $X_{n,1}, \ldots, X_{n,n}$ be **independent** random variables with $\mathbb{E}[X_{n,m}] = 0$. Suppose:
+
+1. **Convergence of variance.**
+    $$
+    \sum_{m=1}^{n} \mathbb{E}[X_{n,m}^2] \;\longrightarrow\; \sigma^2 > 0.
+    $$
+
+2. **Lindeberg condition.** For every $\epsilon > 0$,
+    $$
+    \lim_{n \to \infty} \sum_{m=1}^{n} \mathbb{E}\!\left[|X_{n,m}|^2 \,;\, |X_{n,m}| > \epsilon\right] = 0.
+    $$
+
+Then, with $S_n = \sum_{m=1}^{n} X_{n,m}$,
+$$
+S_n \xrightarrow{d} \sigma \cdot N(0, 1) \;\equiv\; N(0, \sigma^2) \quad \text{as } n \to \infty.
+$$
+
+Conditions 1 and 2 together are called the **Lindeberg–Feller conditions**. The notation $\mathbb{E}[X; A] := \mathbb{E}[X \, \mathbb{1}_A] = \int_A X \, d\mathbb{P}$ is used throughout.
+</TabItem>
+
+<TabItem label="Proof">
+The argument is the analogue of [CLT 1](../clt-1): compute the [characteristic function](../../independence/characteristic-function) of $S_n$, show pointwise convergence to $e^{-t^2 \sigma^2 / 2}$, and invoke the [continuity theorem](../../convergence/continuity). The new difficulty is that there is no longer a single $\varphi$ to expand and raise to the $n$-th power; instead one has $n$ different $\varphi_{n,m}$'s and must control them collectively.
+
+### Two Preliminary Lemmas
+
+#### Lemma 1: product-difference bound
+
+<Aside icon="seti:smarty" title="Lemma 1">
+<Tabs>
+<TabItem label="Statement">
+Let $z_1, \ldots, z_n$ and $w_1, \ldots, w_n$ be complex numbers with $|z_m|, |w_m| \le \theta$ for every $m$. Then
+$$
+\left| \prod_{m=1}^{n} z_m - \prod_{m=1}^{n} w_m \right| \le \theta^{n-1} \sum_{m=1}^{n} |z_m - w_m|.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+By induction on $n$. The case $n = 1$ is trivial. Assume the bound holds for $n - 1$, and use the telescoping identity
+$$
+\prod_{m=1}^{n} z_m - \prod_{m=1}^{n} w_m
+= z_n \!\!\left(\prod_{m=1}^{n-1} z_m - \prod_{m=1}^{n-1} w_m\right) + \left(\prod_{m=1}^{n-1} w_m\right) (z_n - w_n).
+$$
+By the triangle inequality and $|z_n|, |\prod_{m=1}^{n-1} w_m| \le \theta, \theta^{n-1}$ respectively,
+$$
+\left| \prod_{m=1}^{n} z_m - \prod_{m=1}^{n} w_m \right|
+\le \theta \cdot \theta^{n-2} \sum_{m=1}^{n-1} |z_m - w_m| + \theta^{n-1} |z_n - w_n|
+= \theta^{n-1} \sum_{m=1}^{n} |z_m - w_m|.
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+**Reading.** The lemma controls the difference of products by the sum of the differences of factors, with a geometric prefactor $\theta^{n-1}$. For $\theta = 1$ (the case used below), the prefactor disappears.
+
+#### Lemma 2: product-to-exponential convergence
+
+<Aside icon="seti:smarty" title="Lemma 2">
+<Tabs>
+<TabItem label="Statement">
+Let $\{C_{j,n}\}$ be complex numbers. If
+$$
+\textbf{(1)} \; \max_{1 \le j \le n} |C_{j,n}| \to 0, \quad
+\textbf{(2)} \; \sum_{j=1}^{n} C_{j,n} \to \lambda, \quad
+\textbf{(3)} \; \sup_{n} \sum_{j=1}^{n} |C_{j,n}| < \infty,
+$$
+then
+$$
+\prod_{j=1}^{n} (1 + C_{j,n}) \;\longrightarrow\; e^{\lambda}.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Since $\log(1+x)/x \to 1$ as $x \to 0$ and $\max_j |C_{j,n}| \to 0$,
+$$
+\max_{1 \le j \le n} \left| \frac{\log(1 + C_{j,n})}{C_{j,n}} - 1 \right| \;\longrightarrow\; 0.
+$$
+So for any $\epsilon > 0$ there is $N$ such that for $n \ge N$ and every $j$,
+$$
+\big|\log(1 + C_{j,n}) - C_{j,n}\big| \le \epsilon \, |C_{j,n}|.
+$$
+Summing over $j$ and applying condition (3),
+$$
+\left| \sum_{j=1}^{n} \log(1 + C_{j,n}) - \sum_{j=1}^{n} C_{j,n} \right|
+\le \epsilon \sum_{j=1}^{n} |C_{j,n}| \le \epsilon \sup_n \sum_{j=1}^{n} |C_{j,n}|.
+$$
+Since $\epsilon$ is arbitrary, $\sum_j \log(1 + C_{j,n}) - \sum_j C_{j,n} \to 0$. Combined with (2), $\sum_j \log(1 + C_{j,n}) \to \lambda$, and exponentiating gives the conclusion.
+</TabItem>
+</Tabs>
+</Aside>
+
+### Main Argument
+
+Let $\varphi_{n,m}(t) = \mathbb{E}[e^{itX_{n,m}}]$ and $\sigma_{n,m}^2 = \text{Var}(X_{n,m}) = \mathbb{E}[X_{n,m}^2]$ (using centering). Since the $X_{n,m}$ are independent in each row, $\varphi_{S_n}(t) = \prod_{m=1}^{n} \varphi_{n,m}(t)$. By the [continuity theorem](../../convergence/continuity), it suffices to show
+$$
+\prod_{m=1}^{n} \varphi_{n,m}(t) \;\longrightarrow\; e^{-t^2 \sigma^2 / 2} \quad \text{for every } t \in \mathbb{R}.
+$$
+
+<Steps>
+1. **Per-term CHF expansion with explicit error.**
+
+    From the [CHF expansion theorem](../clt-1/#two-preliminary-results) (the preparatory result in [CLT 1](../clt-1)), each centered $X_{n,m}$ satisfies
+    $$
+    \varphi_{n,m}(t) = 1 - \frac{t^2 \, \sigma_{n,m}^2}{2} + E_{n,m}(t),
+    $$
+    with the explicit error bound
+    $$
+    |E_{n,m}(t)| \le \mathbb{E}\!\left[ \min\!\left\{ |tX_{n,m}|^3, \; 2 \, |tX_{n,m}|^2 \right\} \right].
+    $$
+
+2. **Split the error at threshold $\epsilon$ and sum.**
+
+    For any $\epsilon > 0$, split the integrand on whether $|X_{n,m}| \le \epsilon$ (use the cubic bound) or $|X_{n,m}| > \epsilon$ (use the quadratic bound):
+    $$
+    |E_{n,m}(t)| \le |t|^3 \, \mathbb{E}\!\left[|X_{n,m}|^3 \,;\, |X_{n,m}| \le \epsilon\right] + 2 t^2 \, \mathbb{E}\!\left[|X_{n,m}|^2 \,;\, |X_{n,m}| > \epsilon\right].
+    $$
+    On $\{|X_{n,m}| \le \epsilon\}$, $|X_{n,m}|^3 \le \epsilon |X_{n,m}|^2$, so the first term is bounded by $\epsilon |t|^3 \, \mathbb{E}[X_{n,m}^2]$. Summing over $m$:
+    $$
+    \sum_{m=1}^{n} |E_{n,m}(t)|
+    \le \epsilon |t|^3 \sum_{m=1}^{n} \mathbb{E}[X_{n,m}^2]
+    + 2 t^2 \sum_{m=1}^{n} \mathbb{E}\!\left[|X_{n,m}|^2 \,;\, |X_{n,m}| > \epsilon\right].
+    $$
+    The first sum tends to $\sigma^2$ by condition (1); the second tends to $0$ by the Lindeberg condition (2). Therefore
+    $$
+    \limsup_{n \to \infty} \sum_{m=1}^{n} |E_{n,m}(t)| \le \epsilon |t|^3 \sigma^2.
+    $$
+    Since $\epsilon$ was arbitrary,
+    $$
+    \sum_{m=1}^{n} \left| \varphi_{n,m}(t) - \left(1 - \tfrac{t^2 \sigma_{n,m}^2}{2}\right) \right| \;\longrightarrow\; 0. \quad\textcolor{gray}{\text{---($\ast$)}}
+    $$
+
+3. **Asymptotic negligibility: $\max_m \sigma_{n,m}^2 \to 0$.**
+
+    Split the second moment of $X_{n,m}$ at the threshold $\epsilon$:
+    $$
+    \sigma_{n,m}^2 = \mathbb{E}\!\left[X_{n,m}^2 \,;\, |X_{n,m}| \le \epsilon\right] + \mathbb{E}\!\left[X_{n,m}^2 \,;\, |X_{n,m}| > \epsilon\right]
+    \le \epsilon^2 + \mathbb{E}\!\left[X_{n,m}^2 \,;\, |X_{n,m}| > \epsilon\right].
+    $$
+    Maximizing over $m$ and using that the maximum is at most the sum,
+    $$
+    \max_m \sigma_{n,m}^2 \le \epsilon^2 + \sum_{m=1}^{n} \mathbb{E}\!\left[X_{n,m}^2 \,;\, |X_{n,m}| > \epsilon\right].
+    $$
+    The right-hand sum tends to $0$ by Lindeberg, so $\limsup_n \max_m \sigma_{n,m}^2 \le \epsilon^2$. Since $\epsilon$ was arbitrary, $\max_m \sigma_{n,m}^2 \to 0$.
+
+4. **Lemma 1 lets us replace $\varphi_{n,m}$ with $1 - t^2 \sigma_{n,m}^2 / 2$ inside the product.**
+
+    Both $|\varphi_{n,m}(t)| \le 1$ (general property of characteristic functions) and, for $n$ large enough by step 3, $|1 - t^2 \sigma_{n,m}^2 / 2| \le 1$. So [Lemma 1](#lemma-1-product-difference-bound) applies with $\theta = 1$:
+    $$
+    \left| \prod_{m=1}^{n} \varphi_{n,m}(t) - \prod_{m=1}^{n} \left(1 - \tfrac{t^2 \sigma_{n,m}^2}{2}\right) \right|
+    \le \sum_{m=1}^{n} \left| \varphi_{n,m}(t) - \left(1 - \tfrac{t^2 \sigma_{n,m}^2}{2}\right) \right| \stackrel{(\ast)}{\longrightarrow} 0.
+    $$
+
+5. **Lemma 2 evaluates the remaining product.**
+
+    Set $C_{m,n} = -t^2 \sigma_{n,m}^2 / 2$ and verify the three conditions of [Lemma 2](#lemma-2-product-to-exponential-convergence):
+    $$
+    \begin{aligned}
+    (1) \quad &\max_m |C_{m,n}| = \tfrac{t^2}{2} \max_m \sigma_{n,m}^2 \to 0 \quad \text{(by step 3)}, \\
+    (2) \quad &\sum_{m=1}^{n} C_{m,n} = -\tfrac{t^2}{2} \sum_{m=1}^{n} \sigma_{n,m}^2 \to -\tfrac{t^2 \sigma^2}{2} \quad \text{(by CLT condition 1)}, \\
+    (3) \quad &\sup_n \sum_{m=1}^{n} |C_{m,n}| = \sup_n \tfrac{t^2}{2} \sum_{m=1}^{n} \sigma_{n,m}^2 < \infty \quad \text{(same)}.
+    \end{aligned}
+    $$
+    Therefore
+    $$
+    \prod_{m=1}^{n} \left(1 - \tfrac{t^2 \sigma_{n,m}^2}{2}\right) \;\longrightarrow\; e^{-t^2 \sigma^2 / 2}.
+    $$
+
+6. **Combine.**
+
+    Steps 4 and 5 together give $\prod_{m=1}^{n} \varphi_{n,m}(t) \to e^{-t^2 \sigma^2 / 2}$ pointwise. By the [continuity theorem](../../convergence/continuity), $S_n \xrightarrow{d} N(0, \sigma^2)$. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Reading the Result
+
+- **Lindeberg controls the tails uniformly across the row.** It demands that, in the limit, no single $X_{n,m}$ dominates: the total second moment concentrated on the tails $\{|X_{n,m}| > \epsilon\}$ becomes negligible. This is what rules out heavy-tailed contributions that would break Gaussian convergence.
+
+- **Asymptotic negligibility comes for free.** Step 3 of the proof shows that the Lindeberg condition automatically forces $\max_m \sigma_{n,m}^2 \to 0$. Operationally, no row entry is allowed to retain a non-vanishing fraction of the total variance. This is precisely the "many small effects" intuition.
+
+- **Sufficient conditions for Lindeberg.** Two practical ones:
+  - **Bounded entries.** If $|X_{n,m}| \le c_n$ uniformly with $c_n \to 0$, then for any $\epsilon > 0$, $\{|X_{n,m}| > \epsilon\}$ is eventually empty, so the Lindeberg sum is eventually zero.
+  - **Lyapunov condition.** If $\sum_m \mathbb{E}[|X_{n,m}|^{2+\delta}] \to 0$ for some $\delta > 0$, then Lindeberg holds. (Markov's inequality: $\mathbb{E}[X^2; |X| > \epsilon] \le \epsilon^{-\delta} \mathbb{E}[|X|^{2+\delta}]$.)
+
+- **Recovers [CLT 1](../clt-1).** Given i.i.d. $\{X_m\}$ with mean $\mu$ and variance $\sigma^2 < \infty$, place them in a triangular array by setting
+    $$
+    X_{n,m} = \frac{X_m - \mu}{\sqrt{n}}, \quad 1 \le m \le n.
+    $$
+
+    Each row entry is centered, and **condition 1** holds with the target variance $\sigma^2$:
+    $$
+    \sum_{m=1}^{n} \mathbb{E}[X_{n,m}^2] = \sum_{m=1}^{n} \frac{\sigma^2}{n} = \sigma^2.
+    $$
+
+    For the **Lindeberg condition**, all $n$ entries on row $n$ share the same distribution, so the sum collapses to $n$ copies of a single expectation:
+    $$
+    \begin{aligned}
+    \sum_{m=1}^{n} \mathbb{E}\!\left[X_{n,m}^2 \,;\, |X_{n,m}| > \epsilon\right]
+    &= n \cdot \mathbb{E}\!\left[\frac{(X_1 - \mu)^2}{n} \,;\, |X_1 - \mu| > \epsilon \sqrt{n}\right] \\
+    &= \mathbb{E}\!\left[(X_1 - \mu)^2 \,;\, |X_1 - \mu| > \epsilon \sqrt{n}\right].
+    \end{aligned}
+    $$
+
+    The integrand is dominated by $(X_1 - \mu)^2$ (integrable) and the event $\{|X_1 - \mu| > \epsilon \sqrt{n}\}$ shrinks to $\emptyset$ as $n \to \infty$, so by [DCT](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct) the expectation tends to $0$. Lindeberg–Feller now gives
+    $$
+    \sum_{m=1}^{n} X_{n,m} = \frac{S_n - n\mu}{\sqrt{n}} \xrightarrow{d} N(0, \sigma^2),
+    $$
+    which is exactly [CLT 1](../clt-1).

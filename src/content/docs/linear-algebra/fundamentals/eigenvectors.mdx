@@ -4,14 +4,28 @@ sidebar:
   order: 3
 ---
 
+import EigenvectorRotation from '../../../../components/widgets/EigenvectorRotation.tsx';
+
 <Aside type="tip" icon="open-book" title="Definition: Eigenvalues and Eigenvectors">
 For a matrix $\Av$, if there exists a vector $\vv$ such that $\Av \vv = \lambda \vv$ for some scalar $\lambda$, then $\lambda$ is called an eigenvalue and $\vv$ is called an eigenvector of $\Av$.
 </Aside>
 
-Naturally, eigenvalues are defined <span class="text-accent">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $\Av \vv \neq \lambda \vv$ for any pair $(\lambda, \vv)$. Normally, for an $n\times n$ matrix, there are $n$ independent eigenvectors with $\Av\vv_i = \lambda_i\vv_i$.
+Naturally, eigenvalues are defined <span class="text-accent">only for square matrices</span> because for non-square matrices, the transformation changes the dimensions of the resulting vector, hence $\Av \vv \neq \lambda \vv$ for any pair $(\lambda, \vv)$. An $n\times n$ matrix has at most $n$ linearly independent eigenvectors, but it need not have that many. A matrix with $n$ linearly independent eigenvectors is called <span class="text-accent">diagonalizable</span>; matrices that fall short (e.g., a Jordan block) are called <span class="text-accent">defective</span>.
 
 ## Geometric interpretation
 One intuitive way to understand eigenvectors is to look at any matrix $\Av$ as a transformation being applied to a vector $\vv$. A transformation can rotate and/or scale a vector. There's a [very nice video](https://www.youtube.com/watch?v=PFDu9oVAE-g) about this by [Grant Sanderson](https://www.3blue1brown.com/about) where he explains this idea with beautiful visuals. In essence, eigenvectors of a matrix (transformation) are those vectors that are not rotated, but only scaled without changing the direction. The magnitude of that scale is what we call the eigenvalue.
+
+### Interactive: The Directions That Don't Rotate
+
+For a $2 \times 2$ matrix
+$$
+A = \begin{pmatrix} a & b \\ c & d \end{pmatrix},
+$$
+the faint gray arrows are 12 unit vectors evenly spaced around the unit circle. The accent-colored arrows show their images $A \vv$ under multiplication by $A$. Most input directions get rotated *and* scaled; the **eigenvectors** are the (at most two) directions for which the output points the same way as the input. Drag the sliders to find them.
+
+When the discriminant $(a-d)^2 + 4bc$ goes negative, the eigenvalues become a complex conjugate pair and no real direction is preserved (the transformation has a genuine rotational component).
+
+<EigenvectorRotation client:visible />
 
 ## Properties
 The key property of eigenvectors can be seen by looking at $\Av^k$ for some positive integer $k$. Let's say $\vv$ is an eigenvector of $\Av$ with eigenvalue $\lambda$. Then we have
@@ -35,7 +49,7 @@ Thus, if $\vv$ is an eigenvector of $\Av$ with eigenvalue $\lambda$ then $\vv$ i
 </Tabs>
 </Aside>
 
-The $n$ independent eigenvectors of $\Av$ form a basis for $\mathbb{R}^n$, so any vector $\xv$ can be expressed as a linear combination of the eigenvectors $\vv_i$:
+If $\Av$ is diagonalizable, its $n$ linearly independent eigenvectors form a basis for $\mathbb{C}^n$ (or $\mathbb{R}^n$ when the eigenvectors can be chosen real), so any vector $\xv$ can be expressed as a linear combination of the eigenvectors $\vv_i$:
 $$
 \xv = \sum_{i=1}^{n} c_i\vv_i.
 $$
@@ -88,8 +102,8 @@ We know that the sum of the roots of such a polynomial is determined by the coef
 ## Symmetric matrices
 If $\Sv$ is a symmetric matrix, then
 - Eigenvalues of $\Sv$ are real if $\Sv$ is real.
-- Eigenvectors of $\Sv$ are orthogonal.
-- We may have a full set of eigenvectors even if some eigenvalues are repeated. For example, consider the identity matrix. It has only one eigenvalue, $\lambda=1$, but every vector is an eigenvector.
+- Eigenvectors of $\Sv$ corresponding to distinct eigenvalues are orthogonal, and an orthonormal basis of eigenvectors can always be chosen (even when eigenvalues are repeated, by picking an orthonormal basis within each eigenspace).
+- We always have a full set of eigenvectors, even when some eigenvalues are repeated. For example, consider the identity matrix. It has only one eigenvalue, $\lambda=1$, but every vector is an eigenvector.
 
 Let $\Sv$ be an $n\times n$ symmetric matrix with eigenvalues $\lambda_1, \ldots, \lambda_n$. If we consider the matrix
 
@@ -101,14 +115,14 @@ $$
     \end{pmatrix},
 $$
 
-we see that $\Sv$ and $\Lambdav$ are [similar matrices](#similarity). This means that there must be an $\Mv$ such that $\Sv = \Mv^{-1}\Lambda \Mv$. It is not hard to see that $\Mv$ is the eigenvector matrix (columns of $\Mv$ are eigenvectors of $\Sv$), and we have the [spectral decomposition](../factorization/#spectral-decomposition) $\Sv = \Mv\Lambda \Mv^{-1} = \Qv\Lambda \Qv^{\rm T}$.
+we see that $\Sv$ and $\Lambdav$ are [similar matrices](#similarity). This means that there must be an invertible $\Mv$ such that $\Sv = \Mv\Lambda \Mv^{-1}$ (equivalently, $\Lambdav = \Mv^{-1}\Sv\Mv$). It is not hard to see that $\Mv$ is the eigenvector matrix (columns of $\Mv$ are eigenvectors of $\Sv$), and we have the [spectral decomposition](../factorization/#spectral-decomposition) $\Sv = \Mv\Lambda \Mv^{-1} = \Qv\Lambda \Qv^{\rm T}$, where we use $\Qv$ for $\Mv$ when the eigenvectors are chosen orthonormal so that $\Mv^{-1} = \Mv^{\rm T}$.
 
 
 ## General matrices
 
-For a general square matrix $\Av$ (may not be symmetric), we can factorize it as
+For a <span class="text-accent">diagonalizable</span> square matrix $\Av$ (which may not be symmetric), we can factorize it as
 $$
 \Av = \Xv\Lambdav \Xv^{-1},
 $$
 
-where $\Xv$ is the eigenvector matrix and $\Lambdav$ is the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of exponents of $\Av$ are the same as that of $\Av$, with corresponding exponentiated eigenvalues. It is only when $\Av$ is symmetric that we can use $\Xv^{-1} = \Xv^{\rm T}$, since the eigenvectors are orthogonal in that case.
+where $\Xv$ is the eigenvector matrix and $\Lambdav$ is the diagonal eigenvalue matrix. This factorization is another way to look at the fact that the eigenvectors of powers of $\Av$ are the same as those of $\Av$, with correspondingly exponentiated eigenvalues. It is only when $\Av$ is symmetric (more generally, normal) that we can use $\Xv^{-1} = \Xv^{\rm T}$, since the eigenvectors are orthogonal in that case. A non-diagonalizable (defective) matrix does not admit this factorization, and one has to use the more general [Jordan normal form](https://en.wikipedia.org/wiki/Jordan_normal_form) instead.

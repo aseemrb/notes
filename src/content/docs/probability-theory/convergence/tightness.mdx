@@ -4,4 +4,133 @@ sidebar:
   order: 7
 ---
 
-Content coming soon...
+[Helly's selection theorem](../helly) produces a subsequential limit $F$ that is right-continuous and non-decreasing, but the total mass of $F$ may be strictly less than $1$ (mass can escape to $\pm\infty$). **Tightness** is the condition that rules this out and promotes Helly's conclusion to weak convergence to a probability measure.
+
+## Definition
+
+<Aside type="tip" icon="open-book" title="Definition: Tightness">
+A sequence of probability measures $\{\mu_n\}_{n \ge 1}$ on $(\mathbb{R}, \mathcal{B})$ is called **tight** if for every $\epsilon > 0$, there exists $M > 0$ such that
+$$
+\mu_n((-M, M]) \ge 1 - \epsilon \quad \text{for all } n \ge 1.
+$$
+A sequence of [distribution functions](../../events/distribution) is tight if the corresponding sequence of measures is tight.
+</Aside>
+
+Written in terms of distribution functions, this is equivalent to
+$$
+1 - F_n(M) + F_n(-M) \le \epsilon \quad \text{for all } n.
+$$
+
+Some equivalent formulations of the same condition:
+
+1. $\liminf_{n \to \infty} \mu_n((-M, M]) \ge 1 - \epsilon$ for some $M$,
+2. $\limsup_{n \to \infty} \big(1 - F_n(M) + F_n(-M)\big) \le \epsilon$ for some $M$,
+3. $\mu_n((-M, M]) \ge 1 - \epsilon$ for all $n$ (after enlarging $M$).
+
+The equivalence between holding for all $n$ and holding eventually is immediate: any finite collection of measures can be absorbed by taking $M$ large enough, since each individual $\mu_n$ is a probability measure and so $\mu_n((-M, M]) \to 1$ as $M \to \infty$.
+
+## Tightness ⟺ subsequential weak convergence
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+A sequence $\{\mu_n\}_{n \ge 1}$ of probability measures on $(\mathbb{R}, \mathcal{B})$ is tight if and only if every subsequence has a further subsequence that converges [weakly](../weak-convergence) to a probability measure.
+</TabItem>
+
+<TabItem label="Proof">
+
+### (⟹) Tightness implies subsequential weak convergence
+
+Fix any subsequence $\{F_{n_k}\}$. By [Helly's selection theorem](../helly), there is a further subsequence (which we relabel $\{F_{n_m}\}$) and a right-continuous, non-decreasing function $F$ with $F_{n_m}(y) \to F(y)$ at every continuity point $y$ of $F$.
+
+It remains to show $\lim_{y \to -\infty} F(y) = 0$ and $\lim_{y \to \infty} F(y) = 1$, since then $F$ is a distribution function and $\{F_{n_m}\}$ converges to it weakly. Both limits exist because $F$ is monotone and bounded in $[0,1]$, and they satisfy $\lim_{y \to -\infty} F(y) \ge 0$ and $\lim_{y \to \infty} F(y) \le 1$. So it suffices to show
+$$
+\lim_{y \to \infty} F(y) - \lim_{y \to -\infty} F(-y) = 1.
+$$
+
+<Steps>
+1. **Pick $M_\epsilon$ from tightness.**
+
+    For $\epsilon > 0$, choose $M_\epsilon$ such that
+    $$
+    \limsup_{n \to \infty} \big(1 - F_n(M_\epsilon) + F_n(-M_\epsilon)\big) \le \epsilon. \quad\textcolor{gray}{\text{---(1.1)}}
+    $$
+
+2. **Compare $F$ to $F_{n_m}$ at $M_\epsilon$ via continuity points.**
+
+    Pick continuity points $r < -M_\epsilon$ and $s > M_\epsilon$ of $F$. Such points exist since $F$ has at most countably many discontinuities. By monotonicity of each $F_{n_m}$,
+    $$
+    F_{n_m}(s) \ge F_{n_m}(M_\epsilon), \quad F_{n_m}(r) \le F_{n_m}(-M_\epsilon),
+    $$
+    so
+    $$
+    1 - F_{n_m}(s) + F_{n_m}(r) \le 1 - F_{n_m}(M_\epsilon) + F_{n_m}(-M_\epsilon).
+    $$
+
+3. **Pass to the limit.**
+
+    Since $r, s$ are continuity points of $F$, $F_{n_m}(r) \to F(r)$ and $F_{n_m}(s) \to F(s)$. Taking $\limsup$ on the right and using <span style="color:gray">$(1.1)$</span>,
+    $$
+    1 - F(s) + F(r) \le \epsilon.
+    $$
+    Equivalently, $F(s) - F(r) \ge 1 - \epsilon$.
+
+4. **Send $r \to -\infty$ and $s \to \infty$.**
+
+    Choosing continuity points $r_k \to -\infty$ and $s_k \to \infty$,
+    $$
+    \lim_{s \to \infty} F(s) - \lim_{r \to -\infty} F(r) \ge 1 - \epsilon.
+    $$
+    Since $\epsilon > 0$ was arbitrary, the difference is at least $1$. Combined with $\lim_{y \to \infty} F(y) \le 1$ and $\lim_{y \to -\infty} F(y) \ge 0$, both limits must take their extreme values: $\lim_{y \to \infty} F(y) = 1$ and $\lim_{y \to -\infty} F(y) = 0$.
+</Steps>
+
+Thus $F$ is a distribution function, and the corresponding measure $\mu$ is a probability measure with $\mu_{n_m} \Rightarrow \mu$.
+
+### (⟸) No tightness implies no convergent sub-subsequence
+
+We prove the contrapositive: if $\{\mu_n\}$ is not tight, then some subsequence has no further subsequence converging weakly to a probability measure.
+
+Non-tightness gives an $\epsilon > 0$ such that for every $M$, some $n$ satisfies $1 - F_n(M) + F_n(-M) \ge \epsilon$. Building this index by index, there exist sequences $M_k \to \infty$ and indices $n_k$ with
+$$
+1 - F_{n_k}(M_k) + F_{n_k}(-M_k) \ge \epsilon \quad \text{for all } k. \quad\textcolor{gray}{\text{---(2.1)}}
+$$
+
+By [Helly's selection theorem](../helly), $\{F_{n_k}\}$ has a further subsequence (still denoted $\{F_{n_k}\}$) with $F_{n_k}(y) \to F(y)$ at continuity points of a right-continuous, non-decreasing $F$. We show $F$ is not a distribution function, hence does not correspond to a probability measure.
+
+<Steps>
+1. **Bound $F$ at any pair of continuity points $r < 0 < s$.**
+
+    Since $M_k \to \infty$, for $k$ large enough, $M_k > s$ and $-M_k < r$. By monotonicity of $F_{n_k}$,
+    $$
+    F_{n_k}(s) \le F_{n_k}(M_k), \quad F_{n_k}(r) \ge F_{n_k}(-M_k),
+    $$
+    so
+    $$
+    1 - F_{n_k}(s) + F_{n_k}(r) \ge 1 - F_{n_k}(M_k) + F_{n_k}(-M_k) \ge \epsilon
+    $$
+    using <span style="color:gray">$(2.1)$</span>.
+
+2. **Pass to the limit and send $r \to -\infty, s \to \infty$.**
+
+    Taking $k \to \infty$ at continuity points $r, s$,
+    $$
+    1 - F(s) + F(r) \ge \epsilon.
+    $$
+    Letting $s \to \infty$ and $r \to -\infty$ along continuity points,
+    $$
+    \lim_{s \to \infty} F(s) - \lim_{r \to -\infty} F(r) \le 1 - \epsilon < 1.
+    $$
+    So $F$ does not satisfy [property 2](../../events/distribution/#properties-of-distribution-function) of a distribution function: either $\lim_{y \to \infty} F(y) < 1$ or $\lim_{y \to -\infty} F(y) > 0$ (or both).
+</Steps>
+
+Therefore the subsequence $\{F_{n_k}\}$ has no further subsequence converging weakly to a probability measure: any such sub-sub-limit must agree with $F$ at continuity points, but $F$ is not a distribution function. $\square$
+
+</TabItem>
+</Tabs>
+</Aside>
+
+## Why both directions matter
+
+The forward direction is the workhorse: in practice, one shows a sequence of laws is tight (often via a moment bound such as $\sup_n \mathbb{E}[|X_n|] < \infty$, which controls the tails through Markov's inequality), then invokes the theorem to extract a weakly convergent subsequence. If a uniqueness argument pins down all possible subsequential limits to the same $\mu$, the full sequence converges weakly to $\mu$.
+
+The reverse direction says tightness is not just sufficient but necessary: any sequence enjoying this subsequential compactness must control its tails uniformly.

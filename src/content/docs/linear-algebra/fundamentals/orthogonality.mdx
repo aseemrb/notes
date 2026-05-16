@@ -20,7 +20,7 @@ But what about $\Qv\Qv^{\rm T}$? A little thought reveals that $\Qv\Qv^{\rm T} =
     For any vector $\xv$, $\lVert \Qv\xv\rVert = \lVert \xv\rVert$, i.e., $\Qv$ does not change the length of $\xv$.
   </TabItem>
   <TabItem label="Proof">
-    See that $\lVert \Qv\xv\rVert = (\Qv\xv)^{\rm T}(\Qv\xv) = \xv^{\rm T}\Qv^{\rm T}\Qv\xv = \xv^{\rm T}\xv = \lVert \xv\rVert$, since $\Qv^{\rm T}\Qv = \Iv$.
+    See that $\lVert \Qv\xv\rVert^2 = (\Qv\xv)^{\rm T}(\Qv\xv) = \xv^{\rm T}\Qv^{\rm T}\Qv\xv = \xv^{\rm T}\xv = \lVert \xv\rVert^2$, since $\Qv^{\rm T}\Qv = \Iv$. Taking square roots gives $\lVert \Qv\xv\rVert = \lVert \xv\rVert$.
   </TabItem>
 </Tabs>
 </Aside>
@@ -66,7 +66,7 @@ $$
 Then define $\Hv_{2^{n+1}} = \begin{pmatrix}
     \Hv_{2^n} & \Hv_{2^n} \\
     \Hv_{2^n} & -\Hv_{2^n}
-    \end{pmatrix}$ for all $n > 1$.
+    \end{pmatrix}$ for all $n \ge 1$.
 
 This gives a construction of these matrices for any power of 2. But in general, it is [conjectured](https://en.wikipedia.org/wiki/Hadamard_matrix#Hadamard_conjecture) that Hadamard matrices for any multiple of 4 exist. These matrices are known to be orthogonal.
 

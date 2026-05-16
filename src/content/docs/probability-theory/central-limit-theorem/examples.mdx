@@ -1,0 +1,64 @@
+---
+title: Examples
+sidebar:
+  order: 3
+---
+
+import CLTConvolution from '../../../../components/widgets/CLTConvolution.tsx';
+
+A few canonical settings where the [CLT](../clt-1) applies. Each example specifies $\mu = \mathbb{E}[X_1]$ and $\sigma^2 = \text{Var}(X_1)$, then the standardization
+$$
+Z_n = \frac{S_n - n\mu}{\sigma \sqrt{n}} \xrightarrow{d} N(0, 1)
+$$
+gives the limit shape.
+
+## Interactive: Convolution → Gaussian
+
+Pick a base distribution and slide $n$. The blue bars are the **exact** distribution of the $n$-fold sum (computed by repeatedly convolving the base PMF with itself, not simulated). The red dashed curve is the Gaussian with mean $n\mu$ and variance $n\sigma^2$. Notice how rapidly the bars match the curve as $n$ grows, even when the base is asymmetric (Bernoulli(0.3)) or bimodal.
+
+<CLTConvolution client:visible />
+
+## Binomial → Normal (de Moivre–Laplace)
+
+The historical CLT: a sum of $n$ independent Bernoulli$(p)$ variables is Binomial$(n, p)$. With $\mu = p$ and $\sigma^2 = p(1-p)$,
+$$
+\frac{S_n - np}{\sqrt{n p (1-p)}} \xrightarrow{d} N(0, 1).
+$$
+
+**Reading.** For large $n$, $\text{Binomial}(n, p) \approx N(np, \, np(1-p))$. This is the **de Moivre–Laplace theorem** (1733/1812), historically the first CLT, predating the i.i.d. CLT by over a century. The widget's **Bernoulli(0.3)** option is exactly this setting: $n$-fold convolution of Bernoulli$(0.3)$ is Binomial$(n, 0.3)$, and the dashed Gaussian overlay is the de Moivre-Laplace approximation $N(0.3 n, \, 0.21 n)$. Slide $n$ to watch the binomial bars relax onto the bell curve.
+
+**Rule of thumb.** The approximation is excellent when $np \ge 10$ and $n(1-p) \ge 10$. For small $p$ (rare events), the approximation degrades and the [Poisson limit](../../convergence/weak-convergence/#example-binomial-to-poisson) is more appropriate.
+
+## Uniform → Normal (Irwin–Hall)
+
+For $X_i$ i.i.d. $\text{Uniform}(0, 1)$, $\mu = 1/2$ and $\sigma^2 = 1/12$, so
+$$
+\sqrt{12 n} \, \left(\overline{X}_n - \tfrac{1}{2}\right) \xrightarrow{d} N(0, 1).
+$$
+
+**Reading.** The sum $S_n$ has the **Irwin–Hall** distribution, supported on $[0, n]$. Even at $n = 6$, the distribution is already strikingly bell-shaped (this is the basis for the classic "sum of 12 uniforms minus 6" trick for crude Gaussian random number generation).
+
+## Exponential → Normal (Gamma)
+
+For $X_i$ i.i.d. $\text{Exponential}(\lambda)$, $\mu = 1/\lambda$ and $\sigma^2 = 1/\lambda^2$. The sum is $\text{Gamma}(n, \lambda)$:
+$$
+\sqrt{n} \, \lambda \, \left(\overline{X}_n - \tfrac{1}{\lambda}\right) \xrightarrow{d} N(0, 1).
+$$
+
+**Reading.** The exponential distribution is heavily right-skewed (skewness $= 2$). The CLT applies, but convergence is slower than for symmetric distributions: the gamma's skewness is $2 / \sqrt{n}$, so even at $n = 30$ a noticeable rightward bias remains. The widget above renders this exactly: select **Exponential(1)** and slide $n$. At $n = 1$ the curve is the bare exponential decay; the rightward tail visibly persists past $n = 20$, while the symmetric die has already locked onto the Gaussian by then.
+
+## Dice → Normal
+
+Rolling $n$ fair six-sided dice and summing gives $S_n$ with $\mu = 3.5 n$ and $\sigma^2 = (35/12) n$. The standardized sum converges to $N(0, 1)$.
+
+**Reading.** Already by $n = 10$ the histogram of the standardized sum is virtually indistinguishable from $N(0, 1)$ at the resolution typically used. This is why averaging dice rolls is the canonical introduction to CLT in undergraduate texts.
+
+## Non-Example: Cauchy → Cauchy
+
+The Cauchy distribution has density $f(x) = \frac{1}{\pi (1 + x^2)}$ and no finite mean, let alone variance. The CLT does **not** apply.
+
+In fact, for i.i.d. Cauchy$(0, 1)$ variables,
+$$
+\frac{S_n}{n} = \overline{X}_n \;\sim\; \text{Cauchy}(0, 1) \quad \text{for every } n,
+$$
+not just in the limit. Averaging never narrows the distribution; the sample mean is no better an estimator of the (nonexistent) "center" than a single observation. This is the canonical heavy-tailed counterexample, ruled out by the finite-variance hypothesis of [CLT 1](../clt-1).

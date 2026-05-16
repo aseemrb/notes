@@ -1,0 +1,109 @@
+---
+title: Renewal Theory
+sidebar:
+  order: 5
+---
+
+Renewal theory studies sequences of i.i.d. positive interarrival times and the counting process they generate. The central result, the **Elementary Renewal Theorem**, is a direct corollary of the [Strong LLN](../strong-lln): the long-run rate of arrivals is the reciprocal of the mean interarrival time.
+
+## Preliminary: SLLN with One-Sided Infinite Mean
+
+The [SLLN](../strong-lln) assumes $\mathbb{E}|X_1| < \infty$. A useful one-sided extension covers the case where one of $\mathbb{E}[X_1^+], \mathbb{E}[X_1^-]$ is infinite and the other finite.
+
+<Aside icon="seti:smarty" title="Remark">
+Let $X_1, X_2, \ldots$ be i.i.d. with $\mathbb{E}[X_1^+] = \infty$ and $\mathbb{E}[X_1^-] < \infty$, so we may write $\mathbb{E}[X_1] = \infty$. Then
+$$
+\frac{S_n}{n} \xrightarrow{a.s.} \infty.
+$$
+
+**Idea of proof.** Truncate at level $K$: $X_i^{(K)} = \min(X_i, K)$. These are i.i.d. with finite mean $\mathbb{E}[X_1^{(K)}]$, so by the SLLN
+$$
+\frac{1}{n} \sum_{i=1}^n X_i^{(K)} \xrightarrow{a.s.} \mathbb{E}[X_1^{(K)}].
+$$
+Since $X_i \ge X_i^{(K)}$,
+$$
+\liminf_{n \to \infty} \frac{S_n}{n} \ge \mathbb{E}[X_1^{(K)}] \quad \text{a.s.}
+$$
+By monotone convergence, $\mathbb{E}[X_1^{(K)}] \to \mathbb{E}[X_1^+] - \mathbb{E}[X_1^-] = \infty$ as $K \to \infty$. The liminf exceeds every finite value almost surely, so $S_n / n \to \infty$ a.s.
+
+(The symmetric case, $\mathbb{E}[X_1^-] = \infty$ and $\mathbb{E}[X_1^+] < \infty$, gives $S_n/n \to -\infty$ a.s.)
+</Aside>
+
+## Setup
+
+Let $X_1, X_2, \ldots$ be i.i.d. positive continuous random variables. Interpret each $X_i$ as the time gap between consecutive events: customers arriving at a queue, jobs finishing at a server, light bulbs burning out.
+
+- **Arrival times.** $T_n = X_1 + \cdots + X_n$ is the time of the $n$-th event.
+- **Counting process.** $N_t = \sup\{ n \ge 0 : T_n \le t \}$ is the number of events that have occurred by time $t$ (with $T_0 = 0$).
+
+By construction, $T_n$ is non-decreasing in $n$ and $N_t$ is non-decreasing in $t$, and they are related by
+$$
+T_{N_t} \le t < T_{N_t + 1}.
+$$
+
+## Elementary Renewal Theorem
+
+<Aside icon="seti:smarty" title="Theorem">
+<Tabs>
+<TabItem label="Statement">
+If $\mathbb{E} X_1 = \mu \in (0, \infty]$, then
+$$
+\frac{N_t}{t} \xrightarrow{a.s.} \frac{1}{\mu} \quad \text{as } t \to \infty,
+$$
+with the convention $1/\infty = 0$.
+</TabItem>
+
+<TabItem label="Proof">
+Apply the [SLLN](../strong-lln) (or its one-sided extension above) to $\{X_n\}$: since each $X_i > 0$,
+$$
+\frac{T_n}{n} \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty.
+$$
+
+From the defining inequality $T_{N_t} \le t < T_{N_t + 1}$, divide by $N_t$:
+$$
+\frac{T_{N_t}}{N_t} \;\le\; \frac{t}{N_t} \;\le\; \frac{T_{N_t + 1}}{N_t} \;=\; \frac{T_{N_t + 1}}{N_t + 1} \cdot \frac{N_t + 1}{N_t}.
+$$
+
+<Steps>
+1. **$N_t \to \infty$ a.s. as $t \to \infty$.**
+
+    For each fixed $n$, $T_n < \infty$ almost surely, so eventually $t \ge T_n$, which forces $N_t \ge n$. Since $n$ was arbitrary, $N_t \to \infty$ a.s.
+
+2. **The boundary ratio tends to $1$.**
+
+    Since $N_t \to \infty$ a.s. and $N_t$ takes integer values,
+    $$
+    \frac{N_t + 1}{N_t} \xrightarrow{a.s.} 1.
+    $$
+
+3. **Compose with the SLLN limit.**
+
+    $T_n / n \xrightarrow{a.s.} \mu$ as $n \to \infty$, and $N_t \to \infty$ a.s. along the (random) integer-valued sequence $N_t$. So
+    $$
+    \frac{T_{N_t}}{N_t} \xrightarrow{a.s.} \mu \quad \text{and} \quad \frac{T_{N_t + 1}}{N_t + 1} \xrightarrow{a.s.} \mu.
+    $$
+
+4. **Sandwich.**
+
+    Both bounds on $t / N_t$ tend to $\mu$ almost surely:
+    $$
+    \underbrace{\frac{T_{N_t}}{N_t}}_{\to\,\mu} \;\le\; \frac{t}{N_t} \;\le\; \underbrace{\frac{T_{N_t + 1}}{N_t + 1}}_{\to\,\mu} \cdot \underbrace{\frac{N_t + 1}{N_t}}_{\to\,1}.
+    $$
+    Therefore $t / N_t \xrightarrow{a.s.} \mu$, and taking reciprocals,
+    $$
+    \frac{N_t}{t} \xrightarrow{a.s.} \frac{1}{\mu}. \quad\square
+    $$
+</Steps>
+
+For $\mu = \infty$ the same sandwich applies with the convention $1/\infty = 0$: $T_n / n \to \infty$ a.s. by the preliminary remark, so $t / N_t \to \infty$ and $N_t / t \to 0$ a.s.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Reading the Result
+
+- **Rate interpretation.** The theorem says the long-run arrival rate is $1/\mu$ events per unit time. If light bulbs last $\mu = 1000$ hours on average, you replace them at long-run rate $0.001$ per hour.
+
+- **No second moment needed.** Only $\mathbb{E} X_1 \in (0, \infty]$ is required. Variance is unconstrained.
+
+- **Why the strong law and not the weak law.** Convergence is asserted for almost every sample path $\omega$, not just in probability. The proof is built directly on the SLLN, so the strength of the conclusion mirrors the strength of the input.

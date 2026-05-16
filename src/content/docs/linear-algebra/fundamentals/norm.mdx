@@ -3,3 +3,112 @@ title: Vector and Matrix Norms
 sidebar:
   order: 6
 ---
+
+import NormBall from '../../../../components/widgets/NormBall.tsx';
+
+A **norm** measures the size of a vector or matrix. Different norms encode different notions of "size" (Euclidean length, max coordinate, sum of magnitudes, ...) and which one to use is usually dictated by the geometry of the problem.
+
+## Vector Norms
+
+<Aside type="tip" icon="open-book" title="Definition: Norm">
+A function $\|\cdot\| : \R^n \to [0, \infty)$ is a **norm** if for all $\xv, \yv \in \R^n$ and $\alpha \in \R$:
+1. **Positivity**: $\|\xv\| \ge 0$, with equality iff $\xv = 0$.
+2. **Absolute homogeneity**: $\|\alpha \xv\| = |\alpha| \cdot \|\xv\|$.
+3. **Triangle inequality**: $\|\xv + \yv\| \le \|\xv\| + \|\yv\|$.
+</Aside>
+
+A function that satisfies (1) and (2) but not (3) is sometimes called a **quasi-norm**. The third condition is what makes a norm geometrically well-behaved: it forces the **unit ball** $\{\xv : \|\xv\| \le 1\}$ to be convex.
+
+### The $\ell^p$ family
+
+For $p \ge 1$ and $\xv = (x_1, \ldots, x_n) \in \R^n$, define
+$$
+\|\xv\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.
+$$
+Three values of $p$ get their own names:
+
+- $p = 1$: the **Manhattan** or **taxicab** norm, $\|\xv\|_1 = \sum_i |x_i|$.
+- $p = 2$: the **Euclidean** norm, $\|\xv\|_2 = \sqrt{\sum_i x_i^2}$.
+- $p = \infty$: the **sup** or **Chebyshev** norm, $\|\xv\|_\infty = \max_i |x_i|$ (this is the limit of $\|\xv\|_p$ as $p \to \infty$).
+
+The condition $p \ge 1$ is essential. For $0 < p < 1$ the formula is still defined, but the triangle inequality fails and the unit ball becomes non-convex.
+
+### Unit balls
+
+The shape of the unit ball $\{\xv : \|\xv\|_p \le 1\}$ is the cleanest visual handle on how the norm depends on $p$. In $\R^2$:
+
+- $p = 1$: diamond (square rotated 45°), vertices at $(\pm 1, 0), (0, \pm 1)$.
+- $p = 2$: circle of radius 1.
+- $p = \infty$: axis-aligned square, vertices at $(\pm 1, \pm 1)$.
+- $1 < p < \infty$: a convex shape interpolating between the diamond and the square.
+- $0 < p < 1$: a concave four-pointed star.
+
+<NormBall client:visible />
+
+The diagonal extent (the distance from the origin to the ball boundary along the line $y = x$) is $2^{1/2 - 1/p}$, plotted live above. It interpolates from $2^{-1/2} \approx 0.707$ at $p = 1$ to $1$ at $p = 2$ to $\sqrt{2} \approx 1.414$ at $p = \infty$, and shrinks rapidly toward $0$ for $p < 1$. The faint dashed circle is the $\ell^2$ ball for reference.
+
+### Equivalence of norms
+
+A central fact in finite-dimensional analysis: **all norms on $\R^n$ are equivalent**.
+
+<Aside icon="seti:smarty" title="Theorem: Equivalence of Norms">
+<Tabs>
+<TabItem label="Statement">
+For any two norms $\|\cdot\|_a$ and $\|\cdot\|_b$ on $\R^n$, there exist constants $c, C > 0$ such that
+$$
+c \, \|\xv\|_a \;\le\; \|\xv\|_b \;\le\; C \, \|\xv\|_a \quad \text{for all } \xv \in \R^n.
+$$
+</TabItem>
+<TabItem label="Idea of proof">
+The unit sphere $S = \{\xv : \|\xv\|_a = 1\}$ is compact (closed and bounded in any norm). The map $\xv \mapsto \|\xv\|_b$ is continuous and strictly positive on $S$, so it attains a finite positive minimum $c$ and maximum $C$ there. By homogeneity, $c \|\xv\|_a \le \|\xv\|_b \le C \|\xv\|_a$ for every $\xv \ne 0$.
+
+This argument uses compactness of the unit sphere, which is why the result is specific to **finite** dimensions. In infinite dimensions (function spaces) different norms can yield genuinely different topologies.
+</TabItem>
+</Tabs>
+</Aside>
+
+Concretely, the $\ell^p$ norms satisfy
+$$
+\|\xv\|_\infty \;\le\; \|\xv\|_2 \;\le\; \|\xv\|_1 \;\le\; \sqrt{n} \, \|\xv\|_2 \;\le\; n \, \|\xv\|_\infty,
+$$
+so convergence in any one $\ell^p$ norm is convergence in every other. The constants $\sqrt{n}, n$ degrade with dimension, which is exactly why "switching norms" is innocuous in low dimensions but matters in high-dimensional statistics.
+
+## Matrix Norms
+
+A matrix norm is just a norm on the vector space of $m \times n$ matrices. There are two flavors that dominate practice.
+
+### Frobenius norm
+
+Treat the matrix as a long vector and apply the Euclidean norm:
+$$
+\|\Av\|_F = \sqrt{\sum_{i,j} A_{ij}^2} = \sqrt{\text{Trace}(\Av^{\rm T} \Av)} = \sqrt{\sum_{i} \sigma_i^2},
+$$
+where $\sigma_i$ are the [singular values](../svd) of $\Av$. The last form is the most useful in proofs: it shows that $\|\Av\|_F$ depends only on the singular value spectrum, not on the bases $\Uv, \Vv$ in the SVD. In particular, the Frobenius norm is invariant under orthogonal transformations on either side: $\|\Qv_1 \Av \Qv_2\|_F = \|\Av\|_F$ when $\Qv_1, \Qv_2$ are [orthogonal](../orthogonality).
+
+### Operator (induced) norms
+
+Given a vector norm $\|\cdot\|_p$, the **induced operator norm** of a matrix is
+$$
+\|\Av\|_p = \sup_{\xv \ne 0} \frac{\|\Av \xv\|_p}{\|\xv\|_p} = \sup_{\|\xv\|_p = 1} \|\Av \xv\|_p.
+$$
+This measures the worst-case stretching of the unit ball under $\Av$. Three cases have clean closed forms:
+
+- $\|\Av\|_1 = \max_j \sum_i |A_{ij}|$ (maximum column sum).
+- $\|\Av\|_\infty = \max_i \sum_j |A_{ij}|$ (maximum row sum).
+- $\|\Av\|_2 = \sigma_1(\Av)$ (largest [singular value](../svd)). Also called the **spectral norm**.
+
+The spectral norm and the Frobenius norm coincide for rank-1 matrices but differ in general. They satisfy
+$$
+\|\Av\|_2 \;\le\; \|\Av\|_F \;\le\; \sqrt{r} \cdot \|\Av\|_2,
+$$
+where $r$ is the rank of $\Av$. The upper bound is tight when all nonzero singular values are equal; the lower bound is tight when the spectrum is dominated by a single mode.
+
+### Submultiplicativity
+
+All induced operator norms (and the Frobenius norm) satisfy
+$$
+\|\Av \Bv\|_p \;\le\; \|\Av\|_p \cdot \|\Bv\|_p,
+$$
+which is exactly the property needed for bounding products and powers. For the spectral norm this follows from $\|\Av \Bv \xv\|_2 \le \|\Av\|_2 \|\Bv \xv\|_2 \le \|\Av\|_2 \|\Bv\|_2 \|\xv\|_2$.
+
+Submultiplicativity is the reason matrix norms are useful in numerical analysis: error bounds compound as products of operator norms, so a small per-step bound on a transformation gives a small bound on the composition.

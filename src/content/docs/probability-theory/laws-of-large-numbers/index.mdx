@@ -1,0 +1,26 @@
+---
+title: Overview
+sidebar:
+  order: 0
+---
+
+The Laws of Large Numbers describe how sample averages of random variables stabilize around an expected value as the sample size grows. The **Weak Laws** establish convergence in probability under successively weaker hypotheses; the **Strong Law** strengthens this to almost sure convergence. **Renewal Theory** and the **Glivenko–Cantelli Theorem** are close relatives where the same averaging principle controls more elaborate objects (renewal counts, empirical distribution functions).
+
+## Key Topics
+
+1.  **[Weak LLN 1](weak-lln-1)**: Variance-based WLLNs. Uncorrelated sequences with uniformly bounded variances, plus two triangular-array versions (one with finite variance, one for heavy-tailed entries via truncation).
+2.  **[Weak LLN 2](weak-lln-2)**: i.i.d. WLLN under the tail condition $x \, \mathbb{P}(|X_1| > x) \to 0$, centered by the truncated mean. Reduces to the triangular-array truncation theorem from WLLN 1.
+3.  **[Weak LLN 3](weak-lln-3)**: The classical i.i.d. WLLN. Finite mean is enough for $S_n/n \xrightarrow{P} \mathbb{E}[X_1]$. The most commonly invoked form of the WLLN.
+4.  **[Strong LLN](strong-lln)**: Etemadi's a.s. convergence theorem under identical distribution, **pairwise** independence, and finite mean. Proved via truncation, a geometric subsequence, and a sandwich argument.
+5.  **[Renewal Theory](renewal-theory)**: For i.i.d. positive interarrival times with mean $\mu$, the counting process $N_t$ satisfies $N_t / t \xrightarrow{a.s.} 1/\mu$.
+6.  **[Glivenko–Cantelli Theorem](glivenko-cantelli)**: The "Fundamental Theorem of Statistics". The empirical distribution function converges to the true distribution function **uniformly** and almost surely.
+
+## How the Pieces Fit Together
+
+The three weak laws form a chain of relaxing hypotheses:
+
+$$
+\text{WLLN 1 (finite variance)} \;\Longleftarrow\; \text{WLLN 2 (tail condition)} \;\Longleftarrow\; \text{WLLN 3 (finite mean)}
+$$
+
+Each is proved by reducing to the previous one. The [Strong LLN](strong-lln) sits above the WLLNs: it strengthens the conclusion of [WLLN 3](weak-lln-3) (convergence in probability $\to$ almost sure) under the same hypotheses, at the cost of a much harder proof. [Renewal Theory](renewal-theory) and [Glivenko–Cantelli](glivenko-cantelli) are corollaries of the SLLN applied to derived random variables (interarrival sums; indicators of the form $\mathbb{1}_{\{X_m \le x\}}$).

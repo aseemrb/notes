@@ -1,0 +1,137 @@
+---
+title: CLT 1
+sidebar:
+  order: 1
+---
+
+If the [Law of Large Numbers](../../laws-of-large-numbers) is the first-order approximation to the sample mean, the Central Limit Theorem is the second-order correction. Together they mirror the first two terms of a Taylor expansion:
+
+- **LLN** gives a **point estimate**: $\overline{X}_n \to \mu$.
+- **CLT** describes how far the point estimate sits from the true value, giving an **interval estimate** with a universal Gaussian shape.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem (CLT 1): i.i.d. Central Limit Theorem">
+<Tabs>
+<TabItem label="Statement">
+Let $X_1, X_2, \ldots$ be i.i.d. with $\mathbb{E}[X_1] = \mu$ and $\text{Var}(X_1) = \sigma^2 \in (0, \infty)$. Let $S_n = \sum_{i=1}^n X_i$. Then
+$$
+\frac{S_n - n\mu}{\sigma \sqrt{n}} \xrightarrow{d} N(0, 1),
+$$
+or equivalently
+$$
+\sqrt{n}\,(\overline{X}_n - \mu) \xrightarrow{d} \sigma \cdot N(0, 1), \quad \text{where } \overline{X}_n = \frac{S_n}{n}.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The strategy is to compute the [characteristic function](../../independence/characteristic-function) of the standardized sum and show that it converges pointwise to $e^{-t^2/2}$, the [CHF of the standard normal](../../independence/characteristic-function/#examples-normal-distribution). The [continuity theorem](../../convergence/continuity) then converts this to weak convergence.
+
+By replacing $X_i$ with $X_i - \mu$, **assume $\mu = 0$ for the remainder of the proof.** The variance is preserved by this shift, and the standardization $(S_n - n\mu)/(\sigma\sqrt{n})$ becomes $S_n / (\sigma\sqrt{n})$.
+
+The argument relies on a second-order expansion of $\varphi$ near zero, derived below from a Taylor bound on $e^{ix}$.
+
+### Two Preliminary Results
+
+#### Lemma (Taylor bound for $e^{ix}$)
+
+<Aside icon="seti:smarty" title="Lemma">
+For every $x \in \mathbb{R}$ and every integer $n \ge 0$,
+$$
+\left| e^{ix} - \sum_{m=0}^{n} \frac{(ix)^m}{m!} \right| \le \min\!\left\{ \frac{|x|^{n+1}}{(n+1)!}, \; \frac{2 |x|^n}{n!} \right\}.
+$$
+(See Durrett's *Probability: Theory and Examples* for the proof, which proceeds by induction on $n$, integrating $|e^{ix} - (\text{partial sum})|$ on $[0, x]$.)
+</Aside>
+
+The first bound is the standard Taylor remainder; the second uses $|e^{ix}| = 1$ to dominate the tail by $2|x|^n / n!$ instead of $|x|^{n+1}/(n+1)!$. Taking the minimum gives an estimate that is sharp both for small $|x|$ (first bound wins) and large $|x|$ (second bound wins).
+
+#### Characteristic function expansion
+
+<Aside icon="seti:smarty" title="Theorem: Second-Order CHF Expansion">
+<Tabs>
+<TabItem label="Statement">
+If $\mathbb{E}[X^2] < \infty$, then the characteristic function $\varphi(t) = \mathbb{E}[e^{itX}]$ satisfies
+$$
+\varphi(t) = 1 + it \, \mathbb{E}[X] - \frac{t^2}{2} \, \mathbb{E}[X^2] + o(t^2) \quad \text{as } t \to 0.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Apply the lemma with $n = 2$ and $x$ replaced by $tX$:
+$$
+\left| e^{itX} - \left(1 + itX - \frac{t^2 X^2}{2}\right) \right| \le \min\!\left\{ \frac{|t|^3 |X|^3}{6}, \; t^2 X^2 \right\}.
+$$
+Take expectations on both sides. The left-hand side becomes
+$$
+\left| \varphi(t) - \left(1 + it \, \mathbb{E}[X] - \frac{t^2}{2} \mathbb{E}[X^2]\right) \right|
+\le t^2 \cdot \mathbb{E}\!\left[ \min\!\left\{ \frac{|t| |X|^3}{6}, \; X^2 \right\} \right].
+$$
+(The factor $t^2$ has been pulled out by writing the inner bound as $t^2 \cdot \min\{|t||X|^3/6, X^2\}$.)
+
+The integrand $\min\{|t| |X|^3 / 6, \, X^2\}$ satisfies:
+
+- it is bounded above by $X^2$, which is integrable since $\mathbb{E}[X^2] < \infty$,
+- it tends to $0$ pointwise as $t \to 0$, since $|t| |X|^3 / 6 \to 0$.
+
+By the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct), $\mathbb{E}[\min\{\ldots\}] \to 0$ as $t \to 0$, so it is $o(1)$. The outer factor $t^2$ makes the entire error term $o(t^2)$, giving the claimed expansion.
+</TabItem>
+</Tabs>
+</Aside>
+
+### Proof of CLT 1
+
+Under the centering $\mu = 0$, the expansion above specializes to
+$$
+\varphi(t) = 1 - \frac{t^2 \sigma^2}{2} + o(t^2).
+$$
+
+<Steps>
+1. **Express the CHF of the standardized sum.**
+
+    Let $Y_n = \frac{S_n}{\sigma \sqrt{n}}$ and compute
+    $$
+    \varphi_{Y_n}(t) = \mathbb{E}\!\left[ e^{it Y_n} \right] = \mathbb{E}\!\left[ e^{i t' S_n} \right] = \varphi_{S_n}(t'), \qquad t' = \frac{t}{\sigma \sqrt{n}}.
+    $$
+
+2. **Use independence to factor.**
+
+    Since $X_1, \ldots, X_n$ are i.i.d., [characteristic functions of independent sums multiply](../../independence/characteristic-function/#sums-of-independent-random-variables):
+    $$
+    \varphi_{S_n}(t') = \varphi(t')^n.
+    $$
+
+3. **Substitute the second-order expansion.**
+
+    With $t' = t/(\sigma\sqrt{n})$, so $t'^2 = t^2/(\sigma^2 n)$,
+    $$
+    \varphi_{Y_n}(t) = \left( 1 - \frac{t'^2 \sigma^2}{2} + o(t'^2) \right)^n
+    = \left( 1 - \frac{t^2}{2n} + o\!\left(\frac{1}{n}\right) \right)^n.
+    $$
+    The $o(1/n)$ is for fixed $t$ as $n \to \infty$.
+
+4. **Take the limit.**
+
+    Using $(1 + x_n/n)^n \to e^x$ whenever $x_n \to x$,
+    $$
+    \varphi_{Y_n}(t) \;\longrightarrow\; e^{-t^2/2}.
+    $$
+    This is the [characteristic function of $N(0, 1)$](../../independence/characteristic-function/#examples-normal-distribution).
+
+5. **Apply the continuity theorem.**
+
+    Pointwise convergence of characteristic functions to that of a probability measure gives weak convergence, by [Lévy's continuity theorem](../../convergence/continuity):
+    $$
+    \frac{S_n}{\sigma \sqrt{n}} \xrightarrow{d} N(0, 1). \quad\square
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+## Reading the Result
+
+- **The role of finite variance.** The proof uses $\mathbb{E}[X_1^2] < \infty$ in exactly one place: to get the second-order expansion of $\varphi$ at $0$ with an $o(t^2)$ error. Without finite variance, no such expansion exists, and the $\sqrt{n}$ scaling is no longer the right one. (Heavy-tailed sums obey different limit laws, the stable distributions.)
+
+- **Universality.** The conclusion depends on $X_1$ only through $\mu$ and $\sigma^2$. Two i.i.d. sequences with the same mean and variance have asymptotically indistinguishable normalized sums, regardless of how different their individual distributions look.
+
+- **CLT vs. LLN.** Both follow from i.i.d. assumptions on $\{X_n\}$, but they describe complementary phenomena. LLN says $S_n / n - \mu \to 0$; CLT says $S_n / n - \mu = O_p(1/\sqrt{n})$ with a Gaussian distributional shape. The CLT requires strictly more (finite variance) than the [classical WLLN](../../laws-of-large-numbers/weak-lln-3) (finite mean).

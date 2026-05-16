@@ -4,6 +4,8 @@ sidebar:
   order: 5
 ---
 
+import SVDEllipse from '../../../../components/widgets/SVDEllipse.tsx';
+
 The Singular Value Decomposition (SVD) is one of the most powerful and widely used tools in linear algebra. Unlike [eigenvalue decomposition](../eigenvectors), which is only defined for square matrices, the SVD exists for **any** $m \times n$ matrix $\Av$.
 
 <Aside type="tip" icon="open-book" title="Definition: SVD">
@@ -16,6 +18,16 @@ where:
 - $\Vv$ is an $n \times n$ [orthogonal matrix](../orthogonality) whose columns are called **right singular vectors**.
 - $\Sigmav$ is an $m \times n$ diagonal matrix with non-negative real entries $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_{\min(m,n)} \ge 0$ on the diagonal, called **singular values**.
 </Aside>
+
+## Interactive: Unit Circle to Ellipse
+
+For a $2 \times 2$ matrix
+$$
+A = \begin{pmatrix} a & b \\ c & d \end{pmatrix},
+$$
+the image of the unit circle under $v \mapsto Av$ is an ellipse. The axes of the ellipse are the **left singular vectors** $u_1, u_2$ scaled by the **singular values** $\sigma_1, \sigma_2$. The preimages of those axes, $v_1, v_2$, are the **right singular vectors** on the unit circle. Drag the sliders to edit the entries of $A$ and watch the singular vectors and values update.
+
+<SVDEllipse client:visible />
 
 ## Construction
 

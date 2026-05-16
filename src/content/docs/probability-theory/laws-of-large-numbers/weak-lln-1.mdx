@@ -1,0 +1,174 @@
+---
+title: Weak LLN 1
+sidebar:
+  order: 1
+---
+
+The simplest Weak Law of Large Numbers: for [uncorrelated](../../independence/covariance/#uncorrelatedness) random variables with a common mean and uniformly bounded variances, the sample average converges to the mean in $L^2$ (hence in probability). The proof is a one-line variance computation followed by [Chebyshev](../../lebesgue-integration/inequalities/#chebyshevs-inequality).
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: WLLN for Uncorrelated, Bounded-Variance Sequences">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}_{n \ge 1}$ be a sequence of [uncorrelated](../../independence/covariance/#uncorrelatedness) random variables with
+$$
+\mathbb{E}[X_i] = \mu, \qquad \text{Var}(X_i) \le C < \infty \quad \text{for all } i.
+$$
+Let $S_n = X_1 + \cdots + X_n$. Then
+$$
+\frac{S_n}{n} \xrightarrow{L^2} \mu, \quad \text{and hence} \quad \frac{S_n}{n} \xrightarrow{P} \mu.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Linearity gives $\mathbb{E}[S_n / n] = \mu$, so
+$$
+\mathbb{E}\!\left[\left(\frac{S_n}{n} - \mu\right)^2\right] = \text{Var}\!\left(\frac{S_n}{n}\right) = \frac{1}{n^2}\,\text{Var}(S_n).
+$$
+For uncorrelated summands, [variance of a sum is the sum of variances](../../independence/covariance/#properties) (cross-covariance terms vanish), so
+$$
+\text{Var}(S_n) = \sum_{i=1}^n \text{Var}(X_i) \le n C,
+$$
+which gives
+$$
+\mathbb{E}\!\left[\left(\frac{S_n}{n} - \mu\right)^2\right] \le \frac{nC}{n^2} = \frac{C}{n} \;\longrightarrow\; 0.
+$$
+This is $L^2$ convergence to $\mu$. By [Chebyshev's inequality](../../lebesgue-integration/inequalities/#chebyshevs-inequality), for any $\epsilon > 0$,
+$$
+\mathbb{P}\!\left(\left|\frac{S_n}{n} - \mu\right| \ge \epsilon\right) \le \frac{1}{\epsilon^2}\,\mathbb{E}\!\left[\left(\frac{S_n}{n} - \mu\right)^2\right] \;\longrightarrow\; 0,
+$$
+so $S_n/n \xrightarrow{P} \mu$. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside title="Special case (i.i.d.)">
+If $X_1, X_2, \ldots$ are i.i.d. with finite variance (equivalently finite second moment), they are uncorrelated with a common variance, so the theorem gives $S_n / n \xrightarrow{L^2} \mu$ and $S_n / n \xrightarrow{P} \mu$.
+</Aside>
+
+## Triangular Arrays
+
+A **triangular array** indexes the variables by two parameters: a row $n$ and a column $k \le n$.
+$$
+\begin{array}{ccccc}
+X_{1,1} & & & & \\
+X_{2,1} & X_{2,2} & & & \\
+X_{3,1} & X_{3,2} & X_{3,3} & & \\
+\vdots & & & \ddots &
+\end{array}
+$$
+The $n$-th row has $n$ entries, and the joint law on the $n$-th row may depend on $n$. The Weak LLN extends naturally to this setting.
+
+### Finite-Variance Version
+
+<Aside icon="seti:smarty" title="Theorem: Triangular-Array WLLN (Finite Variance)">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_{n,k}\}_{1 \le k \le n}$ be a triangular array and define
+$$
+S_n = \sum_{k=1}^n X_{n,k}, \qquad \mu_n = \mathbb{E}[S_n], \qquad \sigma_n^2 = \text{Var}(S_n).
+$$
+Let $b_n > 0$ be a normalizing sequence. If
+$$
+\frac{\sigma_n^2}{b_n^2} \;\longrightarrow\; 0,
+$$
+then
+$$
+\frac{S_n - \mu_n}{b_n} \xrightarrow{P} 0.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The centered sum $S_n - \mu_n$ has mean zero and variance $\sigma_n^2$, so
+$$
+\mathbb{E}\!\left[\left(\frac{S_n - \mu_n}{b_n}\right)^2\right] = \frac{1}{b_n^2}\,\text{Var}(S_n) = \frac{\sigma_n^2}{b_n^2} \;\longrightarrow\; 0.
+$$
+This is $L^2$ convergence to $0$. Convergence in probability follows from Chebyshev as above. $\square$
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside title="Recovering the i.i.d. WLLN">
+Take rows of i.i.d. entries with common mean $\mu$ and variance $\sigma^2$, with the entries within each row independent. Then $\mu_n = n\mu$, $\sigma_n^2 = n\sigma^2$, and with $b_n = n$,
+$$
+\frac{\sigma_n^2}{b_n^2} = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n} \;\longrightarrow\; 0.
+$$
+The theorem gives
+$$
+\frac{S_n}{n} =: \overline{X}_n = \frac{X_{n,1} + \cdots + X_{n,n}}{n} \xrightarrow{P} \mu.
+$$
+</Aside>
+
+### Version Without a Finite Second Moment
+
+When the entries lack finite variance (heavy tails), the $L^2$ argument above breaks. The standard fix is to **truncate** each $X_{n,k}$ at a threshold $b_n$, apply the finite-variance argument to the truncated variables, and control the probability that truncation changes anything.
+
+<Aside icon="seti:smarty" title="Theorem: Triangular-Array WLLN via Truncation">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_{n,k}\}_{1 \le k \le n}$ be a triangular array such that $X_{n,1}, \ldots, X_{n,n}$ are independent for each $n$. Let $b_n > 0$ with $b_n \to \infty$, and define the **truncated** variables
+$$
+\overline{X}_{n,k} = X_{n,k} \cdot \mathbb{1}_{\{|X_{n,k}| \le b_n\}}.
+$$
+Suppose, as $n \to \infty$:
+$$
+\begin{aligned}
+&\textbf{(*1)} \quad \sum_{k=1}^n \mathbb{P}\!\left(|X_{n,k}| > b_n\right) \;\longrightarrow\; 0, \\
+&\textbf{(*2)} \quad \frac{1}{b_n^2} \sum_{k=1}^n \mathbb{E}\!\left[\overline{X}_{n,k}^{\,2}\right] \;\longrightarrow\; 0.
+\end{aligned}
+$$
+Set $S_n = X_{n,1} + \cdots + X_{n,n}$ and $a_n = \sum_{k=1}^n \mathbb{E}[\overline{X}_{n,k}]$. Then
+$$
+\frac{S_n - a_n}{b_n} \xrightarrow{P} 0.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Let $\overline{S}_n = \sum_{k=1}^n \overline{X}_{n,k}$ be the sum of truncated variables. For $\epsilon > 0$, split on whether truncation changed the sum:
+$$
+\mathbb{P}\!\left(\left|\frac{S_n - a_n}{b_n}\right| > \epsilon\right)
+\le \mathbb{P}\!\left(S_n \ne \overline{S}_n\right)
++ \mathbb{P}\!\left(\left|\frac{\overline{S}_n - a_n}{b_n}\right| > \epsilon\right).
+$$
+
+<Steps>
+1. **The truncation event vanishes by (*1).**
+
+    $S_n \ne \overline{S}_n$ requires $\overline{X}_{n,k} \ne X_{n,k}$ for some $k$, which happens exactly when $|X_{n,k}| > b_n$. By a union bound,
+    $$
+    \mathbb{P}\!\left(S_n \ne \overline{S}_n\right) \le \sum_{k=1}^n \mathbb{P}\!\left(\overline{X}_{n,k} \ne X_{n,k}\right) = \sum_{k=1}^n \mathbb{P}\!\left(|X_{n,k}| > b_n\right) \;\longrightarrow\; 0.
+    $$
+
+2. **The truncated sum is controlled by (*2).**
+
+    By construction $a_n = \mathbb{E}[\overline{S}_n]$, so
+    $$
+    \mathbb{E}\!\left[\left(\frac{\overline{S}_n - a_n}{b_n}\right)^2\right] = \frac{1}{b_n^2}\,\text{Var}(\overline{S}_n).
+    $$
+    Since the $X_{n,k}$ are independent in each row, so are the $\overline{X}_{n,k}$ (each is a function of a single $X_{n,k}$). By [Chebyshev's inequality](../../lebesgue-integration/inequalities/#chebyshevs-inequality),
+    $$
+    \mathbb{P}\!\left(\left|\frac{\overline{S}_n - a_n}{b_n}\right| > \epsilon\right)
+    \le \frac{1}{\epsilon^2 \, b_n^2}\,\text{Var}(\overline{S}_n)
+    = \frac{1}{\epsilon^2 \, b_n^2} \sum_{k=1}^n \text{Var}\!\left(\overline{X}_{n,k}\right).
+    $$
+    Using $\text{Var}(\overline{X}_{n,k}) \le \mathbb{E}[\overline{X}_{n,k}^{\,2}]$,
+    $$
+    \le \frac{1}{\epsilon^2 \, b_n^2} \sum_{k=1}^n \mathbb{E}\!\left[\overline{X}_{n,k}^{\,2}\right] \;\longrightarrow\; 0
+    $$
+    by (*2).
+
+3. **Combine.**
+
+    Both summands tend to $0$, so $\mathbb{P}(|(S_n - a_n)/b_n| > \epsilon) \to 0$ for every $\epsilon > 0$. $\square$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+The two hypotheses have clear interpretations:
+
+- **(*1)** says that on the $n$-th row, no single entry exceeds the threshold $b_n$ with non-negligible total probability. This forces the truncated sum to equal the untruncated sum with probability tending to $1$.
+- **(*2)** says that even after the truncation has bounded each entry by $b_n$, the second moments are still small enough relative to $b_n^2$ for the variance argument to work.
+
+Centering at $a_n$ (the mean of the truncated sum) rather than at $\mathbb{E}[S_n]$ is essential: when $\mathbb{E}[X_{n,k}]$ might not exist, $a_n$ is the only available centering.

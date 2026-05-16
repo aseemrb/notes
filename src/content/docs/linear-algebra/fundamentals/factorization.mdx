@@ -33,7 +33,7 @@ This decomposition is used in algorithms to
 - compute the determinant of a matrix.
 
 ## QR decomposition
-Here we factor an $m\times n$ matrix $A$ into an $m\times m$ [orthogonal matrix](../orthogonality) $Q$ and an $m\times n$ triangular matrix $R$. A popular method to compute this factorization is the [Gram-Schmidt process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process). If $A$ is square then $Q$ is unique. We write
+Here we factor an $m\times n$ matrix $A$ into an $m\times m$ [orthogonal matrix](../orthogonality) $Q$ and an $m\times n$ upper-triangular matrix $R$. A popular method to compute this factorization is the [Gram-Schmidt process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process). If $A$ has full column rank, the factorization is unique once we require the diagonal entries of $R$ to be positive. We write
 
 $$
 \Av = \Qv\Rv,

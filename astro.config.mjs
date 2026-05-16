@@ -5,6 +5,7 @@ import starlightThemeRapide from 'starlight-theme-rapide';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import autoImport from 'astro-auto-import';
+import preact from '@astrojs/preact';
 import { katexMacros } from './src/katex-macros.mjs';
 
 // https://astro.build/config
@@ -15,6 +16,7 @@ export default defineConfig({
 		rehypePlugins: [[rehypeKatex, { macros: katexMacros }]],
 	},
 	integrations: [
+		preact(),
 		starlight({
 			plugins: [starlightThemeRapide()],
 			title: 'Notes',
@@ -34,8 +36,8 @@ export default defineConfig({
 					collapsed: false,
 					items: [
 						{ slug: 'linear-algebra', label: 'Introduction' },
-						{ label: 'Fundamentals', collapsed: true, autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } },
-						{ label: 'Spectral Theory', collapsed: true, autogenerate: { directory: 'linear-algebra/spectral-theory', collapsed: true } },
+						{ label: 'Fundamentals', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } }] },
+						{ label: 'Spectral Theory', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/spectral-theory', collapsed: true } }] },
 					],
 				},
 				{
@@ -43,11 +45,13 @@ export default defineConfig({
 					collapsed: false,
 					items: [
 						{ slug: 'probability-theory', label: 'Introduction' },
-						{ label: 'Probability Spaces', collapsed: true, autogenerate: { directory: 'probability-theory/probability-spaces', collapsed: true } },
-						{ label: 'Events & Random Variables', collapsed: true, autogenerate: { directory: 'probability-theory/events', collapsed: true } },
-						{ label: 'Lebesgue Integration', collapsed: true, autogenerate: { directory: 'probability-theory/lebesgue-integration', collapsed: true } },
-						{ label: 'Independence', collapsed: true, autogenerate: { directory: 'probability-theory/independence', collapsed: true } },
-						{ label: 'Convergence', collapsed: true, autogenerate: { directory: 'probability-theory/convergence', collapsed: true } },
+						{ label: 'Probability Spaces', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/probability-spaces', collapsed: true } }] },
+						{ label: 'Events & Random Variables', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/events', collapsed: true } }] },
+						{ label: 'Lebesgue Integration', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/lebesgue-integration', collapsed: true } }] },
+						{ label: 'Independence', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/independence', collapsed: true } }] },
+						{ label: 'Convergence', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/convergence', collapsed: true } }] },
+						{ label: 'Laws of Large Numbers', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/laws-of-large-numbers', collapsed: true } }] },
+						{ label: 'Central Limit Theorem', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/central-limit-theorem', collapsed: true } }] },
 					],
 				},
 			],
