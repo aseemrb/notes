@@ -137,10 +137,10 @@ const TEST_VECTORS: [number, number][] = Array.from(
 const ELLIPSE_STEPS = 240;
 
 export default function EigenvectorRotation() {
-  const [a, setA] = useState(1.6);
-  const [b, setB] = useState(0.4);
-  const [c, setC] = useState(-0.2);
-  const [d, setD] = useState(1.1);
+  const [a, setA] = useState(1.5);
+  const [b, setB] = useState(0.5);
+  const [c, setC] = useState(0.3);
+  const [d, setD] = useState(1.2);
 
   const eigs = useMemo(() => computeEigs(a, b, c, d), [a, b, c, d]);
 
