@@ -21,5 +21,11 @@
     "sharp": "^0.34.2",
     "starlight-theme-rapide": "^0.5.2",
     "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
