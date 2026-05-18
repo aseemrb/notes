@@ -6,7 +6,7 @@
     }
     .plane-edge { stroke: var(--axis); stroke-width: 1.5; fill: none; }
     .plane-fill { fill: var(--axis); fill-opacity: 0.08; }
-    .label { fill: var(--text); font-size: 16px; }
+    .label { font-size: 16px; }
     .plane-label { fill: var(--text); font-size: 16px; }
   </style>
 
@@ -19,7 +19,7 @@
 
   <line x1="300" y1="70" x2="300" y2="220" stroke="#ef4444" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" />
 
-  <polyline points="300,208 312,208 312,220" fill="none" stroke="var(--text)" stroke-width="1.2" />
+  <polyline points="300,207 288,208 288,220" fill="none" stroke="var(--text)" stroke-width="1.2" />
 
   <circle cx="140" cy="230" r="3" fill="var(--text)" />
   <circle cx="300" cy="70" r="4.5" fill="#f59e0b" />
