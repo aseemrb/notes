@@ -1,0 +1,209 @@
+---
+title: Properties
+sidebar:
+  order: 5
+---
+
+Conditional expectation inherits the structural properties of the integral (linearity, monotonicity, monotone convergence) and adds a few of its own (tower property, take-out-what-is-known, independence). All the proofs reduce to checking the two conditions in the [definition](../introduction/#the-general-definition): $\cG$-measurability and the integration identity on $\cG$-events.
+
+Throughout this page, $(\Omega, \cF, \Pr)$ is a probability space, $\cG \subseteq \cF$ is a sub-$\sigma$-field, and "$\E(\cdot \mid \cG)$" refers to any version of the conditional expectation.
+
+## Linearity
+
+<Aside icon="seti:smarty" title="Theorem: Linearity">
+<Tabs>
+<TabItem label="Statement">
+For integrable $X, Y$ and any $a \in \R$,
+$$
+\E(a X + Y \mid \cG) \;\stackrel{\text{a.s.}}{=}\; a \, \E(X \mid \cG) + \E(Y \mid \cG).
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The right-hand side is $\cG$-measurable (a linear combination of $\cG$-measurable functions). For any $A \in \cG$,
+$$
+\int_A \big(a \E(X \mid \cG) + \E(Y \mid \cG)\big) \, d\Pr
+\;=\; a \int_A X \, d\Pr + \int_A Y \, d\Pr
+\;=\; \int_A (a X + Y) \, d\Pr,
+$$
+using linearity of the integral on both sides. So the right-hand side satisfies both defining conditions for $\E(a X + Y \mid \cG)$, and by [uniqueness](../uniqueness) the two agree a.s.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Monotonicity
+
+<Aside icon="seti:smarty" title="Theorem: Monotonicity">
+<Tabs>
+<TabItem label="Statement">
+If $X \le Y$ a.s. with $X, Y$ integrable, then
+$$
+\E(X \mid \cG) \;\le\; \E(Y \mid \cG) \quad \text{a.s.}
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Mirror the uniqueness argument. Suppose
+$$
+A \;:=\; \{\E(X \mid \cG) > \E(Y \mid \cG)\}
+$$
+has $\Pr(A) > 0$. Since both conditional expectations are $\cG$-measurable, $A \in \cG$. Applying the integration identity on $A$,
+$$
+\int_A \E(X \mid \cG) \, d\Pr \;=\; \int_A X \, d\Pr \;\le\; \int_A Y \, d\Pr \;=\; \int_A \E(Y \mid \cG) \, d\Pr,
+$$
+so $\int_A \big(\E(X \mid \cG) - \E(Y \mid \cG)\big) \, d\Pr \le 0$. But the integrand is strictly positive on $A$, and $\Pr(A) > 0$, so the integral is strictly positive. Contradiction. Hence $\Pr(A) = 0$.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Conditional Monotone Convergence
+
+<Aside icon="seti:smarty" title="Theorem: Conditional MCT">
+<Tabs>
+<TabItem label="Statement">
+If $0 \le X_n \uparrow X$ a.s. with $\E[X] < \infty$, then
+$$
+\E(X_n \mid \cG) \;\uparrow\; \E(X \mid \cG) \quad \text{a.s.}
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Let $Y_n := X - X_n$ and $Z_n := \E(Y_n \mid \cG)$. By assumption $Y_n \ge 0$ and $Y_n \downarrow 0$ a.s. By linearity,
+$$
+Z_n \;=\; \E(X \mid \cG) - \E(X_n \mid \cG),
+$$
+so $\E(X_n \mid \cG) \uparrow \E(X \mid \cG)$ is equivalent to $Z_n \downarrow 0$ a.s.
+
+**Step 1: $\int_A Z_n \, d\Pr \to 0$ for every $A \in \cG$.** Apply the integration identity:
+$$
+\int_A Z_n \, d\Pr \;=\; \int_A Y_n \, d\Pr.
+$$
+Since $0 \le Y_n \le X$ and $\E[X] < \infty$, the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct) gives $\int_A Y_n \, d\Pr \to 0$.
+
+**Step 2: $Z_n$ has an a.s. limit.** Monotonicity applied to $Y_{n+1} \le Y_n$ gives $Z_{n+1} \le Z_n$ a.s. So $Z_n$ is non-increasing in $n$ and bounded below by $0$ (apply monotonicity again to $Y_n \ge 0$). Hence $Z_n \downarrow Z_\infty$ a.s. for some $Z_\infty \ge 0$.
+
+**Step 3: $Z_\infty = 0$ a.s.** Since $Z_n \le Z_1 \le \E(X \mid \cG)$, and $\E[\E(X \mid \cG)] = \E[X] < \infty$, the $Z_n$ are uniformly dominated by an integrable function. Dominated convergence applied again gives
+$$
+\int_A Z_n \, d\Pr \;\longrightarrow\; \int_A Z_\infty \, d\Pr.
+$$
+Combining with Step 1, $\int_A Z_\infty \, d\Pr = 0$ for every $A \in \cG$. Since $Z_\infty$ is $\cG$-measurable and non-negative, this forces $Z_\infty = 0$ a.s.
+</TabItem>
+</Tabs>
+</Aside>
+
+The analogous **conditional Fatou** and **conditional dominated convergence** theorems follow by the same machine (apply the unconditional versions inside $\int_A \cdot \, d\Pr$ and translate via the integration identity).
+
+## Independence
+
+<Aside icon="seti:smarty" title="Theorem: Independence Drops Out">
+<Tabs>
+<TabItem label="Statement">
+If $X$ is integrable and $X$ is independent of the $\sigma$-field $\sigma(Y)$, then
+$$
+\E(X \mid Y) \;\stackrel{\text{a.s.}}{=}\; \E[X].
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The constant function $\E[X]$ is measurable in every $\sigma$-field, including $\sigma(Y)$, so condition (1) holds. For condition (2), recall that every set in $\sigma(Y)$ has the form $A = \{Y \in C\}$ for some Borel $C \subseteq \R$. Then
+$$
+\int_A X \, d\Pr \;=\; \E[X \, \mathbb{1}_{\{Y \in C\}}] \;=\; \E[X] \cdot \E[\mathbb{1}_{\{Y \in C\}}] \;=\; \E[X] \cdot \Pr(A) \;=\; \int_A \E[X] \, d\Pr,
+$$
+where the second equality is independence of $X$ and $\mathbb{1}_{\{Y \in C\}}$ (the indicator is a Borel function of $Y$). So $\E[X]$ satisfies both defining conditions for $\E(X \mid Y)$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The reading: if $Y$ carries no information about $X$, then conditioning on $Y$ is the same as not conditioning at all.
+
+## Self-Measurability
+
+<Aside icon="seti:smarty" title="Theorem: Self-Measurability">
+<Tabs>
+<TabItem label="Statement">
+If $X$ is integrable and $\cG$-measurable, then
+$$
+\E(X \mid \cG) \;\stackrel{\text{a.s.}}{=}\; X.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+$X$ itself is $\cG$-measurable, and trivially $\int_A X \, d\Pr = \int_A X \, d\Pr$ for every $A \in \cG$. Both conditions are satisfied with $Y = X$.
+</TabItem>
+</Tabs>
+</Aside>
+
+This is the opposite extreme of the independence case: if $X$ is already measurable in $\cG$, then $\cG$ carries all the information about $X$ and conditioning is the identity.
+
+## Tower Property
+
+<Aside icon="seti:smarty" title="Theorem: Tower Property">
+<Tabs>
+<TabItem label="Statement">
+Let $\cF_1 \subseteq \cF_2 \subseteq \cF$ be sub-$\sigma$-fields. For any integrable $X$,
+$$
+\begin{aligned}
+\E\!\big( \E(X \mid \cF_1) \,\big|\, \cF_2 \big) &\;\stackrel{\text{a.s.}}{=}\; \E(X \mid \cF_1), \\
+\E\!\big( \E(X \mid \cF_2) \,\big|\, \cF_1 \big) &\;\stackrel{\text{a.s.}}{=}\; \E(X \mid \cF_1).
+\end{aligned}
+$$
+Iterated conditional expectations collapse to the **smaller** $\sigma$-field, regardless of the order.
+</TabItem>
+
+<TabItem label="Proof">
+**(a) Inner $\cF_1$, outer $\cF_2$.** $\E(X \mid \cF_1)$ is $\cF_1$-measurable, hence $\cF_2$-measurable (since $\cF_1 \subseteq \cF_2$). By [self-measurability](#self-measurability), conditioning a $\cF_2$-measurable function on $\cF_2$ returns the function itself.
+
+**(b) Inner $\cF_2$, outer $\cF_1$.** Take any $A \in \cF_1$. Since $\cF_1 \subseteq \cF_2$, also $A \in \cF_2$. Applying the integration identity at each level,
+$$
+\int_A \E(X \mid \cF_1) \, d\Pr \;=\; \int_A X \, d\Pr \;=\; \int_A \E(X \mid \cF_2) \, d\Pr.
+$$
+The right-hand side is $\int_A Y \, d\Pr$ with $Y = \E(X \mid \cF_2)$, which is the integration identity defining $\E(Y \mid \cF_1)$. Combined with the $\cF_1$-measurability of $\E(X \mid \cF_1)$, uniqueness gives $\E(\E(X \mid \cF_2) \mid \cF_1) = \E(X \mid \cF_1)$ a.s.
+</TabItem>
+</Tabs>
+</Aside>
+
+Specializing to $\cF_1 = \{\emptyset, \Omega\}$ (the trivial $\sigma$-field) gives the **law of iterated expectations**:
+$$
+\E\!\big[ \E(X \mid \cG) \big] \;=\; \E[X].
+$$
+Averaging the conditional expectation against the full distribution recovers the unconditional expectation.
+
+## Take Out What Is Known
+
+<Aside icon="seti:smarty" title="Theorem: Take-Out-What-Is-Known">
+<Tabs>
+<TabItem label="Statement">
+If $X$ is $\cG$-measurable with $\E|X| < \infty$ and $\E|XY| < \infty$, then
+$$
+\E(XY \mid \cG) \;\stackrel{\text{a.s.}}{=}\; X \, \E(Y \mid \cG).
+$$
+A $\cG$-measurable factor can be pulled out of the conditional expectation as if it were a constant.
+</TabItem>
+
+<TabItem label="Proof">
+Check the two defining conditions for $X \, \E(Y \mid \cG)$ to be $\E(XY \mid \cG)$.
+
+**(1) Measurability.** $X$ and $\E(Y \mid \cG)$ are both $\cG$-measurable, hence so is their product.
+
+**(2) Integration identity.** We show
+$$
+\int_A X \, \E(Y \mid \cG) \, d\Pr \;=\; \int_A XY \, d\Pr \qquad \text{for every } A \in \cG, \tag{$*$}
+$$
+using the standard machine.
+
+*Indicator case: $X = \mathbb{1}_B$ for $B \in \cG$.* For any $A \in \cG$, $A \cap B \in \cG$, so
+$$
+\int_A \mathbb{1}_B \, \E(Y \mid \cG) \, d\Pr \;=\; \int_{A \cap B} \E(Y \mid \cG) \, d\Pr \;=\; \int_{A \cap B} Y \, d\Pr \;=\; \int_A \mathbb{1}_B Y \, d\Pr,
+$$
+which is $(*)$ for $X = \mathbb{1}_B$.
+
+*Simple case.* By linearity, $(*)$ extends to any $\cG$-measurable simple function $X = \sum_i a_i \mathbb{1}_{B_i}$.
+
+*Non-negative case.* For $\cG$-measurable $X \ge 0$, pick a sequence of $\cG$-measurable simple functions $X_n \uparrow X$ and apply monotone convergence on both sides of $(*)$ (use $X_n Y^+ \uparrow X Y^+$ and $X_n Y^- \uparrow X Y^-$ separately, and combine).
+
+*General case.* Decompose $X = X^+ - X^-$ and combine by linearity. The integrability hypotheses $\E|X| < \infty$ and $\E|XY| < \infty$ ensure each step produces a finite quantity.
+</TabItem>
+</Tabs>
+</Aside>
+
+Note that this is the same indicator-simple-non-negative-general progression used to define the [Lebesgue integral](../../lebesgue-integration/simple-functions) itself. Every "extend to integrable $f$" argument in measure theory looks the same.

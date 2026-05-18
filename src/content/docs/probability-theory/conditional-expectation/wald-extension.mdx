@@ -1,0 +1,87 @@
+---
+title: Wald's Extension
+sidebar:
+  order: 10
+---
+
+[Wald's identity](../wald-identity) gives the *mean* of a random sum $Y = \sum_{i=1}^N X_i$. The natural follow-up: what is the *full distribution* of $Y$? Conditioning on $N$ and combining with [characteristic functions](../../independence/characteristic-function) gives a clean answer: the characteristic function of $Y$ is the **composition** of the generating function of $N$ with the characteristic function of $X_1$.
+
+## Probability Generating Function
+
+<Aside type="tip" icon="open-book" title="Definition: Probability Generating Function">
+The **probability generating function** of a non-negative integer-valued random variable $Z$ is
+$$
+g_Z(t) \;:=\; \E[t^Z] \;=\; \sum_{n=0}^\infty t^n \, \Pr(Z = n), \qquad t \in [0, 1].
+$$
+</Aside>
+
+The generating function uniquely determines the distribution of $Z$ (just as the characteristic function does for general distributions), and its derivatives at $t = 1$ recover the moments: $g_Z'(1) = \E[Z]$, etc.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Wald's Extension">
+<Tabs>
+<TabItem label="Statement">
+Let $X_1, X_2, \ldots$ be i.i.d. with characteristic function $\varphi_{X_1}$, and let $N \ge 0$ be an integer-valued random variable with generating function $g_N$, independent of $\{X_i\}$. Set $Y = \sum_{i=1}^N X_i$. Then the characteristic function of $Y$ is
+$$
+\varphi_Y(t) \;=\; g_N\!\big( \varphi_{X_1}(t) \big).
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Condition on $N$ via the tower property:
+$$
+\varphi_Y(t) \;=\; \E\!\big[ e^{itY} \big] \;=\; \E\!\Big[ \E\!\big( e^{itY} \,\big|\, N \big) \Big].
+$$
+
+**Evaluate the inner expectation.** On the event $\{N = k\}$,
+$$
+\E\!\big( e^{itY} \,\big|\, N = k \big) \;=\; \E\!\Big( \exp\!\Big( it \sum_{j=1}^k X_j \Big) \,\Big|\, N = k \Big) \;=\; \E\!\Big[ \prod_{j=1}^k e^{it X_j} \Big] \;=\; \varphi_{X_1}(t)^k.
+$$
+The second equality drops the conditioning by independence of $N$ and the $X_j$'s; the third uses [characteristic functions of independent sums multiply](../../independence/characteristic-function/#sums-of-independent-random-variables) on the i.i.d. sequence.
+
+As a random variable in $\omega$,
+$$
+\E\!\big( e^{itY} \,\big|\, N \big) \;=\; \varphi_{X_1}(t)^N.
+$$
+
+**Take the outer expectation.** Recognize the right-hand side as the generating function of $N$ evaluated at $\varphi_{X_1}(t)$:
+$$
+\varphi_Y(t) \;=\; \E\!\big[ \varphi_{X_1}(t)^N \big] \;=\; g_N\!\big( \varphi_{X_1}(t) \big).
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+The reading: **the characteristic function of $Y$ is the composition $g_N \circ \varphi_{X_1}$**. Random summation in time-domain becomes function composition in the transform domain.
+
+## Worked Example: Geometric Number of Exponential Summands
+
+Let $X_1, X_2, \ldots$ be i.i.d. $\text{Exponential}(\lambda)$, and let $N \sim \text{Geometric}(p)$ on $\{1, 2, \ldots\}$ with $\Pr(N = k) = (1-p)^{k-1} p$, independent of the $X_i$. The standard formulas:
+$$
+\varphi_{X_1}(t) \;=\; \frac{\lambda}{\lambda - it}, \qquad g_N(t) \;=\; \frac{p t}{1 - (1 - p) t}.
+$$
+
+Apply the theorem:
+$$
+\begin{aligned}
+\varphi_Y(t) \;=\; g_N\!\big( \varphi_{X_1}(t) \big)
+&= \frac{p \cdot \frac{\lambda}{\lambda - it}}{1 - (1 - p) \cdot \frac{\lambda}{\lambda - it}} \\
+&= \frac{p \lambda}{(\lambda - it) - (1 - p) \lambda} \\
+&= \frac{p \lambda}{p \lambda - it}.
+\end{aligned}
+$$
+
+This is the characteristic function of $\text{Exponential}(p\lambda)$. So
+$$
+Y \;=\; \sum_{i=1}^N X_i \;\sim\; \text{Exponential}(p \lambda).
+$$
+
+A geometric number of i.i.d. exponentials is itself exponential, with rate scaled by the success probability $p$. The mean is consistent with Wald's identity:
+$$
+\E[Y] \;=\; \E[X_1] \cdot \E[N] \;=\; \frac{1}{\lambda} \cdot \frac{1}{p} \;=\; \frac{1}{p \lambda}.
+$$
+
+## Why This Is Stronger Than Wald's Identity
+
+[Wald's identity](../wald-identity) gives only the first moment, $\E[Y] = \E[X_1] \, \E[N]$. Wald's extension gives the *entire characteristic function*, which by the [continuity theorem](../../convergence/continuity) determines the entire distribution. From it one can extract all moments (by differentiating), recognize known distributions (as above), and prove distributional convergence results for random sums.

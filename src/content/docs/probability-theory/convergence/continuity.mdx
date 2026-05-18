@@ -23,7 +23,7 @@ Let $X \sim \mu$, so $\varphi(t) = \mathbb{E}[e^{itX}]$. Fix $t \in \mathbb{R}$ 
 
 2. **Domination**: $|e^{isX}| = 1$, which is integrable since $\mu$ is a probability measure.
 
-By the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct), $\varphi(s) = \mathbb{E}[e^{isX}] \to \mathbb{E}[e^{itX}] = \varphi(t)$. $\square$
+By the [dominated convergence theorem](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct), $\varphi(s) = \mathbb{E}[e^{isX}] \to \mathbb{E}[e^{itX}] = \varphi(t)$.
 </TabItem>
 </Tabs>
 </Aside>
@@ -111,7 +111,7 @@ This direction has three steps: derive a tail bound from $\varphi_n$, conclude t
     $$
     But by assumption $\varphi_{n_k}(t) \to \varphi(t) = \widehat{\mu}(t)$. So $\widehat{\nu} = \widehat{\mu}$, and by the [inversion formula](../../independence/characteristic-function/#inversion-formula-formalizing-uniqueness) characteristic functions determine the measure: $\nu = \mu$.
 
-    Every weak subsequential limit of $\{\mu_n\}$ equals $\mu$. This forces $\mu_n \Rightarrow \mu$: if $F_n(x) \not\to F(x)$ at some continuity point $x$ of $F$, some subsequence stays bounded away from $F(x)$, but tightness lets us extract a sub-subsequence converging weakly to $\mu$, hence $F_{n_{k_j}}(x) \to F(x)$ at continuity points, contradicting the choice of subsequence. $\square$
+    Every weak subsequential limit of $\{\mu_n\}$ equals $\mu$. This forces $\mu_n \Rightarrow \mu$: if $F_n(x) \not\to F(x)$ at some continuity point $x$ of $F$, some subsequence stays bounded away from $F(x)$, but tightness lets us extract a sub-subsequence converging weakly to $\mu$, hence $F_{n_{k_j}}(x) \to F(x)$ at continuity points, contradicting the choice of subsequence.
 </Steps>
 </TabItem>
 </Tabs>

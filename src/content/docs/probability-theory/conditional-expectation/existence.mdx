@@ -1,0 +1,80 @@
+---
+title: Existence
+sidebar:
+  order: 3
+---
+
+With the [Radon-Nikodym theorem](../radon-nikodym/#the-radon-nikodym-theorem) in hand, existence of conditional expectation is a short argument. The proof has two cases: the non-negative case (a direct application of Radon-Nikodym) and the general case (split $X$ into positive and negative parts).
+
+## Proposition
+
+<Aside icon="seti:smarty" title="Proposition: Existence">
+<Tabs>
+<TabItem label="Statement">
+Let $(\Omega, \cF, \Pr)$ be a probability space, $\cG \subseteq \cF$ a sub-$\sigma$-field, and $X$ an integrable random variable, $\E|X| < \infty$. Then a conditional expectation $\E(X \mid \cG)$ exists: there is a $\cG$-measurable random variable $Y$ such that
+$$
+\int_A X \, d\Pr \;=\; \int_A Y \, d\Pr \qquad \text{for every } A \in \cG.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+### Case 1: $X \ge 0$
+
+Let $\mu = \Pr|_\cG$, the original probability measure $\Pr$ restricted to the sub-$\sigma$-field $\cG$. So $\mu$ is a measure on $(\Omega, \cG)$. Define a second set function on $\cG$ by
+$$
+\nu(A) \;:=\; \int_A X \, d\Pr, \qquad A \in \cG.
+$$
+Since $X \ge 0$, the integral is non-negative; countable additivity of $\nu$ follows from the [monotone convergence theorem](../../lebesgue-integration/convergence/#monotone-convergence-theorem-mct). So $\nu$ is a measure on $(\Omega, \cG)$. It is finite because $\nu(\Omega) = \E[X] \le \E|X| < \infty$.
+
+**Absolute continuity.** For any $A \in \cG$,
+$$
+\mu(A) = 0 \;\Longleftrightarrow\; \Pr(A) = 0 \;\Longrightarrow\; \int_A X \, d\Pr = 0 \;\Longleftrightarrow\; \nu(A) = 0.
+$$
+The middle implication uses the fact that integrating any function over a $\Pr$-null set gives zero. So $\nu \ll \mu$.
+
+**Apply Radon-Nikodym.** Both $\mu$ and $\nu$ are finite, hence $\sigma$-finite, measures on $(\Omega, \cG)$. By the [Radon-Nikodym theorem](../radon-nikodym/#the-radon-nikodym-theorem), there is a $\cG$-measurable function $Y = \frac{d\nu}{d\mu}$ such that
+$$
+\nu(A) \;=\; \int_A Y \, d\mu \qquad \text{for every } A \in \cG.
+$$
+
+**Identify $d\mu$ with $d\Pr$ on $\cG$-events.** Since $\mu = \Pr|_\cG$ agrees with $\Pr$ on every set in $\cG$, and $Y$ is $\cG$-measurable, integrating $Y$ over $A \in \cG$ against $\mu$ or against $\Pr$ gives the same value:
+$$
+\int_A Y \, d\mu \;=\; \int_A Y \, d\Pr.
+$$
+Chaining the identities,
+$$
+\int_A X \, d\Pr \;=\; \nu(A) \;=\; \int_A Y \, d\mu \;=\; \int_A Y \, d\Pr \qquad \text{for every } A \in \cG.
+$$
+So $Y$ satisfies both conditions of the definition: it is $\cG$-measurable, and it has the same integral as $X$ over every $\cG$-event. This finishes Case 1.
+
+### Case 2: General integrable $X$
+
+Split $X$ into positive and negative parts,
+$$
+X \;=\; X^+ - X^-, \qquad X^+ = \max(X, 0), \quad X^- = \max(-X, 0).
+$$
+Both $X^+$ and $X^-$ are non-negative and integrable, since $\E[X^\pm] \le \E|X| < \infty$. Case 1 applied separately to $X^+$ and $X^-$ produces $\cG$-measurable
+$$
+Y_1 = \E(X^+ \mid \cG), \qquad Y_2 = \E(X^- \mid \cG).
+$$
+Define $Y := Y_1 - Y_2$. Then $Y$ is $\cG$-measurable (a difference of $\cG$-measurable functions), and for every $A \in \cG$,
+$$
+\begin{aligned}
+\int_A X \, d\Pr
+&= \int_A X^+ \, d\Pr - \int_A X^- \, d\Pr \\
+&= \int_A Y_1 \, d\Pr - \int_A Y_2 \, d\Pr \\
+&= \int_A Y \, d\Pr.
+\end{aligned}
+$$
+The first equality uses linearity of the integral on $X = X^+ - X^-$; the second is Case 1 applied to $X^+$ and $X^-$; the third is linearity in reverse. So $Y$ is a conditional expectation of $X$ given $\cG$.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Remarks
+
+- **What integrability buys.** The hypothesis $\E|X| < \infty$ enters at two points: it ensures the measure $\nu$ in Case 1 is finite (so Radon-Nikodym applies), and it makes both $\E(X^+ \mid \cG)$ and $\E(X^- \mid \cG)$ finite a.s. in Case 2 (so their difference is well-defined). Without integrability, $Y_1 - Y_2$ could produce $\infty - \infty$.
+
+- **The role of $\sigma$-finiteness in Radon-Nikodym.** The theorem requires both measures to be $\sigma$-finite. Here both $\mu = \Pr|_\cG$ and $\nu$ are *finite* (totals equal $1$ and $\E[X^\pm]$ respectively), so $\sigma$-finiteness holds with room to spare. This is one reason conditional expectation is so well-behaved in probability: the dominating measure is a probability measure, which is finite by definition.
+
+- **Why uniqueness is a separate question.** The Radon-Nikodym derivative is unique only up to $\mu$-null sets, which means the conditional expectation produced above is unique only up to $\Pr$-null sets in $\cG$. Different choices of "version" of $\E(X \mid \cG)$ all satisfy the defining identity, and the question of how to interpret this near-uniqueness is the subject of the [uniqueness](../uniqueness) page.

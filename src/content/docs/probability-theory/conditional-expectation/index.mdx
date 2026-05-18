@@ -1,0 +1,20 @@
+---
+title: Overview
+sidebar:
+  order: 0
+---
+
+Conditional expectation generalizes the elementary notion of "expected value given an event" to expectation given a $\sigma$-field. It is the foundation for martingales, regression, and most modern stochastic analysis.
+
+## Key Topics
+
+1.  **[Introduction](introduction)**: Why the elementary formulas (sum over $\Pr(Y=y \mid X=x)$, integral against $f_{Y \mid X}$) only cover two corner cases, and how the general definition characterizes $\E(X \mid \cG)$ as a $\cG$-measurable random variable matching $X$ in integral over every $A \in \cG$.
+2.  **[Radon-Nikodym](radon-nikodym)**: Absolute continuity $\nu \ll \mu$, $\sigma$-finite measures, and the **Radon-Nikodym theorem** producing the density $d\nu/d\mu$. The single measure-theoretic input that makes conditional expectation exist.
+3.  **[Existence](existence)**: Constructing $\E(X \mid \cG)$ by setting $\nu(A) = \int_A X \, d\Pr$ on $\cG$, verifying $\nu \ll \Pr|_\cG$, and reading off the density via Radon-Nikodym. Two cases: $X \ge 0$, then general integrable via $X = X^+ - X^-$.
+4.  **[Uniqueness](uniqueness)**: Any two conditional expectations of the same $X$ given the same $\cG$ agree almost surely. The notion of a **version** of $\E(X \mid \cG)$, and the definition $\E(Y \mid X) := \E(Y \mid \sigma(X))$ that recovers conditioning on a random variable.
+5.  **[Properties](properties)**: The standard toolkit, all derived by checking the two defining conditions: **linearity**, **monotonicity**, **conditional monotone convergence**, **independence drops out**, **self-measurability**, the **tower property** (law of iterated expectations), and **take-out-what-is-known**.
+6.  **[Jensen's Inequality](jensen)**: $\varphi(\E(X \mid \cG)) \le \E(\varphi(X) \mid \cG)$ for convex $\varphi$, proved via the supporting-line characterization with countably many rational slopes. Corollary: $\E(\cdot \mid \cG)$ is an $L^p$ contraction for every $p \ge 1$.
+7.  **[Projection Perspective](projection)**: For $X \in L^2$, $\E(X \mid \cG)$ is the **orthogonal projection** of $X$ onto the closed subspace $L^2(\Omega, \cG, \Pr)$. Two equivalent characterizations: orthogonality of the residual, and minimal mean-squared error.
+8.  **[Wald's Identity](wald-identity)**: For a random sum $\sum_{i=1}^N X_i$ with $N$ independent of i.i.d. $\{X_i\}$, $\E[\sum_{i=1}^N X_i] = \E[N] \, \E[X_1]$. The cleanest one-line application of the tower property.
+9.  **[Decomposing Variance](decomposing-variance)**: The **law of total variance** $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$, the second-moment companion to the law of iterated expectations and the algebraic core of ANOVA.
+10. **[Wald's Extension](wald-extension)**: The characteristic function of a random sum factors as $\varphi_Y = g_N \circ \varphi_{X_1}$, where $g_N$ is the probability generating function of the count. Gives the full distribution, not just the mean.

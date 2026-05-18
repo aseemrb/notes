@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" style="font-family: serif; background: transparent;" role="img" aria-label="A parallelogram representing the closed subspace L²(𝒢). An amber line goes from an origin point on the plane diagonally up to a point X above the plane. A green dashed line goes from the origin along the plane to E(X|𝒢), the foot of the perpendicular from X. A red dashed line drops perpendicularly from X to E(X|𝒢), with a right-angle marker at the foot.">
+  <style>
+    :root { --text: #374151; --axis: #9ca3af; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #6b7280; }
+    }
+    .plane-edge { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .plane-fill { fill: var(--axis); fill-opacity: 0.08; }
+    .label { fill: var(--text); font-size: 16px; }
+    .plane-label { fill: var(--text); font-size: 16px; }
+  </style>
+
+  <polygon points="80,240 370,270 450,180 160,150" class="plane-fill" />
+  <polygon points="80,240 370,270 450,180 160,150" class="plane-edge" />
+
+  <line x1="140" y1="230" x2="300" y2="220" stroke="#10b981" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round" />
+
+  <line x1="140" y1="230" x2="300" y2="70" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round" />
+
+  <line x1="300" y1="70" x2="300" y2="220" stroke="#ef4444" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" />
+
+  <polyline points="300,208 312,208 312,220" fill="none" stroke="var(--text)" stroke-width="1.2" />
+
+  <circle cx="140" cy="230" r="3" fill="var(--text)" />
+  <circle cx="300" cy="70" r="4.5" fill="#f59e0b" />
+  <circle cx="300" cy="220" r="4.5" fill="#10b981" />
+
+  <text x="195" y="130" class="label" fill="#f59e0b">X</text>
+  <text x="200" y="245" class="label" fill="#10b981">E(X | 𝒢)</text>
+  <text x="320" y="148" class="label" fill="#ef4444">X − E(X | 𝒢)</text>
+  <text x="425" y="270" class="plane-label">L²(𝒢)</text>
+</svg>

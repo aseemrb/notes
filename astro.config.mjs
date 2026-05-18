@@ -52,6 +52,7 @@ export default defineConfig({
 						{ label: 'Convergence', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/convergence', collapsed: true } }] },
 						{ label: 'Laws of Large Numbers', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/laws-of-large-numbers', collapsed: true } }] },
 						{ label: 'Central Limit Theorem', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/central-limit-theorem', collapsed: true } }] },
+						{ label: 'Conditional Expectation', collapsed: true, items: [{ autogenerate: { directory: 'probability-theory/conditional-expectation', collapsed: true } }] },
 					],
 				},
 			],

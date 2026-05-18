@@ -1,0 +1,89 @@
+---
+title: Radon-Nikodym
+sidebar:
+  order: 2
+---
+
+The general construction of conditional expectation rests on a single theorem from measure theory: the **Radon-Nikodym theorem**. It says that whenever one measure is "dominated" by another in a precise sense, the dominated measure can be written as an integral against the dominating one. The integrand is a density function, generalizing the elementary notion of a [probability density](../../events/types-of-distributions/#absolutely-continuous-distributions).
+
+## Absolute Continuity
+
+<Aside type="tip" icon="open-book" title="Definition: Absolute Continuity of Measures">
+Let $\mu$ and $\nu$ be two measures on the same measurable space $(\Omega, \cF)$. Then $\nu$ is said to be **absolutely continuous with respect to $\mu$**, denoted
+$$
+\nu \ll \mu,
+$$
+if for every $A \in \cF$,
+$$
+\mu(A) = 0 \quad \Longrightarrow \quad \nu(A) = 0.
+$$
+</Aside>
+
+The intuition: $\mu$ is "at least as fine" as $\nu$. Anywhere $\mu$ assigns no mass, $\nu$ also assigns no mass. So $\mu$ controls $\nu$ in the sense that $\mu$-null sets are also $\nu$-null sets. The notation $\nu \ll \mu$ reflects this hierarchy.
+
+**Examples.**
+
+- If $\nu$ has a density $f \ge 0$ with respect to $\mu$, meaning $\nu(A) = \int_A f \, d\mu$ for every $A$, then $\nu \ll \mu$. Whenever $\mu(A) = 0$, the integral vanishes regardless of $f$.
+- A point mass $\delta_0$ on $\R$ is **not** absolutely continuous w.r.t. Lebesgue measure $\lambda$: the set $\{0\}$ has $\lambda(\{0\}) = 0$ but $\delta_0(\{0\}) = 1$. The Lebesgue measure does not "see" individual points, but $\delta_0$ does.
+- The [Cantor distribution](../../events/types-of-distributions/#singular-distributions) is also not absolutely continuous w.r.t. $\lambda$: it sits on the Cantor set, which has Lebesgue measure zero but Cantor-measure one.
+
+Two measures $\mu$ and $\nu$ are called **mutually singular**, denoted $\mu \perp \nu$, when there exists $A \in \cF$ with $\mu(A) = 0$ and $\nu(A^c) = 0$. Absolute continuity and singularity are opposite poles: every pair of $\sigma$-finite measures admits a unique decomposition $\nu = \nu_{ac} + \nu_s$ with $\nu_{ac} \ll \mu$ and $\nu_s \perp \mu$ (**Lebesgue decomposition**).
+
+## σ-Finiteness
+
+<Aside type="tip" icon="open-book" title="Definition: σ-finite Measure">
+A measure $\mu$ on $(\Omega, \cF)$ is **$\sigma$-finite** if $\Omega$ can be written as a countable union
+$$
+\Omega = \bigcup_{n = 1}^\infty \Omega_n, \qquad \Omega_n \in \cF, \quad \mu(\Omega_n) < \infty \;\text{ for every } n.
+$$
+</Aside>
+
+In words: the whole space splits into countably many pieces, each of finite measure. Every probability measure is $\sigma$-finite (take $\Omega_1 = \Omega$, all other $\Omega_n = \emptyset$). Lebesgue measure on $\R$ is $\sigma$-finite (take $\Omega_n = [-n, n]$), even though $\lambda(\R) = \infty$. Counting measure on an uncountable set is **not** $\sigma$-finite, and the Radon-Nikodym theorem fails in that case.
+
+## The Radon-Nikodym Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Radon-Nikodym">
+Let $\mu$ and $\nu$ be **$\sigma$-finite** measures on $(\Omega, \cF)$ with $\nu \ll \mu$. Then there exists an $\cF$-measurable function $f : \Omega \to [0, \infty)$ such that
+$$
+\nu(A) \;=\; \int_A f \, d\mu \qquad \text{for every } A \in \cF.
+$$
+The function $f$ is unique up to $\mu$-null sets: any two such densities agree $\mu$-almost everywhere.
+</Aside>
+
+The function $f$ is called the **Radon-Nikodym derivative** of $\nu$ with respect to $\mu$, and is denoted
+$$
+f \;=\; \frac{d\nu}{d\mu}.
+$$
+The notation is chosen to make the identity above mnemonic:
+$$
+\int_A \frac{d\nu}{d\mu} \, d\mu \;=\; \int_A d\nu \;=\; \nu(A),
+$$
+which reads as if $d\mu$ "cancels". The cancellation is formal, not literal, but it captures the working calculus of densities.
+
+**Reading the hypotheses.**
+
+- **$\nu \ll \mu$** is necessary. If $\nu$ assigned positive mass to a $\mu$-null set, no density against $\mu$ could reproduce that mass, since $\int_A f \, d\mu = 0$ on every $\mu$-null $A$.
+- **$\sigma$-finiteness** is necessary too. Without it, the density may fail to exist or fail to be unique up to $\mu$-null sets.
+
+**Reading the conclusion.** The single density $f$ encodes the entire measure $\nu$: every value $\nu(A)$ is recovered by integrating $f$ over $A$ against $\mu$. So $\nu$ and $f$ carry the same information, with $f$ being the more concrete object. Absolute continuity is thus a **sufficient condition for the existence of a density**.
+
+## Why This Matters for Conditional Expectation
+
+Given an integrable random variable $X$ on $(\Omega, \cF, \Pr)$ and a sub-$\sigma$-field $\cG \subseteq \cF$, the construction of $\E(X \mid \cG)$ goes as follows. Assume first that $X \ge 0$. Define a set function on $\cG$ by
+$$
+\nu(A) \;:=\; \int_A X \, d\Pr, \qquad A \in \cG.
+$$
+Then $\nu$ is a finite measure on $(\Omega, \cG)$, and it is absolutely continuous with respect to the restriction $\Pr |_\cG$ of $\Pr$ to $\cG$: if $\Pr(A) = 0$ then $\int_A X \, d\Pr = 0$, so $\nu(A) = 0$.
+
+Both $\nu$ and $\Pr |_\cG$ are finite measures on $(\Omega, \cG)$, hence $\sigma$-finite. The Radon-Nikodym theorem applied on the measurable space $(\Omega, \cG)$ produces a $\cG$-measurable density $Y$ such that
+$$
+\int_A Y \, d\Pr \;=\; \nu(A) \;=\; \int_A X \, d\Pr \qquad \text{for every } A \in \cG.
+$$
+This $Y$ is exactly $\E(X \mid \cG)$. Conditions (1) and (2) of the [definition](../introduction/#the-general-definition) are satisfied:
+
+- $Y$ is $\cG$-measurable by construction (it is a Radon-Nikodym derivative on $(\Omega, \cG)$).
+- The integration identity $\int_A Y \, d\Pr = \int_A X \, d\Pr$ holds for every $A \in \cG$.
+
+For general integrable $X$, split $X = X^+ - X^-$ into positive and negative parts, apply the construction to each, and subtract. The details are worked out in the [existence](../existence) section.
+
+In one line: **conditional expectation is a Radon-Nikodym derivative on the smaller $\sigma$-field**.

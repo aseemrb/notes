@@ -1,0 +1,58 @@
+---
+title: Wald's Identity
+sidebar:
+  order: 8
+---
+
+**Wald's identity** is the quintessential application of the [tower property](../properties/#tower-property). It computes the mean of a random sum where both the summand and the number of summands are random, by conditioning first on the count.
+
+## Theorem
+
+<Aside icon="seti:smarty" title="Theorem: Wald's Identity">
+<Tabs>
+<TabItem label="Statement">
+Let $X_1, X_2, \ldots$ be i.i.d. with $\E|X_1| < \infty$. Let $N \ge 0$ be an integer-valued random variable with $\E[N] < \infty$, independent of $\{X_i\}$. Then
+$$
+\E\!\left[ \sum_{i=1}^N X_i \right] \;=\; \E[X_1] \cdot \E[N].
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Apply the tower property by conditioning on $N$:
+$$
+\E\!\left[ \sum_{i=1}^N X_i \right] \;=\; \E\!\left[ \E\!\left( \sum_{i=1}^N X_i \,\bigg|\, N \right) \right].
+$$
+
+**Evaluate the inner conditional expectation.** On the event $\{N = k\}$, the sum has $k$ fixed terms, and the $X_i$ are independent of $N$, so
+$$
+\E\!\left( \sum_{i=1}^N X_i \,\bigg|\, N = k \right) \;=\; \E\!\left( \sum_{i=1}^k X_i \,\bigg|\, N = k \right) \;=\; \E\!\left[ \sum_{i=1}^k X_i \right] \;=\; k \, \E[X_1].
+$$
+The first equality replaces the random upper limit $N$ by the fixed value $k$ on the event $\{N = k\}$; the second drops the condition because $X_1, \ldots, X_k$ are independent of $N$; the third is linearity of unconditional expectation on i.i.d. terms.
+
+As a random variable in $\omega$, the inner conditional expectation is therefore
+$$
+\E\!\left( \sum_{i=1}^N X_i \,\bigg|\, N \right) \;=\; N \cdot \E[X_1].
+$$
+
+**Take the outer expectation.** $\E[X_1]$ is a constant, so
+$$
+\E\!\left[ \sum_{i=1}^N X_i \right] \;=\; \E\!\big[ N \cdot \E[X_1] \big] \;=\; \E[X_1] \cdot \E[N].
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+## Why It's Useful
+
+Wald's identity is the workhorse for computing means in settings where the number of summands is determined by the same source of randomness as the values being summed:
+
+- **Random walks with random stopping.** $S_N = X_1 + \cdots + X_N$ where $N$ is a stopping time independent of the increments. Wald gives $\E[S_N] = \E[N] \, \E[X_1]$ immediately.
+- **Compound Poisson sums.** $Y = \sum_{i=1}^N X_i$ where $N \sim \text{Poisson}(\lambda)$ and $X_i$ are i.i.d. claim sizes (the **collective risk model** in insurance). Wald gives $\E[Y] = \lambda \, \E[X_1]$.
+- **Renewal theory.** The expected total reward over $N_t$ renewal epochs is $\E[N_t] \, \E[X_1]$, the discrete analog of the [elementary renewal theorem](../../laws-of-large-numbers/renewal-theory).
+
+## Hypotheses Matter
+
+- **Independence of $N$ from $\{X_i\}$ is essential.** Without it, the simplification in the inner conditional expectation fails: the event $\{N = k\}$ may give information about $X_1, \ldots, X_k$, and the conditional sum is not just $k \, \E[X_1]$. The classical counterexample is when $N$ is a *stopping time* that depends on the $X_i$'s (e.g. "first $k$ such that $S_k > c$"); the Wald identity still holds in that case, but the proof is harder and uses optional stopping rather than independence.
+- **$\E[N] < \infty$ is needed** to make $\E[N \cdot \E[X_1]] < \infty$ and to justify the application of the tower property at finite expected value.
+
+The next example, [decomposing variance](../decomposing-variance), gives a second-moment analog: the law of total variance.

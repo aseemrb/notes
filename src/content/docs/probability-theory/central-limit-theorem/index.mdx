@@ -4,10 +4,22 @@ sidebar:
   order: 0
 ---
 
-The Central Limit Theorem (CLT) describes the universal Gaussian behavior of properly normalized sums of independent random variables. Where the [Laws of Large Numbers](../laws-of-large-numbers) say the sample average concentrates around the mean, the CLT identifies the *fluctuation* around the mean as Gaussian on the scale of $1/\sqrt{n}$.
+The **Central Limit Theorem (CLT)** describes the universal Gaussian behavior of properly normalized sums of independent random variables. Where the [Laws of Large Numbers](../laws-of-large-numbers) say the sample average concentrates around its mean, the CLT identifies the *fluctuation* around the mean as Gaussian on the scale of $1/\sqrt{n}$. The two results are complementary terms of the same expansion: LLN is the first-order point estimate, CLT is the second-order distributional correction.
 
 ## Key Topics
 
-1.  **[CLT 1](clt-1)**
-2.  **[CLT 2](clt-2)**
-3.  **[Examples](examples)**
+1.  **[CLT 1](clt-1)**: The classical **i.i.d. Central Limit Theorem**. For i.i.d. $X_1, X_2, \ldots$ with finite variance $\sigma^2$, the standardized sum $(S_n - n\mu)/(\sigma\sqrt{n})$ converges in distribution to $N(0, 1)$. Proved by Taylor-expanding the characteristic function and applying [Lévy's continuity theorem](../convergence/continuity).
+2.  **[CLT 2](clt-2)**: The **Lindeberg-Feller CLT** for triangular arrays of independent, not necessarily identically distributed entries. The Lindeberg condition replaces the i.i.d. assumption, and Feller's converse shows it is essentially necessary when no single row entry dominates.
+3.  **[Examples](examples)**: Canonical settings where the CLT applies: binomial (de Moivre-Laplace), uniform (Irwin-Hall), exponential (Gamma), dice sums. Includes a Cauchy non-example illustrating the role of the finite-variance hypothesis, and an interactive widget that convolves a chosen base distribution and overlays the Gaussian limit.
+
+## How the Pieces Fit Together
+
+[CLT 1](clt-1) is the special case of [CLT 2](clt-2) where the row entries are i.i.d. copies of a single distribution scaled by $1/\sqrt{n}$. Both proofs follow the same three-step plan:
+
+$$
+\text{compute } \varphi_{S_n}(t) \;\longrightarrow\; \text{expand near } 0 \;\longrightarrow\; \text{pass to } e^{-t^2 \sigma^2 / 2}
+$$
+
+with [Lévy's continuity theorem](../convergence/continuity) converting pointwise convergence of [characteristic functions](../independence/characteristic-function) into weak convergence. The technical heart in both cases is a second-order expansion of $\varphi$ near zero, controlled by the finite-variance hypothesis. CLT 2 adds the **Lindeberg condition** to rule out single entries carrying a non-negligible share of the total variance, which is automatic in the i.i.d. case but a genuine restriction in the triangular-array setting.
+
+The CLT requires strictly more than the [classical WLLN](../laws-of-large-numbers/weak-lln-3): finite variance instead of finite mean. Heavy-tailed sums where variance is infinite (e.g. Cauchy) escape the CLT and obey **stable distribution** limit laws on a different scaling.

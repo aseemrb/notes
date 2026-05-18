@@ -1,0 +1,74 @@
+---
+title: Jensen's Inequality
+sidebar:
+  order: 6
+---
+
+Jensen's inequality extends from ordinary expectation to conditional expectation with no change in form: applying a convex function to a conditional mean never exceeds the conditional mean of the convex function. The proof rests on the supporting-line characterization of convex functions, together with [linearity](../properties/#linearity) and [monotonicity](../properties/#monotonicity) of conditional expectation.
+
+## Statement
+
+<Aside icon="seti:smarty" title="Theorem: Conditional Jensen's Inequality">
+<Tabs>
+<TabItem label="Statement">
+Let $\varphi : \R \to \R$ be a convex function. Let $X$ be a random variable with $\E|X| < \infty$ and $\E|\varphi(X)| < \infty$. Then
+$$
+\varphi\!\big(\E(X \mid \cG)\big) \;\le\; \E\!\big(\varphi(X) \mid \cG\big) \quad \text{a.s.}
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Every convex function $\varphi : \R \to \R$ is the supremum of its affine minorants. With the supporting lines parametrized by rational slope and intercept, the supremum can be taken over a *countable* set:
+$$
+S \;:=\; \{ (a, b) \in \mathbb{Q}^2 \;:\; a x + b \le \varphi(x) \text{ for every } x \in \R \},
+$$
+and
+$$
+\varphi(x) \;=\; \sup_{(a, b) \in S} (a x + b) \qquad \text{for every } x \in \R.
+$$
+(Restricting to rational $(a, b)$ is what makes $S$ countable; convexity ensures the supremum still recovers $\varphi$ exactly at every point.)
+
+For any fixed $(a, b) \in S$, $\varphi(X) \ge aX + b$ pointwise. Take conditional expectation, and apply [monotonicity](../properties/#monotonicity), [linearity](../properties/#linearity), and the fact that constants are unchanged by conditioning:
+$$
+\E\!\big(\varphi(X) \mid \cG\big) \;\ge\; a \, \E(X \mid \cG) + b \quad \text{a.s.}
+$$
+This holds a.s., with the null exceptional set depending on the chosen $(a, b)$. Since $S$ is countable, the union of these exceptional sets over all $(a, b) \in S$ is still a null set, and outside this union the inequality holds simultaneously for every $(a, b) \in S$. Take the supremum over $(a, b) \in S$ on both sides:
+$$
+\E\!\big(\varphi(X) \mid \cG\big) \;\ge\; \sup_{(a, b) \in S} \big( a \, \E(X \mid \cG) + b \big) \;=\; \varphi\!\big(\E(X \mid \cG)\big) \quad \text{a.s.}
+$$
+The last equality is the supporting-line characterization applied at the point $\E(X \mid \cG)(\omega)$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The countability of $S$ is what lets us pass from "a.s. for each $(a, b)$" to "a.s. for all $(a, b)$ simultaneously". Without it, the union of exceptional null sets could fail to be null.
+
+## $L^p$-Norm Contraction
+
+A clean specialization: conditional expectation does not increase $L^p$ norms.
+
+<Aside icon="seti:smarty" title="Corollary: Conditional Expectation Contracts L^p">
+<Tabs>
+<TabItem label="Statement">
+For any $p \ge 1$ and any $X \in L^p$,
+$$
+\| \E(X \mid \cG) \|_p \;\le\; \| X \|_p.
+$$
+Equivalently, $\E(\cdot \mid \cG) : L^p \to L^p$ is a contraction.
+</TabItem>
+
+<TabItem label="Proof">
+The function $\varphi(x) = |x|^p$ is convex for $p \ge 1$. Apply Jensen's inequality:
+$$
+\big| \E(X \mid \cG) \big|^p \;\le\; \E\!\big( |X|^p \,\big|\, \cG \big) \quad \text{a.s.}
+$$
+Take unconditional expectations on both sides. The [tower property](../properties/#tower-property) collapses the right side, $\E[\E(|X|^p \mid \cG)] = \E[|X|^p]$, so
+$$
+\E\!\big[ \big| \E(X \mid \cG) \big|^p \big] \;\le\; \E[|X|^p].
+$$
+Both sides are $p$-th powers of $L^p$ norms, $\| \cdot \|_p^p = \E[|\cdot|^p]$. Taking $p$-th roots gives $\| \E(X \mid \cG) \|_p \le \| X \|_p$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The contraction property is the basis for the $L^2$ projection picture of conditional expectation: the map $X \mapsto \E(X \mid \cG)$ is the orthogonal projection from $L^2(\Omega, \cF, \Pr)$ onto the closed subspace $L^2(\Omega, \cG, \Pr)$. The norm cannot grow under projection, and conditional Jensen with $p = 2$ recovers exactly that. The geometric viewpoint is the subject of the [projection perspective](../projection).

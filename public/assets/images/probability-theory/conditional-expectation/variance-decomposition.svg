@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" style="font-family: serif; background: transparent;" role="img" aria-label="Two panels side by side. Left panel: data points X scattered as a single pooled cloud, with a vertical double-headed arrow on the right indicating the total variance Var(X). Right panel: the same data points grouped into three horizontal clusters by Y. Each cluster has a small orange double-headed arrow showing within-group spread (intra-group variance), and a longer purple double-headed arrow on the far right shows the spread between the group means (inter-group variance). The two pieces on the right sum back to the total on the left.">
+  <style>
+    :root { --text: #374151; --axis: #9ca3af; --muted: #6b7280; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #6b7280; --muted: #9ca3af; }
+    }
+    .panel-title { fill: var(--text); font-size: 14px; text-anchor: middle; }
+    .axis-label { fill: var(--text); font-size: 13px; }
+    .dot { fill: var(--text); }
+    .mean-line { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+    .arrow-line { stroke-width: 2; fill: none; }
+    .arrow-head { stroke-width: 2; fill: currentColor; }
+  </style>
+
+  <defs>
+    <marker id="ah-text" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text)" />
+    </marker>
+    <marker id="ah-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+    </marker>
+    <marker id="ah-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7" />
+    </marker>
+  </defs>
+
+  <text x="125" y="25" class="panel-title">Pooled</text>
+  <text x="430" y="25" class="panel-title">Grouped by Y</text>
+
+  <g class="dot">
+    <circle cx="105" cy="55" r="2.5" />
+    <circle cx="135" cy="62" r="2.5" />
+    <circle cx="90" cy="72" r="2.5" />
+    <circle cx="155" cy="78" r="2.5" />
+    <circle cx="115" cy="86" r="2.5" />
+    <circle cx="140" cy="95" r="2.5" />
+    <circle cx="100" cy="105" r="2.5" />
+    <circle cx="130" cy="113" r="2.5" />
+    <circle cx="85" cy="120" r="2.5" />
+    <circle cx="150" cy="130" r="2.5" />
+    <circle cx="120" cy="138" r="2.5" />
+    <circle cx="95" cy="148" r="2.5" />
+    <circle cx="145" cy="156" r="2.5" />
+    <circle cx="110" cy="164" r="2.5" />
+    <circle cx="130" cy="173" r="2.5" />
+    <circle cx="100" cy="182" r="2.5" />
+    <circle cx="155" cy="190" r="2.5" />
+    <circle cx="115" cy="200" r="2.5" />
+    <circle cx="140" cy="210" r="2.5" />
+    <circle cx="90" cy="220" r="2.5" />
+    <circle cx="125" cy="230" r="2.5" />
+    <circle cx="150" cy="240" r="2.5" />
+    <circle cx="105" cy="248" r="2.5" />
+    <circle cx="135" cy="256" r="2.5" />
+  </g>
+
+  <line x1="195" y1="55" x2="195" y2="256" stroke="var(--text)" stroke-width="2" marker-start="url(#ah-text)" marker-end="url(#ah-text)" />
+  <text x="205" y="160" class="axis-label">Var(X)</text>
+
+  <g class="dot">
+    <circle cx="335" cy="70" r="2.5" />
+    <circle cx="360" cy="65" r="2.5" />
+    <circle cx="380" cy="78" r="2.5" />
+    <circle cx="400" cy="72" r="2.5" />
+    <circle cx="420" cy="68" r="2.5" />
+    <circle cx="440" cy="80" r="2.5" />
+    <circle cx="350" cy="82" r="2.5" />
+    <circle cx="410" cy="85" r="2.5" />
+    <circle cx="345" cy="75" r="2.5" />
+    <circle cx="390" cy="62" r="2.5" />
+  </g>
+  <line x1="320" y1="74" x2="455" y2="74" class="mean-line" />
+
+  <g class="dot">
+    <circle cx="340" cy="148" r="2.5" />
+    <circle cx="365" cy="142" r="2.5" />
+    <circle cx="385" cy="155" r="2.5" />
+    <circle cx="405" cy="148" r="2.5" />
+    <circle cx="425" cy="143" r="2.5" />
+    <circle cx="445" cy="156" r="2.5" />
+    <circle cx="355" cy="158" r="2.5" />
+    <circle cx="395" cy="138" r="2.5" />
+    <circle cx="415" cy="160" r="2.5" />
+    <circle cx="375" cy="150" r="2.5" />
+  </g>
+  <line x1="320" y1="150" x2="455" y2="150" class="mean-line" />
+
+  <g class="dot">
+    <circle cx="335" cy="220" r="2.5" />
+    <circle cx="360" cy="226" r="2.5" />
+    <circle cx="385" cy="216" r="2.5" />
+    <circle cx="405" cy="222" r="2.5" />
+    <circle cx="425" cy="232" r="2.5" />
+    <circle cx="445" cy="218" r="2.5" />
+    <circle cx="350" cy="232" r="2.5" />
+    <circle cx="395" cy="212" r="2.5" />
+    <circle cx="415" cy="230" r="2.5" />
+    <circle cx="375" cy="224" r="2.5" />
+  </g>
+  <line x1="320" y1="224" x2="455" y2="224" class="mean-line" />
+
+  <line x1="480" y1="62" x2="480" y2="85" stroke="#f59e0b" stroke-width="2" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)" />
+  <line x1="480" y1="138" x2="480" y2="160" stroke="#f59e0b" stroke-width="2" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)" />
+  <line x1="480" y1="212" x2="480" y2="232" stroke="#f59e0b" stroke-width="2" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)" />
+
+  <line x1="555" y1="74" x2="555" y2="224" stroke="#a855f7" stroke-width="2" marker-start="url(#ah-purple)" marker-end="url(#ah-purple)" />
+
+  <text x="495" y="78" class="axis-label" fill="#f59e0b">intra</text>
+  <text x="495" y="154" class="axis-label" fill="#f59e0b">intra</text>
+  <text x="495" y="228" class="axis-label" fill="#f59e0b">intra</text>
+  <text x="570" y="155" class="axis-label" fill="#a855f7">inter</text>
+
+  <text x="125" y="282" class="panel-title">data points</text>
+  <text x="390" y="282" class="panel-title">grouped by Y</text>
+</svg>
