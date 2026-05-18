@@ -88,60 +88,62 @@ For any real-valued random variable $X$ on $(\Omega, \cF, \Pr)$ and any sub-$\si
 </TabItem>
 
 <TabItem label="Proof">
-### Step 1: conditional CDF on rationals
+<Steps>
+1. **Conditional CDF on rationals.**
 
-For each rational $r \in \Q$, fix a version
-$$
-F(\omega, r) \;:=\; \Pr(X \le r \mid \cG)(\omega) \;=\; \E[\mathbb{1}_{\{X \le r\}} \mid \cG](\omega).
-$$
+    For each rational $r \in \Q$, fix a version
+    $$
+    F(\omega, r) \;:=\; \Pr(X \le r \mid \cG)(\omega) \;=\; \E[\mathbb{1}_{\{X \le r\}} \mid \cG](\omega).
+    $$
 
-### Step 2: collect the exception sets
+2. **Collect the exception sets.**
 
-The function $r \mapsto F(\omega, r)$ needs to behave like a distribution function: non-decreasing, right-continuous, with limits $0$ and $1$ at $\pm \infty$. Each of these properties holds **almost surely**, but the exceptional null set may depend on the parameters. The trick is to take all exceptions over the **countable** index set $\Q$.
+    The function $r \mapsto F(\omega, r)$ needs to behave like a distribution function: non-decreasing, right-continuous, with limits $0$ and $1$ at $\pm \infty$. Each of these properties holds **almost surely**, but the exceptional null set may depend on the parameters. The trick is to take all exceptions over the **countable** index set $\Q$.
 
-- **Monotonicity.** For $r, s \in \Q$ with $r \le s$, the [monotonicity property](../properties/#monotonicity) of conditional expectation gives $F(\omega, r) \le F(\omega, s)$ a.s. Let $A_{rs}$ be the exceptional null set.
-- **Right-continuity at rationals.** For $r \in \Q$, conditional monotone convergence applied to $\mathbb{1}_{\{X \le r + 1/n\}} \downarrow \mathbb{1}_{\{X \le r\}}$ gives $F(\omega, r + 1/n) \downarrow F(\omega, r)$ a.s. Let $B_r$ be the exceptional null set.
-- **Limits at infinity.** Conditional monotone convergence gives $F(\omega, r) \to 0$ as $r \to -\infty$ and $F(\omega, r) \to 1$ as $r \to +\infty$, a.s. Let $C$ be the exceptional null set.
+    - **Monotonicity.** For $r, s \in \Q$ with $r \le s$, the [monotonicity property](../properties/#monotonicity) of conditional expectation gives $F(\omega, r) \le F(\omega, s)$ a.s. Let $A_{rs}$ be the exceptional null set.
+    - **Right-continuity at rationals.** For $r \in \Q$, conditional monotone convergence applied to $\mathbb{1}_{\{X \le r + 1/n\}} \downarrow \mathbb{1}_{\{X \le r\}}$ gives $F(\omega, r + 1/n) \downarrow F(\omega, r)$ a.s. Let $B_r$ be the exceptional null set.
+    - **Limits at infinity.** Conditional monotone convergence gives $F(\omega, r) \to 0$ as $r \to -\infty$ and $F(\omega, r) \to 1$ as $r \to +\infty$, a.s. Let $C$ be the exceptional null set.
 
-Define
-$$
-E \;:=\; \bigg( \bigcup_{\substack{r, s \in \Q \\ r \le s}} A_{rs} \bigg) \cup \bigg( \bigcup_{r \in \Q} B_r \bigg) \cup C.
-$$
-This is a countable union of $\Pr$-null sets, hence $\Pr$-null. For every $\omega \notin E$, the function $r \mapsto F(\omega, r)$ on $\Q$ is non-decreasing, right-continuous along rational sequences, and has limits $0, 1$ at $\pm \infty$.
+    Define
+    $$
+    E \;:=\; \bigg( \bigcup_{\substack{r, s \in \Q \\ r \le s}} A_{rs} \bigg) \cup \bigg( \bigcup_{r \in \Q} B_r \bigg) \cup C.
+    $$
+    This is a countable union of $\Pr$-null sets, hence $\Pr$-null. For every $\omega \notin E$, the function $r \mapsto F(\omega, r)$ on $\Q$ is non-decreasing, right-continuous along rational sequences, and has limits $0, 1$ at $\pm \infty$.
 
-### Step 3: extend to $\R$
+3. **Extend to $\R$.**
 
-For $\omega \notin E$ and $x \in \R$, define
-$$
-F(\omega, x) \;:=\; \inf_{\substack{r \in \Q \\ r \ge x}} F(\omega, r) \;=\; \lim_{\substack{r \to x^+ \\ r \in \Q}} F(\omega, r).
-$$
-Direct check: $F(\omega, \cdot)$ is non-decreasing, right-continuous on $\R$, and has limits $0, 1$ at $\pm \infty$. So $F(\omega, \cdot)$ is a **distribution function** on $\R$.
+    For $\omega \notin E$ and $x \in \R$, define
+    $$
+    F(\omega, x) \;:=\; \inf_{\substack{r \in \Q \\ r \ge x}} F(\omega, r) \;=\; \lim_{\substack{r \to x^+ \\ r \in \Q}} F(\omega, r).
+    $$
+    Direct check: $F(\omega, \cdot)$ is non-decreasing, right-continuous on $\R$, and has limits $0, 1$ at $\pm \infty$. So $F(\omega, \cdot)$ is a **distribution function** on $\R$.
 
-For $\omega \in E$, set $F(\omega, \cdot) := F_0$ for some fixed reference distribution function (e.g., the standard normal CDF). The choice on $E$ is arbitrary since $\Pr(E) = 0$.
+    For $\omega \in E$, set $F(\omega, \cdot) := F_0$ for some fixed reference distribution function (e.g., the standard normal CDF). The choice on $E$ is arbitrary since $\Pr(E) = 0$.
 
-### Step 4: convert to a probability measure
+4. **Convert to a probability measure.**
 
-For each $\omega$, let $\mu(\omega, \cdot)$ be the unique probability measure on $(\R, \cB(\R))$ with $\mu(\omega, (-\infty, x]) = F(\omega, x)$ (Carathéodory extension). Then $\mu(\omega, \cdot)$ is a probability measure for every $\omega$, so condition (2) of the RCD definition holds automatically.
+    For each $\omega$, let $\mu(\omega, \cdot)$ be the unique probability measure on $(\R, \cB(\R))$ with $\mu(\omega, (-\infty, x]) = F(\omega, x)$ (Carathéodory extension). Then $\mu(\omega, \cdot)$ is a probability measure for every $\omega$, so condition (2) of the RCD definition holds automatically.
 
-### Step 5: check condition (1)
+5. **Check condition (1).**
 
-Two things to verify: $\omega \mapsto \mu(\omega, A)$ is $\cG$-measurable, and it is a version of $\Pr(X \in A \mid \cG)$, for every Borel $A$.
+    Two things to verify: $\omega \mapsto \mu(\omega, A)$ is $\cG$-measurable, and it is a version of $\Pr(X \in A \mid \cG)$, for every Borel $A$.
 
-**$\cG$-measurability via the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem).** Let
-$$
-\cS \;:=\; \big\{ H \in \cB(\R) : \omega \mapsto \mu(\omega, H) \text{ is } \cG\text{-measurable} \big\}.
-$$
-$\cS$ contains every half-line $H = (-\infty, r]$ with $r \in \Q$, since $\mu(\omega, (-\infty, r]) = F(\omega, r)$ is $\cG$-measurable by construction (a conditional expectation). The collection $\{(-\infty, r] : r \in \Q\}$ is a $\pi$-system generating $\cB(\R)$. The set $\cS$ is a $\lambda$-system: closure under complements and countable disjoint unions follows from the countable additivity of $\mu(\omega, \cdot)$. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem), $\cS = \cB(\R)$, so $\omega \mapsto \mu(\omega, H)$ is $\cG$-measurable for every $H \in \cB(\R)$.
+    **$\cG$-measurability via the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem).** Let
+    $$
+    \cS \;:=\; \big\{ H \in \cB(\R) : \omega \mapsto \mu(\omega, H) \text{ is } \cG\text{-measurable} \big\}.
+    $$
+    $\cS$ contains every half-line $H = (-\infty, r]$ with $r \in \Q$, since $\mu(\omega, (-\infty, r]) = F(\omega, r)$ is $\cG$-measurable by construction (a conditional expectation). The collection $\{(-\infty, r] : r \in \Q\}$ is a $\pi$-system generating $\cB(\R)$. The set $\cS$ is a $\lambda$-system: closure under complements and countable disjoint unions follows from the countable additivity of $\mu(\omega, \cdot)$. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem), $\cS = \cB(\R)$, so $\omega \mapsto \mu(\omega, H)$ is $\cG$-measurable for every $H \in \cB(\R)$.
 
-**Integration identity.** For any $G \in \cG$ and any rational half-line $H = (-\infty, r]$,
-$$
-\int_G \mu(\omega, H) \, d\Pr \;=\; \int_G F(\omega, r) \, d\Pr \;=\; \int_G \mathbb{1}_{\{X \le r\}} \, d\Pr \;=\; \Pr(\{X \le r\} \cap G),
-$$
-using that $F(\cdot, r)$ is a version of $\Pr(X \le r \mid \cG)$ in the middle step. The two set functions $H \mapsto \int_G \mu(\omega, H) \, d\Pr$ and $H \mapsto \Pr(\{X \in H\} \cap G)$ are both finite measures on $(\R, \cB(\R))$, and they agree on the $\pi$-system of rational half-lines. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem) (or uniqueness of measure extension), they agree on all of $\cB(\R)$. So
-$$
-\int_G \mu(\omega, A) \, d\Pr \;=\; \Pr(\{X \in A\} \cap G) \;=\; \int_G \mathbb{1}_{\{X \in A\}} \, d\Pr
-$$
-for every $A \in \cB(\R)$ and $G \in \cG$. Combined with $\cG$-measurability, this says $\mu(\cdot, A)$ is a version of $\E[\mathbb{1}_{\{X \in A\}} \mid \cG]$ for every $A$, which is condition (1).
+    **Integration identity.** For any $G \in \cG$ and any rational half-line $H = (-\infty, r]$,
+    $$
+    \int_G \mu(\omega, H) \, d\Pr \;=\; \int_G F(\omega, r) \, d\Pr \;=\; \int_G \mathbb{1}_{\{X \le r\}} \, d\Pr \;=\; \Pr(\{X \le r\} \cap G),
+    $$
+    using that $F(\cdot, r)$ is a version of $\Pr(X \le r \mid \cG)$ in the middle step. The two set functions $H \mapsto \int_G \mu(\omega, H) \, d\Pr$ and $H \mapsto \Pr(\{X \in H\} \cap G)$ are both finite measures on $(\R, \cB(\R))$, and they agree on the $\pi$-system of rational half-lines. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem) (or uniqueness of measure extension), they agree on all of $\cB(\R)$. So
+    $$
+    \int_G \mu(\omega, A) \, d\Pr \;=\; \Pr(\{X \in A\} \cap G) \;=\; \int_G \mathbb{1}_{\{X \in A\}} \, d\Pr
+    $$
+    for every $A \in \cB(\R)$ and $G \in \cG$. Combined with $\cG$-measurability, this says $\mu(\cdot, A)$ is a version of $\E[\mathbb{1}_{\{X \in A\}} \mid \cG]$ for every $A$, which is condition (1).
+</Steps>
 </TabItem>
 </Tabs>
 </Aside>

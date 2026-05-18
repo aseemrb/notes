@@ -31,11 +31,7 @@ By replacing $X_i$ with $X_i - \mu$, **assume $\mu = 0$ for the remainder of the
 
 The argument relies on a second-order expansion of $\varphi$ near zero, derived below from a Taylor bound on $e^{ix}$.
 
-### Two preliminary results
-
-#### Lemma (Taylor bound for $e^{ix}$)
-
-<Aside icon="seti:smarty" title="Lemma">
+<Aside icon="seti:smarty" title="Lemma: Taylor bound for the complex exponential">
 For every $x \in \mathbb{R}$ and every integer $n \ge 0$,
 $$
 \left| e^{ix} - \sum_{m=0}^{n} \frac{(ix)^m}{m!} \right| \le \min\!\left\{ \frac{|x|^{n+1}}{(n+1)!}, \; \frac{2 |x|^n}{n!} \right\}.
@@ -44,8 +40,6 @@ $$
 </Aside>
 
 The first bound is the standard Taylor remainder; the second uses $|e^{ix}| = 1$ to dominate the tail by $2|x|^n / n!$ instead of $|x|^{n+1}/(n+1)!$. Taking the minimum gives an estimate that is sharp both for small $|x|$ (first bound wins) and large $|x|$ (second bound wins).
-
-#### Characteristic function expansion
 
 <Aside icon="seti:smarty" title="Theorem: Second-Order CHF Expansion">
 <Tabs>
@@ -78,9 +72,7 @@ By the [dominated convergence theorem](../../lebesgue-integration/convergence/#d
 </Tabs>
 </Aside>
 
-### Proof of CLT 1
-
-Under the centering $\mu = 0$, the expansion above specializes to
+**Proof of CLT 1.** Under the centering $\mu = 0$, the expansion above specializes to
 $$
 \varphi(t) = 1 - \frac{t^2 \sigma^2}{2} + o(t^2).
 $$

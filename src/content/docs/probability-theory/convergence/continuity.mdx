@@ -44,7 +44,7 @@ In short: [weak convergence](../weak-convergence) of measures is the same as poi
 <TabItem label="Proof">
 The forward direction is a one-line application of [Portmanteau](../portmanteau). The reverse direction is the substantive content: pointwise convergence of $\varphi_n$ contains enough information to force [tightness](../tightness), after which Helly and the inversion formula close the argument.
 
-### (⟹) Weak convergence implies pointwise convergence of ch.f.
+**(⟹) Weak convergence implies pointwise convergence of ch.f.**
 
 Let $X_n \sim \mu_n$ and $X \sim \mu$. The map $x \mapsto e^{itx}$ is bounded ($|e^{itx}| = 1$) and continuous. By the [Portmanteau theorem](../portmanteau) (condition 2: expectations of bounded continuous functions converge):
 $$
@@ -54,7 +54,7 @@ which is exactly $\varphi_n(t) \to \varphi(t)$ for every $t \in \mathbb{R}$.
 
 *(Strictly speaking, $e^{itx}$ is complex-valued. Apply Portmanteau separately to the real part $\cos(tx)$ and the imaginary part $\sin(tx)$, both of which are bounded continuous real-valued functions.)*
 
-### (⟸) Pointwise convergence of ch.f. implies weak convergence
+**(⟸) Pointwise convergence of ch.f. implies weak convergence.**
 
 This direction has three steps: derive a tail bound from $\varphi_n$, conclude tightness, then identify every subsequential weak limit with $\mu$.
 

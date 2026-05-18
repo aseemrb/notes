@@ -39,11 +39,7 @@ The proof proceeds along the following plan:
 
 The argument relies on two technical lemmas. The first is a pure series estimate; the second uses the first to bound the variances of the truncated variables.
 
----
-
-### Lemma 1 (series estimate)
-
-<Aside icon="seti:smarty" title="Lemma 1">
+<Aside icon="seti:smarty" title="Lemma 1 (series estimate)">
 <Tabs>
 <TabItem label="Statement">
 For all $y \ge 0$,
@@ -71,9 +67,7 @@ using the same telescoping bound. Then $2y \cdot 2 = 4y \le 4$.
 </Tabs>
 </Aside>
 
-### Lemma 2 (variance bound)
-
-<Aside icon="seti:smarty" title="Lemma 2">
+<Aside icon="seti:smarty" title="Lemma 2 (variance bound)">
 <Tabs>
 <TabItem label="Statement">
 With $Y_k = X_k \, \mathbb{1}_{\{|X_k| \le k\}}$,
@@ -104,9 +98,7 @@ where the last equality is the standard tail formula $\mathbb{E}|X_1| = \int_0^{
 </Tabs>
 </Aside>
 
----
-
-### Reduction to the truncated variables
+**Reduction to the truncated variables.**
 
 Define $Y_k = X_k \, \mathbb{1}_{\{|X_k| \le k\}}$ and $T_n = \sum_{i=1}^n Y_i$.
 
@@ -122,11 +114,11 @@ where the inequality compares a Riemann sum at integer points to the integral of
 
 By the [first Borel–Cantelli lemma](../../events/borel-cantelli/#first-borel-cantelli-lemma), $\mathbb{P}(X_k \ne Y_k \text{ i.o.}) = 0$. So almost surely, $X_k = Y_k$ for all $k$ beyond some (random) finite index. Then $S_n - T_n$ stabilizes at a finite constant as $n \to \infty$, and $(S_n - T_n)/n \to 0$ almost surely. This proves the claim.
 
-### Reduction to $X \ge 0$
+**Reduction to $X \ge 0$.**
 
 Decomposing $X_k = X_k^+ - X_k^-$, both $\{X_k^+\}$ and $\{X_k^-\}$ are identically distributed, pairwise independent (each is a function of a single $X_k$), and have finite mean. If the theorem holds for non-negative summands, applying it separately to $X_k^+$ and $X_k^-$ and subtracting gives the general case. **Assume $X_k \ge 0$ for the remainder of the proof.**
 
-### Convergence along the geometric subsequence
+**Convergence along the geometric subsequence.**
 
 Fix $\alpha > 1$ and set $k(n) = \lfloor \alpha^n \rfloor$.
 
@@ -191,7 +183,7 @@ Fix $\alpha > 1$ and set $k(n) = \lfloor \alpha^n \rfloor$.
     $$
 </Steps>
 
-### Filling in the gaps
+**Filling in the gaps.**
 
 The subsequence result (3) controls $T_{k(n)}/k(n)$. For an arbitrary $m$, pick $n$ with $k(n) \le m < k(n+1)$. Since $X_k \ge 0$, $T_m$ is non-decreasing in $m$, so
 $$

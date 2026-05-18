@@ -36,11 +36,7 @@ Conditions 1 and 2 together are called the **Lindeberg–Feller conditions**. Th
 <TabItem label="Proof">
 The argument is the analogue of [CLT 1](../clt-1): compute the [characteristic function](../../independence/characteristic-function) of $S_n$, show pointwise convergence to $e^{-t^2 \sigma^2 / 2}$, and invoke the [continuity theorem](../../convergence/continuity). The new difficulty is that there is no longer a single $\varphi$ to expand and raise to the $n$-th power; instead one has $n$ different $\varphi_{n,m}$'s and must control them collectively.
 
-### Two preliminary lemmas
-
-#### Lemma 1: product-difference bound
-
-<Aside icon="seti:smarty" title="Lemma 1">
+<Aside icon="seti:smarty" title="Lemma 1: product-difference bound">
 <Tabs>
 <TabItem label="Statement">
 Let $z_1, \ldots, z_n$ and $w_1, \ldots, w_n$ be complex numbers with $|z_m|, |w_m| \le \theta$ for every $m$. Then
@@ -67,9 +63,7 @@ $$
 
 **Reading.** The lemma controls the difference of products by the sum of the differences of factors, with a geometric prefactor $\theta^{n-1}$. For $\theta = 1$ (the case used below), the prefactor disappears.
 
-#### Lemma 2: product-to-exponential convergence
-
-<Aside icon="seti:smarty" title="Lemma 2">
+<Aside icon="seti:smarty" title="Lemma 2: product-to-exponential convergence">
 <Tabs>
 <TabItem label="Statement">
 Let $\{C_{j,n}\}$ be complex numbers. If
@@ -103,7 +97,7 @@ Since $\epsilon$ is arbitrary, $\sum_j \log(1 + C_{j,n}) - \sum_j C_{j,n} \to 0$
 </Tabs>
 </Aside>
 
-### Main argument
+**Main argument.**
 
 Let $\varphi_{n,m}(t) = \mathbb{E}[e^{itX_{n,m}}]$ and $\sigma_{n,m}^2 = \text{Var}(X_{n,m}) = \mathbb{E}[X_{n,m}^2]$ (using centering). Since the $X_{n,m}$ are independent in each row, $\varphi_{S_n}(t) = \prod_{m=1}^{n} \varphi_{n,m}(t)$. By the [continuity theorem](../../convergence/continuity), it suffices to show
 $$
