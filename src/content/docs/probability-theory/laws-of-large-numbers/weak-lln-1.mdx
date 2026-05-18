@@ -47,7 +47,7 @@ so $S_n/n \xrightarrow{P} \mu$.
 If $X_1, X_2, \ldots$ are i.i.d. with finite variance (equivalently finite second moment), they are uncorrelated with a common variance, so the theorem gives $S_n / n \xrightarrow{L^2} \mu$ and $S_n / n \xrightarrow{P} \mu$.
 </Aside>
 
-## Triangular Arrays
+## Triangular arrays
 
 A **triangular array** indexes the variables by two parameters: a row $n$ and a column $k \le n$.
 $$
@@ -60,7 +60,7 @@ X_{3,1} & X_{3,2} & X_{3,3} & & \\
 $$
 The $n$-th row has $n$ entries, and the joint law on the $n$-th row may depend on $n$. The Weak LLN extends naturally to this setting.
 
-### Finite-Variance Version
+### Finite-variance version
 
 <Aside icon="seti:smarty" title="Theorem: Triangular-Array WLLN (Finite Variance)">
 <Tabs>
@@ -100,7 +100,7 @@ $$
 $$
 </Aside>
 
-### Version Without a Finite Second Moment
+### Version without a finite second moment
 
 When the entries lack finite variance (heavy tails), the $L^2$ argument above breaks. The standard fix is to **truncate** each $X_{n,k}$ at a threshold $b_n$, apply the finite-variance argument to the truncated variables, and control the probability that truncation changes anything.
 

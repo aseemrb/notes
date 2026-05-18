@@ -78,7 +78,7 @@ Unlike the **Moment Generating Function** ($M_X(t) = \mathbb{E}[e^{tX}]$) or the
 </Tabs>
 </Aside>
 
-## Sums of Independent Random Variables
+## Sums of independent random variables
 
 One of the most useful properties of characteristic functions is handling sums of independent variables.
 
@@ -103,7 +103,7 @@ $$
 </Tabs>
 </Aside>
 
-## Example: Poisson Distribution
+## Example: Poisson distribution
 
 Let $X \sim \text{Poi}(\lambda)$. The probability mass function is:
 $$
@@ -120,7 +120,7 @@ $$
 \end{aligned}
 $$
 
-### Sum of Independent Poisson RVs
+### Sum of independent Poisson RVs
 
 Now let $Y \sim \text{Poi}(\eta)$ be independent of $X$.
 Using the convolution property:
@@ -152,7 +152,7 @@ We will formalize this with the Inversion Theorem next.
 </Tabs>
 </Aside>
 
-## Inversion Formula (Formalizing Uniqueness)
+## Inversion formula (formalizing uniqueness)
 
 <Aside icon="seti:smarty" title="Theorem: Inversion Formula">
 <Tabs>
@@ -245,9 +245,9 @@ Given just the characteristic function $\varphi(t)$, we can recover the probabil
 </Tabs>
 </Aside>
 
-## Examples: Normal Distribution
+## Examples: Normal distribution
 
-### 1. Standard Normal
+### 1. Standard normal
 Let $X \sim \mathcal{N}(0, 1)$. The density is $f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$.
 $$
 \begin{aligned}
@@ -265,7 +265,7 @@ $$
 \varphi(t) = e^{-t^2/2}
 $$
 
-### 2. General Normal
+### 2. General normal
 Let $Y \sim \mathcal{N}(\mu, \sigma^2)$.
 We can write $Y = \mu + \sigma X$ where $X \sim \mathcal{N}(0, 1)$.
 Using the linear transformation property of CHFs ($\varphi_{aX+b}(t) = e^{itb}\varphi_X(at)$):
@@ -277,7 +277,7 @@ $$
 \end{aligned}
 $$
 
-### 3. Sum of Independent Normals
+### 3. Sum of independent normals
 Let $Y \sim \mathcal{N}(\mu_1, \sigma_1^2)$ and $Z \sim \mathcal{N}(\mu_2, \sigma_2^2)$ be independent.
 $$
 \begin{aligned}

@@ -1,12 +1,12 @@
 ---
 title: Decomposing Variance
 sidebar:
-  order: 9
+  order: 10
 ---
 
 The **law of total variance** decomposes $\Var(X)$ into two pieces driven by an auxiliary random variable $Y$: the average *within-$Y$* variance and the variance of the *conditional mean* $\E[X \mid Y]$. It is the second-moment analog of the [law of iterated expectations](../properties/#tower-property) and a direct corollary of the [orthogonality of the residual](../projection/#orthogonality).
 
-## Conditional Variance
+## Conditional variance
 
 <Aside type="tip" icon="open-book" title="Definition: Conditional Variance">
 Let $X, Y$ be random variables on $(\Omega, \cF, \Pr)$ with $\E[X^2] < \infty$. The **conditional variance** of $X$ given $Y$ is
@@ -58,7 +58,7 @@ Combining gives the law of total variance.
 </Tabs>
 </Aside>
 
-## Intuition: Within-Group and Between-Group
+## Intuition: Within-group and between-group
 
 Imagine $X$ is a measurement (height, income, response time) and $Y$ is a grouping variable (school, region, treatment arm). The law of total variance reads:
 

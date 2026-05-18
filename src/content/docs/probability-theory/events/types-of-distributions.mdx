@@ -6,7 +6,7 @@ sidebar:
 
 For a probability space $(\Omega, \mathcal{F}, \mathbb{P})$ and measure space $(\mathbb{R}, \mathcal{B})$, let $X$ be a random variable mapping a preimage $X^{-1}(A)$ to $A \in \mathcal{B}$. Recall that $\mu(A) = \mathbb{P}(X^{-1}(A))$.
 
-## Equal in Distribution
+## Equal in distribution
 
 If $X$ and $Y$ induce the same distribution on $(\mathbb{R}, \mathcal{B})$, i.e., $F_X = F_Y$, then we say they have the **same distribution** or they are **equal in distribution**, denoted by:
 
@@ -22,7 +22,7 @@ Let $X(H)=1, X(T)=0$ and $Y(H)=0, Y(T)=1$.
 Then $X \overset{ \text{d} }{=} Y$ (both are Bernoulli(0.5)), but $X \neq Y$ everywhere.
 </Aside>
 
-## Absolutely Continuous Distributions
+## Absolutely continuous distributions
 
 <Aside type="tip" icon="open-book" title="Definition: Probability Density Function">
 If there exists a function $f$ such that for all $x \in \mathbb{R}$,
@@ -56,7 +56,7 @@ $$
 
 This also implies $\mathbb{P}(a < X < b) = \mathbb{P}(a \le X \le b) = \int_a^b f(y) \, dy$.
 
-## Continuous Distributions
+## Continuous distributions
 
 <Aside type="tip" icon="open-book" title="Definition: Continuous Distribution">
 If a distribution has:
@@ -72,7 +72,7 @@ i.e., its distribution function $F$ is continuous, then the distribution is call
 
     **Example**: The **Cantor Distribution** is continuous ($F$ is continuous) but "singular" with respect to Lebesgue measure (derivative is 0 almost everywhere), so it has no PDF.
 
-### Singular Distributions
+### Singular distributions
 
 A distribution is called <span class="text-accent">singular</span> if there exists a set $A \in \mathcal{B}$ such that $\lambda(A) = 0$ (Lebesgue measure is 0), but $\mathbb{P}(X \in A) = 1$, while $X$ is still continuous.
 

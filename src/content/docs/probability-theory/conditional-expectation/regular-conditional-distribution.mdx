@@ -1,0 +1,153 @@
+---
+title: Regular Conditional Distribution
+sidebar:
+  order: 8
+---
+
+The [introduction](../introduction) chose **Idea 2** (define conditional expectation directly) over **Idea 1** (define the conditional distribution first, then derive the expectation as an integral) because the second route is harder. With the theory of conditional expectation in hand, we can now circle back and construct conditional distributions rigorously. The right object is the **regular conditional distribution (RCD)**.
+
+## Motivation
+
+How should we define the conditional distribution of $X$ given $Y = y$ when $Y$ is continuous? Concretely, what is $\Pr(X \in A \mid Y = y)$?
+
+The elementary formula $\Pr(A \mid B) = \frac{\Pr(A \cap B)}{\Pr(B)}$ breaks down since $\Pr(Y = y)=0$.
+
+A natural rephrasing uses conditional expectation:
+$$
+\Pr(X \in A \mid Y = y) \;=\; \E\!\left[ \mathbb{1}_{\{X \in A\}} \,\big|\, Y \right](\omega) \quad \text{for some } \omega \in \{Y = y\}.
+$$
+But conditional expectation is only defined up to a $\Pr$-null set, and $\{Y = y\}$ is itself a $\Pr$-null set. The value of $\E[\mathbb{1}_{\{X \in A\}} \mid Y]$ on $\{Y = y\}$ is **unconstrained**: it can be modified freely without changing the version. Worse, as $A$ ranges over Borel sets, the family of conditional probabilities so obtained need not assemble into a probability measure (countable additivity in $A$ holds only a.s., and the exceptional null set may depend on the chosen Borel cover).
+
+The fix is to demand a **single** function $\omega \mapsto \mu(\omega, \cdot)$ that is simultaneously:
+
+- a version of $\Pr(X \in A \mid \cG)$ for each fixed $A$,
+- a probability measure in $A$ for each fixed $\omega$.
+
+The second requirement is the **regularity** condition.
+
+## Definition
+
+<Aside type="tip" icon="open-book" title="Definition: Regular Conditional Distribution">
+Let $(\Omega, \cF, \Pr)$ be a probability space, $X$ a real-valued random variable, and $\cG \subseteq \cF$ a sub-$\sigma$-field. A map
+$$
+\mu : \Omega \times \cB(\R) \to [0, 1]
+$$
+is a **regular conditional distribution (RCD)** of $X$ given $\cG$ if:
+
+1. For each $A \in \cB(\R)$, the map $\omega \mapsto \mu(\omega, A)$ is a version of $\Pr(X \in A \mid \cG) = \E[\mathbb{1}_{\{X \in A\}} \mid \cG]$.
+2. For $\Pr$-almost every $\omega$, the map $A \mapsto \mu(\omega, A)$ is a probability measure on $(\R, \cB(\R))$.
+</Aside>
+
+Condition (1) is the "conditional probability" content: $\mu(\cdot, A)$ matches the conditional expectation of the indicator $\mathbb{1}_{\{X \in A\}}$. Condition (2) is the regularity: for each typical $\omega$, the slice $\mu(\omega, \cdot)$ is a genuine probability measure on $\R$, not just a collection of numbers indexed by Borel sets.
+
+## Recovering conditional expectation
+
+Once an RCD exists, conditional expectation of any function of $X$ is computed by integrating against it.
+
+<Aside icon="seti:smarty" title="Theorem: Conditional Expectation Through RCD">
+<Tabs>
+<TabItem label="Statement">
+Let $\mu(\omega, \cdot)$ be an RCD for $X$ given $\cG$. For any Borel-measurable $f : \R \to \R$ with $\E|f(X)| < \infty$,
+$$
+\E[f(X) \mid \cG](\omega) \;=\; \int_\R f(x) \, \mu(\omega, dx) \quad \text{a.s.}
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The standard machine: indicator, then simple, then non-negative, then general.
+
+**Indicator case.** Let $f = \mathbb{1}_A$ for $A \in \cB(\R)$. Then
+$$
+\E[\mathbb{1}_A(X) \mid \cG](\omega) \;=\; \Pr(X \in A \mid \cG)(\omega) \;=\; \mu(\omega, A)
+$$
+by condition (1) of the RCD definition. On the right-hand side,
+$$
+\int_\R \mathbb{1}_A(x) \, \mu(\omega, dx) \;=\; \mu(\omega, A).
+$$
+Both sides equal $\mu(\omega, A)$, so the identity holds.
+
+**Simple functions.** Both sides of the identity are linear in $f$, so the identity extends to non-negative simple functions $f = \sum_i a_i \mathbb{1}_{A_i}$ by linearity.
+
+**Non-negative functions.** Approximate $f \ge 0$ by an increasing sequence of simple functions $f_n \uparrow f$. The left-hand side converges by the [conditional monotone convergence theorem](../properties/#conditional-monotone-convergence); the right-hand side by the unconditional monotone convergence theorem applied to the measure $\mu(\omega, \cdot)$.
+
+**General functions.** Split $f = f^+ - f^-$, apply the non-negative case to each, and subtract using linearity.
+</TabItem>
+</Tabs>
+</Aside>
+
+The reading: once an RCD exists, **conditional expectation is just integration against the RCD**. This recovers the elementary picture from the introduction: conditioning on $Y = y$ corresponds to integration against the conditional measure $\mu(\omega, \cdot)$ for any $\omega \in \{Y = y\}$.
+
+## Existence
+
+The construction proceeds via conditional cumulative distribution functions on the rationals, then extends to $\R$, then converts to a measure.
+
+<Aside icon="seti:smarty" title="Theorem: Existence of RCD">
+<Tabs>
+<TabItem label="Statement">
+For any real-valued random variable $X$ on $(\Omega, \cF, \Pr)$ and any sub-$\sigma$-field $\cG \subseteq \cF$, a regular conditional distribution of $X$ given $\cG$ exists.
+</TabItem>
+
+<TabItem label="Proof">
+### Step 1: conditional CDF on rationals
+
+For each rational $r \in \Q$, fix a version
+$$
+F(\omega, r) \;:=\; \Pr(X \le r \mid \cG)(\omega) \;=\; \E[\mathbb{1}_{\{X \le r\}} \mid \cG](\omega).
+$$
+
+### Step 2: collect the exception sets
+
+The function $r \mapsto F(\omega, r)$ needs to behave like a distribution function: non-decreasing, right-continuous, with limits $0$ and $1$ at $\pm \infty$. Each of these properties holds **almost surely**, but the exceptional null set may depend on the parameters. The trick is to take all exceptions over the **countable** index set $\Q$.
+
+- **Monotonicity.** For $r, s \in \Q$ with $r \le s$, the [monotonicity property](../properties/#monotonicity) of conditional expectation gives $F(\omega, r) \le F(\omega, s)$ a.s. Let $A_{rs}$ be the exceptional null set.
+- **Right-continuity at rationals.** For $r \in \Q$, conditional monotone convergence applied to $\mathbb{1}_{\{X \le r + 1/n\}} \downarrow \mathbb{1}_{\{X \le r\}}$ gives $F(\omega, r + 1/n) \downarrow F(\omega, r)$ a.s. Let $B_r$ be the exceptional null set.
+- **Limits at infinity.** Conditional monotone convergence gives $F(\omega, r) \to 0$ as $r \to -\infty$ and $F(\omega, r) \to 1$ as $r \to +\infty$, a.s. Let $C$ be the exceptional null set.
+
+Define
+$$
+E \;:=\; \bigg( \bigcup_{\substack{r, s \in \Q \\ r \le s}} A_{rs} \bigg) \cup \bigg( \bigcup_{r \in \Q} B_r \bigg) \cup C.
+$$
+This is a countable union of $\Pr$-null sets, hence $\Pr$-null. For every $\omega \notin E$, the function $r \mapsto F(\omega, r)$ on $\Q$ is non-decreasing, right-continuous along rational sequences, and has limits $0, 1$ at $\pm \infty$.
+
+### Step 3: extend to $\R$
+
+For $\omega \notin E$ and $x \in \R$, define
+$$
+F(\omega, x) \;:=\; \inf_{\substack{r \in \Q \\ r \ge x}} F(\omega, r) \;=\; \lim_{\substack{r \to x^+ \\ r \in \Q}} F(\omega, r).
+$$
+Direct check: $F(\omega, \cdot)$ is non-decreasing, right-continuous on $\R$, and has limits $0, 1$ at $\pm \infty$. So $F(\omega, \cdot)$ is a **distribution function** on $\R$.
+
+For $\omega \in E$, set $F(\omega, \cdot) := F_0$ for some fixed reference distribution function (e.g., the standard normal CDF). The choice on $E$ is arbitrary since $\Pr(E) = 0$.
+
+### Step 4: convert to a probability measure
+
+For each $\omega$, let $\mu(\omega, \cdot)$ be the unique probability measure on $(\R, \cB(\R))$ with $\mu(\omega, (-\infty, x]) = F(\omega, x)$ (Carathéodory extension). Then $\mu(\omega, \cdot)$ is a probability measure for every $\omega$, so condition (2) of the RCD definition holds automatically.
+
+### Step 5: check condition (1)
+
+Two things to verify: $\omega \mapsto \mu(\omega, A)$ is $\cG$-measurable, and it is a version of $\Pr(X \in A \mid \cG)$, for every Borel $A$.
+
+**$\cG$-measurability via the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem).** Let
+$$
+\cS \;:=\; \big\{ H \in \cB(\R) : \omega \mapsto \mu(\omega, H) \text{ is } \cG\text{-measurable} \big\}.
+$$
+$\cS$ contains every half-line $H = (-\infty, r]$ with $r \in \Q$, since $\mu(\omega, (-\infty, r]) = F(\omega, r)$ is $\cG$-measurable by construction (a conditional expectation). The collection $\{(-\infty, r] : r \in \Q\}$ is a $\pi$-system generating $\cB(\R)$. The set $\cS$ is a $\lambda$-system: closure under complements and countable disjoint unions follows from the countable additivity of $\mu(\omega, \cdot)$. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem), $\cS = \cB(\R)$, so $\omega \mapsto \mu(\omega, H)$ is $\cG$-measurable for every $H \in \cB(\R)$.
+
+**Integration identity.** For any $G \in \cG$ and any rational half-line $H = (-\infty, r]$,
+$$
+\int_G \mu(\omega, H) \, d\Pr \;=\; \int_G F(\omega, r) \, d\Pr \;=\; \int_G \mathbb{1}_{\{X \le r\}} \, d\Pr \;=\; \Pr(\{X \le r\} \cap G),
+$$
+using that $F(\cdot, r)$ is a version of $\Pr(X \le r \mid \cG)$ in the middle step. The two set functions $H \mapsto \int_G \mu(\omega, H) \, d\Pr$ and $H \mapsto \Pr(\{X \in H\} \cap G)$ are both finite measures on $(\R, \cB(\R))$, and they agree on the $\pi$-system of rational half-lines. By the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem) (or uniqueness of measure extension), they agree on all of $\cB(\R)$. So
+$$
+\int_G \mu(\omega, A) \, d\Pr \;=\; \Pr(\{X \in A\} \cap G) \;=\; \int_G \mathbb{1}_{\{X \in A\}} \, d\Pr
+$$
+for every $A \in \cB(\R)$ and $G \in \cG$. Combined with $\cG$-measurability, this says $\mu(\cdot, A)$ is a version of $\E[\mathbb{1}_{\{X \in A\}} \mid \cG]$ for every $A$, which is condition (1).
+</TabItem>
+</Tabs>
+</Aside>
+
+## Remarks
+
+- **The role of $\R$.** The existence proof relied on $\R$ in exactly one place: building a measure from its values on the countable $\pi$-system of half-lines $\{(-\infty, r] : r \in \Q\}$. The same machinery works for any random variable taking values in a **Borel space** (a measurable space isomorphic to a Borel subset of a Polish space), which covers $\R^n$, separable metric spaces, and most distributions of practical interest. For general measurable target spaces, RCDs need not exist.
+- **Uniqueness.** Two RCDs of $X$ given $\cG$ agree as measures for $\Pr$-almost every $\omega$. The proof mirrors the integration-identity argument above: the [$\pi$-$\lambda$ theorem](../../probability-spaces/uniqueness/#π-λ-theorem) upgrades equality on the rational half-lines to equality on all Borel sets, $\Pr$-a.s. in $\omega$.
+- **Disintegration.** When $\cG = \sigma(Y)$ for some random variable $Y$ taking values in a Borel space, RCDs assemble into a **disintegration** of the joint law of $(X, Y)$: a Markov kernel $K(y, dx) := \mu(\omega, dx)$ for any $\omega$ with $Y(\omega) = y$, well-defined up to a $\Pr_Y$-null set of $y$. Conditioning takes the elementary form $\E[f(X) \mid Y = y] = \int_\R f(x) \, K(y, dx)$, closing the loop with the introduction's discussion of the discrete and absolutely continuous cases.

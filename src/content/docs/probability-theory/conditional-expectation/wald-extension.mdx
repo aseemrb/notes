@@ -1,12 +1,12 @@
 ---
 title: Wald's Extension
 sidebar:
-  order: 10
+  order: 11
 ---
 
 [Wald's identity](../wald-identity) gives the *mean* of a random sum $Y = \sum_{i=1}^N X_i$. The natural follow-up: what is the *full distribution* of $Y$? Conditioning on $N$ and combining with [characteristic functions](../../independence/characteristic-function) gives a clean answer: the characteristic function of $Y$ is the **composition** of the generating function of $N$ with the characteristic function of $X_1$.
 
-## Probability Generating Function
+## Probability generating function
 
 <Aside type="tip" icon="open-book" title="Definition: Probability Generating Function">
 The **probability generating function** of a non-negative integer-valued random variable $Z$ is
@@ -55,7 +55,7 @@ $$
 
 The reading: **the characteristic function of $Y$ is the composition $g_N \circ \varphi_{X_1}$**. Random summation in time-domain becomes function composition in the transform domain.
 
-## Worked Example: Geometric Number of Exponential Summands
+## Worked example: Geometric number of exponential summands
 
 Let $X_1, X_2, \ldots$ be i.i.d. $\text{Exponential}(\lambda)$, and let $N \sim \text{Geometric}(p)$ on $\{1, 2, \ldots\}$ with $\Pr(N = k) = (1-p)^{k-1} p$, independent of the $X_i$. The standard formulas:
 $$
@@ -82,6 +82,6 @@ $$
 \E[Y] \;=\; \E[X_1] \cdot \E[N] \;=\; \frac{1}{\lambda} \cdot \frac{1}{p} \;=\; \frac{1}{p \lambda}.
 $$
 
-## Why This Is Stronger Than Wald's Identity
+## Why this is stronger than Wald's Identity
 
 [Wald's identity](../wald-identity) gives only the first moment, $\E[Y] = \E[X_1] \, \E[N]$. Wald's extension gives the *entire characteristic function*, which by the [continuity theorem](../../convergence/continuity) determines the entire distribution. From it one can extract all moments (by differentiating), recognize known distributions (as above), and prove distributional convergence results for random sums.

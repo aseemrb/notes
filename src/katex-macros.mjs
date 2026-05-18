@@ -56,6 +56,9 @@ export const katexMacros = {
     '\\Sigmav': '\\mathbf{\\Sigma}',
     // Sets
     '\\R': '\\mathbb{R}',
+    '\\Q': '\\mathbb{Q}',
+    '\\N': '\\mathbb{N}',
+    '\\Z': '\\mathbb{Z}',
     // Mathcals
     '\\cA': '\\mathcal{A}',
     '\\cB': '\\mathcal{B}',

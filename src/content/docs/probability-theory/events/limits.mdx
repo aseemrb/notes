@@ -10,7 +10,7 @@ Before we can discuss sophisticated results like the laws of large numbers or ev
   We will look at independence of [random variables](../random-variables) in much more detail later, once we define random variables and some other related constructs.
 </Aside>
 
-## Events as Sets
+## Events as sets
 
 Recall that in our formal probability model $(\Omega, \cF, \Pr)$, an **event** is a set $A \in \cF$. The $\sigma$-field structure ensures that we can perform countable logical operations on these events and still stay within our model.
 
@@ -25,12 +25,12 @@ Recall that in our formal probability model $(\Omega, \cF, \Pr)$, an **event** i
 
 This dictionary allows us to translate complex logical questions about random processes into set-theoretic manipulations. This is especially useful when studying the long-term behavior of a process.
 
-## Limits of Sets
+## Limits of sets
 
 Just as numbers can converge, sequences of sets can also have limits.
 For a sequence of events $A_1, A_2, \dots$, we define their **limit superior** and **limit inferior**.
 
-### Lim Sup (Infinitely Often)
+### Lim sup (infinitely often)
 
 The limit superior of the sequence $A_n$ is the set of outcomes that occur in **infinitely many** of the sets $A_n$.
 We can think of this as approaching the limit **from above** (outer envelope).
@@ -43,7 +43,7 @@ $$ \limsup_{n \to \infty} A_n = \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k $$
 *   Thus, we say $\lbrace A_n \text{ i.o.} \rbrace$ — the event that $A_n$ happens **infinitely often**.
 *   There is **no last occurrence** of this event.
 
-### Lim Inf (Eventually)
+### Lim inf (eventually)
 
 The limit inferior of the sequence $A_n$ is the set of outcomes that occur in **all but finitely many** of the sets $A_n$.
 We can think of this as approaching the limit **from below** (inner envelope).
@@ -63,7 +63,7 @@ $$
 Note that $\liminf A_n \subseteq \limsup A_n$ always holds.
 </Aside>
 
-### Probability of Limits
+### Probability of limits
 
 We can relate the probability of the limits to the limits of the probabilities.
 

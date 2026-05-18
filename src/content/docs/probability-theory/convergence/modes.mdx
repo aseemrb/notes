@@ -6,7 +6,7 @@ sidebar:
 
 We define three standard modes of convergence for random variables here. Convergence in distribution (Weak Convergence) is treated separately due to its depth.
 
-## Almost Sure Convergence
+## Almost sure convergence
 
 <Aside type="tip" icon="open-book" title="Definition">
 A sequence of random variables $X_1, \dots, X_n$ is said to **converge almost surely (a.s.)** to a random variable $X$ if:
@@ -26,7 +26,7 @@ Essentially, the set of sample paths $\omega$ where the sequence *fails* to conv
 
 Also called Mean Convergence. Let's look at some context to have a better understanding of the definition.
 
-### Context: L<sup>p</sup> Space
+### Context: L<sup>p</sup> space
 *   $X \in L^p$ means $\mathbb{E}[|X|^p] < \infty$.
 *   **Norm**: In a general measure space, $\|f\|_p = (\int |f|^p \, d\mu)^{1/p}$.
 *   In a probability space ($L^p(\Omega, \mathcal{F}, \mathbb{P})$), recall that since [expectation](../../lebesgue-integration/expectation) is the Lebesgue integration over the probability measure, this becomes:
@@ -57,7 +57,7 @@ For the second part, consider a sequence of random variables that are "close" to
 </Tabs>
 </Aside>
 
-## Convergence in Probability
+## Convergence in probability
 
 <Aside type="tip" icon="open-book" title="Definition">
 A sequence $\{X_n\}$ is said to **converge in probability** to a random variable $X$ if for **any** $\epsilon > 0$:
@@ -71,9 +71,9 @@ $$
 Denoted by: $X_n \xrightarrow{P} X$.
 </Aside>
 
-## Relationships between Modes
+## Relationships between modes
 
-### Almost Sure ⟹ in Probability
+### Almost sure ⟹ in probability
 
 <Aside icon="seti:smarty" title="Theorem">
 <Tabs>
@@ -107,7 +107,7 @@ This means $\mathbb{P}(|X_n - X| > \epsilon) \to 0$, so $X_n \xrightarrow{P} X$.
 </Tabs>
 </Aside>
 
-### L<sup>p</sup> ⟹ in Probability
+### L<sup>p</sup> ⟹ in probability
 
 <Aside icon="seti:smarty" title="Theorem">
 <Tabs>
@@ -181,11 +181,11 @@ Since $\epsilon$ can be arbitrarily small, the limit must be 0. Thus $X_n \xrigh
 </Tabs>
 </Aside>
 
-## Non-Implications (Counter-examples)
+## Non-implications (counter-examples)
 
 In general, Convergence in Probability does **not** imply Almost Sure or $L^p$ convergence.
 
-### The Typewriter Sequence
+### The typewriter sequence
 The following example shows that convergence in probability does not imply almost sure convergence.
 
 Consider $\Omega = [0,1]$ with Lebesgue measure. Let $X = 0$.
@@ -204,7 +204,7 @@ Define $X_n$ as indicator functions of intervals that "scan" across $[0,1]$ repe
     $$
 *   **Note**: This sequence **does** converge in $L^p$ since $\mathbb{E}[|X_n|^p] = \text{length} \to 0$.
 
-### The Escaping Mass Sequence
+### The escaping mass sequence
 The following example shows that convergence in probability does not imply $L^p$ convergence.
 
 Consider the same space. Let $X_n$ be tall, thin rectangles that maintain constant area.

@@ -19,7 +19,7 @@ where:
 - $\Sigmav$ is an $m \times n$ diagonal matrix with non-negative real entries $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_{\min(m,n)} \ge 0$ on the diagonal, called **singular values**.
 </Aside>
 
-## Interactive: Unit Circle to Ellipse
+## Interactive: Unit circle to ellipse
 
 For a $2 \times 2$ matrix
 $$
@@ -41,7 +41,7 @@ $$
 \sigma_i = \sqrt{\lambda_i(\Av^{\rm T}\Av)} = \sqrt{\lambda_i(\Av\Av^{\rm T})}
 $$
 
-## Geometric Interpretation
+## Geometric interpretation
 
 The SVD can be thought of as decomposing any linear transformation into three simple steps:
 1. **Rotation** in the domain ($\Vv^{\rm T}$): Rotate the input vector to align with the principal axes.
@@ -50,7 +50,7 @@ The SVD can be thought of as decomposing any linear transformation into three si
 
 This tells us that every matrix maps a unit sphere to a (possibly degenerate) hyper-ellipse. The singular values $\sigma_i$ are the lengths of the semi-axes of this ellipse.
 
-## Low-rank Approximation
+## Low-rank approximation
 
 One of the most important applications of SVD is the <span class="text-accent">Eckart-Young-Mirsky Theorem</span>. It states that the best rank-$k$ approximation of a matrix $\Av$ (in terms of Frobenius or Spectral norm) is obtained by keeping only the top $k$ singular values and their corresponding vectors.
 
@@ -71,7 +71,7 @@ $$
 
 This is more computationally efficient while preserving all the information needed to reconstruct $\Av$.
 
-## Properties and Applications
+## Properties and applications
 
 - **Rank**: The number of non-zero singular values is equal to the rank of the matrix.
 - **Invertibility**: A square matrix is invertible if and only if all its singular values are non-zero.

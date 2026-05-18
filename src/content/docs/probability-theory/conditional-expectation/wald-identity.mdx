@@ -1,7 +1,7 @@
 ---
 title: Wald's Identity
 sidebar:
-  order: 8
+  order: 9
 ---
 
 **Wald's identity** is the quintessential application of the [tower property](../properties/#tower-property). It computes the mean of a random sum where both the summand and the number of summands are random, by conditioning first on the count.
@@ -42,7 +42,7 @@ $$
 </Tabs>
 </Aside>
 
-## Why It's Useful
+## Why it's useful
 
 Wald's identity is the workhorse for computing means in settings where the number of summands is determined by the same source of randomness as the values being summed:
 
@@ -50,7 +50,7 @@ Wald's identity is the workhorse for computing means in settings where the numbe
 - **Compound Poisson sums.** $Y = \sum_{i=1}^N X_i$ where $N \sim \text{Poisson}(\lambda)$ and $X_i$ are i.i.d. claim sizes (the **collective risk model** in insurance). Wald gives $\E[Y] = \lambda \, \E[X_1]$.
 - **Renewal theory.** The expected total reward over $N_t$ renewal epochs is $\E[N_t] \, \E[X_1]$, the discrete analog of the [elementary renewal theorem](../../laws-of-large-numbers/renewal-theory).
 
-## Hypotheses Matter
+## Hypotheses matter
 
 - **Independence of $N$ from $\{X_i\}$ is essential.** Without it, the simplification in the inner conditional expectation fails: the event $\{N = k\}$ may give information about $X_1, \ldots, X_k$, and the conditional sum is not just $k \, \E[X_1]$. The classical counterexample is when $N$ is a *stopping time* that depends on the $X_i$'s (e.g. "first $k$ such that $S_k > c$"); the Wald identity still holds in that case, but the proof is harder and uses optional stopping rather than independence.
 - **$\E[N] < \infty$ is needed** to make $\E[N \cdot \E[X_1]] < \infty$ and to justify the application of the tower property at finite expected value.
