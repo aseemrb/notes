@@ -1,0 +1,73 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A convex function phi drawn as a curve sagging below the straight chord that joins two sample points at x1 and x2. The mean E[X] sits between them on the axis. Reading up from E[X], the curve gives phi(E[X]) low down, while the chord gives E[phi(X)] higher up. The vertical gap between the two is the Jensen gap, showing phi(E[X]) is at most E[phi(X)].">
+  <style>
+    :root {
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #cbd1d9;
+      --fn: #3b82f6;
+      --bound: #db2777;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #4b5563;
+        --fn: #60a5fa;
+        --bound: #f472b6;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+    .gap { stroke: var(--text); stroke-width: 1.25; fill: none; }
+    .fn { stroke: var(--fn); stroke-width: 2.5; fill: none; }
+    .chord { stroke: var(--bound); stroke-width: 2.5; fill: none; }
+    .dot-fn { fill: var(--fn); }
+    .dot-ch { fill: var(--bound); }
+    .tick { fill: var(--text); font-size: 13px; text-anchor: middle; }
+    .lbl { font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; font-size: 14px; }
+  </style>
+
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--axis)" />
+    </marker>
+    <marker id="gap" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--text)" />
+    </marker>
+  </defs>
+
+  <!-- x-axis -->
+  <line x1="55" y1="210" x2="395" y2="210" class="axis" marker-end="url(#ax)" />
+  <text x="392" y="228" class="tick lbl">x</text>
+
+  <!-- drop lines from axis to sample points and to the mean -->
+  <line x1="112" y1="210" x2="112" y2="124" class="grid" />
+  <line x1="340" y1="210" x2="340" y2="58" class="grid" />
+  <line x1="226" y1="210" x2="226" y2="91" class="grid" />
+
+  <!-- chord joining the two sample points -->
+  <line x1="112" y1="124" x2="340" y2="58" class="chord" />
+
+  <!-- convex function phi (sags below the chord) -->
+  <path class="fn" d="M112 124 Q226 309 340 58" />
+  <text x="132" y="182" class="lbl" fill="var(--fn)">&#966;</text>
+
+  <!-- sample points -->
+  <circle cx="112" cy="124" r="3.2" class="dot-fn" />
+  <circle cx="340" cy="58" r="3.2" class="dot-fn" />
+
+  <!-- the two readings above the mean -->
+  <circle cx="226" cy="200" r="3.2" class="dot-fn" />
+  <circle cx="226" cy="91" r="3.2" class="dot-ch" />
+
+  <!-- Jensen gap -->
+  <line x1="210" y1="198" x2="210" y2="93" class="gap" marker-start="url(#gap)" marker-end="url(#gap)" />
+
+  <text x="234" y="207" class="lbl" fill="var(--fn)" text-anchor="start">&#966;(E[X])</text>
+  <text x="236" y="99" class="lbl" fill="var(--bound)" text-anchor="start">E[&#966;(X)]</text>
+
+  <!-- axis ticks -->
+  <text x="112" y="228" class="tick lbl">x&#8321;</text>
+  <text x="226" y="228" class="tick lbl">E[X]</text>
+  <text x="340" y="228" class="tick lbl">x&#8322;</text>
+</svg>

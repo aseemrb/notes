@@ -56,6 +56,10 @@ $$
 </Tabs>
 </Aside>
 
+![A non-negative function g dominating the scaled indicator step L·1 on the region B](/assets/images/probability-theory/lebesgue-integration/tail-bound.svg)
+
+*The whole argument in one picture: the step $L \cdot \mathbb{1}_B$ never rises above $g(x)$, touching it only at the boundary of $B$. Integrating this pointwise domination against the law of $X$ turns area into probability and gives $\mathbb{P}(X \in B) \le \mathbb{E}[g(X)] / L$. Markov's inequality is the special case $g(x) = x$, $B = \{x \ge a\}$, where $L = a$.*
+
 
 ## Important special cases
 
@@ -110,9 +114,17 @@ $$
 \mathbb{P}(|X| \ge a) \le \frac{\mathbb{E}[X^2]}{a^2}
 $$
 
+![A parabola centered at the mean dominating a two-sided indicator step outside the band μ±a](/assets/images/probability-theory/lebesgue-integration/chebyshev.svg)
+
+*Chebyshev is the general bound with $g(x) = (x - \mu)^2$ and $B = \{|x - \mu| \ge a\}$. The parabola $(x-\mu)^2/a^2$ sits above the indicator of the tail event, equal to it precisely at $\mu \pm a$. Integrating turns the squared deviation into variance: $\mathbb{P}(|X - \mu| \ge a) \le \mathrm{Var}(X)/a^2$.*
+
 ## Jensen's Inequality
 
 The previous inequalities bound tail probabilities. The next one is of a different kind: it relates the expectation of a **convex** transformation to the transformation of the expectation. It is the workhorse behind moment comparisons and the contraction properties of averaging operators.
+
+![A convex curve sagging below its chord, with the Jensen gap between φ(E[X]) on the curve and E[φ(X)] on the chord](/assets/images/probability-theory/lebesgue-integration/jensen.svg)
+
+*For a two-point variable taking $x_1$ and $x_2$ with equal weight, $\mathbb{E}[X]$ is the midpoint and $\mathbb{E}[\varphi(X)]$ is the chord's height there. Convexity keeps the chord above the curve, so $\varphi(\mathbb{E}[X])$ (on the curve) sits below $\mathbb{E}[\varphi(X)]$ (on the chord). The vertical gap is the slack in the inequality, and it closes only when $\varphi$ is affine on the range of $X$.*
 
 <Aside icon="seti:smarty" title="Theorem: Jensen's Inequality">
 <Tabs>

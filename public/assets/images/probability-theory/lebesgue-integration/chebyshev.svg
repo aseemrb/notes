@@ -1,0 +1,58 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A parabola (x minus mu) squared over a squared, centered at the mean mu, sitting above a two-sided step that equals 1 outside the band from mu minus a to mu plus a and 0 inside it. The parabola equals 1 exactly at mu plus or minus a and exceeds 1 further out, so it dominates the step everywhere. Taking expectations turns this domination into Chebyshev's inequality: the probability that X is at least a away from mu is at most the variance over a squared.">
+  <style>
+    :root {
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #cbd1d9;
+      --fn: #3b82f6;
+      --bound: #db2777;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #4b5563;
+        --fn: #60a5fa;
+        --bound: #f472b6;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+    .fn { stroke: var(--fn); stroke-width: 2.5; fill: none; }
+    .bound { stroke: var(--bound); stroke-width: 2.5; fill: none; stroke-linejoin: round; }
+    .tick { fill: var(--text); font-size: 13px; text-anchor: middle; }
+    .lbl { font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; font-size: 14px; }
+  </style>
+
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--axis)" />
+    </marker>
+  </defs>
+
+  <!-- axes -->
+  <line x1="55" y1="200" x2="395" y2="200" class="axis" marker-end="url(#ax)" />
+  <line x1="55" y1="200" x2="55" y2="35" class="axis" marker-end="url(#ax)" />
+  <text x="392" y="218" class="tick lbl">x</text>
+
+  <!-- level 1 -->
+  <line x1="55" y1="110" x2="330" y2="110" class="grid" />
+  <text x="47" y="114" class="tick" text-anchor="end">1</text>
+
+  <!-- band edges -->
+  <line x1="145" y1="200" x2="145" y2="110" class="grid" />
+  <line x1="305" y1="200" x2="305" y2="110" class="grid" />
+
+  <!-- two-sided step: 1 outside the band, 0 inside -->
+  <path class="bound" d="M127 110 L145 110 L145 200 L305 200 L305 110 L323 110" />
+  <text x="340" y="150" class="lbl" fill="var(--bound)" text-anchor="middle">1<tspan dy="3" font-size="10">{|x &#8722; &#956;| &#8805; a}</tspan></text>
+
+  <!-- parabola ((x - mu)/a)^2 -->
+  <path class="fn" d="M127 65 Q225 335 323 65" />
+  <text x="180" y="80" class="lbl" fill="var(--fn)" text-anchor="middle">(x &#8722; &#956;)&#178; / a&#178;</text>
+
+  <!-- axis ticks -->
+  <text x="145" y="218" class="tick lbl">&#956; &#8722; a</text>
+  <text x="225" y="218" class="tick lbl">&#956;</text>
+  <text x="305" y="218" class="tick lbl">&#956; + a</text>
+</svg>

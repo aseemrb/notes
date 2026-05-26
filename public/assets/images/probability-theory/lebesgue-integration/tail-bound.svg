@@ -1,0 +1,61 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A non-negative function g(x) drawn as an increasing curve. To the right of a threshold a, a flat step of height L sits underneath the curve: the step equals L on the region B = {x at least a} and zero to its left. Everywhere the step lies on or below g(x), and they touch at x = a. The shaded slack between curve and step over B illustrates that g dominates the step, so integrating gives P(X in B) at most E[g(X)] over L.">
+  <style>
+    :root {
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #cbd1d9;
+      --fn: #3b82f6;
+      --bound: #db2777;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #4b5563;
+        --fn: #60a5fa;
+        --bound: #f472b6;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+    .fn { stroke: var(--fn); stroke-width: 2.5; fill: none; }
+    .bound { stroke: var(--bound); stroke-width: 2.5; fill: none; stroke-linejoin: round; }
+    .slack { fill: var(--bound); fill-opacity: 0.13; stroke: none; }
+    .tick { fill: var(--text); font-size: 13px; text-anchor: middle; }
+    .lbl { font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; font-size: 14px; }
+  </style>
+
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--axis)" />
+    </marker>
+  </defs>
+
+  <!-- axes -->
+  <line x1="55" y1="200" x2="395" y2="200" class="axis" marker-end="url(#ax)" />
+  <line x1="55" y1="200" x2="55" y2="35" class="axis" marker-end="url(#ax)" />
+  <text x="392" y="218" class="tick lbl">x</text>
+
+  <!-- level L -->
+  <line x1="55" y1="143" x2="190" y2="143" class="grid" />
+  <text x="47" y="147" class="tick lbl" text-anchor="end">L</text>
+
+  <!-- threshold a -->
+  <line x1="190" y1="200" x2="190" y2="143" class="grid" />
+
+  <!-- slack between curve and step over B -->
+  <path class="slack" d="M190 143 L215 131 L255 112 L295 94 L335 76 L380 60 L380 143 Z" />
+
+  <!-- g(x): increasing non-negative curve -->
+  <polyline class="fn" points="55,185 95,178 135,168 175,152 190,143 215,131 255,112 295,94 335,76 380,60" />
+  <text x="220" y="110" class="lbl" fill="var(--fn)">g(x)</text>
+
+  <!-- step L * 1_B -->
+  <path class="bound" d="M55 200 L190 200 L190 143 L380 143" />
+  <text x="220" y="170" class="lbl" fill="var(--bound)" text-anchor="middle">L &#183; 1<tspan dy="3" font-size="10">B</tspan></text>
+
+  <!-- region B brace -->
+  <path d="M190 205 L190 210 L380 210 L380 205" class="axis" stroke-width="1.25" fill="none" />
+  <text x="285" y="226" class="tick lbl">B = {x &#8805; a}</text>
+  <text x="190" y="226" class="tick lbl">a</text>
+</svg>
