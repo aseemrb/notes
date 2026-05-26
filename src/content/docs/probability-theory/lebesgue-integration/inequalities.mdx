@@ -109,3 +109,51 @@ Alternatively, for the raw second moment:
 $$
 \mathbb{P}(|X| \ge a) \le \frac{\mathbb{E}[X^2]}{a^2}
 $$
+
+## Jensen's Inequality
+
+The previous inequalities bound tail probabilities. The next one is of a different kind: it relates the expectation of a **convex** transformation to the transformation of the expectation. It is the workhorse behind moment comparisons and the contraction properties of averaging operators.
+
+<Aside icon="seti:smarty" title="Theorem: Jensen's Inequality">
+<Tabs>
+<TabItem label="Statement">
+Let $\varphi : \mathbb{R} \to \mathbb{R}$ be a convex function, and let $X$ be an integrable random variable ($\mathbb{E}|X| < \infty$). Then
+$$
+\varphi\!\big(\mathbb{E}[X]\big) \;\le\; \mathbb{E}\!\big[\varphi(X)\big],
+$$
+where the right side is well-defined in $(-\infty, +\infty]$.
+
+If $\varphi$ is **concave**, the inequality reverses. (A familiar instance: $\mathbb{E}[\log X] \le \log \mathbb{E}[X]$.)
+</TabItem>
+
+<TabItem label="Proof">
+The proof rests on a single geometric fact about convex functions: at any point, the graph lies above one of its tangent lines.
+
+<Steps>
+1.  **A supporting line at the mean.**
+    Write $m = \mathbb{E}[X]$. A convex function on $\mathbb{R}$ has, at every point $m$, a left derivative $\varphi'_-(m)$ and a right derivative $\varphi'_+(m)$ with $\varphi'_-(m) \le \varphi'_+(m)$. For any slope $a \in [\varphi'_-(m), \varphi'_+(m)]$, the affine function $\ell(x) = \varphi(m) + a(x - m)$ is a **supporting line**:
+    $$
+    \varphi(x) \;\ge\; \varphi(m) + a(x - m) \qquad \text{for every } x \in \mathbb{R}.
+    $$
+
+2.  **Substitute $X$ and take expectations.**
+    The supporting-line bound holds pointwise with $x = X(\omega)$:
+    $$
+    \varphi(X) \;\ge\; \varphi(m) + a(X - m).
+    $$
+    By monotonicity and linearity of expectation,
+    $$
+    \mathbb{E}\!\big[\varphi(X)\big] \;\ge\; \varphi(m) + a\big(\mathbb{E}[X] - m\big).
+    $$
+
+3.  **The correction term vanishes.**
+    By construction $\mathbb{E}[X] = m$, so $a(\mathbb{E}[X] - m) = 0$, leaving
+    $$
+    \mathbb{E}\!\big[\varphi(X)\big] \;\ge\; \varphi(m) \;=\; \varphi\!\big(\mathbb{E}[X]\big).
+    $$
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+A single supporting line suffices here because the mean $\mathbb{E}[X]$ is a fixed number, so we only need the line tangent at that one point. When the deterministic mean is replaced by the *random* variable $\mathbb{E}(X \mid \mathcal{G})$, no single line works for all outcomes at once, and the argument has to invoke a whole countable family of supporting lines simultaneously. That refinement is carried out in the [conditional version of Jensen's inequality](../../conditional-expectation/jensen).
