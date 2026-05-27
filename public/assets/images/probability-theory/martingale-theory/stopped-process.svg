@@ -1,0 +1,70 @@
+<svg viewBox="0 0 470 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A sample path of a stopped process plotted against time. The green path evolves freely up to the stopping time N, then from N onward it is frozen as a flat blue line at the value X_N, with blue dots marking the held value. A dashed vertical line marks N on the time axis.">
+  <style>
+    :root {
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #cbd1d9;
+      --path: #16a34a;
+      --ref: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #4b5563;
+        --path: #4ade80;
+        --ref: #60a5fa;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+    .stopline { stroke: var(--axis); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+    .path { stroke: var(--path); stroke-width: 2; fill: none; stroke-linejoin: round; }
+    .frozen { stroke: var(--ref); stroke-width: 2; fill: none; }
+    .dot { fill: var(--path); }
+    .frozen-dot { fill: var(--ref); }
+    .tick { fill: var(--text); font-size: 13px; text-anchor: middle; }
+    .lbl { font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; font-size: 13px; }
+  </style>
+
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--axis)" />
+    </marker>
+  </defs>
+
+  <!-- axes -->
+  <line x1="55" y1="230" x2="458" y2="230" class="axis" marker-end="url(#ax)" />
+  <line x1="55" y1="230" x2="55" y2="40" class="axis" marker-end="url(#ax)" />
+  <text x="454" y="248" class="tick lbl">n</text>
+  <text x="60" y="34" class="lbl" text-anchor="start">X<tspan dy="3" font-size="10">N&#8743;n</tspan><tspan dy="-3">(&#969;)</tspan></text>
+
+  <!-- level of the frozen value, read back to the axis -->
+  <line x1="55" y1="92" x2="273" y2="92" class="grid" />
+
+  <!-- stopping time marker -->
+  <line x1="273" y1="92" x2="273" y2="230" class="stopline" />
+  <text x="273" y="248" class="tick lbl">N(&#969;)</text>
+
+  <!-- free evolution up to N -->
+  <polyline class="path" points="75,200 108,165 141,188 174,138 207,172 240,108 273,92" />
+  <g class="dot">
+    <circle cx="75" cy="200" r="3.4" />
+    <circle cx="108" cy="165" r="3.4" />
+    <circle cx="141" cy="188" r="3.4" />
+    <circle cx="174" cy="138" r="3.4" />
+    <circle cx="207" cy="172" r="3.4" />
+    <circle cx="240" cy="108" r="3.4" />
+  </g>
+
+  <!-- frozen at X_N from N onward -->
+  <line x1="273" y1="92" x2="425" y2="92" class="frozen" />
+  <g class="frozen-dot">
+    <circle cx="273" cy="92" r="3.8" />
+    <circle cx="306" cy="92" r="3.4" />
+    <circle cx="339" cy="92" r="3.4" />
+    <circle cx="372" cy="92" r="3.4" />
+    <circle cx="405" cy="92" r="3.4" />
+  </g>
+  <text x="432" y="96" class="lbl" text-anchor="start" fill="var(--ref)">X<tspan dy="3" font-size="10">N</tspan><tspan dy="-3">(&#969;)</tspan></text>
+</svg>

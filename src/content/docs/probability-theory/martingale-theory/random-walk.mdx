@@ -1,0 +1,167 @@
+---
+title: Random Walk
+sidebar:
+  order: 5
+---
+
+import PolyaRecurrence from '../../../../components/widgets/PolyaRecurrence.tsx';
+import RWtoBM from '../../../../components/widgets/RWtoBM.tsx';
+import BrownianPaths from '../../../../components/widgets/BrownianPaths.tsx';
+
+The [simple random walk](../martingales/#example-the-symmetric-random-walk) is the simplest non-trivial martingale, and a rich object in its own right. This page collects three results about it, each illustrating a different theme: [optional sampling](../optional-sampling) cashed out as **gambler's ruin**, the dimension-dependent **recurrence** discovered by Pólya, and the continuous-time scaling limit, **Brownian motion**.
+
+## Gambler's ruin
+
+A gambler starts with $k$ dollars and bets one dollar on a fair coin each round, quitting when broke or when the fortune first reaches a target $m$, where $0 < k < m$. The fortune is the random walk
+$$
+S_n = k + \sum_{i=1}^n X_i, \qquad \Pr(X_i = +1) = \Pr(X_i = -1) = \tfrac{1}{2},
+$$
+started at $S_0 = k$, and the game ends at the exit time
+$$
+T = \inf\{ n : S_n = 0 \text{ or } S_n = m \},
+$$
+which is a [stopping time](../stopping-times), being the first hitting time of $\{0, m\}$. Two questions: with what probability does the gambler reach the target rather than go broke, and how long does the game last on average?
+
+Both answers rest on [optional sampling](../optional-sampling). We may apply it because the stopped walk $S_{T \wedge n}$ never leaves $[0, m]$: it is bounded, hence [uniformly integrable](../../convergence/hierarchy/#uniform-integrability), so the theorem applies through its second remark even though $\{S_n\}$ itself is not. The exit time is finite almost surely too: from any interior state, $m$ consecutive up-steps force an exit, an event of probability at least $2^{-m}$ in each block of $m$ steps, so $\Pr(T > km) \le (1 - 2^{-m})^k \to 0$, giving $T < \infty$ almost surely.
+
+<Aside icon="seti:smarty" title="Theorem: Ruin Probabilities">
+<Tabs>
+<TabItem label="Statement">
+Starting from $k$, the gambler reaches the target $m$ before going broke with probability
+$$
+\Pr(S_T = m) = \frac{k}{m}, \quad \text{so the ruin probability is} \quad \Pr(S_T = 0) = \frac{m - k}{m}.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The walk $\{S_n\}$ is a martingale, and the stopped walk is bounded, so optional sampling gives
+$$
+\E[S_T] = \E[S_0] = k.
+$$
+Since $S_T$ takes only the values $0$ and $m$, writing $q = \Pr(S_T = m)$,
+$$
+k = \E[S_T] = 0 \cdot (1 - q) + m \cdot q = m q,
+$$
+hence $q = k/m$. The ruin probability is the complement $1 - k/m = (m-k)/m$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The expected duration needs a second martingale, built from the square of the walk.
+
+<Aside icon="seti:smarty" title="Theorem: Expected Duration">
+<Tabs>
+<TabItem label="Statement">
+The game lasts $k(m - k)$ rounds on average:
+$$
+\E[T] = k(m - k).
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Center the walk at its start, $W_n = S_n - k = \sum_{i=1}^n X_i$. The square $W_n^2$ is a submartingale by the [convex-function result](../properties/#convex-functions-of-a-martingale); subtracting its compensator turns it back into a martingale. Indeed, with $\E[X_{n+1}] = 0$ and $\E[X_{n+1}^2] = 1$,
+$$
+\begin{aligned}
+\E[W_{n+1}^2 \mid \cF_n] &= \E[(W_n + X_{n+1})^2 \mid \cF_n] \\
+&= W_n^2 + 2 W_n \E[X_{n+1}] + \E[X_{n+1}^2] \\
+&= W_n^2 + 1,
+\end{aligned}
+$$
+so $M_n = W_n^2 - n$ is a martingale.
+
+Apply the [stopped-process identity](../stopping-times/#stopped-processes) to $M$ at the fixed time $n$, that is $\E[M_{T \wedge n}] = \E[M_0] = 0$:
+$$
+\E[W_{T \wedge n}^2] = \E[T \wedge n].
+$$
+On the left, $W_{T \wedge n}^2 \le m^2$ is bounded and converges to $W_T^2$ almost surely, so [dominated convergence](../../lebesgue-integration/convergence/#dominated-convergence-theorem-dct) applies; on the right, $T \wedge n \uparrow T$, so [monotone convergence](../../lebesgue-integration/convergence/#monotone-convergence-theorem-mct) applies. Letting $n \to \infty$,
+$$
+\E[W_T^2] = \E[T] \qquad (\text{in particular } \E[T] \le m^2 < \infty).
+$$
+Finally $W_T = S_T - k$ equals $-k$ with probability $(m-k)/m$ and $m - k$ with probability $k/m$, using the ruin probabilities above, so
+$$
+\begin{aligned}
+\E[T] = \E[W_T^2] &= k^2 \cdot \frac{m - k}{m} + (m - k)^2 \cdot \frac{k}{m} \\
+&= \frac{k(m - k)}{m}\big(k + (m - k)\big) \\
+&= k(m - k).
+\end{aligned}
+$$
+</TabItem>
+</Tabs>
+</Aside>
+
+The two results read cleanly together. A fair game is fair in stakes: the chance of turning $k$ into $m$ is exactly the fraction $k/m$ of the target you begin with, so on average you neither gain nor lose. Fairness says nothing about patience, though: the expected number of rounds is $k(m-k)$, largest when the gambler sits midway between the boundaries. Against an infinitely rich house, $m \to \infty$ with $k$ fixed, the ruin probability $(m-k)/m \to 1$ and the expected time to ruin $k(m-k) \to \infty$. The gambler is certain to be ruined, but is made to wait arbitrarily long for it.
+
+## Pólya's recurrence
+
+Gambler's ruin lives inside a bounded interval, where the walk is forced to exit. Released on the whole lattice, does a random walk always come back to where it started? The answer depends, remarkably, only on the dimension. For one and two dimensions, the walk almost surely finds the way home. But say a bird flying through three-dimensional space, stepping in random directions, may never return: there is a positive probability of escaping to infinity.
+
+> *"A drunk man will find his way home, but a drunk bird may get lost forever."* -- Shizuo Kakutani
+
+<Aside icon="seti:smarty" title="Theorem: Pólya's Recurrence">
+<Tabs>
+<TabItem label="Statement">
+On the integer lattice $\Z^d$, the **simple random walk** where each step picks one of the $2d$ axis directions uniformly is **recurrent**, returning to the origin with probability $1$, if and only if $d \le 2$. For $d \ge 3$ it is **transient**: with positive probability it never returns.
+
+The phase transition is exactly at $d = 2$. In $d = 3$ the return probability is **Pólya's constant** $\approx 0.3405$, and it shrinks further in higher dimensions.
+</TabItem>
+
+<TabItem label="Proof sketch">
+Let $S_n$ be the position after $n$ steps. The walk is recurrent precisely when the expected number of visits to the origin is infinite, and that expectation is a single series:
+$$
+\E\big[\#\{n : S_n = 0\}\big] = \sum_{n=0}^\infty \Pr(S_n = 0).
+$$
+So recurrence versus transience reduces to divergence versus convergence of $\sum_n \Pr(S_n = 0)$.
+
+A [local central limit theorem](../../central-limit-theorem) gives the decay of the return probability: the walk returns only after an even number of steps, and
+$$
+\Pr(S_{2n} = 0) \sim \frac{C_d}{n^{d/2}} \qquad (n \to \infty)
+$$
+for an explicit constant $C_d > 0$. The return series therefore behaves like the $p$-series $\sum_n n^{-d/2}$, which converges if and only if $d/2 > 1$. Hence
+
+- $d = 1, 2$: the series diverges, the walk returns infinitely often, recurrent;
+- $d \ge 3$: the series converges, the walk returns only finitely often, transient.
+
+In $d = 3$ the return probability has the closed form $1 - 1/u(0,0,0)$, where $u(0,0,0)$ is the lattice Green's function at the origin,
+$$
+u(0,0,0) = \frac{1}{(2\pi)^3} \int_{[-\pi,\pi]^3} \frac{dx\,dy\,dz}{1 - \tfrac{1}{3}(\cos x + \cos y + \cos z)} \approx 1.516,
+$$
+evaluated by Watson (1939) in terms of elliptic integrals, giving the return probability $\approx 0.3405$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The dichotomy is visible by simulation. Below, three independent walks run continuously in 1D, 2D, and 3D; each restarts when it returns to the origin or after a step cap, and the counter tracks the empirical fraction that returned.
+
+<PolyaRecurrence client:visible />
+
+Watched for a while, the 1D and 2D rates climb toward $100\%$ (the step cap occasionally lets a wandering walk slip through before its certain eventual return), while the 3D rate settles well below, around the infinite-time limit $1 - 0.3405 \approx 0.66$ thinned further by the cap. The qualitative gap between the dimensions is the theorem.
+
+## Brownian motion
+
+Speed the walk up and shrink its steps at the same time, and a continuous process emerges in the limit. Take the symmetric walk $S_n = X_1 + \cdots + X_n$ with unit-variance steps and rescale space by $\sqrt{n}$ and time by $n$:
+$$
+B^{(n)}_t = \frac{S_{\lfloor n t \rfloor}}{\sqrt{n}}, \qquad t \in [0, 1].
+$$
+The [central limit theorem](../../central-limit-theorem) already says the marginal $B^{(n)}_t$ is approximately $\mathcal{N}(0, t)$; **Donsker's invariance principle** upgrades this to convergence of the whole path to **standard Brownian motion** $\{B_t\}$. Drag $n$ up, or hit animate, to watch the coarse walk refine into a Brownian path inside the limiting $\pm\sqrt{t}$ bands.
+
+<RWtoBM client:visible />
+
+The limit is the canonical continuous-time process.
+
+<Aside type="tip" icon="open-book" title="Definition: Brownian Motion">
+A **standard Brownian motion** is a process $\{B_t\}_{t \ge 0}$ with $B_0 = 0$, **independent increments**, Gaussian increments $B_t - B_s \sim \mathcal{N}(0, t - s)$ for $s < t$, and continuous sample paths.
+</Aside>
+
+Brownian motion is the continuous-time face of everything on the earlier pages. With $\cF_s$ the information up to time $s$, the independent mean-zero increments make it a **martingale**: for $s < t$,
+$$
+\E[B_t \mid \cF_s] = B_s + \E[B_t - B_s \mid \cF_s] = B_s + \E[B_t - B_s] = B_s.
+$$
+And exactly as the discrete walk needed the compensator $n$ to turn $W_n^2$ into the martingale $W_n^2 - n$, Brownian motion needs the compensator $t$:
+$$
+\E[B_t^2 - t \mid \cF_s] = \E[(B_s + (B_t - B_s))^2 \mid \cF_s] - t = B_s^2 + (t - s) - t = B_s^2 - s,
+$$
+so $\{B_t^2 - t\}$ is a martingale. The discrete $W_n^2 - n$ is its random-walk shadow; the continuous compensator $t$ is the **quadratic variation** of the path, the seed of stochastic calculus.
+
+The paths themselves are continuous but nowhere differentiable, wandering within the same $\pm\sqrt{t}$ standard-deviation bands the rescaled walk approached.
+
+<BrownianPaths client:visible />

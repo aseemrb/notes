@@ -1,0 +1,80 @@
+---
+title: Optional Sampling
+sidebar:
+  order: 4
+---
+
+The [stopped-process theorem](../stopping-times/#stopped-processes) gave $\E[X_{N \wedge n}] = \E[X_0]$ for every *fixed* time $n$. The **optional sampling theorem** asks when this survives the limit $n \to \infty$, so that the fair-game identity holds at the stopping time itself: $\E[X_N] = \E[X_0]$. The gap is an interchange of limit and expectation, and the sufficient condition is uniform integrability, or, more simply, a bounded stopping time.
+
+## Optional sampling theorem
+
+Recall that a sequence $\{X_n\}$ is [uniformly integrable (U.I.)](../../convergence/hierarchy/#uniform-integrability) if
+$$
+\sup_n \E\big[ |X_n| \, \mathbb{1}_{\{|X_n| > M\}} \big] \to 0 \qquad \text{as } M \to \infty,
+$$
+that is, no mass escapes to infinity along the sequence. The point of the condition is the [Vitali convergence theorem](../../convergence/hierarchy/#vitali-convergence-theorem): [almost-sure convergence](../../convergence/modes/#almost-sure-convergence) together with uniform integrability upgrades to [$L^1$ convergence](../../convergence/modes/#convergence-in-lp), which is exactly what lets us pass a limit through an expectation.
+
+<Aside icon="seti:smarty" title="Theorem: Optional Sampling">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}$ be a uniformly integrable martingale and let $N$ be a stopping time that is finite almost surely. Then
+$$
+\E[X_N] = \E[X_0].
+$$
+If $\{X_n\}$ is a submartingale instead, the equality weakens to $\E[X_0] \le \E[X_N]$.
+</TabItem>
+
+<TabItem label="Proof">
+We give the submartingale case; the martingale case is identical with every $\le$ an equality.
+
+<Steps>
+1.  **The stopped process gives the identity at finite times.** By the [stopping theorem](../stopping-times/#stopped-processes), $\{X_{N \wedge n}\}$ is a submartingale, so its mean is non-decreasing from its starting value:
+    $$
+    \E[X_0] \le \E[X_{N \wedge n}] \qquad \text{for every } n. \tag{1}
+    $$
+
+2.  **Pointwise limit.** Since $N < \infty$ almost surely, for almost every $\omega$ we eventually have $n > N(\omega)$, at which point $X_{N \wedge n}(\omega) = X_N(\omega)$. Hence $X_{N \wedge n} \to X_N$ almost surely.
+
+3.  **The stopped sequence is uniformly integrable.** Split it at the stopping time,
+    $$
+    X_{N \wedge n} = X_n \, \mathbb{1}_{\{n \le N\}} + X_N \, \mathbb{1}_{\{n > N\}}.
+    $$
+    The first term is dominated by $|X_n|$ drawn from the [U.I.](../../convergence/hierarchy/#uniform-integrability) family $\{X_n\}$, and the second by the single integrable variable $|X_N|$. A sum of uniformly integrable families is uniformly integrable, so $\{X_{N \wedge n}\}_n$ is U.I.
+
+4.  **Upgrade to $L^1$.** Almost-sure convergence (step 2) plus uniform integrability (step 3) gives $L^1$ convergence by the [Vitali convergence theorem](../../convergence/hierarchy/#vitali-convergence-theorem). In particular the means converge:
+    $$
+    \E[X_{N \wedge n}] \to \E[X_N].
+    $$
+
+5.  **Pass to the limit.** Letting $n \to \infty$ in $(1)$ gives $\E[X_0] \le \E[X_N]$, with equality throughout in the martingale case.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+<Aside type="danger" title="Remarks">
+1. The same argument with the inequalities reversed gives the **supermartingale** version, $\E[X_N] \le \E[X_0]$.
+2. The proof used uniform integrability only of the **stopped** sequence $\{X_{N \wedge n}\}$, never of $\{X_n\}$ itself. This weaker requirement is what the corollary below exploits.
+</Aside>
+
+When the stopping time is bounded, the stopped sequence is uniformly integrable for free (it is eventually constant), and the theorem applies with no integrability hypothesis at all.
+
+<Aside icon="seti:smarty" title="Corollary: Bounded Stopping Times">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}$ be a martingale (resp. submartingale) and let $N$ be a **bounded** stopping time, meaning $N \le M$ almost surely for some constant $M$. Then
+$$
+\E[X_N] = \E[X_0] \qquad (\text{resp. } \E[X_0] \le \E[X_N]),
+$$
+with no uniform integrability needed.
+</TabItem>
+
+<TabItem label="Proof">
+Since $N \le M$ almost surely, $N \wedge M = N$. Applying the [stopped-process identity](../stopping-times/#stopped-processes) at the single fixed time $n = M$ gives
+$$
+\E[X_0] \le \E[X_{N \wedge M}] = \E[X_N],
+$$
+with equality in the martingale case. No limit is taken, so uniform integrability never enters.
+</TabItem>
+</Tabs>
+</Aside>

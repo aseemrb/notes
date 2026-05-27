@@ -1,0 +1,73 @@
+<svg viewBox="0 0 460 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A discrete sample path X1 through X8 plotted against time. A horizontal threshold line at level a sits near the top. The path zigzags below a through X1 to X7 and first reaches or exceeds a at X8, so the first hitting time tau_a equals 8. A dashed vertical line drops from X8 to the time axis marking tau_a.">
+  <style>
+    :root {
+      --text: #374151;
+      --axis: #9ca3af;
+      --grid: #cbd1d9;
+      --path: #16a34a;
+      --hit: #db2777;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #d1d5db;
+        --axis: #6b7280;
+        --grid: #4b5563;
+        --path: #4ade80;
+        --hit: #f472b6;
+      }
+    }
+    .axis { stroke: var(--axis); stroke-width: 1.5; fill: none; }
+    .level { stroke: var(--hit); stroke-width: 1.75; stroke-dasharray: 5 4; fill: none; }
+    .drop { stroke: var(--hit); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+    .path { stroke: var(--path); stroke-width: 2; fill: none; stroke-linejoin: round; }
+    .dot { fill: var(--path); }
+    .hit-dot { fill: var(--hit); }
+    .tick { fill: var(--text); font-size: 13px; text-anchor: middle; }
+    .lbl { font-family: 'KaTeX_Math', 'Times New Roman', serif; font-style: italic; font-size: 13px; }
+  </style>
+
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--axis)" />
+    </marker>
+  </defs>
+
+  <!-- axes -->
+  <line x1="45" y1="230" x2="448" y2="230" class="axis" marker-end="url(#ax)" />
+  <line x1="45" y1="230" x2="45" y2="45" class="axis" marker-end="url(#ax)" />
+  <text x="444" y="248" class="tick lbl">n</text>
+
+  <!-- threshold level a -->
+  <line x1="45" y1="70" x2="412" y2="70" class="level" />
+  <text x="37" y="74" class="tick lbl" text-anchor="end" fill="var(--hit)">a</text>
+
+  <!-- drop line from the crossing point -->
+  <line x1="376" y1="55" x2="376" y2="230" class="drop" />
+  <text x="376" y="248" class="tick lbl" fill="var(--hit)">&#964;<tspan dy="3" font-size="10">a</tspan></text>
+
+  <!-- sample path -->
+  <polyline class="path" points="75,205 118,145 161,195 204,132 247,188 290,125 333,162 376,55" />
+
+  <!-- points below the level -->
+  <g class="dot">
+    <circle cx="75" cy="205" r="3.4" />
+    <circle cx="118" cy="145" r="3.4" />
+    <circle cx="161" cy="195" r="3.4" />
+    <circle cx="204" cy="132" r="3.4" />
+    <circle cx="247" cy="188" r="3.4" />
+    <circle cx="290" cy="125" r="3.4" />
+    <circle cx="333" cy="162" r="3.4" />
+  </g>
+  <!-- first point at or above the level -->
+  <circle cx="376" cy="55" r="4.6" class="hit-dot" />
+
+  <!-- point labels -->
+  <text x="75" y="223" class="lbl">X&#8321;</text>
+  <text x="118" y="138" class="lbl" text-anchor="middle">X&#8322;</text>
+  <text x="161" y="213" class="lbl" text-anchor="middle">X&#8323;</text>
+  <text x="204" y="125" class="lbl" text-anchor="middle">X&#8324;</text>
+  <text x="247" y="206" class="lbl" text-anchor="middle">X&#8325;</text>
+  <text x="290" y="118" class="lbl" text-anchor="middle">X&#8326;</text>
+  <text x="333" y="180" class="lbl" text-anchor="middle">X&#8327;</text>
+  <text x="392" y="52" class="lbl" fill="var(--hit)">X&#8328;</text>
+</svg>

@@ -1,0 +1,137 @@
+---
+title: Properties
+sidebar:
+  order: 2
+---
+
+This section collects the structural consequences of the [martingale](../martingales) definition: how the one-step property extends across many steps, what convex functions do to a martingale, and what happens when you bet on a martingale with a predictable strategy.
+
+## Martingale properties
+
+### Conditioning across multiple steps
+
+The defining property relates consecutive times, $\E(X_{n+1} \mid \cF_n) = X_n$. It extends to any pair of times without change in form: the best forecast of a far-future value, given the present information, is still the present value.
+
+<Aside icon="seti:smarty" title="Theorem: Conditioning Across Steps">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}$ be a martingale and let $m < n$. Then
+$$
+\E(X_n \mid \cF_m) = X_m.
+$$
+If $\{X_n\}$ is a **supermartingale** the equality weakens to $\E(X_n \mid \cF_m) \le X_m$, and if it is a **submartingale**, to $\E(X_n \mid \cF_m) \ge X_m$.
+</TabItem>
+
+<TabItem label="Proof">
+We give the supermartingale case; the martingale and submartingale cases are identical with $\le$ replaced by $=$ or $\ge$. The argument is induction on $n$ with $m$ fixed.
+
+<Steps>
+1.  **Base case $n = m + 1$.** This is exactly the defining inequality $\E(X_{m+1} \mid \cF_m) \le X_m$.
+
+2.  **Inductive step.** Assume the claim holds at $n - 1$, that is, $\E(X_{n-1} \mid \cF_m) \le X_m$. Since $\cF_m \subseteq \cF_{n-1}$, the [tower property](../../conditional-expectation/properties/#tower-property) lets us condition on the larger field first:
+    $$
+    \E(X_n \mid \cF_m) = \E\!\big( \E(X_n \mid \cF_{n-1}) \mid \cF_m \big).
+    $$
+    The inner term satisfies $\E(X_n \mid \cF_{n-1}) \le X_{n-1}$ by the supermartingale property, so by [monotonicity](../../conditional-expectation/properties/#monotonicity),
+    $$
+    \E(X_n \mid \cF_m) \le \E(X_{n-1} \mid \cF_m) \le X_m,
+    $$
+    the final inequality being the inductive hypothesis.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+### Convex functions of a martingale
+
+Applying a convex function to a martingale cannot produce another martingale in general, but it always produces a submartingale. This is the process-level shadow of [Jensen's inequality](../../conditional-expectation/jensen).
+
+<Aside icon="seti:smarty" title="Theorem: Convex Functions Give Submartingales">
+<Tabs>
+<TabItem label="Statement">
+Let $\{X_n\}$ be an $\{\cF_n\}$-martingale and let $\varphi : \R \to \R$ be convex with $\E|\varphi(X_n)| < \infty$ for every $n$. Then $\{\varphi(X_n)\}$ is a submartingale with respect to $\{\cF_n\}$.
+</TabItem>
+
+<TabItem label="Proof">
+Since $X_n$ is $\cF_n$-measurable and a convex function is continuous, hence Borel measurable, $\varphi(X_n)$ is $\cF_n$-measurable: the process is adapted, and integrability is assumed. It remains to verify the submartingale inequality. Apply [conditional Jensen's inequality](../../conditional-expectation/jensen), then the martingale property $\E(X_{n+1} \mid \cF_n) = X_n$:
+$$
+\E\!\big( \varphi(X_{n+1}) \mid \cF_n \big) \;\ge\; \varphi\!\big( \E(X_{n+1} \mid \cF_n) \big) \;=\; \varphi(X_n).
+$$
+This is exactly the defining inequality of a submartingale for $\{\varphi(X_n)\}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+Two important special cases:
+
+1. taking $\varphi(x) = |x|$ shows that $\{|X_n|\}$ is a submartingale, and
+2. taking $\varphi(x) = x^2$ (when $X_n \in L^2$) shows that $\{X_n^2\}$ is a submartingale.
+
+Both feed into the maximal and convergence theorems for martingales.
+
+## Discrete stochastic integral
+
+### The construction
+
+<Aside type="tip" icon="open-book" title="Definition: Discrete Stochastic Integral">
+Given two processes $\{X_n\}$ and $\{H_n\}$, the **discrete stochastic integral** of $H$ with respect to $X$ is the process
+$$
+(H \cdot X)_n = \sum_{m=1}^n H_m (X_m - X_{m-1}), \qquad n \ge 1,
+$$
+with $(H \cdot X)_0 = 0$.
+</Aside>
+
+The construction has a direct financial reading. Take $X_n$ to be the price of a stock at time $n$ and $H_n$ the number of shares held over the step from time $n-1$ to time $n$. Then $H_m (X_m - X_{m-1})$ is the profit earned on that step, and the sum
+$$
+(H \cdot X)_n = \text{total profit up to time } n.
+$$
+For this reason the discrete stochastic integral is also called the **martingale transform**: the gain of the trading strategy $\{H_n\}$ played against the price process $\{X_n\}$.
+
+### Predictable processes
+
+A trading strategy cannot use information it does not yet have. The position held over the step to time $n$ must be chosen before the price move on that step is revealed. This is the content of **predictability**.
+
+<Aside type="tip" icon="open-book" title="Definition: Predictable Process">
+A process $\{H_n\}_{n \ge 1}$ is **predictable** if $H_n$ is $\cF_{n-1}$-measurable for every $n \ge 1$.
+</Aside>
+
+Since $\cF_{n-1} \subseteq \cF_n$, a predictable process is in particular [adapted](../martingales/#stochastic-processes). Predictability is the stronger requirement: $H_n$ is fixed using only the information available one step earlier, so you cannot bet on an increment you have already seen.
+
+### The transform of a martingale
+
+Betting against a fair game is again a fair game. No predictable, bounded strategy can tilt the expected outcome.
+
+<Aside icon="seti:smarty" title="Theorem: The Martingale Transform">
+<Tabs>
+<TabItem label="Statement">
+Let $\{H_n\}$ be a predictable process with each $H_n$ bounded.
+
+- If $\{X_n\}$ is a **martingale**, then $(H \cdot X)_n$ is a martingale.
+- If $\{X_n\}$ is a **super-** or **submartingale** and $\{H_n\}$ is in addition **non-negative**, then $(H \cdot X)_n$ is a super- or submartingale respectively.
+
+Boundedness of each $H_n$ guarantees that $(H \cdot X)_n$ is integrable, so integrability need not be checked separately.
+</TabItem>
+
+<TabItem label="Proof">
+We check the one-step property. Separating the last increment,
+$$
+\E\!\big[ (H \cdot X)_{n+1} \mid \cF_n \big] = \E\!\big[ (H \cdot X)_n + H_{n+1}(X_{n+1} - X_n) \mid \cF_n \big].
+$$
+Both $(H \cdot X)_n$ and $H_{n+1}$ are $\cF_n$-measurable, the latter by predictability, so by [linearity](../../conditional-expectation/properties/#linearity) and [taking out what is known](../../conditional-expectation/properties/#take-out-what-is-known),
+$$
+= (H \cdot X)_n + H_{n+1}\big( \E[X_{n+1} \mid \cF_n] - X_n \big).
+$$
+The bracket is
+$$
+\E[X_{n+1} \mid \cF_n] - X_n \;=\; \begin{cases} = 0 & \text{if } \{X_n\} \text{ is a martingale}, \\ \le 0 & \text{if a supermartingale}, \\ \ge 0 & \text{if a submartingale}. \end{cases}
+$$
+In the martingale case the bracket vanishes, so $(H \cdot X)_n$ is a martingale regardless of the sign of $H_{n+1}$. In the super- or submartingale case, multiplying the signed bracket by $H_{n+1} \ge 0$ preserves its sign, which is exactly the corresponding (super/sub)martingale property for $(H \cdot X)_n$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The non-negativity hypothesis is only needed for the one-sided cases. For a martingale the increment has zero conditional mean, so the strategy's sign is irrelevant and any bounded predictable $\{H_n\}$ works.
+
+<Aside type="danger" title="Remark">
+On average you cannot make money off a fair game: if the stock price is a martingale, every bounded predictable strategy has zero expected gain.
+</Aside>

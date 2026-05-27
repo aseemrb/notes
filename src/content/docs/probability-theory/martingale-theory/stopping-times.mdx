@@ -1,0 +1,112 @@
+---
+title: Stopping Times
+sidebar:
+  order: 3
+---
+
+A **stopping time** is a random time at which the decision to stop can be made using only the information available so far, with no glimpse of the future. It is the right notion of time for martingale arguments. Freezing a process at a stopping time gives the **stopped process**, the construction behind the optional sampling theorem.
+
+## Stopping times
+
+<Aside type="tip" icon="open-book" title="Definition: Stopping Time">
+A random variable $N$ taking values in $\{0, 1, 2, \ldots\} \cup \{\infty\}$ is a **stopping time** with respect to a filtration $\{\cF_n\}$ if
+$$
+\{N = n\} \in \cF_n \qquad \text{for every } n < \infty.
+$$
+Equivalently, $\{N \le n\} \in \cF_n$ for every $n$, or equivalently $\{N > n\} \in \cF_n$ for every $n$.
+</Aside>
+
+The three formulations are interchangeable. The event $\{N \le n\} = \bigcup_{k=0}^n \{N = k\}$ is a union of events each lying in $\cF_k \subseteq \cF_n$, so $\{N = n\} \in \cF_n$ for all $n$ gives $\{N \le n\} \in \cF_n$ for all $n$. Conversely $\{N = n\} = \{N \le n\} \setminus \{N \le n-1\}$ recovers the first from the second, using $\{N \le n-1\} \in \cF_{n-1} \subseteq \cF_n$. The third is the complement of the second. The condition says exactly that whether the time has arrived by step $n$ is decidable from the information $\cF_n$ in hand at step $n$.
+
+> **We know it happens when it happens.** Whether $N = n$ can be determined at time $n$, without waiting to see what comes later.
+
+### Example: a hitting time
+
+The canonical stopping time is the first time an adapted process reaches a level.
+
+For an adapted process $\{X_n\}$ and a level $a$, the **first hitting time** is
+$$
+\tau_a = \inf\{ n : X_n \ge a \}.
+$$
+It is a stopping time, because the event of arriving at step $n$ unpacks into conditions on $X_0, \ldots, X_n$ only:
+$$
+\{\tau_a = n\} = \{X_i < a \text{ for all } i < n\} \cap \{X_n \ge a\} \in \cF_n,
+$$
+each set on the right being $\cF_n$-measurable since the process is adapted.
+
+![A path that stays below the level a until it first crosses at step 8, so the hitting time equals 8](/assets/images/probability-theory/martingale-theory/hitting-time.svg)
+
+*The path stays below $a$ through $X_1, \ldots, X_7$ and first reaches it at $X_8$, so $\tau_a = 8$. The event $\{\tau_a = 8\}$ is decided by $X_1, \ldots, X_8$ alone, hence lies in $\cF_8$: we recognize the hitting time exactly when it occurs.*
+
+### Example: a time that is not a stopping time
+
+Contrast this with the **last** time a process is above the level before a fixed horizon $M$,
+$$
+\tau_a' = \sup\{ n \le M : X_n \ge a \}.
+$$
+Now the event of occurring at step $n$ requires knowing that the process never returns above $a$ afterward:
+$$
+\{\tau_a' = n\} = \{X_n \ge a\} \cap \{X_i < a \text{ for all } i \in (n, M]\} \notin \cF_n,
+$$
+and the second set depends on the future values $X_{n+1}, \ldots, X_M$, which $\cF_n$ does not know. So $\tau_a'$ is not a stopping time. We will see the last upcrossing happen, but only in hindsight at the horizon $M$, never at the moment it occurs, which is exactly what the intuition above rules out.
+
+> *"I didn't know it was the last time I would see her."*
+
+## Stopped processes
+
+Once we have a stopping time, we can freeze a process at it: run the process normally until time $N$, then hold its value constant from then on.
+
+<Aside type="tip" icon="open-book" title="Definition: Stopped Process">
+Let $\{X_n\}$ be a process and $N$ a stopping time. The **stopped process** $\{X_{N \wedge n}\}_{n \ge 0}$, where $N \wedge n = \min(N, n)$, is
+$$
+X_{N \wedge n}(\omega) = \begin{cases} X_n(\omega), & n < N(\omega), \\[2pt] X_{N(\omega)}(\omega), & n \ge N(\omega). \end{cases}
+$$
+</Aside>
+
+Before the stopping time it agrees with $X$; from the stopping time onward it stays frozen at the value $X_N$. The process stops after the stopping time.
+
+![A path that evolves until the stopping time N and then stays flat at the value X_N for all later n](/assets/images/probability-theory/martingale-theory/stopped-process.svg)
+
+*The stopped process follows $X_n$ up to the stopping time $N(\omega)$ and then holds the value $X_{N(\omega)}$ for every later $n$. Freezing in this way preserves the (super/sub)martingale property.*
+
+The central fact is that freezing at a stopping time costs nothing: a stopped martingale is still a martingale. This follows immediately from the [martingale transform](../properties/#the-transform-of-a-martingale), once we recognize the stopped process as a discrete stochastic integral.
+
+<Aside icon="seti:smarty" title="Theorem: Stopping Preserves the Martingale Property">
+<Tabs>
+<TabItem label="Statement">
+If $\{X_n\}$ is a (super/sub)martingale and $N$ is a stopping time, then the stopped process $\{X_{N \wedge n}\}$ is a (super/sub)martingale with respect to the same filtration. In particular, a stopped martingale is a martingale, so
+$$
+\E[X_{N \wedge n}] = \E[X_0] \qquad \text{for every } n.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+The idea is to write the stopped process as a [martingale transform](../properties/#the-transform-of-a-martingale) by a particularly simple strategy: hold one unit as long as the time has not yet arrived.
+
+<Steps>
+1.  **A predictable, non-negative strategy.** Define $H_n = \mathbb{1}_{\{N \ge n\}}$. Since
+    $$
+    \{H_n = 1\} = \{N \ge n\} = \{N \le n - 1\}^c \in \cF_{n-1}
+    $$
+    (using that $N$ is a stopping time), and $\{H_n = 0\}$ is its complement, $H_n$ is $\cF_{n-1}$-measurable. So $\{H_n\}$ is [predictable](../properties/#predictable-processes), and being $\{0, 1\}$-valued it is non-negative and bounded.
+
+2.  **The transform telescopes to the stopped process.** Because $\mathbb{1}_{\{N \ge m\}} = 1$ exactly when $m \le N$,
+    $$
+    \begin{aligned}
+    (H \cdot X)_n &= \sum_{m=1}^n \mathbb{1}_{\{N \ge m\}} (X_m - X_{m-1}) \\
+    &= \sum_{m=1}^{N \wedge n} (X_m - X_{m-1}) \\
+    &= X_{N \wedge n} - X_0,
+    \end{aligned}
+    $$
+    the last sum telescoping. Rearranged,
+    $$
+    X_{N \wedge n} = X_0 + (H \cdot X)_n.
+    $$
+
+3.  **Conclude.** By the [martingale transform theorem](../properties/#the-transform-of-a-martingale), $(H \cdot X)_n$ is a (super/sub)martingale, since $\{H_n\}$ is predictable, bounded, and non-negative. The constant process $X_0$ is $\cF_0$-measurable and satisfies $\E(X_0 \mid \cF_n) = X_0$, so it is a martingale and adds nothing to the inequalities. Hence $X_{N \wedge n} = X_0 + (H \cdot X)_n$ is a (super/sub)martingale.
+</Steps>
+</TabItem>
+</Tabs>
+</Aside>
+
+The identity $\E[X_{N \wedge n}] = \E[X_0]$ holds for every fixed $n$, no matter how the stopping time is chosen. Whether it survives in the limit $n \to \infty$, that is, whether $\E[X_N] = \E[X_0]$ for the stopping time itself, is a more delicate question, and is the subject of the [optional sampling theorem](../optional-sampling).
