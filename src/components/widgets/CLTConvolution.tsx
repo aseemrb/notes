@@ -48,21 +48,21 @@ const DISTRIBUTIONS: BaseDistribution[] = [
   {
     type: 'discrete',
     key: 'bernoulli',
-    label: 'Bernoulli(0.3)  →  Binomial(n, 0.3)',
+    label: 'Binomial(n, 0.3)',
     p: [0.7, 0.3],
     offset: 0,
   },
   {
     type: 'discrete',
     key: 'die',
-    label: 'uniform die {1..6}',
+    label: 'Uniform die',
     p: [1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6],
     offset: 1,
   },
   {
     type: 'continuous',
     key: 'exponential',
-    label: 'Exponential(1)  →  Gamma(n, 1)',
+    label: 'Gamma(n, 1)',
     density: gammaDensity,
     supportMin: 0,
     mean: 1,
@@ -238,6 +238,7 @@ export default function CLTConvolution() {
 
   return (
     <div
+      class="not-content"
       style={{
         margin: '1.5rem 0',
         color: 'var(--sl-color-text)',
