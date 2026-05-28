@@ -54,6 +54,9 @@ export const katexMacros = {
     '\\Zv': '\\mathbf{Z}',
     '\\Lambdav': '\\mathbf{\\Lambda}',
     '\\Sigmav': '\\mathbf{\\Sigma}',
+    '\\Omegav': '\\mathbf{\\Omega}',
+    '\\lambdav': '\\boldsymbol{\\lambda}',
+    '\\nuv': '\\boldsymbol{\\nu}',
     // Sets
     '\\R': '\\mathbb{R}',
     '\\Q': '\\mathbb{Q}',
