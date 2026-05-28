@@ -28,13 +28,24 @@ $$
 </TabItem>
 
 <TabItem label="Proof">
-We prove the spectral-norm case; $\Av_k$ attains $\lVert \Av - \Av_k \rVert_2 = \sigma_{k+1}$ since $\Av - \Av_k = \sum_{i>k}\sigma_i\uv_i\vv_i^{\rm T}$ has largest singular value $\sigma_{k+1}$.
+We prove the spectral-norm case. The truncated SVD itself attains the bound, $\lVert \Av - \Av_k \rVert_2 = \sigma_{k+1}$, since $\Av - \Av_k = \sum_{i>k}\sigma_i\uv_i\vv_i^{\rm T}$ has largest singular value $\sigma_{k+1}$.
 
-Let $\Bv$ have rank $\le k$, so its null space has dimension $\ge n - k$. The span $W = \operatorname{span}\{\vv_1, \dots, \vv_{k+1}\}$ of the top $k+1$ right singular vectors has dimension $k+1$. Since $(n-k) + (k+1) = n + 1 > n$, the two subspaces meet: choose a unit vector $\wv \in \ker\Bv \cap W$. Writing $\wv = \sum_{i=1}^{k+1} c_i \vv_i$ with $\sum c_i^2 = 1$, and using $\Bv\wv = 0$,
+Let $\Bv$ have rank $\le k$, so its null space has dimension $\ge n - k$. The span $W = \operatorname{span}\{\vv_1, \dots, \vv_{k+1}\}$ of the top $k+1$ right singular vectors has dimension $k+1$. Since $(n-k) + (k+1) > n$, the two subspaces meet: choose a unit vector $\wv \in \ker\Bv \cap W$, and write $\wv = \sum_{i=1}^{k+1} c_i \vv_i$ with $\sum c_i^2 = 1$.
+
+Using $\Bv\wv = \mathbf{0}$ and $\Av\vv_i = \sigma_i \uv_i$,
 $$
-\lVert (\Av - \Bv)\wv \rVert^2 = \lVert \Av\wv \rVert^2 = \Big\lVert \sum_{i=1}^{k+1} c_i \sigma_i \uv_i \Big\rVert^2 = \sum_{i=1}^{k+1} c_i^2 \sigma_i^2 \;\ge\; \sigma_{k+1}^2 \sum_{i=1}^{k+1} c_i^2 = \sigma_{k+1}^2,
+\begin{aligned}
+\lVert (\Av - \Bv)\wv \rVert^2
+&= \lVert \Av\wv \rVert^2 \\
+&= \Big\lVert \sum_{i=1}^{k+1} c_i\,\sigma_i\, \uv_i \Big\rVert^2 \\
+&= \sum_{i=1}^{k+1} c_i^2\, \sigma_i^2 \\
+&\ge \sigma_{k+1}^2 \sum_{i=1}^{k+1} c_i^2 \\
+&= \sigma_{k+1}^2,
+\end{aligned}
 $$
-because $\sigma_i \ge \sigma_{k+1}$ for $i \le k+1$. Hence $\lVert \Av - \Bv \rVert_2 \ge \sigma_{k+1}$. The Frobenius case follows the same idea (Mirsky's theorem): no rank-$k$ matrix can remove more than the top $k$ squared singular values, leaving at least $\sum_{i>k}\sigma_i^2$.
+because $\sigma_i \ge \sigma_{k+1}$ for $i \le k+1$. Hence $\lVert \Av - \Bv \rVert_2 \ge \sigma_{k+1}$, matching the truncated SVD.
+
+The Frobenius case follows the same idea (Mirsky's theorem): no rank-$k$ matrix can remove more than the top $k$ squared singular values, leaving at least $\sum_{i>k}\sigma_i^2$.
 </TabItem>
 </Tabs>
 </Aside>

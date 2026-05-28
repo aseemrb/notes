@@ -45,7 +45,7 @@
 
   <!-- A+ : column space -> row space (lower curve) -->
   <path d="M278 90 C 222 110, 200 110, 144 90" fill="none" stroke="var(--aplus)" stroke-width="1.8" marker-end="url(#ps-p)" />
-  <text class="mapP" x="208" y="112">A⁺</text>
+  <text class="mapP" x="208" y="100">A⁺</text>
 
   <!-- nullspaces collapse to 0 -->
   <circle cx="210" cy="165" r="3" fill="var(--text)" />

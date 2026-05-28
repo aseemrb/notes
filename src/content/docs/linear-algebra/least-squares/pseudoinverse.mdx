@@ -1,5 +1,5 @@
 ---
-title: The pseudoinverse and minimum-norm solution
+title: Pseudoinverse
 sidebar:
   order: 2
 ---
@@ -46,11 +46,19 @@ Among all least-squares solutions of $\Av\xv = \bv$ (in the consistent case, all
 </TabItem>
 
 <TabItem label="Proof">
-From the SVD, $\xv^{+} = \Av^{+}\bv = \sum_{i \le r} \tfrac{1}{\sigma_i}(\uv_i^{\rm T}\bv)\,\vv_i$ is a combination of $\vv_1, \dots, \vv_r$, hence lies in the row space. Any other least-squares solution differs from it by a vector in the nullspace: $\xv = \xv^{+} + \nv$ with $\nv \in N(\Av)$ (changing $\xv$ within $N(\Av)$ leaves $\Av\xv$, and therefore the residual, unchanged). Since the row space and nullspace are orthogonal complements, $\xv^{+} \perp \nv$, so by the Pythagorean identity
+From the SVD,
 $$
-\lVert \xv \rVert^2 = \lVert \xv^{+} \rVert^2 + \lVert \nv \rVert^2 \ge \lVert \xv^{+} \rVert^2,
+\xv^{+} \;=\; \Av^{+}\bv \;=\; \sum_{i=1}^{r} \frac{\uv_i^{\rm T}\bv}{\sigma_i}\,\vv_i,
 $$
-with equality only when $\nv = 0$. Thus $\xv^{+}$ is the unique minimum-norm solution.
+a combination of $\vv_1, \dots, \vv_r$, so $\xv^{+}$ lies in the row space $C(\Av^{\rm T})$.
+
+Any other least-squares solution differs from $\xv^{+}$ by a vector in the nullspace: write $\xv = \xv^{+} + \nv$ with $\nv \in N(\Av)$. Changing $\xv$ inside $N(\Av)$ leaves $\Av\xv$, and therefore the residual, unchanged, so every such $\xv$ is also a least-squares solution.
+
+The row space and nullspace are orthogonal complements, so $\xv^{+} \perp \nv$. Pythagoras gives
+$$
+\lVert \xv \rVert^2 \;=\; \lVert \xv^{+} \rVert^2 + \lVert \nv \rVert^2 \;\ge\; \lVert \xv^{+} \rVert^2,
+$$
+with equality only when $\nv = \mathbf{0}$. Hence $\xv^{+}$ is the unique minimum-norm solution.
 </TabItem>
 </Tabs>
 </Aside>

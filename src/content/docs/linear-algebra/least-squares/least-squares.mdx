@@ -1,5 +1,5 @@
 ---
-title: "Least squares: four ways"
+title: "Four Solutions"
 sidebar:
   order: 1
 ---
@@ -34,11 +34,26 @@ $$
 </TabItem>
 
 <TabItem label="Proof">
-For any $\xv$, write $\Av\xv - \bv = \Av(\xv - \hat\xv) + (\Av\hat\xv - \bv)$ where $\hat\xv$ solves the normal equations. The cross term vanishes because
+Suppose $\hat\xv$ solves the normal equations, and split the residual at any other $\xv$:
 $$
-(\Av(\xv-\hat\xv))^{\rm T}(\Av\hat\xv - \bv) = (\xv - \hat\xv)^{\rm T}\Av^{\rm T}(\Av\hat\xv - \bv) = 0,
+\Av\xv - \bv \;=\; \Av(\xv - \hat\xv) \;+\; (\Av\hat\xv - \bv).
 $$
-using $\Av^{\rm T}(\Av\hat\xv - \bv) = 0$. Hence $\lVert \Av\xv - \bv \rVert^2 = \lVert \Av(\xv-\hat\xv) \rVert^2 + \lVert \Av\hat\xv - \bv \rVert^2 \ge \lVert \Av\hat\xv - \bv \rVert^2$, with equality when $\Av\xv = \Av\hat\xv$. So every solution of the normal equations is a minimizer, and conversely a minimizer makes the gradient vanish. When the columns are independent, $\Av\xv = 0 \Rightarrow \xv = 0$, so $\Av^{\rm T}\Av\xv = 0 \Rightarrow \xv^{\rm T}\Av^{\rm T}\Av\xv = \lVert \Av\xv \rVert^2 = 0 \Rightarrow \xv = 0$; thus $\Av^{\rm T}\Av$ is invertible.
+The two pieces are orthogonal, since $\Av^{\rm T}(\Av\hat\xv - \bv) = \mathbf{0}$:
+$$
+\big(\Av(\xv-\hat\xv)\big)^{\rm T}(\Av\hat\xv - \bv) \;=\; (\xv - \hat\xv)^{\rm T}\,\Av^{\rm T}(\Av\hat\xv - \bv) \;=\; 0.
+$$
+
+Pythagoras then gives
+$$
+\lVert \Av\xv - \bv \rVert^2 \;=\; \lVert \Av(\xv-\hat\xv) \rVert^2 + \lVert \Av\hat\xv - \bv \rVert^2 \;\ge\; \lVert \Av\hat\xv - \bv \rVert^2,
+$$
+with equality when $\Av\xv = \Av\hat\xv$. So every solution of the normal equations is a minimizer, and conversely any minimizer makes the gradient $2\Av^{\rm T}(\Av\xv - \bv)$ vanish.
+
+For uniqueness, suppose the columns of $\Av$ are independent and $\Av^{\rm T}\Av\,\xv = \mathbf{0}$. Multiplying on the left by $\xv^{\rm T}$,
+$$
+0 \;=\; \xv^{\rm T}\Av^{\rm T}\Av\,\xv \;=\; \lVert \Av\xv \rVert^2,
+$$
+so $\Av\xv = \mathbf{0}$, and independence forces $\xv = \mathbf{0}$. Hence $\Av^{\rm T}\Av$ is invertible.
 </TabItem>
 </Tabs>
 </Aside>
