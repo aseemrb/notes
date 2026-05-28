@@ -24,7 +24,7 @@ The rank-one case $k = 1$ is the **Sherman–Morrison** formula.
 Multiply the proposed inverse by $(\Av + \Uv\Vv^{\rm T})$ on the right and simplify:
 $$
 \begin{aligned}
-\big(\Av^{-1} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T}\Av^{-1}\big)(\Av + \Uv\Vv^{\rm T})
+& \big(\Av^{-1} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T}\Av^{-1}\big)(\Av + \Uv\Vv^{\rm T}) \\
 &= \Iv + \Av^{-1}\Uv\Vv^{\rm T} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T}\Av^{-1}\Uv\Vv^{\rm T} \\
 &= \Iv + \Av^{-1}\Uv\,\big( \Iv_k - \Mv^{-1} - \Mv^{-1}(\Mv - \Iv_k) \big)\,\Vv^{\rm T} \\
 &= \Iv,
