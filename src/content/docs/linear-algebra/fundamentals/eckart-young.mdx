@@ -1,0 +1,56 @@
+---
+title: "Eckart–Young: best low-rank approximation"
+sidebar:
+  order: 7
+---
+
+import LowRankApproximation from '../../../../components/widgets/LowRankApproximation.tsx';
+
+The [singular value decomposition](svd) writes $\Av = \sum_{i=1}^r \sigma_i \uv_i \vv_i^{\rm T}$, a sum of rank-one pieces ordered by their weights $\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0$. Truncating the sum after $k$ terms,
+$$
+\Av_k = \sum_{i=1}^k \sigma_i \uv_i \vv_i^{\rm T},
+$$
+gives a rank-$k$ matrix that keeps the heaviest pieces. The Eckart–Young theorem says this is not merely *a* good rank-$k$ approximation but the *best* one, in both norms that matter.
+
+## The theorem
+
+<Aside icon="seti:smarty" title="Theorem: Eckart–Young (1936)">
+<Tabs>
+<TabItem label="Statement">
+Let $\Av$ have singular values $\sigma_1 \ge \cdots \ge \sigma_r > 0$ and truncated SVD $\Av_k$. For every matrix $\Bv$ of rank at most $k$,
+$$
+\lVert \Av - \Bv \rVert \;\ge\; \lVert \Av - \Av_k \rVert,
+$$
+in both the spectral and Frobenius [norms](norm). The minimum values are
+$$
+\lVert \Av - \Av_k \rVert_2 = \sigma_{k+1}, \qquad \lVert \Av - \Av_k \rVert_F^2 = \sum_{i > k} \sigma_i^2.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+We prove the spectral-norm case; $\Av_k$ attains $\lVert \Av - \Av_k \rVert_2 = \sigma_{k+1}$ since $\Av - \Av_k = \sum_{i>k}\sigma_i\uv_i\vv_i^{\rm T}$ has largest singular value $\sigma_{k+1}$.
+
+Let $\Bv$ have rank $\le k$, so its null space has dimension $\ge n - k$. The span $W = \operatorname{span}\{\vv_1, \dots, \vv_{k+1}\}$ of the top $k+1$ right singular vectors has dimension $k+1$. Since $(n-k) + (k+1) = n + 1 > n$, the two subspaces meet: choose a unit vector $\wv \in \ker\Bv \cap W$. Writing $\wv = \sum_{i=1}^{k+1} c_i \vv_i$ with $\sum c_i^2 = 1$, and using $\Bv\wv = 0$,
+$$
+\lVert (\Av - \Bv)\wv \rVert^2 = \lVert \Av\wv \rVert^2 = \Big\lVert \sum_{i=1}^{k+1} c_i \sigma_i \uv_i \Big\rVert^2 = \sum_{i=1}^{k+1} c_i^2 \sigma_i^2 \;\ge\; \sigma_{k+1}^2 \sum_{i=1}^{k+1} c_i^2 = \sigma_{k+1}^2,
+$$
+because $\sigma_i \ge \sigma_{k+1}$ for $i \le k+1$. Hence $\lVert \Av - \Bv \rVert_2 \ge \sigma_{k+1}$. The Frobenius case follows the same idea (Mirsky's theorem): no rank-$k$ matrix can remove more than the top $k$ squared singular values, leaving at least $\sum_{i>k}\sigma_i^2$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The error is governed entirely by the discarded singular values. If they decay quickly, a small $k$ already captures almost all of $\Av$; if they are flat, no low-rank matrix is close, and the data is genuinely high-dimensional.
+
+## Compression in action
+
+Treat a grayscale image as a matrix and approximate it by $\Av_k$. The slider sets $k$; the spectrum on the right shows which singular values are kept (in accent) versus discarded. A smooth image has a few large singular values and compresses sharply; a diagonal pattern has equal singular values and barely compresses at all.
+
+<LowRankApproximation client:visible />
+
+## Where it is used
+
+- **Image and data compression**: store $k$ singular triples $(\sigma_i, \uv_i, \vv_i)$, costing $k(m + n + 1)$ numbers instead of $mn$, with controlled error $\sqrt{\sum_{i>k}\sigma_i^2}$.
+- **Principal component analysis**: the top singular vectors of a centered data matrix are the directions of greatest variance, and $\Av_k$ is the best rank-$k$ summary of the data.
+- **Denoising**: when signal lives in a low-rank subspace and noise spreads across all components, truncating to the leading singular values suppresses the noise.
+
+Every one of these is the same statement: the truncated SVD is the optimal low-rank model, and the tail of the singular value spectrum is exactly the price of the approximation.

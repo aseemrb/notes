@@ -1,0 +1,66 @@
+---
+title: The pseudoinverse and minimum-norm solution
+sidebar:
+  order: 2
+---
+
+A rectangular or rank-deficient matrix has no inverse, but it has a canonical best substitute. The **pseudoinverse** $\Av^{+}$ inverts $\Av$ on the part of space where $\Av$ acts invertibly and does nothing elsewhere. It packages least squares and the minimum-norm solution of an underdetermined system into one object, and it is read straight off the [SVD](../fundamentals/svd).
+
+## Definition through the SVD
+
+<Aside type="tip" icon="open-book" title="Definition: pseudoinverse">
+Let $\Av = \Uv\Sigmav\Vv^{\rm T}$ be the SVD of an $m \times n$ matrix of rank $r$, with singular values $\sigma_1 \ge \cdots \ge \sigma_r > 0$. The **pseudoinverse** is
+$$
+\Av^{+} = \Vv\,\Sigmav^{+}\,\Uv^{\rm T} \in \R^{n \times m},
+$$
+where $\Sigmav^{+}$ is the $n \times m$ matrix with $1/\sigma_1, \dots, 1/\sigma_r$ on its diagonal and zeros elsewhere, the transpose of $\Sigmav$ with each nonzero entry inverted.
+</Aside>
+
+If $\Av$ is square and invertible, every $\sigma_i > 0$ and $\Av^{+} = \Av^{-1}$. Otherwise $\Av^{+}$ inverts only the invertible part.
+
+## What it does on the four subspaces
+
+The SVD splits both spaces into the part the matrix sees and the part it annihilates. The first $r$ right singular vectors span the **row space** $C(\Av^{\rm T})$, the rest span the **nullspace** $N(\Av)$; the first $r$ left singular vectors span the **column space** $C(\Av)$, the rest span the **left nullspace** $N(\Av^{\rm T})$. On these pieces,
+$$
+\Av\,\vv_i = \sigma_i \uv_i, \qquad \Av^{+}\uv_i = \tfrac{1}{\sigma_i}\vv_i \quad (i \le r),
+$$
+and $\Av^{+}$ kills $N(\Av^{\rm T})$ just as $\Av$ kills $N(\Av)$.
+
+![A maps the row space onto the column space and the nullspace to zero; the pseudoinverse maps the column space back onto the row space and the left nullspace to zero](/assets/images/linear-algebra/least-squares/pseudoinverse-subspaces.svg)
+
+*$\Av$ is a bijection from the row space onto the column space (stretching by the $\sigma_i$); $\Av^{+}$ runs that bijection backward (shrinking by $1/\sigma_i$) and sends the left nullspace to $0$. So $\Av^{+}\Av$ is the orthogonal projection onto the row space and $\Av\Av^{+}$ is the orthogonal projection onto the column space.*
+
+## Two familiar special cases
+
+- **Independent columns** ($r = n$, the least-squares setting): $\Av^{\rm T}\Av$ is invertible and $\Av^{+} = (\Av^{\rm T}\Av)^{-1}\Av^{\rm T}$ is a **left inverse**, $\Av^{+}\Av = \Iv_n$. Then $\Av^{+}\bv$ is the [least-squares solution](least-squares).
+- **Independent rows** ($r = m$, the underdetermined setting): $\Av\Av^{\rm T}$ is invertible and $\Av^{+} = \Av^{\rm T}(\Av\Av^{\rm T})^{-1}$ is a **right inverse**, $\Av\Av^{+} = \Iv_m$. Then $\Av^{+}\bv$ is the shortest solution of $\Av\xv = \bv$, as the theorem below shows.
+
+## The minimum-norm solution
+
+When $\Av\xv = \bv$ has many solutions, they form an affine flat $\xv_0 + N(\Av)$. The pseudoinverse picks out the one closest to the origin.
+
+<Aside icon="seti:smarty" title="Theorem: minimum-norm solution">
+<Tabs>
+<TabItem label="Statement">
+Among all least-squares solutions of $\Av\xv = \bv$ (in the consistent case, all exact solutions), the vector $\xv^{+} = \Av^{+}\bv$ is the unique one of smallest norm. It is exactly the solution lying in the row space $C(\Av^{\rm T})$.
+</TabItem>
+
+<TabItem label="Proof">
+From the SVD, $\xv^{+} = \Av^{+}\bv = \sum_{i \le r} \tfrac{1}{\sigma_i}(\uv_i^{\rm T}\bv)\,\vv_i$ is a combination of $\vv_1, \dots, \vv_r$, hence lies in the row space. Any other least-squares solution differs from it by a vector in the nullspace: $\xv = \xv^{+} + \nv$ with $\nv \in N(\Av)$ (changing $\xv$ within $N(\Av)$ leaves $\Av\xv$, and therefore the residual, unchanged). Since the row space and nullspace are orthogonal complements, $\xv^{+} \perp \nv$, so by the Pythagorean identity
+$$
+\lVert \xv \rVert^2 = \lVert \xv^{+} \rVert^2 + \lVert \nv \rVert^2 \ge \lVert \xv^{+} \rVert^2,
+$$
+with equality only when $\nv = 0$. Thus $\xv^{+}$ is the unique minimum-norm solution.
+</TabItem>
+</Tabs>
+</Aside>
+
+This is the second half of a single picture: for an overdetermined system the pseudoinverse delivers the least-squares fit, and for an underdetermined one it delivers the minimum-norm solution. In the general rank-deficient case it does both at once, returning the shortest of all least-squares minimizers.
+
+## The Moore–Penrose characterization
+
+The construction above is via a particular SVD, but $\Av^{+}$ does not depend on the choice. It is the unique matrix satisfying the four **Moore–Penrose conditions**
+$$
+\Av\Av^{+}\Av = \Av, \quad \Av^{+}\Av\Av^{+} = \Av^{+}, \quad (\Av\Av^{+})^{\rm T} = \Av\Av^{+}, \quad (\Av^{+}\Av)^{\rm T} = \Av^{+}\Av.
+$$
+The first two say $\Av^{+}$ acts as an inverse where it can; the last two say the products $\Av\Av^{+}$ and $\Av^{+}\Av$ are symmetric, hence orthogonal projections onto the column space and row space respectively.

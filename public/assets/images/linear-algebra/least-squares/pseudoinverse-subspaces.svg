@@ -1,0 +1,55 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The pseudoinverse on the four subspaces. R^n splits into the row space (dimension r) and the nullspace N(A); R^m splits into the column space (dimension r) and the left nullspace N(A transpose). A maps the row space one-to-one onto the column space and sends N(A) to zero; the pseudoinverse A-plus maps the column space back onto the row space and sends the left nullspace to zero.">
+  <style>
+    :root { --text: #374151; --active: #2563eb; --null: #94a3b8; --aplus: #db2777; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --active: #60a5fa; --null: #64748b; --aplus: #f472b6; }
+    }
+    .box { fill: none; stroke: var(--text); stroke-opacity: 0.5; stroke-width: 1.2; }
+    .active { fill: var(--active); fill-opacity: 0.14; }
+    .null { fill: var(--null); fill-opacity: 0.14; }
+    .lbl { fill: var(--text); font-size: 12px; text-anchor: middle; }
+    .sp { fill: var(--text); font-size: 11px; text-anchor: middle; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .mapA { fill: var(--active); font-size: 13px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .mapP { fill: var(--aplus); font-size: 13px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="ps-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--active)" /></marker>
+    <marker id="ps-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--aplus)" /></marker>
+  </defs>
+
+  <!-- domain R^n -->
+  <text class="lbl" x="85" y="24" font-style="italic">ℝⁿ</text>
+  <rect class="active" x="30" y="34" width="110" height="78" rx="6" />
+  <rect class="null"   x="30" y="124" width="110" height="78" rx="6" />
+  <rect class="box"    x="30" y="34" width="110" height="78" rx="6" />
+  <rect class="box"    x="30" y="124" width="110" height="78" rx="6" />
+  <text class="sp" x="85" y="68">row space</text>
+  <text class="sp" x="85" y="84">C(Aᵀ), dim r</text>
+  <text class="sp" x="85" y="158">nullspace</text>
+  <text class="sp" x="85" y="174">N(A), dim n−r</text>
+
+  <!-- codomain R^m -->
+  <text class="lbl" x="335" y="24" font-style="italic">ℝᵐ</text>
+  <rect class="active" x="280" y="34" width="110" height="78" rx="6" />
+  <rect class="null"   x="280" y="124" width="110" height="78" rx="6" />
+  <rect class="box"    x="280" y="34" width="110" height="78" rx="6" />
+  <rect class="box"    x="280" y="124" width="110" height="78" rx="6" />
+  <text class="sp" x="335" y="68">column space</text>
+  <text class="sp" x="335" y="84">C(A), dim r</text>
+  <text class="sp" x="335" y="158">left nullspace</text>
+  <text class="sp" x="335" y="174">N(Aᵀ), dim m−r</text>
+
+  <!-- A: row space -> column space (upper curve) -->
+  <path d="M142 58 C 200 36, 222 36, 278 58" fill="none" stroke="var(--active)" stroke-width="1.8" marker-end="url(#ps-a)" />
+  <text class="mapA" x="210" y="38">A</text>
+
+  <!-- A+ : column space -> row space (lower curve) -->
+  <path d="M278 90 C 222 110, 200 110, 144 90" fill="none" stroke="var(--aplus)" stroke-width="1.8" marker-end="url(#ps-p)" />
+  <text class="mapP" x="208" y="112">A⁺</text>
+
+  <!-- nullspaces collapse to 0 -->
+  <circle cx="210" cy="165" r="3" fill="var(--text)" />
+  <text class="sp" x="210" y="186">0</text>
+  <path d="M142 158 C 175 162, 190 164, 204 165" fill="none" stroke="var(--active)" stroke-opacity="0.75" stroke-width="1.4" marker-end="url(#ps-a)" />
+  <path d="M278 158 C 245 162, 230 164, 216 165" fill="none" stroke="var(--aplus)" stroke-opacity="0.75" stroke-width="1.4" marker-end="url(#ps-p)" />
+</svg>

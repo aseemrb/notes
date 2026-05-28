@@ -1,0 +1,39 @@
+<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Least squares as projection. The column space C(A) is drawn as a plane through the origin. The data vector b points above the plane; its orthogonal projection p = A x-hat lies in the plane, and the error e = b minus p joins p to b perpendicular to the plane.">
+  <style>
+    :root { --text: #374151; --plane: #94a3b8; --p: #2563eb; --b: #16a34a; --e: #db2777; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --plane: #64748b; --p: #60a5fa; --b: #4ade80; --e: #f472b6; }
+    }
+    .planeface { fill: var(--plane); fill-opacity: 0.13; stroke: var(--plane); stroke-opacity: 0.6; stroke-width: 1.2; }
+    .lbl { fill: var(--text); font-size: 13px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .txt { fill: var(--text); font-size: 13px; }
+  </style>
+  <defs>
+    <marker id="pj-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--p)" /></marker>
+    <marker id="pj-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--b)" /></marker>
+    <marker id="pj-e" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--e)" /></marker>
+  </defs>
+
+  <!-- column space plane -->
+  <polygon class="planeface" points="40,205 300,215 380,160 120,150" />
+  <text class="lbl" x="58" y="175" fill="var(--text)">C(A)</text>
+
+  <!-- origin -->
+  <circle cx="130" cy="186" r="3" fill="var(--text)" />
+  <text class="txt" x="118" y="200" fill="var(--text)">0</text>
+
+  <!-- projection p in the plane -->
+  <line x1="130" y1="186" x2="288" y2="178" stroke="var(--p)" stroke-width="2.4" marker-end="url(#pj-p)" />
+  <text class="lbl" x="210" y="200" fill="var(--p)">p = A x̂</text>
+
+  <!-- data vector b -->
+  <line x1="130" y1="186" x2="300" y2="74" stroke="var(--b)" stroke-width="2.4" marker-end="url(#pj-b)" />
+  <text class="lbl" x="305" y="70" fill="var(--b)">b</text>
+
+  <!-- error e = b - p, perpendicular to the plane -->
+  <line x1="288" y1="178" x2="300" y2="78" stroke="var(--e)" stroke-width="2.4" marker-end="url(#pj-e)" />
+  <text class="lbl" x="305" y="130" fill="var(--e)">e = b − p</text>
+
+  <!-- right-angle marker at the foot p -->
+  <path d="M276 176 L278 162 L290 164" fill="none" stroke="var(--e)" stroke-width="1.2" stroke-opacity="0.9" />
+</svg>

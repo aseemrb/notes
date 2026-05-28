@@ -1,0 +1,68 @@
+---
+title: Column space, rank, and A = CR
+sidebar:
+  order: 1
+---
+
+The first question to ask about a matrix is not how to invert it but what it can produce. Reading $\Av\xv$ as a combination of the columns of $\Av$ turns that into a geometric object, the **column space**, and a single counting invariant, the **rank**. The factorization $\Av = \Cv\Rv$ makes both explicit and settles, in one line, that a matrix has as many independent rows as independent columns.
+
+## The column space
+
+<Aside type="tip" icon="open-book" title="Definition: column space and rank">
+For $\Av \in \R^{m \times n}$ with columns $\av_1, \dots, \av_n \in \R^m$, the **column space** is the span of the columns,
+$$
+C(\Av) = \{ \Av\xv : \xv \in \R^n \} = \operatorname{span}\{\av_1, \dots, \av_n\} \subseteq \R^m.
+$$
+The **rank** of $\Av$ is its dimension, $r = \dim C(\Av)$, equivalently the number of linearly independent columns.
+</Aside>
+
+Because $\Av\xv = x_1\av_1 + \cdots + x_n\av_n$, the system $\Av\xv = \bv$ is solvable precisely when $\bv \in C(\Av)$. The column space is therefore the set of attainable right-hand sides, and the rank measures how much of $\R^m$ the matrix can reach.
+
+## A = CR
+
+Keep only the columns that carry new directions. Scanning $\av_1, \dots, \av_n$ left to right and discarding any column that is already a combination of the ones before it leaves $r$ independent columns; collect them as the matrix $\Cv \in \R^{m \times r}$. Every column of $\Av$ is a combination of these, and recording the coefficients gives the second factor.
+
+<Aside icon="seti:smarty" title="Theorem: A = CR">
+<Tabs>
+<TabItem label="Statement">
+Every $\Av \in \R^{m \times n}$ of rank $r$ factors as
+$$
+\Av = \Cv\Rv,
+$$
+where $\Cv \in \R^{m \times r}$ holds $r$ independent columns of $\Av$ (a basis of $C(\Av)$) and $\Rv \in \R^{r \times n}$ records how the columns of $\Av$ are built from $\Cv$. Concretely, $\Rv$ is the reduced row echelon form of $\Av$ with its zero rows deleted.
+</TabItem>
+
+<TabItem label="Proof">
+Let $\Cv$ be a basis of $C(\Av)$ formed from $r$ columns of $\Av$. Each column $\av_j$ lies in $C(\Av)$, so it is a unique combination $\av_j = \Cv\rv_j$ of the basis columns; assembling the coefficient vectors $\rv_j$ as the columns of $\Rv \in \R^{r \times n}$ gives $\Av = \Cv\Rv$ column by column. The rows of $\Rv$ are independent (the chosen basis columns of $\Av$ pick out an $r \times r$ identity inside $\Rv$), so $\Rv$ has rank $r$. Carrying out the selection by elimination identifies $\Cv$ with the pivot columns of $\Av$ and $\Rv$ with the nonzero rows of the reduced row echelon form.
+</TabItem>
+</Tabs>
+</Aside>
+
+For
+$$
+\Av = \begin{pmatrix} 1 & 2 & 4 \\ 1 & 2 & 5 \\ 1 & 2 & 6 \end{pmatrix},
+$$
+the second column is $2\times$ the first, so columns $1$ and $3$ are independent and $r = 2$. The factorization is
+$$
+\Av = \Cv\Rv = \begin{pmatrix} 1 & 4 \\ 1 & 5 \\ 1 & 6 \end{pmatrix}\begin{pmatrix} 1 & 2 & 0 \\ 0 & 0 & 1 \end{pmatrix}.
+$$
+
+![The matrix A factored as C times R: C collects the independent columns of A, and R is the recipe rebuilding every column of A from them](/assets/images/linear-algebra/fundamentals/column-space-rank.svg)
+
+*The independent columns of $\Av$ (here columns $1$ and $3$) become $\Cv$; the factor $\Rv$ says how to rebuild each column of $\Av$ as a combination of them. The shared inner dimension is the rank $r$.*
+
+## Row rank equals column rank
+
+The factorization pays off immediately. In $\Av = \Cv\Rv$, every **row** of $\Av$ is a combination of the rows of $\Rv$ (the $i$-th row of $\Av$ is row $i$ of $\Cv$ acting on $\Rv$). So the row space of $\Av$ is contained in the row space of $\Rv$, which has only $r$ rows; hence the row rank is at most $r$. Symmetrically $r = \operatorname{rank} \Cv$ counts independent columns, and applying the same argument to $\Av^{\rm T}$ gives the reverse inequality.
+
+<Aside type="danger" title="Remark">
+The number of independent rows equals the number of independent columns. Both equal $r$, so "rank" is unambiguous, and $\operatorname{rank}(\Av) = \operatorname{rank}(\Av^{\rm T})$.
+</Aside>
+
+## Rank of a product
+
+The column-space reading also bounds the rank of a product. Every column of $\Av\Bv$ is a combination of the columns of $\Av$, so $C(\Av\Bv) \subseteq C(\Av)$ and $\operatorname{rank}(\Av\Bv) \le \operatorname{rank}(\Av)$. Every row of $\Av\Bv$ is a combination of the rows of $\Bv$, so $\operatorname{rank}(\Av\Bv) \le \operatorname{rank}(\Bv)$. Together,
+$$
+\operatorname{rank}(\Av\Bv) \le \min\{\operatorname{rank}(\Av), \operatorname{rank}(\Bv)\}.
+$$
+In particular $\Av = \Cv\Rv$ writes a rank-$r$ matrix as a product of an $m \times r$ and an $r \times n$ factor, the smallest possible inner dimension; this is the prototype of every low-rank factorization, made optimal later by the [singular value decomposition](svd) and [Eckart–Young](eckart-young).

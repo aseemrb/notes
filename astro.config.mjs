@@ -37,7 +37,7 @@ export default defineConfig({
 					items: [
 						{ slug: 'linear-algebra', label: 'Introduction' },
 						{ label: 'Fundamentals', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } }] },
-						{ label: 'Spectral Theory', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/spectral-theory', collapsed: true } }] },
+						{ label: 'Least Squares', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/least-squares', collapsed: true } }] },
 					],
 				},
 				{

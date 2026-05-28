@@ -1,0 +1,90 @@
+---
+title: "Least squares: four ways"
+sidebar:
+  order: 1
+---
+
+import LeastSquaresFit from '../../../../components/widgets/LeastSquaresFit.tsx';
+
+When there are more equations than unknowns, $\Av\xv = \bv$ usually has no solution: $\bv$ does not lie in the [column space](../fundamentals/column-space-rank) $C(\Av)$. Rather than give up, we ask for the $\xv$ that comes closest, minimizing the residual in the Euclidean norm. This single problem has four standard solutions, and seeing that they agree ties together projection, orthogonality, $\Av = \Qv\Rv$, and the SVD.
+
+<Aside type="tip" icon="open-book" title="Definition: the least-squares problem">
+Given $\Av \in \R^{m \times n}$ with $m \ge n$ and $\bv \in \R^m$, a **least-squares solution** is any
+$$
+\hat\xv \in \arg\min_{\xv \in \R^n} \lVert \Av\xv - \bv \rVert_2^2.
+$$
+The minimizing residual $\ev = \bv - \Av\hat\xv$ is the **error**.
+</Aside>
+
+## 1. The normal equations
+
+The objective $f(\xv) = \lVert \Av\xv - \bv \rVert^2 = (\Av\xv - \bv)^{\rm T}(\Av\xv - \bv)$ is a convex quadratic, so its minimizers are exactly its stationary points. Setting the gradient to zero, $\nabla f = 2\Av^{\rm T}(\Av\xv - \bv) = 0$, gives the **normal equations**.
+
+<Aside icon="seti:smarty" title="Theorem: normal equations">
+<Tabs>
+<TabItem label="Statement">
+$\hat\xv$ minimizes $\lVert \Av\xv - \bv \rVert^2$ if and only if
+$$
+\Av^{\rm T}\Av\,\hat\xv = \Av^{\rm T}\bv.
+$$
+If the columns of $\Av$ are independent, $\Av^{\rm T}\Av$ is invertible and the solution is unique:
+$$
+\hat\xv = (\Av^{\rm T}\Av)^{-1}\Av^{\rm T}\bv.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+For any $\xv$, write $\Av\xv - \bv = \Av(\xv - \hat\xv) + (\Av\hat\xv - \bv)$ where $\hat\xv$ solves the normal equations. The cross term vanishes because
+$$
+(\Av(\xv-\hat\xv))^{\rm T}(\Av\hat\xv - \bv) = (\xv - \hat\xv)^{\rm T}\Av^{\rm T}(\Av\hat\xv - \bv) = 0,
+$$
+using $\Av^{\rm T}(\Av\hat\xv - \bv) = 0$. Hence $\lVert \Av\xv - \bv \rVert^2 = \lVert \Av(\xv-\hat\xv) \rVert^2 + \lVert \Av\hat\xv - \bv \rVert^2 \ge \lVert \Av\hat\xv - \bv \rVert^2$, with equality when $\Av\xv = \Av\hat\xv$. So every solution of the normal equations is a minimizer, and conversely a minimizer makes the gradient vanish. When the columns are independent, $\Av\xv = 0 \Rightarrow \xv = 0$, so $\Av^{\rm T}\Av\xv = 0 \Rightarrow \xv^{\rm T}\Av^{\rm T}\Av\xv = \lVert \Av\xv \rVert^2 = 0 \Rightarrow \xv = 0$; thus $\Av^{\rm T}\Av$ is invertible.
+</TabItem>
+</Tabs>
+</Aside>
+
+## 2. The geometry: projection onto the column space
+
+The normal equations say $\Av^{\rm T}(\bv - \Av\hat\xv) = 0$, i.e. the error $\ev = \bv - \Av\hat\xv$ is orthogonal to every column of $\Av$. So $\ev \perp C(\Av)$, and the fitted vector $\pv = \Av\hat\xv$ is the **orthogonal projection** of $\bv$ onto the column space: the closest point of $C(\Av)$ to $\bv$.
+
+![The data vector b, its orthogonal projection p onto the plane C(A), and the perpendicular error e = b − p](/assets/images/linear-algebra/least-squares/projection.svg)
+
+*Least squares splits $\bv$ into a part $\pv = \Av\hat\xv$ inside $C(\Av)$ and a part $\ev = \bv - \pv$ orthogonal to it. Minimizing $\lVert \Av\xv - \bv\rVert$ is choosing the point of the plane nearest $\bv$, the foot of the perpendicular.*
+
+When $\Av^{\rm T}\Av$ is invertible, substituting $\hat\xv$ gives $\pv = \Pv\bv$ with the **projection matrix**
+$$
+\Pv = \Av(\Av^{\rm T}\Av)^{-1}\Av^{\rm T},
+$$
+which satisfies $\Pv = \Pv^{\rm T}$ and $\Pv^2 = \Pv$, the algebraic signature of an orthogonal projection.
+
+Fitting a line or parabola to data is exactly this. Each data point $(t_i, y_i)$ contributes a row $\begin{pmatrix} 1 & t_i & \cdots \end{pmatrix}$ to $\Av$ and an entry $y_i$ to $\bv$; the least-squares coefficients place the curve so the vertical residuals have the smallest total square. Drag the points below and watch the fit and the residual norm respond.
+
+<LeastSquaresFit client:visible />
+
+## 3. Through QR
+
+Forming $\Av^{\rm T}\Av$ explicitly is the numerically fragile step. With the [factorization](../fundamentals/orthogonality) $\Av = \Qv\Rv$ ($\Qv$ orthonormal columns, $\Rv$ upper triangular and invertible when columns are independent), the normal equations collapse: $\Av^{\rm T}\Av = \Rv^{\rm T}\Qv^{\rm T}\Qv\Rv = \Rv^{\rm T}\Rv$ and $\Av^{\rm T}\bv = \Rv^{\rm T}\Qv^{\rm T}\bv$, so
+$$
+\Rv^{\rm T}\Rv\,\hat\xv = \Rv^{\rm T}\Qv^{\rm T}\bv \;\Longrightarrow\; \Rv\hat\xv = \Qv^{\rm T}\bv.
+$$
+This is one triangular solve, and it never forms $\Av^{\rm T}\Av$, so it avoids the conditioning penalty below. Here the projection is $\pv = \Qv\Qv^{\rm T}\bv$.
+
+## 4. Through the SVD and pseudoinverse
+
+The most general route uses $\Av = \Uv\Sigmav\Vv^{\rm T}$. The least-squares solution of minimum norm is
+$$
+\hat\xv = \Av^{+}\bv = \Vv\Sigmav^{+}\Uv^{\rm T}\bv,
+$$
+where $\Av^{+}$ is the [pseudoinverse](pseudoinverse). Unlike the first three routes, this needs no independence assumption: when the columns are dependent there are infinitely many least-squares solutions, and $\Av^+\bv$ selects the shortest one. This unifies least squares with the underdetermined case and is the subject of the [next page](pseudoinverse).
+
+## When the routes disagree numerically
+
+All four give the same $\hat\xv$ in exact arithmetic. They differ in stability. The normal-equations matrix $\Av^{\rm T}\Av$ has condition number
+$$
+\kappa(\Av^{\rm T}\Av) = \kappa(\Av)^2,
+$$
+so nearly dependent columns, large $\kappa(\Av)$, are squared into a much worse problem, and small errors in $\bv$ or in storing $\Av^{\rm T}\Av$ are amplified.
+
+<Aside type="danger" title="Remark">
+Solve least squares by **QR** or the **SVD**, not by forming and inverting $\Av^{\rm T}\Av$. Both work directly with $\Av$ and keep the condition number at $\kappa(\Av)$ rather than $\kappa(\Av)^2$. The normal equations remain the right object for *deriving* the solution and seeing the projection geometry.
+</Aside>

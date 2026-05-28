@@ -1,0 +1,61 @@
+<svg viewBox="0 0 300 138" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A equals C times R. A is 3 by 3 with its first and third columns highlighted as independent; those two columns form the 3 by 2 matrix C; R is 2 by 3 and rebuilds every column of A from the columns of C. The shared inner dimension is the rank, 2.">
+  <style>
+    :root { --text: #374151; --accent: #2563eb; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --accent: #60a5fa; }
+    }
+    .num { fill: var(--text); font-size: 14px; text-anchor: middle; font-family: 'KaTeX_Main','Times New Roman',serif; }
+    .ind { fill: var(--accent); font-weight: 600; }
+    .brk { stroke: var(--text); stroke-width: 1.4; fill: none; }
+    .col { fill: var(--accent); fill-opacity: 0.14; }
+    .op { fill: var(--text); font-size: 18px; text-anchor: middle; }
+    .lbl { fill: var(--text); font-size: 12px; text-anchor: middle; font-style: italic; font-family: 'KaTeX_Math','Times New Roman',serif; }
+  </style>
+
+  <!-- highlighted independent columns -->
+  <rect class="col" x="24" y="24" width="26" height="78" />
+  <rect class="col" x="76" y="24" width="26" height="78" />
+  <rect class="col" x="128" y="24" width="26" height="78" />
+  <rect class="col" x="154" y="24" width="26" height="78" />
+
+  <!-- brackets: A (18..108), C (122..186), R (190..280) -->
+  <path class="brk" d="M22 22 L18 22 L18 104 L22 104" />
+  <path class="brk" d="M104 22 L108 22 L108 104 L104 104" />
+  <path class="brk" d="M126 22 L122 22 L122 104 L126 104" />
+  <path class="brk" d="M182 22 L186 22 L186 104 L182 104" />
+  <path class="brk" d="M194 35 L190 35 L190 91 L194 91" />
+  <path class="brk" d="M276 35 L280 35 L280 91 L276 91" />
+
+  <!-- A (col centers 37/63/89, row centers 37/63/89) -->
+  <text class="num ind" x="37" y="42">1</text>
+  <text class="num" x="63" y="42">2</text>
+  <text class="num ind" x="89" y="42">4</text>
+  <text class="num ind" x="37" y="68">1</text>
+  <text class="num" x="63" y="68">2</text>
+  <text class="num ind" x="89" y="68">5</text>
+  <text class="num ind" x="37" y="94">1</text>
+  <text class="num" x="63" y="94">2</text>
+  <text class="num ind" x="89" y="94">6</text>
+
+  <!-- C (col centers 141/167) -->
+  <text class="num ind" x="141" y="42">1</text>
+  <text class="num ind" x="167" y="42">4</text>
+  <text class="num ind" x="141" y="68">1</text>
+  <text class="num ind" x="167" y="68">5</text>
+  <text class="num ind" x="141" y="94">1</text>
+  <text class="num ind" x="167" y="94">6</text>
+
+  <!-- R (col centers 209/235/261, row centers 50/76) -->
+  <text class="num" x="209" y="55">1</text>
+  <text class="num" x="235" y="55">2</text>
+  <text class="num" x="261" y="55">0</text>
+  <text class="num" x="209" y="81">0</text>
+  <text class="num" x="235" y="81">0</text>
+  <text class="num" x="261" y="81">1</text>
+
+  <!-- operators and labels -->
+  <text class="op" x="115" y="69">=</text>
+  <text class="lbl" x="63" y="120">A  (3×3)</text>
+  <text class="lbl" x="154" y="120">C  (3×2)</text>
+  <text class="lbl" x="235" y="120">R  (2×3)</text>
+</svg>
