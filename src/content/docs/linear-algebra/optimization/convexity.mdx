@@ -1,0 +1,132 @@
+---
+title: Convexity and Saddle Points
+sidebar:
+  order: 1
+---
+
+Optimization in this section means minimizing a smooth function $f : \R^n \to \R$. Two pieces of geometric structure decide the difficulty completely: whether the function is **convex** (every local minimum is global), and whether its critical points include **saddles** (zero gradient but no minimum). Both are characterized by the spectrum of the Hessian, which is why so much of optimization rests on the [linear algebra of symmetric matrices](../fundamentals/psd).
+
+## Convex sets
+
+<Aside type="tip" icon="open-book" title="Definition: convex set">
+A set $S \subseteq \R^n$ is **convex** if the line segment between any two of its points stays inside:
+$$
+\xv, \yv \in S \;\;\Longrightarrow\;\; (1-\theta)\xv + \theta\yv \in S \quad \text{for every } \theta \in [0,1].
+$$
+</Aside>
+
+Half-spaces, balls, ellipsoids, intersections of convex sets, and the [positive semidefinite cone](../fundamentals/psd) are all convex. Discrete sets and the union of two disjoint balls are not.
+
+## Convex functions
+
+<Aside type="tip" icon="open-book" title="Definition: convex function">
+A function $f : \R^n \to \R$ is **convex** if its epigraph $\{(\xv, t) : t \ge f(\xv)\}$ is a convex set, equivalently if for every $\xv, \yv$ and $\theta \in [0,1]$,
+$$
+f\!\big((1-\theta)\xv + \theta\yv\big) \;\le\; (1-\theta)\,f(\xv) + \theta\,f(\yv).
+$$
+It is **strictly convex** if the inequality is strict for $\xv \ne \yv$ and $\theta \in (0,1)$, and **$\mu$-strongly convex** if $f(\xv) - \tfrac{\mu}{2}\lVert \xv \rVert^2$ is still convex.
+</Aside>
+
+The convexity condition is exactly [Jensen's inequality](../../probability-theory/lebesgue-integration/inequalities/#jensens-inequality) restricted to two-point measures. For smooth $f$ it can be replaced by either of two pointwise tests.
+
+<Aside icon="seti:smarty" title="Theorem: differentiable characterizations of convexity">
+<Tabs>
+<TabItem label="Statement">
+Let $f : \R^n \to \R$ be differentiable on an open convex domain. The following are equivalent:
+
+1. $f$ is convex.
+2. **First-order condition**. For every $\xv, \yv$,
+$$
+f(\yv) \;\ge\; f(\xv) + \nabla f(\xv)^{\rm T}(\yv - \xv).
+$$
+3. **Second-order condition** (when $f$ is twice differentiable). The Hessian $\nabla^2 f(\xv)$ is positive semidefinite at every $\xv$.
+
+The strict / strong versions sharpen these: strict convexity replaces (2) and (3) with strict inequality / positive-definite Hessian, and $\mu$-strong convexity adds the term $\tfrac{\mu}{2}\lVert \yv - \xv\rVert^2$ to the right side of (2) and forces $\nabla^2 f \succeq \mu \Iv$.
+</TabItem>
+
+<TabItem label="Proof sketch">
+$(1)\Rightarrow(2)$: by convexity, $f(\xv + \theta(\yv - \xv)) \le f(\xv) + \theta\,(f(\yv) - f(\xv))$; rearrange and let $\theta \to 0^+$ on the left to get a directional derivative, which is $\nabla f(\xv)^{\rm T}(\yv - \xv)$.
+
+$(2)\Rightarrow(1)$: apply (2) at the midpoint $\zv = (1-\theta)\xv + \theta\yv$ to both $\xv$ and $\yv$, and combine the two linear bounds.
+
+$(2)\Leftrightarrow(3)$: the first-order condition says $f$ lies above its tangent hyperplane at every point. For a $C^2$ function this is exactly the statement that the second-order Taylor remainder $\tfrac{1}{2}(\yv-\xv)^{\rm T}\nabla^2 f(\xv^*)(\yv-\xv)$ is non-negative for every $\yv$ near $\xv$, i.e. the Hessian is PSD.
+</TabItem>
+</Tabs>
+</Aside>
+
+The first-order condition is the geometric content of convexity: **the graph lies above its tangent plane**.
+
+![A convex parabola with a tangent line lying entirely below it, touching at one point](/assets/images/linear-algebra/optimization/convex-tangent.svg)
+
+*The tangent at any point of a convex graph is a global lower bound; equality holds only at the point of tangency. This is the inequality $f(\yv) \ge f(\xv) + \nabla f(\xv)^{\rm T}(\yv - \xv)$ in one variable.*
+
+## Local equals global
+
+The single best consequence of convexity.
+
+<Aside icon="seti:smarty" title="Theorem: every local minimum of a convex function is global">
+<Tabs>
+<TabItem label="Statement">
+Let $f$ be convex and let $\xv^\star$ be a local minimum, $f(\xv^\star) \le f(\xv)$ for every $\xv$ in some neighborhood of $\xv^\star$. Then $f(\xv^\star) \le f(\xv)$ for every $\xv$ in the domain.
+</TabItem>
+
+<TabItem label="Proof">
+Suppose for contradiction that some $\yv$ has $f(\yv) < f(\xv^\star)$. By convexity, for every $\theta \in (0,1)$,
+$$
+f\!\big(\xv^\star + \theta(\yv - \xv^\star)\big) \;\le\; (1-\theta)\,f(\xv^\star) + \theta\,f(\yv) \;<\; f(\xv^\star).
+$$
+Choosing $\theta$ small enough that $\xv^\star + \theta(\yv - \xv^\star)$ lies in the local-minimum neighborhood contradicts the assumption on $\xv^\star$.
+</TabItem>
+</Tabs>
+</Aside>
+
+For a differentiable convex $f$, then, the equation $\nabla f(\xv^\star) = \mathbf{0}$ is sufficient for $\xv^\star$ to be a global minimum, not merely necessary.
+
+## Saddle points
+
+Without convexity, a zero gradient says only that $\xv$ is a **critical point**. The Hessian distinguishes the three possibilities.
+
+<Aside type="tip" icon="open-book" title="Definition: critical points and saddles">
+A point $\xv^\star$ with $\nabla f(\xv^\star) = \mathbf{0}$ is a **critical point**. Classify it by the symmetric Hessian $\Hv = \nabla^2 f(\xv^\star)$:
+
+- $\Hv \succ \mathbf{0}$ (all eigenvalues positive): a **strict local minimum**.
+- $\Hv \prec \mathbf{0}$ (all eigenvalues negative): a strict local **maximum**.
+- $\Hv$ **indefinite** (positive and negative eigenvalues both present): a **saddle point**.
+- $\Hv$ singular but semidefinite: indeterminate at second order.
+</Aside>
+
+At a saddle, the function decreases along the eigenvectors with negative eigenvalues and increases along those with positive eigenvalues. Gradient descent is therefore *attracted* to saddles (the gradient vanishes), and small noise or careful initialization is what allows iterative methods to escape them. In high-dimensional non-convex problems (deep networks) saddles are the dominant kind of critical point, far outnumbering minima.
+
+## The min-max principle
+
+The eigenvalues of a symmetric matrix have a clean variational characterization that links optimization back to spectral theory. Recall the **Rayleigh quotient**
+$$
+R(\xv) \;=\; \frac{\xv^{\rm T}\Av\,\xv}{\xv^{\rm T}\xv}, \qquad \xv \ne \mathbf{0}.
+$$
+
+<Aside icon="seti:smarty" title="Theorem: Courant–Fischer">
+<Tabs>
+<TabItem label="Statement">
+Let $\Av \in \R^{n \times n}$ be symmetric with eigenvalues $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_n$. Then
+$$
+\lambda_k \;=\; \max_{\substack{V \subseteq \R^n \\ \dim V = k}} \;\min_{\substack{\xv \in V \\ \xv \ne 0}} \; R(\xv) \;=\; \min_{\substack{V \subseteq \R^n \\ \dim V = n - k + 1}} \;\max_{\substack{\xv \in V \\ \xv \ne 0}} \; R(\xv).
+$$
+
+In particular $\lambda_1 = \max_\xv R(\xv)$ and $\lambda_n = \min_\xv R(\xv)$.
+</TabItem>
+
+<TabItem label="Proof sketch">
+Let $\Av = \Qv\Lambdav\Qv^{\rm T}$ be the [spectral decomposition](../fundamentals/eigenvectors), $\qv_1, \dots, \qv_n$ the orthonormal eigenvectors. Write $\xv = \sum c_i \qv_i$, so $R(\xv) = \sum c_i^2 \lambda_i / \sum c_i^2$, a weighted average of the eigenvalues.
+
+For the **max–min** form: taking $V = \operatorname{span}\{\qv_1, \dots, \qv_k\}$ gives $\min_{\xv \in V} R(\xv) = \lambda_k$, since the smallest eigenvalue restricted to that subspace is $\lambda_k$. So $\lambda_k$ is achievable, $\max \ge \lambda_k$. For the upper bound, any $k$-dimensional $V$ meets the $(n - k + 1)$-dimensional $\operatorname{span}\{\qv_k, \dots, \qv_n\}$ in a nonzero vector $\xv$ (by dimension count); $R(\xv) \le \lambda_k$ there, so $\min_V R \le \lambda_k$ for every such $V$.
+
+The **min–max** form follows from the max–min applied to $-\Av$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The Rayleigh quotient ties the algebra of symmetric matrices to optimization: the eigenvalue $\lambda_1$ *is* the maximum value of a quadratic form on the unit sphere, and the eigenvector $\qv_1$ is the maximizer. [Power iteration](../computations/spectral-methods) is gradient ascent on $R$ in disguise.
+
+## Why convexity is rare and structure helps
+
+Outside designed test problems, most $f$ in machine learning, control, and physics are not convex; deep network losses are aggressively non-convex with saddles in every direction. The practical consequence is that the convergence theorems for [gradient descent](gradient-descent) come in two flavors: tight rates for convex (and especially strongly convex) functions, and weaker, "first-order stationary" guarantees in general. Convexity is the gold-standard regime; understanding it sets the benchmark against which non-convex behavior is measured.

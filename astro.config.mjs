@@ -39,6 +39,7 @@ export default defineConfig({
 						{ label: 'Fundamentals', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/fundamentals', collapsed: true } }] },
 						{ label: 'Least Squares', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/least-squares', collapsed: true } }] },
 						{ label: 'Computations', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/computations', collapsed: true } }] },
+						{ label: 'Optimization', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/optimization', collapsed: true } }] },
 					],
 				},
 				{

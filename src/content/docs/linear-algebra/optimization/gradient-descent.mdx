@@ -1,0 +1,113 @@
+---
+title: Gradient Descent
+sidebar:
+  order: 2
+---
+
+import GradientDescent from '../../../../components/widgets/GradientDescent.tsx';
+
+To minimize $f$ from a starting point $\xv_0$, take a small step in the direction of steepest descent and repeat:
+$$
+\xv_{k+1} \;=\; \xv_k - \eta\,\nabla f(\xv_k).
+$$
+This is **gradient descent**. The single step is trivial; what makes the analysis non-trivial is choosing $\eta$ so the iterates actually move toward a minimum, and bounding how fast. Both pieces are controlled by the same scalar: the largest eigenvalue of the Hessian.
+
+## L-smoothness and the descent lemma
+
+<Aside type="tip" icon="open-book" title="Definition: L-smoothness">
+$f$ is **L-smooth** if its gradient is Lipschitz with constant $L$:
+$$
+\lVert \nabla f(\xv) - \nabla f(\yv) \rVert \;\le\; L\,\lVert \xv - \yv \rVert \quad \text{for every } \xv, \yv.
+$$
+Equivalently, when $f$ is $C^2$, $\nabla^2 f(\xv) \preceq L\Iv$ at every $\xv$.
+</Aside>
+
+L-smoothness gives the **descent lemma**, a quadratic upper bound on $f$:
+$$
+f(\yv) \;\le\; f(\xv) + \nabla f(\xv)^{\rm T}(\yv - \xv) + \tfrac{L}{2}\lVert \yv - \xv \rVert^2.
+$$
+Plugging in $\yv = \xv - \eta\,\nabla f(\xv)$ and choosing $\eta = 1/L$ collapses the right side to
+$$
+f(\xv_{k+1}) \;\le\; f(\xv_k) - \tfrac{1}{2L}\lVert \nabla f(\xv_k) \rVert^2,
+$$
+so every step strictly decreases $f$ by a positive amount unless the gradient is already zero. This is why GD with $\eta \le 1/L$ never blows up.
+
+## Convergence for convex L-smooth functions
+
+The descent lemma alone gives a sublinear rate.
+
+<Aside icon="seti:smarty" title="Theorem: O(1/k) rate for convex L-smooth f">
+<Tabs>
+<TabItem label="Statement">
+Let $f$ be convex and L-smooth, $\xv^\star$ a minimizer. Gradient descent with $\eta = 1/L$ satisfies
+$$
+f(\xv_k) - f(\xv^\star) \;\le\; \frac{L\,\lVert \xv_0 - \xv^\star \rVert^2}{2k}.
+$$
+</TabItem>
+
+<TabItem label="Sketch">
+Combine the descent lemma $f(\xv_{k+1}) \le f(\xv_k) - \tfrac{1}{2L}\lVert \nabla f(\xv_k)\rVert^2$ with the first-order convex bound $f(\xv^\star) \ge f(\xv_k) + \nabla f(\xv_k)^{\rm T}(\xv^\star - \xv_k)$. Expanding $\lVert \xv_{k+1} - \xv^\star \rVert^2$ and telescoping over $k$ steps gives the bound; the key identity is that $\lVert \xv_{k+1} - \xv^\star \rVert^2 - \lVert \xv_k - \xv^\star\rVert^2 \le -\tfrac{2}{L}\big(f(\xv_k) - f(\xv^\star)\big)$.
+</TabItem>
+</Tabs>
+</Aside>
+
+To get within $\epsilon$ of the optimum needs $O(L/\epsilon)$ steps. That is slow, and the next assumption fixes it.
+
+## Linear rate under strong convexity
+
+If $f$ is also $\mu$-strongly convex (Hessian $\succeq \mu \Iv$), the rate becomes geometric.
+
+<Aside icon="seti:smarty" title="Theorem: linear rate for μ-strongly convex L-smooth f">
+<Tabs>
+<TabItem label="Statement">
+Let $f$ be $\mu$-strongly convex and L-smooth, with $\kappa = L/\mu$ its **condition number**. Gradient descent with $\eta = 1/L$ satisfies
+$$
+\lVert \xv_k - \xv^\star \rVert^2 \;\le\; \left(1 - \tfrac{1}{\kappa}\right)^{k} \lVert \xv_0 - \xv^\star \rVert^2.
+$$
+</TabItem>
+
+<TabItem label="Sketch">
+Strong convexity gives $\lVert \nabla f(\xv) \rVert^2 \ge 2\mu(f(\xv) - f(\xv^\star))$ (the **Polyak–Łojasiewicz inequality**); combined with the descent lemma at $\eta = 1/L$ this yields $f(\xv_{k+1}) - f(\xv^\star) \le (1 - \mu/L)(f(\xv_k) - f(\xv^\star))$, and strong convexity again translates this back into the distance bound above.
+</TabItem>
+</Tabs>
+</Aside>
+
+Reaching error $\epsilon$ now takes only $O(\kappa \log(1/\epsilon))$ steps. The condition number $\kappa$ is the single quantity that decides whether GD is fast or excruciatingly slow: a well-conditioned bowl ($\kappa = 1$) converges in essentially one step, while a long, narrow ellipse with $\kappa = 1000$ converges thousands of times slower.
+
+## Heavy-ball momentum
+
+When the loss has a long, narrow valley, plain GD zig-zags down the steep direction and crawls along the shallow one. Adding a velocity term, the **heavy-ball method** of Polyak, smooths the zig-zag.
+$$
+\vv_{k+1} \;=\; \beta\,\vv_k - \eta\,\nabla f(\xv_k), \qquad \xv_{k+1} \;=\; \xv_k + \vv_{k+1}.
+$$
+The parameter $\beta \in [0, 1)$ is the momentum coefficient. The mechanical analogy is exact: $\vv$ is the velocity of a particle with friction $1-\beta$ rolling under the gradient force.
+
+With well-chosen $\eta$ and $\beta$, heavy-ball converges at rate $1 - 1/\sqrt{\kappa}$ on quadratic problems, a **square-root** speedup over plain GD's $1 - 1/\kappa$. For $\kappa = 1000$ that turns hundreds of slow steps into tens of fast ones.
+
+## Nesterov acceleration
+
+Nesterov's **accelerated gradient method** keeps the $\sqrt{\kappa}$ rate but with a guarantee for all smooth convex functions, not just quadratics. The trick is to evaluate the gradient at a *look-ahead* point rather than the current iterate.
+$$
+\begin{aligned}
+\yv_k &= \xv_k + \beta_k\,(\xv_k - \xv_{k-1}), \\
+\xv_{k+1} &= \yv_k - \eta\,\nabla f(\yv_k).
+\end{aligned}
+$$
+With a schedule of $\beta_k$ tending to a constant near $1 - 1/\sqrt{\kappa}$, Nesterov achieves the optimal rate
+$$
+f(\xv_k) - f(\xv^\star) \;\le\; O\!\left( (1 - 1/\sqrt{\kappa})^{k} \right),
+$$
+provably matching the lower bound for first-order methods on smooth convex problems. Modern deep-learning optimizers (Adam, RMSprop, SGD-with-momentum) descend from these ideas.
+
+## Try it
+
+Each preset below has a different conditioning. The **Bowl** is well-conditioned ($\kappa = 1$); plain GD nails it in one step. The **Ellipse** has $\kappa = 25$, the long axis is 5× narrower than the short one: GD zig-zags, momentum sweeps along the valley. The **Saddle** has zero gradient at the origin but is not a minimum: GD that starts on the unstable axis lingers there until the small perpendicular component grows. The **Rosenbrock** function combines a curved valley with a shallow tail; even momentum needs careful tuning. Click on the surface to set a new starting point.
+
+<GradientDescent client:visible />
+
+A few experiments worth running:
+
+- Bowl with $\eta = 0.05$ vs. $\eta = 0.4$: small $\eta$ takes many tiny steps, $\eta$ near $1$ overshoots and converges fast, $\eta > 2/L$ diverges.
+- Ellipse: compare **GD** with default $\eta$ to **Momentum** with $\beta = 0.9$. The trajectory transforms from zig-zag to a smooth glide.
+- Saddle: start exactly at $y = 0$ and watch GD stall; click to add a small perpendicular kick, and it escapes.
+- SGD on the bowl with $\sigma > 0$: the iterate keeps wandering near the minimum at a noise floor of order $\eta\sigma$. Decreasing $\eta$ shrinks the cloud.

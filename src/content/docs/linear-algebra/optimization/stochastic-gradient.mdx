@@ -1,0 +1,87 @@
+---
+title: Stochastic Gradient Descent
+sidebar:
+  order: 3
+---
+
+When the objective is an average over many examples,
+$$
+f(\xv) \;=\; \frac{1}{n} \sum_{i=1}^n f_i(\xv),
+$$
+the full gradient $\nabla f = \tfrac{1}{n}\sum_i \nabla f_i$ costs an entire pass over the data per step. For modern $n$ (millions of training points, billions of parameters) that is the bottleneck. **Stochastic gradient descent (SGD)** estimates $\nabla f$ by a single random $\nabla f_i$, paying one example per step.
+
+## The SGD step
+
+<Aside type="tip" icon="open-book" title="Definition: stochastic gradient descent">
+At iteration $k$, sample an index $i_k$ uniformly from $\{1, \dots, n\}$ (or with replacement / in a shuffled epoch) and update
+$$
+\xv_{k+1} \;=\; \xv_k - \eta_k\,\nabla f_{i_k}(\xv_k).
+$$
+A **mini-batch** variant averages over a small set $B_k$ of indices:
+$$
+\xv_{k+1} \;=\; \xv_k - \eta_k\cdot \frac{1}{|B_k|}\sum_{i \in B_k}\nabla f_i(\xv_k).
+$$
+</Aside>
+
+The stochastic gradient is **unbiased**, $\mathbb{E}_{i_k}[\nabla f_{i_k}(\xv)] = \nabla f(\xv)$, but it carries variance. Write
+$$
+\sigma^2(\xv) \;=\; \mathbb{E}_i\!\left[\,\lVert \nabla f_i(\xv) - \nabla f(\xv) \rVert^2\,\right].
+$$
+For a mini-batch of size $b$ drawn without replacement, the variance shrinks like $\sigma^2/b$; doubling the batch size halves the noise but doubles the cost per step.
+
+## What constant-η SGD really does
+
+With a fixed step size $\eta$, SGD does *not* converge to the minimum: it converges to a **noise ball** around it, whose size scales with $\eta$ and $\sigma^2$.
+
+<Aside icon="seti:smarty" title="Theorem: SGD oscillates within an O(η σ²/μ) ball">
+<Tabs>
+<TabItem label="Statement">
+Suppose $f$ is $\mu$-strongly convex and L-smooth, and the variance is bounded, $\sigma^2(\xv) \le \sigma^2$. With constant step $\eta \le 1/L$, SGD satisfies
+$$
+\mathbb{E}\,\lVert \xv_k - \xv^\star \rVert^2 \;\le\; (1 - \eta\mu)^k\,\lVert \xv_0 - \xv^\star \rVert^2 \;+\; \frac{\eta\,\sigma^2}{\mu}.
+$$
+</TabItem>
+
+<TabItem label="Sketch">
+The expected one-step contraction looks like the strongly-convex GD bound, but the variance term $\eta^2 \sigma^2$ contaminates each step. Recursively expanding the relation $\mathbb{E}\lVert \xv_{k+1} - \xv^\star\rVert^2 \le (1 - \eta\mu)\,\mathbb{E}\lVert \xv_k - \xv^\star\rVert^2 + \eta^2 \sigma^2$ gives a geometric series that sums to the stated noise floor.
+</TabItem>
+</Tabs>
+</Aside>
+
+Small $\eta$ shrinks the noise floor but slows the initial decrease; large $\eta$ races toward the minimum but bounces around it. This trade-off is fundamental to constant-step SGD.
+
+## To reach the minimum: decaying step sizes
+
+To drive the iterate all the way to $\xv^\star$, send $\eta_k \to 0$ at the right rate. The classical condition is from Robbins and Monro:
+
+<Aside type="tip" icon="open-book" title="Definition: Robbins–Monro step sizes">
+A schedule $\{\eta_k\}$ is admissible for SGD if
+$$
+\sum_k \eta_k = \infty, \qquad \sum_k \eta_k^2 < \infty.
+$$
+The first condition lets the iterates move arbitrarily far if needed; the second forces the cumulative variance to be finite.
+</Aside>
+
+The canonical schedule is $\eta_k = c/(k + k_0)$. Under strong convexity, this yields the sublinear rate
+$$
+\mathbb{E}\,\lVert \xv_k - \xv^\star \rVert^2 \;=\; O(1/k),
+$$
+slower than the linear $(1 - 1/\kappa)^k$ of full-batch GD, but each step is $n$ times cheaper, so the total compute to reach a fixed accuracy is often far less.
+
+## Why SGD wins for deep learning
+
+For non-convex losses (neural networks, in particular), the variance term in SGD is not just noise to be tolerated; it is often what makes the method work.
+
+- **Escaping saddles.** A saddle point has $\nabla f = \mathbf{0}$ but the Hessian is indefinite. Plain GD lingers there; the stochastic component of SGD acts as a kick that pushes the iterate off the unstable axis with high probability. The Brownian-motion analog of SGD spends only $O(\log)$ time near saddles.
+- **Implicit regularization.** Among the many minima of an over-parameterized model, constant-$\eta$ SGD is biased toward the wide, flat ones, which generalize better than narrow, sharp minima. The same noise that prevents exact convergence selects which approximate minimum the iterate sits in.
+- **Cheap iterations.** A single $\nabla f_i$ on a deep network costs one forward and one backward pass over a mini-batch, not the entire dataset. Modern training does millions of cheap steps where a deterministic method could not afford a single full-gradient pass.
+
+The widget on the [Gradient Descent](gradient-descent) page lets you toggle to **SGD** mode and dial the noise $\sigma$. On the bowl, watch the iterate orbit the minimum at a noise-floor radius proportional to $\eta\sigma$. On the saddle, raise $\sigma$ until SGD escapes; on the Rosenbrock, see how mild noise can either help or hurt depending on the step size.
+
+## SGD with momentum
+
+In practice every SGD optimizer combines stochasticity with momentum: heavy-ball SGD, RMSprop, Adam, AdamW. The simplest such method is
+$$
+\vv_{k+1} \;=\; \beta\,\vv_k - \eta\,\nabla f_{i_k}(\xv_k), \qquad \xv_{k+1} \;=\; \xv_k + \vv_{k+1},
+$$
+matching the heavy-ball update on the previous page but with a stochastic gradient. The momentum term **averages** the noisy gradients over a window of effective length $1/(1 - \beta)$, which doubles as variance reduction and acceleration. This is the form of SGD that trains the vast majority of modern neural networks.

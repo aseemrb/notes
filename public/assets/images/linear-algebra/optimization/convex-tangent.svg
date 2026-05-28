@@ -1,0 +1,31 @@
+<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A convex parabola with a tangent line lying below it; the tangent touches the parabola at one point and stays below the curve elsewhere, illustrating the first-order condition for convexity.">
+  <style>
+    :root { --text: #374151; --axis: #94a3b8; --fn: #2563eb; --tan: #db2777; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --axis: #64748b; --fn: #60a5fa; --tan: #f472b6; }
+    }
+    .axis { stroke: var(--axis); stroke-opacity: 0.55; stroke-width: 1; }
+    .fn { stroke: var(--fn); stroke-width: 2.2; fill: none; }
+    .tan { stroke: var(--tan); stroke-width: 1.8; fill: none; }
+    .dot { fill: var(--tan); }
+    .lbl { fill: var(--text); font-size: 12px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .lbl-fn { fill: var(--fn); font-size: 12px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .lbl-tan { fill: var(--tan); font-size: 11px; }
+  </style>
+
+  <!-- axes -->
+  <line class="axis" x1="30" y1="122" x2="304" y2="122" />
+  <line class="axis" x1="167" y1="14" x2="167" y2="176" />
+
+  <!-- tangent line y = -x - 0.5, from x=-3 to x=2 (in plot coords) -->
+  <line class="tan" x1="30" y1="68" x2="258.33" y2="176" />
+  <text class="lbl-tan" x="265" y="170" fill="var(--tan)">tangent</text>
+
+  <!-- parabola y = x^2 / 2 as a quadratic Bezier -->
+  <path class="fn" d="M 30 24.8 Q 167 219.2 304 24.8" />
+  <text class="lbl-fn" x="294" y="42">f</text>
+
+  <!-- tangent point (x0, f(x0)) -->
+  <circle class="dot" cx="121.3" cy="111.2" r="3.6" />
+  <text class="lbl" x="115" y="103">(x₀, f(x₀))</text>
+</svg>
