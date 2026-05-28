@@ -1,0 +1,70 @@
+---
+title: Computing eigenvalues
+sidebar:
+  order: 1
+---
+
+import PowerIteration from '../../../../components/widgets/PowerIteration.tsx';
+
+Spelling out the characteristic polynomial of an $n \times n$ matrix and finding its roots is not how one computes eigenvalues in practice. For $n$ above a few dozen the polynomial route is hopelessly ill-conditioned, and beyond $n \approx 4$ there is no closed form at all. Practical eigensolvers iterate, and they all descend from a single geometric idea: multiplying by $\Av$ many times stretches a vector along the dominant direction.
+
+## Power iteration
+
+<Aside type="tip" icon="open-book" title="Definition: power iteration">
+Given $\Av \in \R^{n \times n}$ and a starting vector $\vv_0$ with $\lVert \vv_0 \rVert = 1$, define
+$$
+\vv_{k+1} = \frac{\Av \vv_k}{\lVert \Av \vv_k \rVert}, \qquad k = 0, 1, 2, \dots
+$$
+The accompanying **Rayleigh quotient** $\rho_k = \vv_k^{\rm T} \Av \vv_k$ is the corresponding eigenvalue estimate.
+</Aside>
+
+Why it works: if $\Av$ has a basis of [eigenvectors](../fundamentals/eigenvectors) $\xv_1, \dots, \xv_n$ with eigenvalues $\lvert \lambda_1 \rvert > \lvert \lambda_2 \rvert \ge \cdots$, write $\vv_0 = \sum c_i \xv_i$. Then
+$$
+\Av^k \vv_0 = \sum_{i=1}^n c_i \lambda_i^k \xv_i = \lambda_1^k\!\left( c_1 \xv_1 + \sum_{i \ge 2} c_i (\lambda_i/\lambda_1)^k \xv_i \right).
+$$
+All ratios $(\lambda_i/\lambda_1)^k \to 0$, so after normalization $\vv_k$ aligns with $\xv_1$ provided $c_1 \ne 0$. The error shrinks like the rate $\lvert \lambda_2/\lambda_1 \rvert$ per step.
+
+<Aside icon="seti:smarty" title="Theorem: convergence of power iteration">
+Suppose $\Av$ is diagonalizable with $\lvert \lambda_1 \rvert > \lvert \lambda_2 \rvert \ge \cdots \ge \lvert \lambda_n \rvert$, and the starting vector $\vv_0$ has a nonzero component along $\xv_1$. Then $\vv_k \to \pm \xv_1$ (up to sign) and
+$$
+\rho_k = \vv_k^{\rm T} \Av \vv_k \;\longrightarrow\; \lambda_1, \qquad \text{with error } O\!\big((\lambda_2/\lambda_1)^k\big).
+$$
+</Aside>
+
+Edit the $2 \times 2$ matrix below and watch the iterate turn toward the dashed line through the dominant eigenvector. The convergence rate displayed is $\lvert \lambda_2 / \lambda_1 \rvert$; matrices with close eigenvalues converge slowly, matrices with a well-separated leading eigenvalue converge fast. Setting $a_{12} = 1, a_{21} = -1$ (a rotation) produces complex eigenvalues and no real eigenvector, and the iterate spirals.
+
+<PowerIteration client:visible />
+
+## Inverse iteration with a shift
+
+Power iteration finds the *largest* eigenvalue. To target any other one, replace $\Av$ with $(\Av - \mu \Iv)^{-1}$: its eigenvalues are $1/(\lambda_i - \mu)$, and the largest in modulus belongs to the $\lambda_i$ closest to $\mu$. Iterating
+$$
+\vv_{k+1} = \frac{(\Av - \mu\Iv)^{-1} \vv_k}{\lVert (\Av - \mu\Iv)^{-1} \vv_k \rVert}
+$$
+(solving a linear system each step rather than inverting explicitly) drives $\vv_k$ to the eigenvector for the eigenvalue nearest $\mu$, at rate $\lvert (\lambda_{\text{near}} - \mu)/(\lambda_{\text{next}} - \mu) \rvert$. Taking $\mu = \rho_k$, the running Rayleigh quotient itself, gives **Rayleigh quotient iteration**, which is locally **cubically convergent** for symmetric $\Av$: each step roughly cubes the digits of accuracy.
+
+## The QR algorithm
+
+For *all* the eigenvalues at once, the QR algorithm is the modern workhorse. Repeatedly factor and reassemble:
+$$
+\Av_0 = \Av, \qquad \Av_k = \Qv_k \Rv_k \ \ (\text{QR factorization}), \qquad \Av_{k+1} = \Rv_k \Qv_k.
+$$
+Each step is a [similarity transform](../fundamentals/eigenvectors): $\Av_{k+1} = \Rv_k \Qv_k = \Qv_k^{\rm T} \Av_k \Qv_k$, so the spectrum is preserved.
+
+<Aside icon="seti:smarty" title="Theorem: QR convergence to Schur form">
+<Tabs>
+<TabItem label="Statement">
+Under mild conditions ($\Av$ has distinct eigenvalue moduli and a starting position that does not annihilate any eigenvector), the iterates $\Av_k$ converge to an upper-triangular matrix whose diagonal entries are the eigenvalues $\lambda_1, \dots, \lambda_n$ of $\Av$, ordered by decreasing magnitude.
+</TabItem>
+
+<TabItem label="Sketch">
+One QR step on $\Av$ is *simultaneous* power iteration on the columns of $\Qv$, followed by Gram–Schmidt. Power iteration on the first column produces the dominant eigenvector; orthogonalizing the second column against it yields the next-dominant direction within its orthogonal complement; and so on. Because each successive column is iterated by a matrix whose dominant direction has been removed, the $j$-th column converges at rate $\lvert \lambda_{j+1}/\lambda_j \rvert$, exposing the eigenvalues on the diagonal in decreasing order. A full proof tracks the Krylov subspaces $\operatorname{span}\{\Av^k \ev_1, \dots, \Av^k \ev_j\}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+In practice, the basic algorithm is accelerated in two ways: a one-time reduction of $\Av$ to **Hessenberg form** (zeros below the first subdiagonal) makes each QR step cheap, and an **eigenvalue shift** $\Av_k - \mu_k \Iv$ at every step turns the rate $\lvert \lambda_{j+1}/\lambda_j \rvert$ into a much steeper one (cubic, with the Wilkinson shift). The combination is the algorithm of LAPACK and every modern eigensolver.
+
+## Computing the SVD
+
+Singular values are eigenvalues of $\Av^{\rm T}\Av$, so any eigenvalue algorithm computes the [SVD](../fundamentals/svd) in principle. Forming $\Av^{\rm T}\Av$ explicitly is the same numerically poor idea as solving least squares by the normal equations: the condition number squares. Practical SVD codes instead **bidiagonalize** $\Av$ with Householder reflections, $\Av = \Uv_1 \Bv \Vv_1^{\rm T}$ with $\Bv$ upper bidiagonal, and then run an **implicit QR sweep** on $\Bv$ that operates as if it were on $\Bv^{\rm T}\Bv$ without ever building it. The Golub–Reinsch algorithm packages this into the standard SVD routine.

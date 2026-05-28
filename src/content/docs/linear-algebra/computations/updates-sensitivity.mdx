@@ -1,0 +1,70 @@
+---
+title: Updates and sensitivity
+sidebar:
+  order: 3
+---
+
+Two questions sit next to each other in computational linear algebra: how does a small change in $\Av$ change the things derived from it, and can a low-rank perturbation be folded into an existing factorization without redoing the work? The Sherman–Morrison–Woodbury identity answers the second cleanly; matrix calculus answers the first. They converge on the observation that **typical large matrices have rapidly decreasing singular values**, which is what makes the whole apparatus of low-rank approximation and updating effective.
+
+## The Sherman–Morrison–Woodbury formula
+
+A rank-$k$ update of an invertible matrix has an inverse with the same kind of low-rank correction, never requiring a fresh $n \times n$ inversion.
+
+<Aside icon="seti:smarty" title="Theorem: Sherman–Morrison–Woodbury">
+<Tabs>
+<TabItem label="Statement">
+Let $\Av \in \R^{n \times n}$ be invertible, $\Uv \in \R^{n \times k}$, $\Vv \in \R^{n \times k}$. If $\Iv_k + \Vv^{\rm T} \Av^{-1} \Uv$ is invertible, then $\Av + \Uv\Vv^{\rm T}$ is invertible and
+$$
+(\Av + \Uv\Vv^{\rm T})^{-1} \;=\; \Av^{-1} \;-\; \Av^{-1}\Uv\,(\Iv_k + \Vv^{\rm T}\Av^{-1}\Uv)^{-1}\,\Vv^{\rm T}\Av^{-1}.
+$$
+The rank-one case $k = 1$ is the **Sherman–Morrison** formula.
+</TabItem>
+
+<TabItem label="Proof">
+Multiply the proposed inverse by $(\Av + \Uv\Vv^{\rm T})$ on the right and simplify:
+$$
+\begin{aligned}
+\big(\Av^{-1} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T}\Av^{-1}\big)(\Av + \Uv\Vv^{\rm T})
+&= \Iv + \Av^{-1}\Uv\Vv^{\rm T} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T} - \Av^{-1}\Uv\,\Mv^{-1}\,\Vv^{\rm T}\Av^{-1}\Uv\Vv^{\rm T} \\
+&= \Iv + \Av^{-1}\Uv\,\big( \Iv_k - \Mv^{-1} - \Mv^{-1}(\Mv - \Iv_k) \big)\,\Vv^{\rm T} \\
+&= \Iv,
+\end{aligned}
+$$
+where $\Mv = \Iv_k + \Vv^{\rm T}\Av^{-1}\Uv$ and the bracket vanishes because $\Iv_k - \Mv^{-1} - \Mv^{-1}\Mv + \Mv^{-1} = 0$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The point: inverting $\Av + \Uv\Vv^{\rm T}$ explicitly would cost $O(n^3)$. Once $\Av^{-1}$ (or a factorization of $\Av$) is known, the formula needs only the inverse of the $k \times k$ matrix $\Mv$, dropping the cost to $O(n^2 k)$. This is what enables **recursive least squares** and the **Kalman filter** (each new observation is a rank-one update of $\Av^{\rm T}\Av$), **leave-one-out cross-validation** (removing one data row is a rank-one update), and **online linear regression** in general.
+
+## Derivatives of matrix-valued functions
+
+When $\Av(t)$ depends on a parameter, derivatives of the quantities built from it follow simple rules.
+
+For the **inverse**, differentiate $\Av(t)\,\Av(t)^{-1} = \Iv$:
+$$
+\dot\Av\,\Av^{-1} + \Av\,\frac{d}{dt}(\Av^{-1}) = 0 \;\;\Longrightarrow\;\; \frac{d}{dt}\Av^{-1} \;=\; -\Av^{-1}\,\dot\Av\,\Av^{-1}.
+$$
+This is the matrix analog of $(1/x)' = -x'/x^2$, the operator order is the only complication.
+
+For a **simple eigenvalue** $\lambda(t)$ of $\Av(t)$ with right eigenvector $\vv$ and left eigenvector $\uv^{\rm T}$ (so $\Av\vv = \lambda\vv$ and $\uv^{\rm T}\Av = \lambda\uv^{\rm T}$), differentiating $\Av\vv = \lambda\vv$ and projecting onto $\uv^{\rm T}$ kills the unknown $\dot\vv$ term and leaves
+$$
+\dot\lambda \;=\; \frac{\uv^{\rm T}\,\dot\Av\,\vv}{\uv^{\rm T}\vv}.
+$$
+For a **simple singular value** $\sigma(t)$ with the associated left/right singular vectors $\uv, \vv$, the analogous formula is
+$$
+\dot\sigma \;=\; \uv^{\rm T}\,\dot\Av\,\vv.
+$$
+Both say the same thing: the rate of change of an eigen- or singular value is the directional derivative of $\Av$ in the rank-one direction picked out by its own eigen- or singular vectors. These are exactly the first-order perturbation formulas used in numerical stability analysis and in computing condition numbers of eigenproblems.
+
+## Why singular values decay
+
+Eckart–Young is only useful in practice if the discarded singular values are small. They almost always are, for structural reasons.
+
+- **Smoothness**. Discretizing a smooth kernel $K(s,t)$ to a matrix $K_{ij} = K(s_i, t_j)$ produces singular values that decay at least like $e^{-c k^{1/d}}$ in dimension $d$, because smooth functions are well approximated by their first few Taylor or Fourier terms.
+- **Locality**. Matrices that act locally (banded, sparse, or with quickly-decaying entries off the diagonal) approximate combinations of a few low-rank pieces plus a small remainder, and their singular values inherit the same decay.
+- **Statistical concentration**. Data matrices whose rows are noisy samples of a low-dimensional signal split into a clean low-rank part plus high-rank noise of small magnitude; the first $r$ singular values capture the signal and the rest are at the noise level.
+
+The contrast is sharp: a random Gaussian matrix has singular values bunched near $\sqrt{n}$ with no useful decay, and there is nothing to compress. A discretized smooth kernel of comparable size has singular values plunging below machine precision within a few dozen terms.
+
+This is the empirical fact that makes randomized SVD work, that explains why Sherman–Morrison–Woodbury updates are usually accurate (the discarded tail of $\sigma_i$ is small), and that justifies modeling natural data with low-rank factorizations. The deeper theme of the next units, optimization and learning, is exactly that high-dimensional problems in practice live near low-dimensional manifolds, and the same linear-algebraic decay is what makes them tractable.

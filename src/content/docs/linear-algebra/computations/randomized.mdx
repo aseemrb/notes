@@ -1,0 +1,70 @@
+---
+title: Randomized linear algebra
+sidebar:
+  order: 2
+---
+
+When a matrix is too large to factor in full, sampling its rows and columns gives an unbiased estimator of products and an extremely effective approximation of the [SVD](../fundamentals/svd). The key fact is that, with the right sampling distribution, the variance of the estimator is controlled by the same Frobenius norms that already govern [Eckart–Young](../fundamentals/eckart-young) accuracy.
+
+## Approximate matrix multiplication
+
+Write the product $\Av\Bv$ as a sum of rank-one terms,
+$$
+\Av\Bv \;=\; \sum_{i=1}^n \av_i \, \bv_i^{\rm T},
+$$
+where $\av_i$ is the $i$-th column of $\Av$ and $\bv_i^{\rm T}$ is the $i$-th row of $\Bv$. Replace the full sum by a sample.
+
+<Aside type="tip" icon="open-book" title="Definition: sampled product">
+Fix a probability distribution $q_1, \dots, q_n > 0$ with $\sum_i q_i = 1$. Draw $p$ indices $I_1, \dots, I_p$ independently from $\{q_i\}$ and form
+$$
+\widetilde{\Av\Bv} \;=\; \frac{1}{p} \sum_{t=1}^p \frac{\av_{I_t}\, \bv_{I_t}^{\rm T}}{q_{I_t}}.
+$$
+</Aside>
+
+Each summand has expectation $\sum_i q_i \cdot \av_i\bv_i^{\rm T}/q_i = \Av\Bv$, so $\widetilde{\Av\Bv}$ is **unbiased**. Its mean-square Frobenius error is the variance of the estimator,
+$$
+\E\!\left[\,\lVert \widetilde{\Av\Bv} - \Av\Bv \rVert_F^2\,\right] \;=\; \frac{1}{p}\left( \sum_{i=1}^n \frac{\lVert \av_i \rVert^2\,\lVert \bv_i \rVert^2}{q_i} \;-\; \lVert \Av\Bv \rVert_F^2 \right),
+$$
+and is minimized over the choice of $q_i$ by **importance sampling** proportional to column–row magnitudes:
+$$
+q_i^{\star} \;=\; \frac{\lVert \av_i \rVert \, \lVert \bv_i \rVert}{\sum_j \lVert \av_j \rVert \, \lVert \bv_j \rVert}.
+$$
+With this choice, the bound becomes $\E\!\left[\lVert \widetilde{\Av\Bv} - \Av\Bv \rVert_F^2\right] \le \tfrac{1}{p}\big(\sum_i \lVert \av_i\rVert\,\lVert \bv_i\rVert\big)^2$, depending only on the *total* Frobenius mass of the factors. Matrices with a few dominant columns concentrate that mass, and a small $p$ suffices.
+
+## Randomized range finder
+
+Many problems do not need the full product, only a good basis for the column space of $\Av$. Hit $\Av$ with a small random matrix.
+
+<Aside icon="seti:smarty" title="Theorem: a Gaussian sketch finds the range">
+<Tabs>
+<TabItem label="Statement">
+Let $\Av \in \R^{m \times n}$ have singular values $\sigma_1 \ge \sigma_2 \ge \cdots$, fix a target rank $k$, an oversampling parameter $\ell \ge 2$, and let $\Omegav \in \R^{n \times (k+\ell)}$ have i.i.d. standard Gaussian entries. Let $\Qv$ be an orthonormal basis for the columns of $\Yv = \Av\Omegav$. Then with probability at least $1 - 6\ell^{-\ell}$,
+$$
+\lVert \Av - \Qv\Qv^{\rm T} \Av \rVert \;\le\; \left(1 + 11\sqrt{(k+\ell)\min(m,n)}\right) \sigma_{k+1}.
+$$
+</TabItem>
+
+<TabItem label="Sketch">
+Each column of $\Yv = \Av\Omegav$ is a random linear combination of the columns of $\Av$. With overwhelming probability, $k + \ell$ such combinations span a $(k+\ell)$-dimensional subspace that comes very close to the dominant $k$-dimensional column subspace of $\Av$ identified by Eckart–Young. The detailed estimate (Halko–Martinsson–Tropp 2011) tracks how the random projection interacts with the SVD of $\Av$; the bound degrades from the optimal $\sigma_{k+1}$ only by the dimension-dependent factor above and improves geometrically with $\ell$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The constant $11\sqrt{(k+\ell)\min(m,n)}$ is the simple worst-case bound; the expected error is much smaller, often only $\sqrt{k\ell}$ above the optimum. A single extra step of power iteration, replacing $\Yv = \Av\Omegav$ by $\Yv = (\Av\Av^{\rm T})^q \Av\Omegav$, polynomially shrinks the gap whenever $\Av$ has *any* decay in its singular values.
+
+## Randomized SVD
+
+Combining the two ideas gives the fast approximate SVD of a large matrix.
+
+<Aside type="tip" icon="open-book" title="Algorithm: randomized SVD">
+Given $\Av \in \R^{m \times n}$ and target rank $k$:
+
+1. Draw a Gaussian sketch matrix $\Omegav \in \R^{n \times (k+\ell)}$.
+2. Form $\Yv = \Av\Omegav$ (optionally repeat with $q$ steps: $\Yv \leftarrow \Av \Av^{\rm T}\Yv$).
+3. Compute the QR factorization $\Yv = \Qv\Rv$, so $\Qv \in \R^{m \times (k+\ell)}$ has orthonormal columns.
+4. Form the small matrix $\Bv = \Qv^{\rm T}\Av \in \R^{(k+\ell) \times n}$.
+5. Compute the SVD of $\Bv$: $\Bv = \widetilde\Uv\, \Sigmav\, \Vv^{\rm T}$.
+6. Return $\Uv = \Qv\,\widetilde\Uv$, $\Sigmav$, $\Vv$ as the approximate SVD of $\Av$.
+</Aside>
+
+The expensive step is the matrix multiplication $\Av\Omegav$, which touches each entry of $\Av$ once and can be streamed or done in parallel; the rest works on tall-thin matrices of size $m \times (k+\ell)$ or $(k+\ell) \times n$. For an $m \times n$ matrix the cost drops from $O(mn\min(m,n))$ for a full SVD to roughly $O(mn(k+\ell))$, with error close to the Eckart–Young optimum $\sigma_{k+1}$. This is what lets PCA, latent-semantic indexing, and modern recommendation systems run on matrices that would never fit in memory in factored form.
