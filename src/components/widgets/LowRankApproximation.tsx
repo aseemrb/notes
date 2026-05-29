@@ -1,12 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import styles from './widget.module.css';
 
 // Eckart-Young in action: a small grayscale "image" is treated as a matrix A, and the
 // rank-k truncated SVD A_k = sum_{i<k} sigma_i u_i v_i^T is the best rank-k approximation.
-// Slide k to watch the reconstruction sharpen, the spectrum tells you how compressible the
+// Slide k to watch the reconstruction sharpen; the spectrum tells you how compressible the
 // image is. The SVD is computed in-browser once per image with one-sided Jacobi.
+//
+// The presets are deliberately HARD-edged (sharp circle, diagonal stripes) so their
+// singular values decay gradually and the rank-k reconstruction visibly changes as k
+// grows -- low k is blurry with ringing, high k is crisp. The "Smooth" preset is the
+// contrast case: a separable pattern of rank ~3 that a handful of components capture.
 
-const N = 40; // image is N x N
+const N = 48; // image is N x N
 
 type SVD = { U: Float64Array[]; s: number[]; V: Float64Array[] };
 
@@ -25,7 +30,7 @@ function jacobiSVD(cols: Float64Array[], m: number, n: number): SVD {
     for (let i = 0; i < a.length; i++) s += a[i] * b[i];
     return s;
   };
-  for (let sweep = 0; sweep < 40; sweep++) {
+  for (let sweep = 0; sweep < 60; sweep++) {
     let off = 0;
     for (let i = 0; i < n; i++) {
       for (let j = i + 1; j < n; j++) {
@@ -78,18 +83,24 @@ function makeImage(kind: string): Float64Array[] {
   const set = (r: number, c: number, v: number) => {
     cols[c][r] = Math.max(0, Math.min(1, v));
   };
+  const mid = (N - 1) / 2;
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < N; c++) {
-      if (kind === 'gradient') {
-        set(r, c, (r + c) / (2 * (N - 1)));
-      } else if (kind === 'disk') {
-        const dr = r - N / 2 + 0.5;
-        const dc = c - N / 2 + 0.5;
-        const d = Math.sqrt(dr * dr + dc * dc);
-        set(r, c, 0.92 - 0.8 / (1 + Math.exp(-(N * 0.3 - d))));
+      if (kind === 'circle') {
+        // sharp filled disk: hard radial edge => slowly decaying singular values
+        const d = Math.hypot(r - mid, c - mid);
+        set(r, c, d <= N * 0.33 ? 0.92 : 0.1);
+      } else if (kind === 'stripes') {
+        // sharp DIAGONAL square wave: high rank, ringing at low k.
+        // (axis-aligned stripes would be rank 1; the diagonal makes it a high-rank Hankel pattern)
+        const band = Math.floor((r + c) / (N / 7));
+        set(r, c, band % 2 === 0 ? 0.9 : 0.12);
       } else {
-        // diagonal / identity-like: full rank, barely compressible
-        set(r, c, Math.abs(r - c) <= 0.5 ? 0.95 : 0.12);
+        // smooth, separable pattern of rank ~3: a broad Gaussian blob plus a linear ramp.
+        // A handful of components capture it -- the compressible contrast case.
+        const g = Math.exp(-(((r - N * 0.38) ** 2 + (c - N * 0.62) ** 2)) / (2 * (N * 0.2) ** 2));
+        const ramp = (r + 0.5 * c) / (1.5 * N);
+        set(r, c, 0.12 + 0.6 * g + 0.28 * ramp);
       }
     }
   }
@@ -116,36 +127,35 @@ function drawMatrix(canvas: HTMLCanvasElement | null, valueAt: (r: number, c: nu
 }
 
 const PRESETS: { key: string; label: string }[] = [
-  { key: 'gradient', label: 'Gradient' },
-  { key: 'disk', label: 'Disk' },
-  { key: 'diagonal', label: 'Diagonal' },
+  { key: 'circle', label: 'Circle' },
+  { key: 'stripes', label: 'Stripes' },
+  { key: 'smooth', label: 'Smooth' },
 ];
 
+const SPEC_W = 200;
+const SPEC_H = 170;
+
 export default function LowRankApproximation() {
-  const [preset, setPreset] = useState('disk');
-  const [k, setK] = useState(4);
+  const [preset, setPreset] = useState('circle');
+  const [k, setK] = useState(6);
+  const [svd, setSvd] = useState<SVD | null>(null);
   const origRef = useRef<HTMLCanvasElement>(null);
   const reconRef = useRef<HTMLCanvasElement>(null);
-  const svdRef = useRef<SVD | null>(null);
 
-  const { s, cols } = useMemo(() => {
+  // Compute the image + SVD on the client whenever the preset changes.
+  useEffect(() => {
     const cols = makeImage(preset);
-    const svd = jacobiSVD(cols, N, N);
-    svdRef.current = svd;
-    return { s: svd.s, cols };
+    const decomp = jacobiSVD(cols, N, N);
+    setSvd(decomp);
+    drawMatrix(origRef.current, (r, c) => cols[c][r]);
   }, [preset]);
 
-  // original (once per preset)
+  // Rank-k reconstruction.
   useEffect(() => {
-    drawMatrix(origRef.current, (r, c) => cols[c][r]);
-  }, [cols]);
-
-  // rank-k reconstruction
-  useEffect(() => {
-    const svd = svdRef.current;
     if (!svd) return;
     const recon = new Float64Array(N * N);
-    for (let t = 0; t < k; t++) {
+    const kk = Math.min(k, svd.s.length);
+    for (let t = 0; t < kk; t++) {
       const u = svd.U[t];
       const v = svd.V[t];
       const st = svd.s[t];
@@ -155,24 +165,29 @@ export default function LowRankApproximation() {
       }
     }
     drawMatrix(reconRef.current, (r, c) => recon[r * N + c]);
-  }, [k, s]);
+  }, [k, svd]);
 
-  // Frobenius error and storage
+  const s = svd?.s ?? [];
   const total = Math.sqrt(s.reduce((acc, v) => acc + v * v, 0)) || 1;
   const err = Math.sqrt(s.slice(k).reduce((acc, v) => acc + v * v, 0));
   const relErr = err / total;
   const storage = (k * (2 * N + 1)) / (N * N);
+  const effRank = s.filter((v) => v > 1e-9 * (s[0] || 1)).length;
 
   const smax = s[0] || 1;
-  const barW = 150 / N;
+  const barStep = (SPEC_W - 20) / N;
 
   const canvasStyle = {
-    width: '150px',
-    height: '150px',
+    width: '100%',
+    maxWidth: '170px',
+    aspectRatio: '1 / 1',
+    height: 'auto',
     imageRendering: 'pixelated' as const,
     border: '1px solid var(--sl-color-gray-5)',
     borderRadius: '4px',
   };
+  const cellStyle = { display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: '0.3rem' };
+  const capStyle = { fontSize: '0.8em', color: 'var(--sl-color-text)' };
 
   return (
     <div class={`${styles.widget} not-content`}>
@@ -184,14 +199,14 @@ export default function LowRankApproximation() {
               style={preset === p.key ? { borderColor: 'var(--sl-color-accent)', color: 'var(--sl-color-text-accent)' } : {}}
               onClick={() => {
                 setPreset(p.key);
-                setK(4);
+                setK(6);
               }}
             >
               {p.label}
             </button>
           ))}
         </div>
-        <div class={styles.controlGroup}>
+        <div class={styles.controlGroup} style={{ flex: 1, minWidth: '12rem' }}>
           <label class={styles.controlLabel} for="lra-k">
             rank k = <span class={styles.controlValue}>{k}</span> / {N}
           </label>
@@ -208,42 +223,60 @@ export default function LowRankApproximation() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-        <figure style={{ margin: 0, textAlign: 'center' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '1rem',
+          alignItems: 'end',
+          width: '100%',
+        }}
+      >
+        <figure style={{ margin: 0, ...cellStyle }}>
           <canvas ref={origRef} width={N} height={N} style={canvasStyle} />
-          <figcaption style={{ fontSize: '0.8em', marginTop: '0.3rem' }}>original (rank {s.filter((v) => v > 1e-9 * smax).length})</figcaption>
+          <figcaption style={capStyle}>original (rank {effRank})</figcaption>
         </figure>
-        <figure style={{ margin: 0, textAlign: 'center' }}>
+        <figure style={{ margin: 0, ...cellStyle }}>
           <canvas ref={reconRef} width={N} height={N} style={canvasStyle} />
-          <figcaption style={{ fontSize: '0.8em', marginTop: '0.3rem' }}>rank {k} approximation</figcaption>
+          <figcaption style={capStyle}>rank {k} approximation</figcaption>
         </figure>
-        <figure style={{ margin: 0, textAlign: 'center' }}>
-          <svg width="170" height="150" viewBox="0 0 170 150" role="img" aria-label="singular value spectrum">
+        <figure style={{ margin: 0, ...cellStyle }}>
+          <svg
+            viewBox={`0 0 ${SPEC_W} ${SPEC_H}`}
+            style={{ width: '100%', maxWidth: '220px', height: 'auto' }}
+            role="img"
+            aria-label="singular value spectrum"
+          >
             {s.map((v, i) => {
-              const h = (v / smax) * 120;
+              const h = (v / smax) * (SPEC_H - 40);
               return (
                 <rect
-                  x={10 + i * barW}
-                  y={130 - h}
-                  width={Math.max(1, barW - 0.5)}
+                  x={10 + i * barStep}
+                  y={SPEC_H - 22 - h}
+                  width={Math.max(1, barStep - 0.5)}
                   height={h}
                   fill={i < k ? 'var(--sl-color-accent)' : 'currentColor'}
                   fill-opacity={i < k ? 0.95 : 0.25}
                 />
               );
             })}
-            <line x1="10" y1="130" x2="160" y2="130" stroke="currentColor" stroke-opacity="0.5" />
-            <text x="85" y="146" font-size="11" text-anchor="middle" fill="currentColor">singular values σᵢ</text>
+            <line x1="10" y1={SPEC_H - 22} x2={SPEC_W - 10} y2={SPEC_H - 22} stroke="currentColor" stroke-opacity="0.5" />
+            <text x={SPEC_W / 2} y={SPEC_H - 6} font-size="12" text-anchor="middle" fill="currentColor">
+              singular values σᵢ
+            </text>
           </svg>
+          <figcaption style={capStyle}>spectrum (kept in accent)</figcaption>
         </figure>
       </div>
 
       <div class={styles.legend}>
         <span>
           Keeping the top <strong>{k}</strong> of {N} components: relative error{' '}
-          <strong>‖A − A_k‖<sub>F</sub> / ‖A‖<sub>F</sub> = {(relErr * 100).toFixed(1)}%</strong>, storage{' '}
-          <strong>{(storage * 100).toFixed(0)}%</strong> of the full matrix. Eckart–Young guarantees no rank-{k} matrix does
-          better.
+          <strong>
+            ‖A − A_k‖<sub>F</sub> / ‖A‖<sub>F</sub> = {(relErr * 100).toFixed(1)}%
+          </strong>
+          , storage <strong>{(storage * 100).toFixed(0)}%</strong> of the full matrix. Eckart–Young guarantees no rank-{k}{' '}
+          matrix does better.
         </span>
       </div>
     </div>
