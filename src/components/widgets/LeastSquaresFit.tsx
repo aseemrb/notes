@@ -57,14 +57,17 @@ function fitPoly(pts: { x: number; y: number }[], d: number): number[] {
 
 const evalPoly = (coef: number[], x: number) => coef.reduce((s, c, j) => s + c * x ** j, 0);
 
+// A valley-shaped point cloud: the best-fit line is nearly flat through the
+// middle (large residuals), while the parabola hugs the curve (tiny residual),
+// so the two fits look dramatically different.
 const INIT = [
-  { x: 1, y: 1.4 },
-  { x: 2, y: 2.6 },
-  { x: 3.2, y: 2.9 },
-  { x: 4.5, y: 4.6 },
-  { x: 6, y: 5.2 },
-  { x: 7.2, y: 7.3 },
-  { x: 8.6, y: 7.7 },
+  { x: 1.0, y: 6.3 },
+  { x: 2.3, y: 3.4 },
+  { x: 3.5, y: 2.1 },
+  { x: 5.0, y: 1.1 },
+  { x: 6.5, y: 1.9 },
+  { x: 7.7, y: 3.7 },
+  { x: 9.0, y: 6.1 },
 ];
 
 export default function LeastSquaresFit() {
