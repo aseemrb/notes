@@ -316,7 +316,7 @@ export default function GradientDescent() {
             Reset
           </button>
         </div>
-        <div class={styles.controls} style={{ padding: 0, border: 'none', background: 'none', margin: 0 }}>
+        <div class={styles.controls} style={{ padding: 0, border: 'none', background: 'none', margin: 0, width: '100%', flexBasis: '100%' }}>
           <div class={styles.controlGroup}>
             <label class={styles.controlLabel}>
               learning rate η = <span class={styles.controlValue}>{eta.toFixed(3)}</span>
