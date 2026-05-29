@@ -62,7 +62,7 @@ so $\Av\xv = \mathbf{0}$, and independence forces $\xv = \mathbf{0}$. Hence $\Av
 
 The normal equations say $\Av^{\rm T}(\bv - \Av\hat\xv) = 0$, i.e. the error $\ev = \bv - \Av\hat\xv$ is orthogonal to every column of $\Av$. So $\ev \perp C(\Av)$, and the fitted vector $\pv = \Av\hat\xv$ is the **orthogonal projection** of $\bv$ onto the column space: the closest point of $C(\Av)$ to $\bv$.
 
-![The data vector b, its orthogonal projection p onto the plane C(A), and the perpendicular error e = b − p](/assets/images/linear-algebra/least-squares/projection.svg)
+![The data vector b, its orthogonal projection p onto the plane C(A), and the perpendicular error e = b − p](/assets/images/linear-algebra/matrix-computations/projection.svg)
 
 *Least squares splits $\bv$ into a part $\pv = \Av\hat\xv$ inside $C(\Av)$ and a part $\ev = \bv - \pv$ orthogonal to it. Minimizing $\lVert \Av\xv - \bv\rVert$ is choosing the point of the plane nearest $\bv$, the foot of the perpendicular.*
 
