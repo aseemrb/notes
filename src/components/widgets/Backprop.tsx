@@ -66,66 +66,67 @@ export default function Backprop() {
     setB2(0.6);
   };
 
-  // geometry
-  const VW = 480;
-  const VH = 188;
-  const cy = 70;
-  const nodes = {
-    x: 48,
-    h: 188,
-    o: 320,
-    l: 436,
-  };
-  const box = (cx: number, w: number) => ({ x: cx - w / 2, y: cy - 22, w, h: 44 });
+  // geometry: a single glyph sits inside each shape; all numeric values are placed
+  // outside (forward values above, biases and adjoints below) so nothing overflows.
+  const VW = 520;
+  const VH = 168;
+  const cy = 84;
+  const nx = { x: 56, h: 200, o: 340, l: 466 };
+  const BW = 54;
+  const BH = 36;
+  const RC = 16;
 
   const Edge = ({ x1, x2, w, g, name }: { x1: number; x2: number; w: number; g: number; name: string }) => (
     <g>
-      <line x1={x1} y1={cy} x2={x2} y2={cy} stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" marker-end="url(#bp-arr)" />
-      <text x={(x1 + x2) / 2} y={cy - 10} font-size="11" text-anchor="middle" fill="currentColor">
-        {name}={f2(w)}
+      <line x1={x1} y1={cy} x2={x2} y2={cy} stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#bp-arr)" />
+      <text x={(x1 + x2) / 2} y={cy - 9} font-size="11" text-anchor="middle" fill="currentColor">
+        {name} = {f2(w)}
       </text>
-      <text x={(x1 + x2) / 2} y={cy + 18} font-size="10.5" text-anchor="middle" fill={ACCENT}>
-        ∂L/∂{name}={f2(g)}
+      <text x={(x1 + x2) / 2} y={cy + 16} font-size="10" text-anchor="middle" fill={ACCENT}>
+        ∂L/∂{name} = {f2(g)}
       </text>
     </g>
   );
 
   return (
     <div class={`${styles.widget} not-content`}>
-      <svg class={styles.chart} viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label="Computational graph with forward values and backward gradients">
+      <svg class={styles.chart} viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label="Computational graph with forward values above each node and backward gradients below">
         <defs>
           <marker id="bp-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="currentColor" fill-opacity="0.55" />
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor" fill-opacity="0.5" />
           </marker>
         </defs>
 
         {/* edges (drawn under nodes) */}
-        <Edge x1={nodes.x + 16} x2={nodes.h - 34} w={w1} g={gW1} name="w₁" />
-        <Edge x1={nodes.h + 34} x2={nodes.o - 40} w={w2} g={gW2} name="w₂" />
-        <line x1={nodes.o + 40} y1={cy} x2={nodes.l - 24} y2={cy} stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" marker-end="url(#bp-arr)" />
+        <Edge x1={nx.x + RC} x2={nx.h - BW / 2} w={w1} g={gW1} name="w₁" />
+        <Edge x1={nx.h + BW / 2} x2={nx.o - BW / 2} w={w2} g={gW2} name="w₂" />
+        <line x1={nx.o + BW / 2} y1={cy} x2={nx.l - RC} y2={cy} stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#bp-arr)" />
 
-        {/* input node */}
-        <circle cx={nodes.x} cy={cy} r="16" fill="none" stroke="currentColor" stroke-opacity="0.6" />
-        <text x={nodes.x} y={cy + 4} font-size="12" text-anchor="middle" fill="currentColor">x={f2(X)}</text>
+        {/* input node: value above, glyph inside */}
+        <text x={nx.x} y={cy - 28} font-size="11" text-anchor="middle" fill="currentColor">x = {f2(X)}</text>
+        <circle cx={nx.x} cy={cy} r={RC} fill="var(--sl-color-bg)" stroke="currentColor" stroke-opacity="0.6" />
+        <text x={nx.x} y={cy + 4} font-size="12" text-anchor="middle" fill="currentColor" fill-opacity="0.7">x</text>
 
         {/* hidden node */}
-        {(() => { const b = box(nodes.h, 68); return <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" fill="var(--sl-color-bg)" stroke="currentColor" stroke-opacity="0.6" />; })()}
-        <text x={nodes.h} y={cy - 4} font-size="10.5" text-anchor="middle" fill="currentColor">z₁={f2(z1)}, a₁={f2(a1)}</text>
-        <text x={nodes.h} y={cy + 10} font-size="10" text-anchor="middle" fill="currentColor" fill-opacity="0.65">σ(w₁x+b₁)</text>
-        <text x={nodes.h} y={cy + 36} font-size="10.5" text-anchor="middle" fill={ACCENT}>δ₁={f2(d1)}</text>
-        <text x={nodes.h} y={b1 >= 0 ? cy - 30 : cy - 30} font-size="10" text-anchor="middle" fill="currentColor" fill-opacity="0.75">b₁={f2(b1)}</text>
+        <text x={nx.h} y={cy - 44} font-size="11" text-anchor="middle" fill="currentColor">z₁ = {f2(z1)}</text>
+        <text x={nx.h} y={cy - 28} font-size="11" text-anchor="middle" fill="currentColor">a₁ = {f2(a1)}</text>
+        <rect x={nx.h - BW / 2} y={cy - BH / 2} width={BW} height={BH} rx="6" fill="var(--sl-color-bg)" stroke="currentColor" stroke-opacity="0.6" />
+        <text x={nx.h} y={cy + 5} font-size="15" text-anchor="middle" fill="currentColor">σ</text>
+        <text x={nx.h} y={cy + 32} font-size="9.5" text-anchor="middle" fill="currentColor" fill-opacity="0.7">b₁ = {f2(b1)}</text>
+        <text x={nx.h} y={cy + 48} font-size="10.5" text-anchor="middle" fill={ACCENT}>δ₁ = {f2(d1)}</text>
 
         {/* output node */}
-        {(() => { const b = box(nodes.o, 80); return <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" fill="var(--sl-color-bg)" stroke="currentColor" stroke-opacity="0.6" />; })()}
-        <text x={nodes.o} y={cy - 2} font-size="11" text-anchor="middle" fill="currentColor">ŷ={f2(yhat)}</text>
-        <text x={nodes.o} y={cy + 12} font-size="10" text-anchor="middle" fill="currentColor" fill-opacity="0.65">w₂a₁+b₂</text>
-        <text x={nodes.o} y={cy + 36} font-size="10.5" text-anchor="middle" fill={ACCENT}>δ₂={f2(d2)}</text>
-        <text x={nodes.o} y={cy - 30} font-size="10" text-anchor="middle" fill="currentColor" fill-opacity="0.75">b₂={f2(b2)}</text>
+        <text x={nx.o} y={cy - 28} font-size="11" text-anchor="middle" fill="currentColor">ŷ = {f2(yhat)}</text>
+        <rect x={nx.o - BW / 2} y={cy - BH / 2} width={BW} height={BH} rx="6" fill="var(--sl-color-bg)" stroke="currentColor" stroke-opacity="0.6" />
+        <text x={nx.o} y={cy + 5} font-size="15" text-anchor="middle" fill="currentColor">Σ</text>
+        <text x={nx.o} y={cy + 32} font-size="9.5" text-anchor="middle" fill="currentColor" fill-opacity="0.7">b₂ = {f2(b2)}</text>
+        <text x={nx.o} y={cy + 48} font-size="10.5" text-anchor="middle" fill={ACCENT}>δ₂ = {f2(d2)}</text>
 
         {/* loss node */}
-        <circle cx={nodes.l} cy={cy} r="20" fill="none" stroke={ACCENT} stroke-opacity="0.8" />
-        <text x={nodes.l} y={cy + 4} font-size="12" text-anchor="middle" fill="currentColor">L={f3(L)}</text>
-        <text x={nodes.l} y={cy + 38} font-size="10" text-anchor="middle" fill="currentColor" fill-opacity="0.7">target y={f2(Y)}</text>
+        <text x={nx.l} y={cy - 28} font-size="11" text-anchor="middle" fill="currentColor">L = {f3(L)}</text>
+        <circle cx={nx.l} cy={cy} r={RC + 1} fill="var(--sl-color-bg)" stroke={ACCENT} stroke-opacity="0.85" />
+        <text x={nx.l} y={cy + 4} font-size="12" text-anchor="middle" fill="currentColor" fill-opacity="0.7">L</text>
+        <text x={nx.l} y={cy + 32} font-size="9.5" text-anchor="middle" fill="currentColor" fill-opacity="0.7">y = {f2(Y)}</text>
       </svg>
 
       <div class={styles.controls} style={{ alignItems: 'flex-end' }}>

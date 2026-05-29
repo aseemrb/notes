@@ -18,8 +18,8 @@ The loss $L$ is a single scalar. We want the partial derivatives $\dfrac{\partia
 
 The quantity to propagate is the sensitivity of the loss to each layer's pre-activation.
 
-<Aside type="tip" icon="open-book" title="Definition: the adjoint">
-The **adjoint** (or error) of layer $k$ is the gradient of the loss with respect to the pre-activation $\zv_k$,
+<Aside type="tip" icon="open-book" title="Definition: Adjoint">
+The **adjoint** (or error) of layer $k$ is the gradient of the loss w.r.t. the pre-activation $\zv_k$,
 $$
 \boldsymbol{\delta}_k = \frac{\partial L}{\partial \zv_k} \in \R^{n_k}.
 $$
@@ -77,8 +77,8 @@ For a function with one scalar output and $P$ parameters, reverse mode computes 
 
 ## A small graph, made explicit
 
-The widget below runs the forward and backward passes on a tiny network with one hidden unit. The black numbers on the edges are the activations carried forward; the accent numbers are the adjoints carried backward. Adjust a weight and watch both passes update, then take a gradient step and watch the loss fall as each weight moves opposite its gradient.
+The widget below runs the forward and backward passes on a tiny network with one hidden unit. Black shows the forward pass: the values above each node and the weights on the edges. Accent shows the backward pass: the adjoints $\boldsymbol{\delta}$ below each node and the weight gradients below each edge. Adjust a weight and watch both passes update, then take a gradient step and watch the loss fall as each weight moves opposite its gradient.
 
 <Backprop client:visible />
 
-Every quantity the step uses is read off the graph: the gradient on each weight is the product of the adjoint above it and the activation below it, exactly the outer-product rule. Backpropagation is this bookkeeping carried out over the whole network at once.
+Every quantity the step uses is read off the graph: the gradient on each weight is the product of the adjoint at the node to its right and the activation at the node to its left, exactly the outer-product rule. Backpropagation is this bookkeeping carried out over the whole network at once.
