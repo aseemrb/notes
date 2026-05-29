@@ -40,6 +40,7 @@ export default defineConfig({
 						{ label: 'Matrix Computations', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/matrix-computations', collapsed: true } }] },
 						{ label: 'Optimization', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/optimization', collapsed: true } }] },
 						{ label: 'Special Matrices', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/special-matrices', collapsed: true } }] },
+						{ label: 'Learning from Data', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/learning', collapsed: true } }] },
 					],
 				},
 				{

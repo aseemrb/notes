@@ -1,0 +1,102 @@
+---
+title: Spectral Clustering
+sidebar:
+  order: 3
+---
+
+import SpectralClustering from '../../../../components/widgets/SpectralClustering.tsx';
+
+Not all learning runs on feature vectors. Often the data is a graph: nodes joined by weighted edges that record similarity, and the task is to split the nodes into clusters that are densely connected inside and sparsely connected across. Spectral clustering solves a relaxation of this combinatorial problem with linear algebra alone. It builds one symmetric matrix from the graph, the Laplacian, and reads the partition off its eigenvector for the second-smallest eigenvalue. The method ties together [positive definiteness](../fundamentals/psd), the [eigenvectors](../fundamentals/eigenvectors) of a symmetric matrix, and the [Rayleigh quotient](../optimization/convexity).
+
+## The graph Laplacian
+
+Let $G$ have $n$ nodes and a symmetric weight matrix $\Wv$ with $w_{ij} = w_{ji} \ge 0$ and $w_{ii} = 0$, where $w_{ij}$ measures the similarity between nodes $i$ and $j$. The **degree** of node $i$ is $d_i = \sum_j w_{ij}$.
+
+<Aside type="tip" icon="open-book" title="Definition: graph Laplacian">
+With the degree matrix $\Dv = \operatorname{diag}(d_1, \dots, d_n)$, the **graph Laplacian** is
+$$
+\Lv = \Dv - \Wv.
+$$
+It is symmetric, its rows sum to zero, and its off-diagonal entries are the negated edge weights.
+</Aside>
+
+The Laplacian's value comes from the quadratic form it defines, which measures how much a function on the nodes varies across edges.
+
+<Aside icon="seti:smarty" title="Theorem: the Laplacian quadratic form">
+<Tabs>
+<TabItem label="Statement">
+For every $\xv \in \R^n$,
+$$
+\xv^{\rm T}\Lv\xv = \frac{1}{2}\sum_{i,j} w_{ij}\,(x_i - x_j)^2 \ \ge \ 0,
+$$
+so $\Lv$ is positive semidefinite. Moreover $\Lv\mathbf{1} = \mathbf{0}$, so $\lambda = 0$ is an eigenvalue with the constant vector $\mathbf{1}$ as eigenvector.
+</TabItem>
+
+<TabItem label="Proof">
+Write the form as $\xv^{\rm T}\Lv\xv = \xv^{\rm T}\Dv\xv - \xv^{\rm T}\Wv\xv = \sum_i d_i x_i^2 - \sum_{i,j} w_{ij}x_i x_j$. Expand the claimed sum and use $w_{ij} = w_{ji}$:
+$$
+\frac12\sum_{i,j} w_{ij}(x_i - x_j)^2 = \frac12\sum_{i,j} w_{ij}\big(x_i^2 - 2x_i x_j + x_j^2\big) = \sum_{i,j} w_{ij}x_i^2 - \sum_{i,j} w_{ij}x_i x_j,
+$$
+where the two square terms combined by symmetry. Since $\sum_j w_{ij} = d_i$, the first sum is $\sum_i d_i x_i^2$, and the expression equals $\xv^{\rm T}\Lv\xv$. Each term $w_{ij}(x_i-x_j)^2 \ge 0$, so the form is nonnegative and $\Lv$ is positive semidefinite. Taking $\xv = \mathbf{1}$ makes every $x_i - x_j = 0$, so $\mathbf{1}^{\rm T}\Lv\mathbf{1} = 0$; a nonnegative quadratic form vanishing at $\mathbf{1}$ forces $\Lv\mathbf{1} = \mathbf{0}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The quadratic form is a sum of penalties $w_{ij}(x_i - x_j)^2$, one per edge: it is small exactly when $\xv$ takes nearly equal values on strongly connected nodes. This is why the Laplacian detects cluster structure.
+
+## Connected components live in the nullspace
+
+The values of $\xv$ that make the form vanish are precisely the functions constant on each piece of the graph.
+
+<Aside icon="seti:smarty" title="Theorem: multiplicity of the zero eigenvalue">
+<Tabs>
+<TabItem label="Statement">
+The multiplicity of the eigenvalue $0$ of $\Lv$ equals the number of connected components of $G$. The corresponding eigenvectors are spanned by the indicator vectors of the components.
+</TabItem>
+
+<TabItem label="Proof">
+Because $\Lv$ is positive semidefinite, $\Lv\xv = \mathbf{0}$ if and only if $\xv^{\rm T}\Lv\xv = 0$, which by the quadratic form means $w_{ij}(x_i - x_j)^2 = 0$ for every pair, i.e. $x_i = x_j$ whenever $w_{ij} > 0$. Following a chain of positive-weight edges, $\xv$ must be constant on each connected component, and it may take any value on different components. The space of such vectors has the indicator vectors $\mathbf{1}_{C_1}, \dots, \mathbf{1}_{C_m}$ of the $m$ components as a basis, so the nullspace, the eigenspace for $0$, has dimension $m$.
+</TabItem>
+</Tabs>
+</Aside>
+
+A graph in one piece therefore has $\lambda_1 = 0$ simple, and the next eigenvalue $\lambda_2 > 0$ is the **algebraic connectivity**. When the graph is one piece but nearly splits into two, $\lambda_2$ is small and its eigenvector is close to a step function that is constant on each near-component: the signal that there is a good cut to make.
+
+## From balanced cuts to the Fiedler vector
+
+To split the nodes into two groups $A$ and its complement, count the weight crossing the boundary, the **cut** $\operatorname{cut}(A) = \sum_{i \in A,\, j \notin A} w_{ij}$. Minimizing the cut alone tends to peel off a single node, so the cut is balanced by the group sizes. The **ratio cut** objective $\operatorname{cut}(A)\big(\tfrac{1}{|A|} + \tfrac{1}{|A^c|}\big)$ encodes both the boundary weight and the balance, and minimizing it over all partitions is NP-hard. Relaxing the discrete membership to a real vector turns it into an eigenvalue problem.
+
+<Aside icon="seti:smarty" title="Theorem: the relaxed cut is solved by the second eigenvector">
+<Tabs>
+<TabItem label="Statement">
+Among all real vectors orthogonal to $\mathbf{1}$ with $\lVert \xv \rVert^2 = n$, the Laplacian quadratic form $\xv^{\rm T}\Lv\xv$ is minimized by the eigenvector $\qv_2$ of the second-smallest eigenvalue $\lambda_2$, with minimum value $n\lambda_2$. This $\qv_2$ is the **Fiedler vector**.
+</TabItem>
+
+<TabItem label="Proof">
+By the [spectral theorem](../fundamentals/eigenvectors), $\Lv$ has an orthonormal eigenbasis $\qv_1, \dots, \qv_n$ with $0 = \lambda_1 \le \lambda_2 \le \cdots$ and $\qv_1 = \mathbf{1}/\sqrt{n}$. Expand $\xv = \sum_i c_i\qv_i$. The constraint $\xv \perp \mathbf{1}$ kills the first coordinate, $c_1 = 0$, and $\lVert\xv\rVert^2 = \sum_{i\ge 2} c_i^2 = n$. Then
+$$
+\xv^{\rm T}\Lv\xv = \sum_{i\ge 2}\lambda_i c_i^2 \ \ge\ \lambda_2\sum_{i \ge 2} c_i^2 = n\lambda_2,
+$$
+since $\lambda_i \ge \lambda_2$ for $i \ge 2$. Equality holds when all the weight sits on the smallest available eigenvalue, $\xv = \sqrt{n}\,\qv_2$. This is the [Rayleigh quotient](../optimization/convexity) minimized on the subspace orthogonal to $\qv_1$, and its minimizer is $\qv_2$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The relaxed solution is a real vector, so it is turned back into a partition by its sign: nodes with $(\qv_2)_i > 0$ go to one cluster, the rest to the other. This recovers the intuition from the near-disconnected case, where $\qv_2$ already looks like the indicator of the split.
+
+<Aside type="tip" icon="open-book" title="Algorithm: spectral clustering">
+To cut a graph with weight matrix $\Wv$ into $k$ clusters:
+
+1. Form the degree matrix $\Dv$ and the Laplacian $\Lv = \Dv - \Wv$.
+2. Compute the eigenvectors $\qv_1, \dots, \qv_k$ of the $k$ smallest eigenvalues.
+3. Embed node $i$ as the row $\big((\qv_1)_i, \dots, (\qv_k)_i\big) \in \R^k$.
+4. Cluster the embedded points (for $k = 2$, threshold the Fiedler vector $\qv_2$ at zero; for larger $k$, run $k$-means on the rows).
+</Aside>
+
+## Cutting a graph
+
+The widget builds the Laplacian of a small graph, computes its Fiedler vector, and colors each node by the sign of that vector. Edges crossing the resulting partition are highlighted: they are the cut, and the relaxation chooses the split that keeps their total weight small relative to the group sizes.
+
+<SpectralClustering client:visible />
+
+Spectral clustering is the eigenvector face of cutting a graph. The combinatorial problem is hard, but its continuous relaxation is exactly a Rayleigh-quotient minimization, and the second eigenvector of the Laplacian carries the partition.

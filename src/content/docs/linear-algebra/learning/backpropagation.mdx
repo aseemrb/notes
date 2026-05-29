@@ -1,0 +1,84 @@
+---
+title: Backpropagation
+sidebar:
+  order: 2
+---
+
+import Backprop from '../../../../components/widgets/Backprop.tsx';
+
+Training a [neural network](neural-networks) by [gradient descent](../optimization/gradient-descent) requires the gradient of the loss with respect to every weight and bias, often millions of them. Computing each partial derivative separately would be hopeless. Backpropagation computes all of them at once, in a single sweep backward through the layers, at a cost comparable to one evaluation of the network. It is the chain rule organized to reuse work, and it is what makes training deep networks feasible.
+
+## The forward pass and the goal
+
+Fix an input $\xv$ and its target $y$. The forward pass runs the network recurrence and records every intermediate quantity:
+$$
+\av_0 = \xv, \qquad \zv_k = \Wv_k\av_{k-1} + \bv_k, \qquad \av_k = \sigma(\zv_k), \qquad L = \ell\big(\av_L,\, y\big).
+$$
+The loss $L$ is a single scalar. We want the partial derivatives $\dfrac{\partial L}{\partial \Wv_k}$ and $\dfrac{\partial L}{\partial \bv_k}$ for every layer $k$, which together form the gradient that gradient descent steps along.
+
+The quantity to propagate is the sensitivity of the loss to each layer's pre-activation.
+
+<Aside type="tip" icon="open-book" title="Definition: the adjoint">
+The **adjoint** (or error) of layer $k$ is the gradient of the loss with respect to the pre-activation $\zv_k$,
+$$
+\boldsymbol{\delta}_k = \frac{\partial L}{\partial \zv_k} \in \R^{n_k}.
+$$
+Its $i$-th entry measures how much $L$ changes per unit change in the $i$-th neuron's input at layer $k$.
+</Aside>
+
+## The backpropagation equations
+
+Once the adjoints are known, the weight gradients follow immediately; and the adjoints themselves satisfy a recurrence that runs from the output back toward the input.
+
+<Aside icon="seti:smarty" title="Theorem: backpropagation">
+<Tabs>
+<TabItem label="Statement">
+With the adjoints $\boldsymbol{\delta}_k$, the gradients of the loss are
+$$
+\frac{\partial L}{\partial \Wv_k} = \boldsymbol{\delta}_k\,\av_{k-1}^{\rm T}, \qquad \frac{\partial L}{\partial \bv_k} = \boldsymbol{\delta}_k,
+$$
+and the adjoints obey the backward recurrence
+$$
+\boldsymbol{\delta}_L = \sigma'(\zv_L)\odot \nabla_{\!\av_L}\ell, \qquad
+\boldsymbol{\delta}_k = \big(\Wv_{k+1}^{\rm T}\,\boldsymbol{\delta}_{k+1}\big)\odot \sigma'(\zv_k),
+$$
+where $\odot$ is the entrywise product and $\sigma'$ acts entrywise.
+</TabItem>
+
+<TabItem label="Proof">
+For the weight gradient, $L$ depends on $\Wv_k$ only through $\zv_k = \Wv_k\av_{k-1} + \bv_k$. The chain rule on a single entry gives
+$$
+\frac{\partial L}{\partial (\Wv_k)_{pq}} = \sum_{r}\frac{\partial L}{\partial (\zv_k)_r}\,\frac{\partial (\zv_k)_r}{\partial (\Wv_k)_{pq}}.
+$$
+Since $(\zv_k)_r = \sum_s (\Wv_k)_{rs}(\av_{k-1})_s + (\bv_k)_r$, the inner derivative is $(\av_{k-1})_q$ when $r = p$ and zero otherwise, so $\partial L/\partial(\Wv_k)_{pq} = (\boldsymbol{\delta}_k)_p\,(\av_{k-1})_q$. In matrix form this is the outer product $\boldsymbol{\delta}_k\av_{k-1}^{\rm T}$. The bias enters $\zv_k$ with coefficient $1$, giving $\partial L/\partial\bv_k = \boldsymbol{\delta}_k$.
+
+For the recurrence, $\zv_k$ influences $L$ only through $\av_k = \sigma(\zv_k)$, which feeds $\zv_{k+1} = \Wv_{k+1}\av_k + \bv_{k+1}$. The chain rule gives
+$$
+(\boldsymbol{\delta}_k)_i = \frac{\partial L}{\partial (\zv_k)_i} = \sum_j \frac{\partial L}{\partial (\zv_{k+1})_j}\,\frac{\partial (\zv_{k+1})_j}{\partial (\zv_k)_i}.
+$$
+Now $(\zv_{k+1})_j = \sum_s (\Wv_{k+1})_{js}\,\sigma\big((\zv_k)_s\big) + (\bv_{k+1})_j$, whose derivative in $(\zv_k)_i$ is $(\Wv_{k+1})_{ji}\,\sigma'\big((\zv_k)_i\big)$. Substituting and pulling out $\sigma'\big((\zv_k)_i\big)$,
+$$
+(\boldsymbol{\delta}_k)_i = \sigma'\big((\zv_k)_i\big)\sum_j (\boldsymbol{\delta}_{k+1})_j\,(\Wv_{k+1})_{ji} = \sigma'\big((\zv_k)_i\big)\,\big(\Wv_{k+1}^{\rm T}\boldsymbol{\delta}_{k+1}\big)_i,
+$$
+which is the stated entrywise product. The base case at $k = L$ applies the chain rule once through the output activation $\av_L = \sigma(\zv_L)$ into the loss.
+</TabItem>
+</Tabs>
+</Aside>
+
+The two passes mirror each other. The forward pass sends activations $\av_k$ forward through the weight matrices $\Wv_k$; the backward pass sends adjoints $\boldsymbol{\delta}_k$ backward through their transposes $\Wv_{k+1}^{\rm T}$, scaling by the local slope $\sigma'(\zv_k)$ at each layer. Each weight gradient is then the outer product of the adjoint arriving from the right with the activation arriving from the left.
+
+## Why it is efficient
+
+Backpropagation is the special case of **reverse-mode automatic differentiation** applied to the network's computation graph. The forward pass evaluates the graph and stores the intermediate values; the backward pass traverses the graph in reverse, accumulating the derivative of the single scalar output with respect to every node.
+
+<Aside type="danger" title="Remark">
+For a function with one scalar output and $P$ parameters, reverse mode computes the entire gradient in a single backward pass, at a cost that is a fixed multiple of one forward evaluation, independent of $P$. Computing the same gradient by finite differences would need on the order of $P$ separate forward evaluations, one per parameter. This gap is what lets networks with millions of parameters be trained at all.
+</Aside>
+
+## A small graph, made explicit
+
+The widget below runs the forward and backward passes on a tiny network with one hidden unit. The black numbers on the edges are the activations carried forward; the accent numbers are the adjoints carried backward. Adjust a weight and watch both passes update, then take a gradient step and watch the loss fall as each weight moves opposite its gradient.
+
+<Backprop client:visible />
+
+Every quantity the step uses is read off the graph: the gradient on each weight is the product of the adjoint above it and the activation below it, exactly the outer-product rule. Backpropagation is this bookkeeping carried out over the whole network at once.

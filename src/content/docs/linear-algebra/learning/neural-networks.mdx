@@ -1,0 +1,84 @@
+---
+title: Neural Networks
+sidebar:
+  order: 1
+---
+
+import ReLUApproximation from '../../../../components/widgets/ReLUApproximation.tsx';
+
+A neural network is a function assembled from the two operations this course has studied throughout: a linear map, and a single fixed nonlinearity applied in between. Stacking these in alternation produces a parameterized family of functions rich enough to fit essentially any input-output relationship, yet built entirely from matrix multiplications and one scalar function. Everything that follows, the training by [stochastic gradient descent](../optimization/stochastic-gradient) and the gradient computation by [backpropagation](backpropagation), rests on this structure.
+
+## The structure of a deep network
+
+<Aside type="tip" icon="open-book" title="Definition: feedforward network">
+An $L$-layer feedforward network with weight matrices $\Wv_1, \dots, \Wv_L$ and bias vectors $\bv_1, \dots, \bv_L$ maps an input $\xv = \av_0$ to an output through the recurrence
+$$
+\zv_k = \Wv_k\,\av_{k-1} + \bv_k, \qquad \av_k = \sigma(\zv_k), \qquad k = 1, \dots, L,
+$$
+where $\sigma$ is a fixed nonlinearity applied entrywise. The hidden layers use $\av_k = \sigma(\zv_k)$; the output is $F(\xv) = \zv_L$ (or $\sigma(\zv_L)$ for a classifier). The entries of the $\Wv_k$ and $\bv_k$ are the parameters to be learned.
+</Aside>
+
+Each layer first takes a linear combination of the previous layer's outputs, shifts by a bias, and then bends the result through $\sigma$. The width of layer $k$ is the number of rows of $\Wv_k$, the count of **neurons** in that layer; the depth is the number of layers $L$.
+
+The nonlinearity is not optional. Without it, each $\av_k = \zv_k = \Wv_k\av_{k-1} + \bv_k$ is affine, and a composition of affine maps is again affine:
+$$
+F(\xv) = \Wv_L(\Wv_{L-1}(\cdots) + \bv_{L-1}) + \bv_L = \Wv\xv + \bv
+$$
+for a single $\Wv = \Wv_L\cdots\Wv_1$ and matching $\bv$. The whole deep network would collapse to one linear layer. The function $\sigma$ between the linear maps is exactly what prevents this collapse and lets depth add expressive power.
+
+## ReLU networks are piecewise linear
+
+The standard choice is the **rectified linear unit** $\sigma(t) = \max(0, t)$, which passes positives unchanged and zeros out negatives. It is itself piecewise linear, with a single kink at the origin, and this property propagates through the whole network.
+
+<Aside icon="seti:smarty" title="Theorem: a ReLU network is continuous and piecewise linear">
+<Tabs>
+<TabItem label="Statement">
+If every $\sigma$ is the ReLU, then $F : \R^{n_0} \to \R^{n_L}$ is continuous and piecewise linear: the input space $\R^{n_0}$ splits into finitely many polyhedral regions, and $F$ is an affine map on each region.
+</TabItem>
+
+<TabItem label="Proof">
+Each ReLU $t \mapsto \max(0,t)$ is continuous and piecewise linear, with the two pieces separated by the hyperplane $t = 0$. An affine map $\av \mapsto \Wv\av + \bv$ is linear, hence trivially piecewise linear with a single piece. Two facts close the argument: a composition of continuous piecewise-linear maps is continuous and piecewise linear, and so is any entrywise stack of them. Indeed, if $g$ is affine on each region of a polyhedral partition $\mathcal{P}$ and $h$ is affine on each region of a partition $\mathcal{Q}$, then on each nonempty intersection $P \cap g^{-1}(Q)$, which is again polyhedral because $g$ is affine there, the composition $h \circ g$ is a composition of two affine maps, so affine. Applying this layer by layer from $\av_0 = \xv$ to $F(\xv)$ keeps the function continuous and piecewise linear, with each new ReLU layer refining the partition by the hyperplanes $\zv_k = \mathbf{0}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+A single hidden layer already makes this concrete. With $m$ hidden ReLU units and a scalar output,
+$$
+F(\xv) = \sum_{j=1}^{m} c_j \,\max\!\big(0,\ \wv_j^{\rm T}\xv + b_j\big) + d,
+$$
+a sum of $m$ **hinge functions**. In one dimension each hinge $\max(0, w_j x + b_j)$ is flat until its breakpoint $x = -b_j/w_j$ and linear afterward, so $F$ is a continuous piecewise-linear curve with up to $m$ breakpoints whose locations and slopes the parameters control.
+
+## How much a network can represent
+
+Letting the width grow makes the piecewise-linear curve approximate any continuous target.
+
+<Aside icon="seti:smarty" title="Theorem: universal approximation">
+<Tabs>
+<TabItem label="Statement">
+Let $f$ be continuous on a compact set $K \subset \R^{n_0}$ and let $\varepsilon > 0$. There is a one-hidden-layer network $F$ with finitely many ReLU units such that $\lvert F(\xv) - f(\xv)\rvert < \varepsilon$ for all $\xv \in K$.
+</TabItem>
+
+<TabItem label="Proof">
+Take $n_0 = 1$ and $K = [a, b]$; the multivariate case follows by approximating along a grid of directions. A continuous function on $[a,b]$ is uniformly continuous, so for any $\varepsilon$ there is a partition $a = t_0 < t_1 < \cdots < t_m = b$ on which the piecewise-linear interpolant $g$ of $f$ satisfies $\lvert g - f\rvert < \varepsilon$. Any continuous piecewise-linear function with breakpoints $t_1, \dots, t_{m-1}$ is a combination of hinges: starting from the leftmost slope, each breakpoint $t_j$ adds a term $c_j\max(0, x - t_j)$ whose coefficient $c_j$ is the change in slope at $t_j$, and a constant plus a linear term fixes the value on the first piece. That combination is exactly a one-hidden-layer ReLU network, so $F = g$ approximates $f$ to within $\varepsilon$.
+</TabItem>
+</Tabs>
+</Aside>
+
+Width buys approximation, but depth buys it more economically. Composing layers lets the partition of the input space refine multiplicatively: each added layer can fold the regions created by the previous ones, so the number of linear pieces a deep network realizes grows like a product across layers rather than a sum. Functions with that many pieces would require an exponentially wider shallow network to match. This is the quantitative reason depth helps.
+
+Fit a one-hidden-layer ReLU network to the target curve below. The hidden weights set where the hinges bend; the output weights, solved by [least squares](../matrix-computations/least-squares) once the hinges are fixed, set how they combine. Increasing the number of units adds breakpoints and drives the piecewise-linear fit toward the curve.
+
+<ReLUApproximation client:visible />
+
+## The learning problem
+
+Training chooses the parameters to fit data. Given examples $(\xv_i, y_i)$ for $i = 1, \dots, N$ and a loss $\ell$ measuring the gap between a prediction and its target, the network is fit by minimizing the empirical risk
+$$
+\min_{\Wv_1, \bv_1, \dots, \Wv_L, \bv_L} \ \frac{1}{N}\sum_{i=1}^{N} \ell\big(F(\xv_i), \, y_i\big).
+$$
+
+![A feedforward network: an input layer, two hidden layers of neurons joined by weighted edges, and an output, with one affine map and one nonlinearity per layer](/assets/images/linear-algebra/learning/network-architecture.svg)
+
+*Each edge carries a weight in some $\Wv_k$; each neuron sums its inputs, adds a bias, and applies $\sigma$. The map from input to output is the composition $F$, and training adjusts every weight to reduce the loss.*
+
+Unlike [least squares](../matrix-computations/least-squares), this objective is generally **nonconvex**: $F$ depends on the weights through repeated products and nonlinearities, so the loss surface has many critical points rather than a single minimum. There is no normal-equation formula for the optimum. Instead the parameters are updated by [stochastic gradient descent](../optimization/stochastic-gradient), which needs the gradient of the loss with respect to every weight. Computing that gradient efficiently, in a single sweep backward through the layers, is [backpropagation](backpropagation).

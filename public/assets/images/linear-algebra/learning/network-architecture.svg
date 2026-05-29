@@ -1,0 +1,46 @@
+<svg viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A feedforward neural network: an input layer of three nodes, two hidden layers of three neurons each, and an output layer of two nodes, with every node in one layer joined by a weighted edge to every node in the next. One path from input to output is highlighted.">
+  <style>
+    :root { --text: #374151; --edge: #94a3b8; --nodefill: #ffffff; --accent: #2563eb; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --edge: #64748b; --nodefill: #161b22; --accent: #60a5fa; }
+    }
+    .edge { stroke: var(--edge); stroke-opacity: 0.4; stroke-width: 1; }
+    .hot { stroke: var(--accent); stroke-opacity: 0.9; stroke-width: 2; }
+    .node { fill: var(--nodefill); stroke: var(--text); stroke-width: 1.4; }
+    .hotnode { fill: var(--nodefill); stroke: var(--accent); stroke-width: 2; }
+    .lbl { fill: var(--text); font-size: 13px; }
+    .wlbl { fill: var(--text); font-size: 13px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+  </style>
+
+  <!-- weight-matrix labels between columns -->
+  <text class="wlbl" x="117" y="28" text-anchor="middle">W₁</text>
+  <text class="wlbl" x="242" y="28" text-anchor="middle">W₂</text>
+  <text class="wlbl" x="362" y="28" text-anchor="middle">W₃</text>
+
+  <!-- edges: input (x=55: y 80,130,180) -> hidden1 (x=180: y 80,130,180) -->
+  <line class="edge" x1="55" y1="80" x2="180" y2="80" /><line class="edge" x1="55" y1="80" x2="180" y2="130" /><line class="edge" x1="55" y1="80" x2="180" y2="180" />
+  <line class="edge" x1="55" y1="130" x2="180" y2="80" /><line class="hot" x1="55" y1="130" x2="180" y2="130" /><line class="edge" x1="55" y1="130" x2="180" y2="180" />
+  <line class="edge" x1="55" y1="180" x2="180" y2="80" /><line class="edge" x1="55" y1="180" x2="180" y2="130" /><line class="edge" x1="55" y1="180" x2="180" y2="180" />
+
+  <!-- hidden1 -> hidden2 (x=305: y 80,130,180) -->
+  <line class="edge" x1="180" y1="80" x2="305" y2="80" /><line class="edge" x1="180" y1="80" x2="305" y2="130" /><line class="edge" x1="180" y1="80" x2="305" y2="180" />
+  <line class="edge" x1="180" y1="130" x2="305" y2="80" /><line class="hot" x1="180" y1="130" x2="305" y2="130" /><line class="edge" x1="180" y1="130" x2="305" y2="180" />
+  <line class="edge" x1="180" y1="180" x2="305" y2="80" /><line class="edge" x1="180" y1="180" x2="305" y2="130" /><line class="edge" x1="180" y1="180" x2="305" y2="180" />
+
+  <!-- hidden2 -> output (x=420: y 105,155) -->
+  <line class="edge" x1="305" y1="80" x2="420" y2="105" /><line class="edge" x1="305" y1="80" x2="420" y2="155" />
+  <line class="hot" x1="305" y1="130" x2="420" y2="105" /><line class="edge" x1="305" y1="130" x2="420" y2="155" />
+  <line class="edge" x1="305" y1="180" x2="420" y2="105" /><line class="edge" x1="305" y1="180" x2="420" y2="155" />
+
+  <!-- nodes -->
+  <circle class="node" cx="55" cy="80" r="12" /><circle class="hotnode" cx="55" cy="130" r="12" /><circle class="node" cx="55" cy="180" r="12" />
+  <circle class="node" cx="180" cy="80" r="12" /><circle class="hotnode" cx="180" cy="130" r="12" /><circle class="node" cx="180" cy="180" r="12" />
+  <circle class="node" cx="305" cy="80" r="12" /><circle class="hotnode" cx="305" cy="130" r="12" /><circle class="node" cx="305" cy="180" r="12" />
+  <circle class="hotnode" cx="420" cy="105" r="12" /><circle class="node" cx="420" cy="155" r="12" />
+
+  <!-- layer labels -->
+  <text class="lbl" x="55" y="222" text-anchor="middle">input</text>
+  <text class="lbl" x="180" y="222" text-anchor="middle">hidden</text>
+  <text class="lbl" x="305" y="222" text-anchor="middle">hidden</text>
+  <text class="lbl" x="420" y="222" text-anchor="middle">output</text>
+</svg>
