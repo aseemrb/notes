@@ -1,0 +1,79 @@
+---
+title: The Convolution Rule
+sidebar:
+  order: 2
+---
+
+import ConvolutionRule from '../../../../components/widgets/ConvolutionRule.tsx';
+
+Multiplying two [circulant matrices](circulants) multiplies their eigenvalues, and since those eigenvalues are the discrete Fourier transforms of the first columns, the columns themselves combine by **convolution**. Read in the other direction, this is the single most useful identity in signal processing: convolution in the original domain becomes ordinary pointwise multiplication in the Fourier domain. The same pattern, restricted to a short filter, is exactly what a convolutional layer of a neural network computes.
+
+## Cyclic convolution
+
+<Aside type="tip" icon="open-book" title="Definition: cyclic convolution">
+The cyclic convolution of $\cv, \dv \in \R^n$ is the vector $\cv \circledast \dv \in \R^n$ with entries
+$$
+(\cv \circledast \dv)_j = \sum_{m=0}^{n-1} c_m\, d_{(j - m) \bmod n}, \qquad j = 0, \dots, n-1.
+$$
+Indices are taken modulo $n$, so the sum wraps around the ends.
+</Aside>
+
+This is precisely the rule for multiplying circulants. If $\Cv$ and $\Dv$ are circulants with first columns $\cv$ and $\dv$, then $\Cv\Dv$ is again circulant, and its first column is $\cv \circledast \dv$. The reason is that the first column of any circulant is the matrix applied to the first basis vector $\ev_0$, and $\Dv\ev_0 = \dv$, so the first column of $\Cv\Dv$ is $\Cv\dv$, whose $j$-th entry is $\sum_m c_{(j-m) \bmod n}\, d_m$.
+
+## The convolution rule
+
+Because circulants share the Fourier eigenvectors, multiplying them multiplies their eigenvalues entry by entry. Translating that statement about eigenvalues back to the first columns gives the convolution rule.
+
+<Aside icon="seti:smarty" title="Theorem: the convolution rule">
+<Tabs>
+<TabItem label="Statement">
+For any $\cv, \dv \in \R^n$, the discrete Fourier transform turns cyclic convolution into pointwise multiplication:
+$$
+\Fv(\cv \circledast \dv) = (\Fv\cv) \odot (\Fv\dv),
+$$
+where $\odot$ is the entrywise (Hadamard) product. Equivalently, $\lambda_k(\Cv\Dv) = \lambda_k(\Cv)\,\lambda_k(\Dv)$ for every frequency $k$.
+</TabItem>
+
+<TabItem label="Proof">
+Let $\Cv, \Dv$ be the circulants with first columns $\cv, \dv$. Both are diagonalized by the Fourier matrix, $\Cv = \Fv\Lambdav_{\Cv}\Fv^{-1}$ and $\Dv = \Fv\Lambdav_{\Dv}\Fv^{-1}$, with the same eigenvector matrix $\Fv$. Their product is
+$$
+\Cv\Dv = \Fv\,\Lambdav_{\Cv}\Lambdav_{\Dv}\,\Fv^{-1},
+$$
+again diagonal in the Fourier basis, so $\Cv\Dv$ is circulant with eigenvalues $\lambda_k(\Cv)\lambda_k(\Dv)$. The eigenvalues of a circulant are the DFT of its first column, and the first column of $\Cv\Dv$ is $\cv \circledast \dv$. Reading the eigenvalue identity component by component,
+$$
+\big(\Fv(\cv \circledast \dv)\big)_k = \lambda_k(\Cv\Dv) = \lambda_k(\Cv)\,\lambda_k(\Dv) = (\Fv\cv)_k\,(\Fv\dv)_k,
+$$
+which is the stated pointwise product.
+</TabItem>
+</Tabs>
+</Aside>
+
+The computational payoff is immediate. A direct cyclic convolution costs $O(n^2)$ multiplications. Through the rule, transform both vectors, multiply the transforms pointwise in $O(n)$, and transform back. With the fast Fourier transform computing each $\Fv\xv$ in $O(n \log n)$, convolution of length-$n$ signals drops from $O(n^2)$ to $O(n \log n)$. Polynomial multiplication, integer multiplication, and the filtering of long signals all run on this identity.
+
+## Linear versus cyclic convolution
+
+A short **filter** $\hv = (h_0, \dots, h_{r-1})$ applied to a signal $\xv$ usually means **linear convolution**, the coefficient rule for multiplying the polynomials with coefficients $\hv$ and $\xv$:
+$$
+(\hv \ast \xv)_j = \sum_{m} h_m\, x_{j - m},
+$$
+with no wraparound, producing a longer output of length $n + r - 1$. Cyclic convolution is the same sum folded modulo $n$. The two agree, and the FFT method applies exactly, once both vectors are **zero-padded** to length at least $n + r - 1$ so that the wraparound never reaches real data. Without enough padding the tail of the linear convolution aliases back onto the front, the error that periodic boundary conditions silently introduce.
+
+Visualize the rule directly: edit the signal and the filter, and compare the convolution computed by sliding the filter against the convolution recovered by multiplying transforms and inverting. They coincide, frequency by frequency.
+
+<ConvolutionRule client:visible />
+
+## Convolution as a matrix: the link to CNNs
+
+Fixing the filter $\hv$ and letting the signal vary makes convolution a **linear map**, represented by a matrix with constant diagonals. With periodic boundaries it is the circulant whose first column is $\hv$ (zero-padded); on a finite signal without wraparound it is a banded **Toeplitz** matrix, $(\Tv)_{jk} = h_{j-k}$. Either way the same filter weights repeat down every diagonal.
+
+![A short filter slides across the input, and the equivalent matrix is banded with the filter weights repeated on each diagonal; the same few weights are shared across all rows](/assets/images/linear-algebra/special-matrices/cnn-toeplitz.svg)
+
+*The convolution matrix is banded with shared weights: a width-$r$ filter places the same $r$ numbers on every row, shifted by one. A dense layer would have an independent weight in every position.*
+
+This structure is what a **convolutional neural network** exploits. A convolutional layer is not a full dense matrix $\Wv \in \R^{n \times n}$ with $n^2$ free parameters; it is a Toeplitz (or, with periodic boundaries, circulant) matrix built from a small filter of $r \ll n$ weights. Three consequences follow from the structure alone.
+
+- **Parameter sharing.** A width-$r$ filter has $r$ parameters regardless of the input length $n$, against $n^2$ for a dense layer. A network can afford many such layers and many filters per layer.
+- **Translation equivariance.** Convolution commutes with the shift $\Pv$, so shifting the input shifts the output identically. A feature detector learned at one location applies at every location, the property that makes these layers effective on images.
+- **Locality.** Each output depends only on a small window of the input, the bandwidth of the Toeplitz matrix, matching the local correlations in natural images and signals.
+
+Two-dimensional images use a two-dimensional filter, and the corresponding matrix is doubly Toeplitz (a block-Toeplitz matrix of Toeplitz blocks), still diagonalized by the two-dimensional DFT under periodic boundaries. Stacking many such layers, interleaved with pointwise nonlinearities, is the architecture behind the convolutional networks used for image recognition. The linear algebra of one layer is entirely the convolution rule on this page.

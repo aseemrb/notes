@@ -1,0 +1,97 @@
+---
+title: Distance Matrices
+sidebar:
+  order: 3
+---
+
+import ProcrustesAlign from '../../../../components/widgets/ProcrustesAlign.tsx';
+
+Sometimes the data is not the points themselves but the distances between them: a table of pairwise separations, with no coordinates attached. A distance matrix records those separations, and the question is whether a set of points realizing them exists and how to recover it. The answer is a clean piece of linear algebra. A short matrix identity converts squared distances into inner products, and the [SVD](../fundamentals/svd) reads the coordinates off the resulting Gram matrix. The companion problem, aligning two known configurations, is solved by the same decomposition.
+
+## From distances to inner products
+
+Let $\xv_1, \dots, \xv_n \in \R^d$ be unknown points and suppose we are given only the squared distances $D_{ij} = \lVert \xv_i - \xv_j \rVert^2$. Expanding the square ties each distance to inner products:
+$$
+D_{ij} = \lVert \xv_i \rVert^2 - 2\,\xv_i^{\rm T}\xv_j + \lVert \xv_j \rVert^2 .
+$$
+The cross term $\xv_i^{\rm T}\xv_j$ is exactly the entry $G_{ij}$ of the **Gram matrix** $\Gv = \Xv\Xv^{\rm T}$, where $\Xv \in \R^{n \times d}$ stacks the points as rows. The diagonal terms $\lVert \xv_i\rVert^2$ depend only on the origin, which the distances cannot fix; translating all points leaves $\Dv$ unchanged. Pinning the origin at the centroid, $\sum_i \xv_i = \mathbf{0}$, removes that freedom and lets us solve for $\Gv$.
+
+<Aside icon="seti:smarty" title="Theorem: double centering recovers the Gram matrix">
+<Tabs>
+<TabItem label="Statement">
+Let $\Dv$ be the matrix of squared distances among centered points, and let
+$$
+\Jv = \Iv - \tfrac{1}{n}\mathbf{1}\mathbf{1}^{\rm T}
+$$
+be the centering matrix. Then the Gram matrix is recovered by double centering:
+$$
+\Gv = -\tfrac{1}{2}\,\Jv\,\Dv\,\Jv .
+$$
+</TabItem>
+
+<TabItem label="Proof">
+In matrix form the expansion above reads
+$$
+\Dv = \mathbf{s}\mathbf{1}^{\rm T} - 2\,\Gv + \mathbf{1}\mathbf{s}^{\rm T},
+$$
+where $\mathbf{s} = (\lVert \xv_1\rVert^2, \dots, \lVert \xv_n\rVert^2)^{\rm T}$ is the vector of squared norms. The centering matrix annihilates the all-ones vector, $\Jv\mathbf{1} = \mathbf{0}$ and $\mathbf{1}^{\rm T}\Jv = \mathbf{0}^{\rm T}$, because $\Jv\mathbf{1} = \mathbf{1} - \tfrac1n\mathbf{1}(\mathbf{1}^{\rm T}\mathbf{1}) = \mathbf{1} - \mathbf{1} = \mathbf{0}$. Multiplying $\Dv$ by $\Jv$ on both sides therefore kills the two rank-one terms, since $\Jv(\mathbf{s}\mathbf{1}^{\rm T})\Jv = (\Jv\mathbf{s})(\mathbf{1}^{\rm T}\Jv) = \mathbf{0}$ and likewise for $\mathbf{1}\mathbf{s}^{\rm T}$, leaving
+$$
+\Jv\Dv\Jv = -2\,\Jv\Gv\Jv .
+$$
+Because the points are centered, $\Xv^{\rm T}\mathbf{1} = \mathbf{0}$, hence $\Gv\mathbf{1} = \Xv(\Xv^{\rm T}\mathbf{1}) = \mathbf{0}$ and $\mathbf{1}^{\rm T}\Gv = \mathbf{0}^{\rm T}$. The Gram matrix is already centered, so $\Jv\Gv\Jv = \Gv$, and $\Jv\Dv\Jv = -2\Gv$ rearranges to the stated formula.
+</TabItem>
+</Tabs>
+</Aside>
+
+## Recovering the points: classical scaling
+
+Once $\Gv = \Xv\Xv^{\rm T}$ is known it is symmetric positive semidefinite, and its [eigendecomposition](../fundamentals/eigenvectors) hands back the coordinates. Write $\Gv = \Qv\Lambdav\Qv^{\rm T}$ with eigenvalues $\lambda_1 \ge \cdots \ge \lambda_n \ge 0$. Then
+$$
+\Xv = \Qv\,\Lambdav^{1/2}
+$$
+realizes the distances, and the number of nonzero eigenvalues is the smallest dimension $d$ in which the points embed exactly. Keeping only the largest few eigenvalues gives the best low-dimensional embedding, by [Eckart–Young](../fundamentals/eckart-young) applied to $\Gv$; this is **classical multidimensional scaling**, the standard way to place points in the plane from a table of dissimilarities.
+
+![A squared-distance matrix is double-centered into a Gram matrix, whose eigendecomposition yields point coordinates up to rotation](/assets/images/linear-algebra/special-matrices/distance-pipeline.svg)
+
+*The pipeline: squared distances $\Dv$, double centered to the Gram matrix $\Gv = -\tfrac12\Jv\Dv\Jv$, then eigendecomposed to coordinates $\Xv = \Qv\Lambdav^{1/2}$. The reconstruction is fixed only up to a rigid motion.*
+
+The construction also answers the existence question exactly.
+
+<Aside type="danger" title="Remark">
+A symmetric matrix $\Dv$ with zero diagonal and nonnegative entries is the squared-distance matrix of some set of points in Euclidean space **if and only if** $\Gv = -\tfrac12\Jv\Dv\Jv$ is positive semidefinite. The embedding dimension is $\operatorname{rank}(\Gv)$. A negative eigenvalue of $\Gv$ certifies that no Euclidean configuration reproduces the given distances.
+</Aside>
+
+## The Procrustes problem: aligning two configurations
+
+Distances determine points only up to a rigid motion: rotating, reflecting, or translating every point preserves every pairwise distance. So two reconstructions of the same data, or two measured configurations of corresponding points, will in general be misaligned by an orthogonal transformation. Finding the best one to bring them into register is the **orthogonal Procrustes problem**.
+
+<Aside icon="seti:smarty" title="Theorem: orthogonal Procrustes">
+<Tabs>
+<TabItem label="Statement">
+Given $\Xv, \Yv \in \R^{n \times d}$ with corresponding rows, the orthogonal matrix $\Qv$ minimizing $\lVert \Xv\Qv - \Yv \rVert_F$ is
+$$
+\Qv = \Uv\Vv^{\rm T}, \qquad \text{where } \Xv^{\rm T}\Yv = \Uv\Sigmav\Vv^{\rm T} \text{ is an SVD.}
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Expand the squared Frobenius objective using $\lVert \Mv \rVert_F^2 = \operatorname{tr}(\Mv^{\rm T}\Mv)$ and the orthogonality $\Qv^{\rm T}\Qv = \Iv$:
+$$
+\lVert \Xv\Qv - \Yv \rVert_F^2 = \lVert \Xv \rVert_F^2 + \lVert \Yv \rVert_F^2 - 2\operatorname{tr}\!\big(\Qv^{\rm T}\Xv^{\rm T}\Yv\big).
+$$
+Only the last term depends on $\Qv$, so the problem is to **maximize** $\operatorname{tr}(\Qv^{\rm T}\Mv)$ with $\Mv = \Xv^{\rm T}\Yv$. Substitute the SVD $\Mv = \Uv\Sigmav\Vv^{\rm T}$ and group the orthogonal factors into $\Zv = \Vv^{\rm T}\Qv^{\rm T}\Uv$, which is itself orthogonal:
+$$
+\operatorname{tr}(\Qv^{\rm T}\Mv) = \operatorname{tr}(\Qv^{\rm T}\Uv\Sigmav\Vv^{\rm T}) = \operatorname{tr}(\Zv\Sigmav) = \sum_{i} Z_{ii}\,\sigma_i .
+$$
+Each $\sigma_i \ge 0$, and the entries of an orthogonal matrix satisfy $\lvert Z_{ii}\rvert \le 1$, so the sum is at most $\sum_i \sigma_i$, attained when $\Zv = \Iv$. That requires $\Vv^{\rm T}\Qv^{\rm T}\Uv = \Iv$, i.e. $\Qv = \Uv\Vv^{\rm T}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+The maximum value $\sum_i \sigma_i$ is the nuclear norm of $\Xv^{\rm T}\Yv$, and $\Qv = \Uv\Vv^{\rm T}$ is the orthogonal matrix nearest to $\Xv^{\rm T}\Yv$. If a proper rotation is required, $\det\Qv = +1$, and the SVD returns a reflection, the standard fix is to negate the column of $\Uv$ belonging to the smallest singular value, which costs the least in the objective.
+
+Drag either point set below. The widget forms $\Xv^{\rm T}\Yv$, takes its SVD, and rotates the movable set by $\Qv = \Uv\Vv^{\rm T}$ to land as close as possible on the fixed set; the residual is the Procrustes distance between the two shapes.
+
+<ProcrustesAlign client:visible />
+
+Distance matrices and Procrustes alignment are the geometric face of the SVD: one recovers a configuration from its internal distances, the other matches two configurations across an orthogonal ambiguity, and both are solved by reading singular values and vectors off a single small matrix.

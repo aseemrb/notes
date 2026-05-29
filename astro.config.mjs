@@ -40,6 +40,7 @@ export default defineConfig({
 						{ label: 'Least Squares', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/least-squares', collapsed: true } }] },
 						{ label: 'Computations', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/computations', collapsed: true } }] },
 						{ label: 'Optimization', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/optimization', collapsed: true } }] },
+						{ label: 'Special Matrices', collapsed: true, items: [{ autogenerate: { directory: 'linear-algebra/special-matrices', collapsed: true } }] },
 					],
 				},
 				{

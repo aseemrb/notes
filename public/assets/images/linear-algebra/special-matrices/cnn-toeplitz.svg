@@ -1,0 +1,96 @@
+<svg viewBox="0 0 470 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A width-three filter with weights w0, w1, w2 becomes a banded Toeplitz matrix T. The same three weights repeat on each row, shifted by one column, so that T times the input x produces the convolved output y.">
+  <style>
+    :root { --text: #374151; --grid: #94a3b8; --w0: #2563eb; --w1: #d97706; --w2: #db2777; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --grid: #64748b; --w0: #60a5fa; --w1: #fbbf24; --w2: #f472b6; }
+    }
+    .txt { fill: var(--text); font-size: 13px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .sm { fill: var(--text); font-size: 11px; }
+    .grid { stroke: var(--grid); stroke-opacity: 0.5; stroke-width: 1; }
+    .cell0 { fill: var(--w0); fill-opacity: 0.82; }
+    .cell1 { fill: var(--w1); fill-opacity: 0.82; }
+    .cell2 { fill: var(--w2); fill-opacity: 0.82; }
+    .vcell { fill: none; stroke: var(--grid); stroke-opacity: 0.7; stroke-width: 1; }
+  </style>
+
+  <!-- filter legend -->
+  <text class="txt" x="16" y="40">filter h</text>
+  <rect class="cell0" x="16" y="50" width="30" height="30" />
+  <rect class="cell1" x="16" y="82" width="30" height="30" />
+  <rect class="cell2" x="16" y="114" width="30" height="30" />
+  <text class="sm" x="54" y="69">w₀</text>
+  <text class="sm" x="54" y="101">w₁</text>
+  <text class="sm" x="54" y="133">w₂</text>
+  <text class="sm" x="16" y="172">same 3</text>
+  <text class="sm" x="16" y="186">weights</text>
+  <text class="sm" x="16" y="200">every row</text>
+
+  <!-- Toeplitz matrix T -->
+  <text class="txt" x="150" y="40">T</text>
+
+  <!-- band cells: row j has w0 at k=j, w1 at k=j-1, w2 at k=j-2 -->
+  <!-- j=0 -->
+  <rect class="cell0" x="150" y="50" width="32" height="32" />
+  <!-- j=1 -->
+  <rect class="cell1" x="150" y="82" width="32" height="32" />
+  <rect class="cell0" x="182" y="82" width="32" height="32" />
+  <!-- j=2 -->
+  <rect class="cell2" x="150" y="114" width="32" height="32" />
+  <rect class="cell1" x="182" y="114" width="32" height="32" />
+  <rect class="cell0" x="214" y="114" width="32" height="32" />
+  <!-- j=3 -->
+  <rect class="cell2" x="182" y="146" width="32" height="32" />
+  <rect class="cell1" x="214" y="146" width="32" height="32" />
+  <rect class="cell0" x="246" y="146" width="32" height="32" />
+  <!-- j=4 -->
+  <rect class="cell2" x="214" y="178" width="32" height="32" />
+  <rect class="cell1" x="246" y="178" width="32" height="32" />
+  <rect class="cell0" x="278" y="178" width="32" height="32" />
+  <!-- j=5 -->
+  <rect class="cell2" x="246" y="210" width="32" height="32" />
+  <rect class="cell1" x="278" y="210" width="32" height="32" />
+  <rect class="cell0" x="310" y="210" width="32" height="32" />
+
+  <!-- grid lines for the 6x6 matrix -->
+  <line class="grid" x1="150" y1="50" x2="342" y2="50" />
+  <line class="grid" x1="150" y1="82" x2="342" y2="82" />
+  <line class="grid" x1="150" y1="114" x2="342" y2="114" />
+  <line class="grid" x1="150" y1="146" x2="342" y2="146" />
+  <line class="grid" x1="150" y1="178" x2="342" y2="178" />
+  <line class="grid" x1="150" y1="210" x2="342" y2="210" />
+  <line class="grid" x1="150" y1="242" x2="342" y2="242" />
+  <line class="grid" x1="150" y1="50" x2="150" y2="242" />
+  <line class="grid" x1="182" y1="50" x2="182" y2="242" />
+  <line class="grid" x1="214" y1="50" x2="214" y2="242" />
+  <line class="grid" x1="246" y1="50" x2="246" y2="242" />
+  <line class="grid" x1="278" y1="50" x2="278" y2="242" />
+  <line class="grid" x1="310" y1="50" x2="310" y2="242" />
+  <line class="grid" x1="342" y1="50" x2="342" y2="242" />
+
+  <!-- times symbol -->
+  <text class="txt" x="350" y="150" font-style="normal">×</text>
+
+  <!-- input vector x -->
+  <text class="txt" x="372" y="40">x</text>
+  <rect class="vcell" x="368" y="50" width="28" height="32" />
+  <rect class="vcell" x="368" y="82" width="28" height="32" />
+  <rect class="vcell" x="368" y="114" width="28" height="32" />
+  <rect class="vcell" x="368" y="146" width="28" height="32" />
+  <rect class="vcell" x="368" y="178" width="28" height="32" />
+  <rect class="vcell" x="368" y="210" width="28" height="32" />
+
+  <!-- equals symbol -->
+  <text class="txt" x="404" y="150" font-style="normal">=</text>
+
+  <!-- output vector y -->
+  <text class="txt" x="430" y="40">y</text>
+  <rect class="vcell" x="424" y="50" width="28" height="32" />
+  <rect class="vcell" x="424" y="82" width="28" height="32" />
+  <rect class="vcell" x="424" y="114" width="28" height="32" />
+  <rect class="vcell" x="424" y="146" width="28" height="32" />
+  <rect class="vcell" x="424" y="178" width="28" height="32" />
+  <rect class="vcell" x="424" y="210" width="28" height="32" />
+
+  <!-- caption inside: the band shifts one step per row -->
+  <text class="sm" x="150" y="264">each row shifts the filter one column to the right</text>
+</svg>

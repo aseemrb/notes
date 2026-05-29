@@ -1,0 +1,116 @@
+---
+title: Circulant Matrices
+sidebar:
+  order: 1
+---
+
+import CirculantSpectrum from '../../../../components/widgets/CirculantSpectrum.tsx';
+
+A circulant matrix is built from a single vector by cyclically shifting it. Each row is the previous row moved one step to the right, wrapping around at the end. This rigid structure has a remarkable consequence: **every circulant of a given size is diagonalized by the same fixed set of eigenvectors**, the columns of the Fourier matrix. Once that basis is known, multiplying by a circulant, inverting it, or reading off its eigenvalues all reduce to the discrete Fourier transform.
+
+## The cyclic shift and circulants
+
+<Aside type="tip" icon="open-book" title="Definition: circulant matrix">
+A circulant $\Cv \in \R^{n \times n}$ is determined by its first column $\cv = (c_0, c_1, \dots, c_{n-1})^{\rm T}$; column $j$ is $\cv$ shifted cyclically down by $j$. Equivalently
+$$
+\Cv =
+\begin{pmatrix}
+c_0 & c_{n-1} & c_{n-2} & \cdots & c_1 \\
+c_1 & c_0 & c_{n-1} & \cdots & c_2 \\
+c_2 & c_1 & c_0 & \cdots & c_3 \\
+\vdots & & & \ddots & \vdots \\
+c_{n-1} & c_{n-2} & c_{n-3} & \cdots & c_0
+\end{pmatrix}.
+$$
+Entry $(\Cv)_{jk}$ depends only on $j - k \bmod n$.
+</Aside>
+
+The simplest nonzero circulant is the **cyclic shift** $\Pv$, whose first column is $(0,1,0,\dots,0)^{\rm T}$:
+$$
+\Pv =
+\begin{pmatrix}
+0 & 0 & \cdots & 0 & 1 \\
+1 & 0 & \cdots & 0 & 0 \\
+0 & 1 & \cdots & 0 & 0 \\
+\vdots & & \ddots & & \vdots \\
+0 & 0 & \cdots & 1 & 0
+\end{pmatrix},
+\qquad
+\Pv\,(x_0, x_1, \dots, x_{n-1})^{\rm T} = (x_{n-1}, x_0, \dots, x_{n-2})^{\rm T}.
+$$
+It is a [permutation matrix](../fundamentals/orthogonality), hence orthogonal, and it cycles with period $n$: $\Pv^n = \Iv$. Every circulant is a polynomial in $\Pv$,
+$$
+\Cv \;=\; c_0\Iv + c_1\Pv + c_2\Pv^2 + \cdots + c_{n-1}\Pv^{\,n-1} \;=\; p_{\cv}(\Pv),
+$$
+because $\Pv^{\,j}$ is exactly the matrix with a single shifted diagonal of ones at offset $j$. This is the structural fact that drives everything: all circulants are polynomials in one matrix, so they all share the eigenvectors of that matrix and **commute** with each other.
+
+## Eigenvectors of the shift: the Fourier modes
+
+Since $\Pv^n = \Iv$, every eigenvalue $\lambda$ of $\Pv$ satisfies $\lambda^n = 1$: the eigenvalues are the $n$-th roots of unity $1, w, w^2, \dots, w^{\,n-1}$, where
+$$
+w = e^{2\pi i / n}.
+$$
+The eigenvector for $w^k$ is the geometric vector of its powers. Write $\fv_k = (1,\, w^k,\, w^{2k}, \dots, w^{(n-1)k})^{\rm T}$. Then shifting its entries multiplies the whole vector by $w^k$:
+$$
+\Pv\,\fv_k = w^k \fv_k, \qquad k = 0, 1, \dots, n-1.
+$$
+These $n$ eigenvectors are the **Fourier modes**: discrete complex exponentials of increasing frequency. They are orthogonal, and collecting them as columns gives the Fourier matrix.
+
+<Aside type="tip" icon="open-book" title="Definition: Fourier matrix">
+The $n \times n$ **Fourier matrix** has entries
+$$
+(\Fv)_{jk} = w^{jk}, \qquad w = e^{2\pi i/n}, \qquad j, k = 0, \dots, n-1.
+$$
+Its columns are the Fourier modes $\fv_0, \dots, \fv_{n-1}$. It is symmetric, and its columns are orthogonal with squared length $n$, so
+$$
+\Fv^{*}\Fv = n\,\Iv, \qquad \Fv^{-1} = \tfrac{1}{n}\Fv^{*},
+$$
+where $\Fv^{*} = \overline{\Fv}^{\,\rm T}$ is the conjugate transpose. The scaled matrix $\tfrac{1}{\sqrt{n}}\Fv$ is unitary.
+</Aside>
+
+The product $\Fv\xv$ is the **discrete Fourier transform** of $\xv$, and $\tfrac1n\Fv^{*}\yv$ is the inverse transform. Orthogonality of the columns is a one-line geometric sum: for $j \ne k$,
+$$
+\fv_j^{*}\fv_k = \sum_{m=0}^{n-1} w^{m(k-j)} = \frac{w^{n(k-j)} - 1}{w^{\,k-j} - 1} = 0,
+$$
+since $w^{n(k-j)} = 1$ while the denominator is nonzero; for $j = k$ every term is $1$ and the sum is $n$.
+
+## Diagonalization and the eigenvalue formula
+
+Because every circulant is the polynomial $\Cv = p_{\cv}(\Pv)$ and $\Pv\fv_k = w^k\fv_k$, the same Fourier modes diagonalize $\Cv$, with eigenvalue $p_{\cv}(w^k)$.
+
+<Aside icon="seti:smarty" title="Theorem: circulants are diagonalized by the Fourier matrix">
+<Tabs>
+<TabItem label="Statement">
+Let $\Cv$ be the circulant with first column $\cv$. Then
+$$
+\Cv = \Fv\,\Lambdav\,\Fv^{-1}, \qquad \Lambdav = \operatorname{diag}(\lambda_0, \dots, \lambda_{n-1}),
+$$
+and the eigenvalues are the discrete Fourier transform of the first column:
+$$
+\lambda_k = \sum_{m=0}^{n-1} c_m\, w^{mk} = (\Fv\cv)_k, \qquad k = 0, \dots, n-1.
+$$
+</TabItem>
+
+<TabItem label="Proof">
+Apply $\Cv = \sum_{m=0}^{n-1} c_m \Pv^{m}$ to the Fourier mode $\fv_k$. Each $\Pv^{m}$ scales $\fv_k$ by $w^{mk}$, so
+$$
+\Cv\,\fv_k = \sum_{m=0}^{n-1} c_m\, \Pv^{m}\fv_k = \Big(\sum_{m=0}^{n-1} c_m\, w^{mk}\Big)\fv_k = \lambda_k\,\fv_k .
+$$
+Thus $\fv_k$ is an eigenvector with eigenvalue $\lambda_k = \sum_m c_m w^{mk}$, which is exactly the $k$-th entry of $\Fv\cv$. Stacking the eigenvectors as the columns of $\Fv$ gives $\Cv\Fv = \Fv\Lambdav$, and since $\Fv$ is invertible, $\Cv = \Fv\Lambdav\Fv^{-1}$.
+</TabItem>
+</Tabs>
+</Aside>
+
+This is a complete spectral picture obtained with no eigenvalue computation: the eigenvectors are universal and known in advance, and the eigenvalues are a single DFT of the first column. Several facts drop out immediately.
+
+- **The eigenvalues are $\Fv\cv$.** A circulant is invertible exactly when no entry of $\Fv\cv$ vanishes, and $\Cv^{-1}$ is again circulant with eigenvalues $1/\lambda_k$.
+- **Circulants commute.** Any two circulants of the same size share the eigenvector matrix $\Fv$, so $\Cv\Dv = \Dv\Cv$, and their product is circulant with eigenvalues $\lambda_k(\Cv)\,\lambda_k(\Dv)$. This is the [convolution rule](convolution) of the next page.
+- **Symmetric circulants.** $\Cv$ is symmetric when $c_m = c_{n-m}$; then the eigenvalues are real and the modes can be taken as the real cosine/sine vectors.
+
+## The spectrum of a circulant
+
+Edit the first column $\cv$ below. The matrix is rebuilt by cyclic shifts, and the bars show its eigenvalues $\lambda_k = (\Fv\cv)_k$ in magnitude and phase. The eigenvectors never move: they are always the Fourier modes. Only the eigenvalues respond to $\cv$, and they are exactly its discrete Fourier transform.
+
+<CirculantSpectrum client:visible />
+
+A circulant is therefore the cleanest example of a matrix that is best understood in another basis. In the standard basis it is a dense pattern of shifts; in the Fourier basis it is a diagonal matrix whose entries are read directly from the transform of one column.

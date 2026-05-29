@@ -1,0 +1,73 @@
+<svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline from a squared-distance matrix D to coordinates. Double centering by minus one half J D J turns D into the Gram matrix G, whose eigendecomposition yields the point coordinates X equal to Q times the square root of Lambda.">
+  <style>
+    :root { --text: #374151; --grid: #94a3b8; --accent: #2563eb; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #d1d5db; --grid: #64748b; --accent: #60a5fa; }
+    }
+    .lbl { fill: var(--text); font-size: 14px; font-family: 'KaTeX_Math','Times New Roman',serif; font-style: italic; }
+    .op { fill: var(--text); font-size: 12px; }
+    .grid { stroke: var(--grid); stroke-opacity: 0.55; stroke-width: 1; }
+    .zero { fill: var(--text); font-size: 10px; fill-opacity: 0.7; }
+    .diag { fill: var(--accent); fill-opacity: 0.28; }
+    .pt { fill: var(--accent); }
+    .arrow { stroke: var(--text); stroke-width: 1.4; fill: none; }
+    .box { fill: none; stroke: var(--grid); stroke-opacity: 0.6; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="dp-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--text)" />
+    </marker>
+  </defs>
+
+  <!-- D matrix (squared distances): zero diagonal -->
+  <text class="lbl" x="60" y="44" text-anchor="middle">D</text>
+  <text class="zero" x="36" y="68" text-anchor="middle">0</text>
+  <text class="zero" x="60" y="92" text-anchor="middle">0</text>
+  <text class="zero" x="84" y="116" text-anchor="middle">0</text>
+  <text class="zero" x="108" y="140" text-anchor="middle">0</text>
+  <line class="grid" x1="24" y1="52" x2="120" y2="52" />
+  <line class="grid" x1="24" y1="76" x2="120" y2="76" />
+  <line class="grid" x1="24" y1="100" x2="120" y2="100" />
+  <line class="grid" x1="24" y1="124" x2="120" y2="124" />
+  <line class="grid" x1="24" y1="148" x2="120" y2="148" />
+  <line class="grid" x1="24" y1="52" x2="24" y2="148" />
+  <line class="grid" x1="48" y1="52" x2="48" y2="148" />
+  <line class="grid" x1="72" y1="52" x2="72" y2="148" />
+  <line class="grid" x1="96" y1="52" x2="96" y2="148" />
+  <line class="grid" x1="120" y1="52" x2="120" y2="148" />
+
+  <!-- arrow 1 -->
+  <line class="arrow" x1="128" y1="100" x2="196" y2="100" marker-end="url(#dp-arr)" />
+  <text class="op" x="162" y="90" text-anchor="middle">−½ J D J</text>
+
+  <!-- G matrix (Gram): accent diagonal -->
+  <text class="lbl" x="256" y="44" text-anchor="middle">G</text>
+  <rect class="diag" x="208" y="52" width="24" height="24" />
+  <rect class="diag" x="232" y="76" width="24" height="24" />
+  <rect class="diag" x="256" y="100" width="24" height="24" />
+  <rect class="diag" x="280" y="124" width="24" height="24" />
+  <line class="grid" x1="208" y1="52" x2="304" y2="52" />
+  <line class="grid" x1="208" y1="76" x2="304" y2="76" />
+  <line class="grid" x1="208" y1="100" x2="304" y2="100" />
+  <line class="grid" x1="208" y1="124" x2="304" y2="124" />
+  <line class="grid" x1="208" y1="148" x2="304" y2="148" />
+  <line class="grid" x1="208" y1="52" x2="208" y2="148" />
+  <line class="grid" x1="232" y1="52" x2="232" y2="148" />
+  <line class="grid" x1="256" y1="52" x2="256" y2="148" />
+  <line class="grid" x1="280" y1="52" x2="280" y2="148" />
+  <line class="grid" x1="304" y1="52" x2="304" y2="148" />
+
+  <!-- arrow 2 -->
+  <line class="arrow" x1="312" y1="100" x2="384" y2="100" marker-end="url(#dp-arr)" />
+  <text class="op" x="348" y="90" text-anchor="middle">G = Q Λ Qᵀ</text>
+
+  <!-- recovered points -->
+  <text class="lbl" x="448" y="44" text-anchor="middle">X = Q Λ¹ᐟ²</text>
+  <rect class="box" x="392" y="52" width="104" height="96" />
+  <polyline points="410,132 432,92 460,112 478,72 450,140" class="arrow" stroke-opacity="0.5" marker-end="" />
+  <circle class="pt" cx="410" cy="132" r="3.5" />
+  <circle class="pt" cx="432" cy="92" r="3.5" />
+  <circle class="pt" cx="460" cy="112" r="3.5" />
+  <circle class="pt" cx="478" cy="72" r="3.5" />
+  <circle class="pt" cx="450" cy="140" r="3.5" />
+</svg>
