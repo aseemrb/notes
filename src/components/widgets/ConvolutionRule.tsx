@@ -159,7 +159,7 @@ export default function ConvolutionRule() {
         </div>
       </div>
 
-      <div style={{ fontSize: '0.85em', fontWeight: 600, color: 'var(--sl-color-text)' }}>space domain &mdash; slide the filter across the signal</div>
+      <div style={{ fontSize: '0.85em', fontWeight: 600, color: 'var(--sl-color-text)' }}>space domain: slide the filter across the signal</div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
         <SignedBars data={x} color={BLUE} label="signal x" />
         <Op ch="∗" />
@@ -168,7 +168,7 @@ export default function ConvolutionRule() {
         <SignedBars data={y} color={ACCENT} label="output x ∗ h" />
       </div>
 
-      <div style={{ fontSize: '0.85em', fontWeight: 600, color: 'var(--sl-color-text)' }}>frequency domain &mdash; the transforms multiply pointwise</div>
+      <div style={{ fontSize: '0.85em', fontWeight: 600, color: 'var(--sl-color-text)' }}>frequency domain: the transforms multiply pointwise</div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
         <MagBars data={fx} color={BLUE} label="|F x|" />
         <Op ch="×" />
